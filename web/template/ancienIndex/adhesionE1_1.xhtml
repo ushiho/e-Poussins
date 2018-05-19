@@ -1,0 +1,170 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:a="http://xmlns.jcp.org/jsf/passthrough">
+
+    <h:head>
+        <meta charset="utf-8" />
+        <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1" />
+        <link rel="icon" type="image/png" href="../assets/img/favicon.ico"></link>
+        <link rel="apple-touch-icon" sizes="76x76" href="../assets/img/apple-icon.png"></link>
+        <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+        <script src='https://www.google.com/recaptcha/api.js'></script>
+        <title>S'Adhérer</title>
+
+        <meta content='width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0' name='viewport' />
+        <meta name="viewport" content="width=device-width" />
+
+        <!-- Bootstrap core CSS     -->
+        <link href="../assets/css/bootstrap.min.css" rel="stylesheet" />
+        <link href="../assets/css/paper-kit.css?v=2.1.0" rel="stylesheet"/>
+
+        <!--  CSS for Demo Purpose, don't include it in your project     -->
+        <link href="../assets/css/demo.css" rel="stylesheet" />
+
+        <!--     Fonts and icons     -->
+        <!--        <link href='http://fonts.googleapis.com/css?family=Montserrat:400,300,700' rel='stylesheet' type='text/css'></link>
+                <link href="http://maxcdn.bootstrapcdn.com/font-awesome/latest/css/font-awesome.min.css" rel="stylesheet"></link>-->
+        <link href="../assets/css/nucleo-icons.css" rel="stylesheet"></link>
+    </h:head>
+    <h:body >
+
+        <div class="wrapper">
+            <div class="documentation page-header  page-header-xs" data-parallax="true"
+
+                 style="background-image: url('../images/header.png');">
+                <div class="filter">
+                    <!--<p> jjjj</p>-->
+                </div>
+            </div>
+            <div class="main">
+                <div class="section landing-section">
+                    <div class="container">
+                        <div class="row">
+                            <div class="col-md-8 ml-auto mr-auto">
+                                <div class="card-header col-md-12 ml-auto mr-auto" >
+                                    <p:outputLabel><h6 class="text-center note">ADHÉSION EN LIGNE AUX SERVICES SIMPL</h6></p:outputLabel>
+                                </div>
+                                <h:form id="form" class="contact-form">
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <p:outputLabel for="nom"><label class="note">NOM</label></p:outputLabel>
+                                            <div  class="input-group">
+                                                <span class="input-group-addon">
+                                                    <i class="nc-icon nc-badge"></i>
+                                                </span>
+                                                <p:inputText id="nom"  required="true" value="#{employeController.userData().nom}" 
+                                                             a:type="text" class="form-control" placeholder="votre Nom"></p:inputText>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <p:outputLabel for="preNom"><label class="note">PRÉNOM</label></p:outputLabel>
+                                            <div class="input-group">
+                                                <span class="input-group-addon">
+                                                    <i class="nc-icon nc-badge"></i>
+                                                </span>
+                                                <p:inputText id="preNom" required="true" value="#{employeController.userData().preNom}" 
+                                                             a:type="text" class="form-control" placeholder="Votre Prénom"></p:inputText>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <p:outputLabel for="cin" ><label class="note">N° CIN</label></p:outputLabel>
+                                            <div  class="input-group">
+                                                <span class="input-group-addon">
+                                                    <i class="nc-icon nc-badge"></i>
+                                                </span>
+                                                <p:inputText id="cin"  required="true" value="#{employeController.userData().CIN}" 
+                                                             a:type="text" class="form-control" placeholder="Votre N° CIN"></p:inputText>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <p:outputLabel for="profession"><label class="note">PROFESSION</label></p:outputLabel>
+                                            <div class="input-group">
+                                                <span class="input-group-addon">
+                                                    <i class="nc-icon nc-briefcase-24"></i>
+                                                </span>
+                                                <p:inputText id="profession" required="true" value="#{employeController.userData().profession}" 
+                                                             a:type="text" class="form-control" placeholder="Profession au sein de l'entreprise"></p:inputText>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <p:outputLabel for="tel" ><label class="note">N° DE TÉLÉPHONE</label></p:outputLabel>
+                                            <div  class="input-group">
+                                                <span class="input-group-addon">
+                                                    <i class="nc-icon nc-mobile"></i>
+                                                </span>
+                                                <p:inputText id="tel"  required="true" value="#{employeController.userData().numTele}" 
+                                                             a:type="tel" class="form-control" placeholder="Votre N° Télé"></p:inputText>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <p:outputLabel for="por"><label class="note">N° PORTABLE</label></p:outputLabel>
+                                            <div class="input-group">
+                                                <span class="input-group-addon">
+                                                    <i class="nc-icon nc-mobile"></i>
+                                                </span>
+                                                <p:inputText id="por" required="true" value="#{employeController.userData().numPortable}" 
+                                                             a:type="tel" class="form-control" placeholder="Votre N° Portable"></p:inputText>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <p:outputLabel for="emailCon" ><label class="note">ADRESSE EMAIL</label></p:outputLabel>
+                                            <div  class="input-group">
+                                                <span class="input-group-addon">
+                                                    <i class="nc-icon nc-email-85"></i>
+                                                </span>
+                                                <p:inputText id="emailCon"  required="true" value="#{employeController.userData().email}" 
+                                                             a:type="email" class="form-control" placeholder="Votre adresse email"></p:inputText>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <p:outputLabel for="email"><label class="note">CONFIRMER L'ADRESSE EMAIL</label></p:outputLabel>
+                                            <div class="input-group">
+                                                <span class="input-group-addon">
+                                                    <i class="nc-icon nc-email-85"></i>
+                                                </span>
+                                                <p:inputText id="email" required="false" value="#{employeController.confirmer}" 
+                                                             a:type="email" class="form-control" placeholder="Confirmer votre adresse email"
+                                                             ></p:inputText>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <p:separator />
+                                </h:form>
+                                <div class="row">
+                                    <div class="col-1 ml-auto mr-auto">
+                                        <a id="backButton" href="verifyIF.xhtml" class="btn btn-light btn-fill" >
+                                            <!--<f:ajax render="form" execute="form"/>-->
+                                            ABONDONNER
+                                        </a>
+                                    </div>
+                                    <div class="col-md-2 ml-auto mr-auto">
+                                        <p:commandLink id="nextButton" action="#{employeController.sendCodeToVirefyEmail()}" class="btn btn-light btn-fill" value="POURSUIVRE">
+                                            <f:ajax render="form" execute="form"/>
+
+                                        </p:commandLink>
+                                    </div>
+
+                                </div>
+
+                                <p:blockUI block="form" trigger="nextButton" >
+                                    <p:graphicImage value="../images/rolling.gif" />
+                                </p:blockUI>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </h:body>
+</html>
+

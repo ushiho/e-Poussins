@@ -1,0 +1,213 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:a="http://xmlns.jcp.org/jsf/passthrough"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+    <p:dialog id="DeclarationTvaCreateDlg" widgetVar="DeclarationTvaCreateDialog" 
+              header="Déclaration Détails"  resizable="false" modal="true"
+              style="margin-top: 75px;min-height: 140px;min-width: 640px;">
+        <h:form id="DeclarationTvaCreateForm">
+            <h:panelGroup id="display">
+                <div class="row">
+                    <div class="col-md-4" style="margin-top: 30px;">
+                        <p:outputLabel ><label class="note">DATE DE CRÉATION </label></p:outputLabel>
+                        <p:outputLabel style="margin-top: 20px;" ><label class="note">TAXE DÉDUCTIBLE</label></p:outputLabel>
+                    </div>
+                    <div class="col-md-3" style="margin-left: -70px;">
+                        <p:outputLabel value=""/>
+                        <div  class="input-group">
+                            <span class="input-group-addon">
+                                <i class="nc-icon nc-badge"></i>
+                            </span>
+                            <h:outputText  value="#{declarationIsController.formatDateToString(
+                                                    declarationTvaController.selected.dateDeclaration)}" 
+                                           a:type="text" class="form-control"></h:outputText>
+                        </div>
+                        <p:outputLabel value=""/>
+                        <div  class="input-group">
+                            <span class="input-group-addon">
+                                <i class="nc-icon nc-bag-16"></i>
+                            </span>
+                            <h:outputText value="#{declarationTvaController.selected.tvaDeductible}" 
+                                          a:type="text" class="form-control"></h:outputText>
+                        </div>
+                    </div>
+                    <div class="col-md-3" >
+                        <p:outputLabel  style="margin-right: 40px;margin-top: 32px;"><label class="note">ETAT</label></p:outputLabel>
+                        <p:outputLabel style="margin-top: 22px;" ><label class="note">TAXE DUE</label></p:outputLabel>
+                    </div>
+                    <div class="col-md-3" style="margin-left: -10px;">
+                        <p:outputLabel value=""/>
+                        <div  class="input-group">
+                            <span class="input-group-addon">
+                                <i class="nc-icon nc-badge"></i>
+                            </span>
+                            <h:outputText  value="#{declarationIsController.etatFromIntToString(
+                                                    declarationTvaController.selected.etat)}" 
+                                           a:type="text" class="form-control"></h:outputText>
+                        </div>
+                        <p:outputLabel value=""/>
+                        <div  class="input-group">
+                            <span class="input-group-addon">
+                                <i class="nc-icon nc-bag-16"></i>
+                            </span>
+                            <h:outputText value="#{declarationTvaController.selected.tvaDue}" 
+                                          a:type="text" class="form-control"></h:outputText>
+                        </div>
+                    </div>
+
+                </div>
+                <div class="row " >
+                    <div class="col-md-6 " style="margin-left: 70px;">
+                        <p:outputLabel style="margin-top: 32px;" ><label class="note">CREDIT A REPORTER </label></p:outputLabel>
+                    </div>
+                    <div class="col-md-4 ml-auto mr-auto">
+                        <p:outputLabel value=""/>
+                        <div  class="input-group">
+                            <span class="input-group-addon">
+                                <i class="nc-icon nc-badge"></i>
+                            </span>
+                            <h:outputText  value="#{declarationTvaController.selected.creditAreporter}" 
+                                           a:type="text" class="form-control"></h:outputText>
+                        </div>
+                    </div>
+                </div>
+                <div class="row ">
+                    <div class="col-md-6 " style="margin-left: 70px;" >
+                        <p:outputLabel style="margin-top: 32px;"><label class="note">MONTANT A VERSER</label></p:outputLabel>
+                    </div>
+                    <div class="col-md-4 ml-auto mr-auto">
+                        <p:outputLabel value=""/>
+                        <div  class="input-group">
+                            <span class="input-group-addon">
+                                <i class="nc-icon nc-badge"></i>
+                            </span>
+                            <h:outputText  value="#{declarationTvaController.selected.montantAverser}" 
+                                           a:type="text" class="form-control"></h:outputText>
+                        </div>
+                    </div>
+
+                </div>
+                <div class="row text-center">
+                    <div class="col-md-6 ml-auto mr-auto">
+                        <p:outputLabel style="margin-top: 32px;"><label class="note">EXERCICES COMPTABLES </label></p:outputLabel>
+                    </div>
+                    <div class="col-md-6 ml-auto mr-auto" style="margin-top: 22px;">
+                        <p:commandButton oncomplete="PF('dlgTva').show()" update=":listExerciceTva"
+                                         title="Voir les éxercices comptables associés" icon="ui-icon-check" value="AFFICHER">
+                        </p:commandButton>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-6 mr-auto ml-auto" >
+                        <p:commandButton style="margin-top: 22px;margin-left: 65px;" action="#{declarationIsController.redirectToPage('declarationIs')}" 
+                                         value="MODIFIER"  oncomplete="handleSubmit(args,'DeclarationTvaCreateDialog');">
+                            <f:actionListener binding="#{exerciceTvaController.setDeclarationIsToModify(
+                                                         declarationTvaController.selected.id)}"/>
+                        </p:commandButton>
+                    </div>
+                    <div class="col-md-6 mr-auto ml-auto" >
+                        <p:commandButton style="margin-top: 22px;margin-left: 65px;" value="ANNULER" onclick="DeclarationTvaCreateDialog.hide()"/>
+                    </div>
+
+                </div>
+            </h:panelGroup>
+        </h:form>
+
+    </p:dialog>
+
+    <p:dialog  header="Exercices Comptables associés" modal="true" 
+               style="min-width: 240px;"
+                id="dlgTva" widgetVar="dlgTva" resizable="true">
+        <h:form id="listExerciceTva" >
+            <h:panelGroup rendered="#{declarationTvaController.selected.exerciceTVAAchat != null}">
+                <!--hna rah zayda list b element
+                //////////////////////////////////////-->
+                <p:dataTable  style="width: 100%;" value="#{declarationTvaController.selected.exerciceTVAVente}"
+                              var="item"     class="table table-sm table-dark table-hover table-bordered"
+                              >
+
+                    <p:column>
+                        <f:facet name="header">
+                            <h:outputText value="EXERICICE D'ACHATS"/>
+                        </f:facet>
+                    </p:column>
+                    <p:column>
+                        <f:facet name="header">
+                            <h:outputText value="N° FACTURE"/>
+                        </f:facet>
+                        <h:outputText value="#{item.numFacture}"/>
+                    </p:column>
+                    <p:column>
+                        <f:facet name="header">
+                            <h:outputText value="DATE DÉBUT"/>
+                        </f:facet>
+                        <h:outputText value="#{declarationIsController.formatDateToString(item.dateDebut)}"/>
+                    </p:column>
+                    <p:column>
+                        <f:facet name="header">
+                            <h:outputText value="DATE FIN"/>
+                        </f:facet>
+                        <h:outputText value="#{declarationIsController.formatDateToString(item.dateFin)}"/>
+                    </p:column>
+                    <p:column>
+                        <f:facet name="header">
+                            <h:outputText value="MONTANT"/>
+                        </f:facet>
+                        <h:outputText value="#{item.montant}"/>
+                    </p:column>
+                    <p:column>
+                        <f:facet name="header">
+                            <h:outputText value="TAUX IS"/>
+                        </f:facet>
+                        <h:outputText value="#{item.categorieTVA.taux}"/>
+                    </p:column>
+                </p:dataTable>
+                <p:dataTable  style="width: 100%;" value="#{declarationTvaController.selected.exerciceTVAAchat}"
+                              var="item"     class="table table-sm table-dark table-hover table-bordered"
+                              >
+
+                    <p:column>
+                        <f:facet name="header">
+                            <h:outputText value="EXERICICE DE VENTS"/>
+                        </f:facet>
+                    </p:column>
+                    <p:column>
+                        <f:facet name="header">
+                            <h:outputText value="N° FACTURE"/>
+                        </f:facet>
+                        <h:outputText value="#{item.numFacture}"/>
+                    </p:column>
+                    <p:column>
+                        <f:facet name="header">
+                            <h:outputText value="DATE DÉBUT"/>
+                        </f:facet>
+                        <h:outputText value="#{declarationIsController.formatDateToString(item.dateDebut)}"/>
+                    </p:column>
+                    <p:column>
+                        <f:facet name="header">
+                            <h:outputText value="DATE FIN"/>
+                        </f:facet>
+                        <h:outputText value="#{declarationIsController.formatDateToString(item.dateFin)}"/>
+                    </p:column>
+                    <p:column>
+                        <f:facet name="header">
+                            <h:outputText value="MONTANT"/>
+                        </f:facet>
+                        <h:outputText value="#{item.montant}"/>
+                    </p:column>
+                    <p:column>
+                        <f:facet name="header">
+                            <h:outputText value="TAUX IS"/>
+                        </f:facet>
+                        <h:outputText value="#{item.categorieTVA.taux}"/>
+                    </p:column>
+                </p:dataTable>
+            </h:panelGroup>
+        </h:form>
+    </p:dialog>
+</html>
+

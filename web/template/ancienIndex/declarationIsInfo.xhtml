@@ -1,0 +1,223 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:a="http://xmlns.jcp.org/jsf/passthrough"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+    <p:dialog id="DeclarationIsCreateDlg" widgetVar="DeclarationIsCreateDialog" 
+              header="Déclaration Détails"  resizable="false" modal="true"
+              style="margin-top: 75px;min-height: 140px;min-width: 640px;">
+        <h:form id="DeclarationIsCreateForm">
+            <h:panelGroup id="display">
+                <div class="row">
+                    <div class="col-md-4" style="margin-top: 30px;">
+                        <p:outputLabel ><label class="note">DATE DE CRÉATION </label></p:outputLabel>
+                        <p:outputLabel style="margin-top: 20px;" ><label class="note">RESULTAT COMPTABLE</label></p:outputLabel>
+                    </div>
+                    <div class="col-md-3" style="margin-left: -70px;">
+                        <p:outputLabel value=""/>
+                        <div  class="input-group">
+                            <span class="input-group-addon">
+                                <i class="nc-icon nc-badge"></i>
+                            </span>
+                            <h:outputText  value="#{declarationIsController.formatDateToString(
+                                                    declarationIsController.selected.dateDeclaration)}" 
+                                           a:type="text" class="form-control"></h:outputText>
+                        </div>
+                        <p:outputLabel value=""/>
+                        <div  class="input-group">
+                            <span class="input-group-addon">
+                                <i class="nc-icon nc-bag-16"></i>
+                            </span>
+                            <h:outputText value="#{declarationIsController.selected.resultatComptable}" 
+                                          a:type="text" class="form-control"></h:outputText>
+                        </div>
+                    </div>
+                    <div class="col-md-3" >
+                        <p:outputLabel  style="margin-right: 50px;margin-top: 32px;"><label class="note">ETAT</label></p:outputLabel>
+                        <p:outputLabel style="margin-top: 22px;" ><label class="note">CHIFFRE D'AFFAIRE</label></p:outputLabel>
+                    </div>
+                    <div class="col-md-3" style="margin-left: -20px;">
+                        <p:outputLabel value=""/>
+                        <div  class="input-group">
+                            <span class="input-group-addon">
+                                <i class="nc-icon nc-badge"></i>
+                            </span>
+                            <h:outputText  value="#{declarationIsController.etatFromIntToString(
+                                                    declarationIsController.selected.etat)}" 
+                                           a:type="text" class="form-control"></h:outputText>
+                        </div>
+                        <p:outputLabel value=""/>
+                        <div  class="input-group">
+                            <span class="input-group-addon">
+                                <i class="nc-icon nc-bag-16"></i>
+                            </span>
+                            <h:outputText value="#{declarationIsController.selected.chiffreAffaire}" 
+                                          a:type="text" class="form-control"></h:outputText>
+                        </div>
+                    </div>
+
+                </div>
+                <div class="row">
+                    <div class="col-md-4" >
+                        <p:outputLabel style="margin-right: 50px;margin-top: 32px;"><label class="note">RESULTAT FISCAL </label></p:outputLabel>
+                        <p:outputLabel style="margin-top: 22px;" ><label class="note">ACOMPTES PAYÉS</label></p:outputLabel>
+                    </div>
+                    <div class="col-md-3" style="margin-left: -70px;">
+                        <p:outputLabel value=""/>
+                        <div  class="input-group">
+                            <span class="input-group-addon">
+                                <i class="nc-icon nc-badge"></i>
+                            </span>
+                            <h:outputText  value="#{declarationIsController.selected.resultatFiscal}" 
+                                           a:type="text" class="form-control"></h:outputText>
+                        </div>
+                        <p:outputLabel value=""/>
+                        <div  class="input-group">
+                            <span class="input-group-addon">
+                                <i class="nc-icon nc-bag-16"></i>
+                            </span>
+                            <h:outputText value="#{declarationIsController.selected.nbAccomptePaye}" 
+                                          a:type="text" class="form-control"></h:outputText>
+                        </div>
+                    </div>
+                    <div class="col-md-3" >
+                        <p:outputLabel style="margin-right: 50px;margin-top: 32px;"><label class="note">MONTANT IS</label></p:outputLabel>
+                        <p:outputLabel style="margin-top: 22px;margin-right: 50px;" ><label class="note">TAUX IS</label></p:outputLabel>
+                    </div>
+                    <div class="col-md-3" style="margin-left: -20px;">
+                        <p:outputLabel value=""/>
+                        <div  class="input-group">
+                            <span class="input-group-addon">
+                                <i class="nc-icon nc-badge"></i>
+                            </span>
+                            <h:outputText  value="#{declarationIsController.selected.montantIs}" 
+                                           a:type="text" class="form-control"></h:outputText>
+                        </div>
+                        <p:outputLabel value=""/>
+                        <div  class="input-group">
+                            <span class="input-group-addon">
+                                <i class="nc-icon nc-bag-16"></i>
+                            </span>
+                            <h:outputText value="#{declarationIsController.selected.tauxIs}" 
+                                          a:type="text" class="form-control"></h:outputText>
+                        </div>
+                    </div>
+
+                </div>
+                <div class="row">
+                    <div class="col-md-4" >
+                        <p:outputLabel style="margin-right: 50px;margin-top: 32px;"><label class="note">DÉFICITS </label></p:outputLabel>
+                        <p:outputLabel style="margin-top: 22px;" ></p:outputLabel>
+                    </div>
+                    <div class="col-md-3" style="margin-left: -70px;">
+                        <p:outputLabel value=""/>
+                        <div  class="input-group">
+                            <span class="input-group-addon">
+                                <i class="nc-icon nc-badge"></i>
+                            </span>
+                            <h:outputText  value="#{declarationIsController.selected.deficit}" 
+                                           a:type="text" class="form-control"></h:outputText>
+                        </div>
+                        <p:outputLabel value=""/>
+                        <p:commandButton style="margin-top: 30px;" action="#{declarationIsController.redirectToPage('declarationIs')}" 
+                                         value="MODIFIER"  oncomplete="handleSubmit(args,'DeclarationIsCreateDialog');">
+                            <f:actionListener binding="#{exerciceISController.setDeclarationIsToModify(
+                                                         declarationIsController.selected.id)}"/>
+                        </p:commandButton>
+                    </div>
+                    <div class="col-md-3" >
+                        <p:outputLabel style="margin-right: 15px;margin-top: 32px;"><label class="note">EXERCICES </label></p:outputLabel>
+                        <p:commandButton style="margin-top: 22px;margin-right: 50px;" value="ANNULER" onclick="DeclarationIsCreateDialog.hide()"/>
+
+                    </div>
+                    <div class="col-md-3" style="margin-left: -20px;margin-top: 22px;">
+                        <p:commandButton oncomplete="PF('dlg').show()" update=":listExerciceIS"
+                                         title="Voir les éxercices comptables associés" icon="ui-icon-check" value="AFFICHER">
+                            <f:actionListener binding="#{exerciceISController.calculTotalMontantsForList(declarationIsController.selected.exerciceISs)}"/>
+                        </p:commandButton>
+                    </div>
+
+                </div>
+            </h:panelGroup>
+        </h:form>
+
+    </p:dialog>
+
+    <p:dialog  header="Exercices Comptables associés" modal="true" 
+              style="min-height: 140px;min-width: 340px;width: 340px !important;"
+              showEffect="bounce" id="dlg" widgetVar="dlg" resizable="false">
+        <h:form id="listExerciceIS" >
+            <h:panelGroup rendered="#{declarationIsController.selected.exerciceISs.size()>0}">
+                <!--hna rah zayda list b element
+                //////////////////////////////////////-->
+                <p:dataTable style="width: 100%;" value="#{declarationIsController.selected.exerciceISs}" var="item"
+                             class="table table-sm table-dark table-hover table-bordered"
+                             >
+
+                    <p:column>
+                        <f:facet name="header">
+                            <h:outputText value="N° FACTURE"/>
+                        </f:facet>
+                        <h:outputText value="#{item.numFacture}"/>
+                    </p:column>
+                    <p:column>
+                        <f:facet name="header">
+                            <h:outputText value="DATE DÉBUT"/>
+                        </f:facet>
+                        <h:outputText value="#{declarationIsController.formatDateToString(item.dateDebut)}"/>
+                    </p:column>
+                    <p:column>
+                        <f:facet name="header">
+                            <h:outputText value="DATE FIN"/>
+                        </f:facet>
+                        <h:outputText value="#{declarationIsController.formatDateToString(item.dateFin)}"/>
+                        <f:facet name="footer">
+                            <h:outputText value="TOTAL"/>
+                        </f:facet>
+                    </p:column>
+                    <p:column>
+                        <f:facet name="header">
+                            <h:outputText value="CHARGES"/>
+                        </f:facet>
+                        <h:outputText value="#{item.charges}"/>
+                        <f:facet name="footer">
+                            <h:outputText value="#{exerciceISController.totalCharges}"/>
+                        </f:facet>
+                    </p:column>
+                    <p:column>
+                        <f:facet name="header">
+                            <h:outputText value="PRODUITS"/>
+                        </f:facet>
+                        <h:outputText value="#{item.produits}"/>
+                        <f:facet name="footer">
+                            <h:outputText value="#{exerciceISController.totalProduits}"/>
+                        </f:facet>
+                    </p:column>
+                    <p:column>
+                        <f:facet name="header">
+                            <h:outputText value="DÉDUCTIBLES"/>
+                        </f:facet>
+                        <h:outputText value="#{item.deductibles}"/>
+                        <f:facet name="footer">
+                            <h:outputText value="#{exerciceISController.totalDeductibles}"/>
+                        </f:facet>
+                    </p:column>
+                    <p:column>
+                        <f:facet name="header">
+                            <h:outputText value="NON DÉDUCTIBLES"/>
+                        </f:facet>
+                        <h:outputText value="#{item.nonDeductibles}"/>
+                        <f:facet name="footer">
+                            <h:outputText value="#{exerciceISController.totalNonDeductibles}"/>
+                        </f:facet>
+                    </p:column>
+
+                </p:dataTable>
+            </h:panelGroup>
+        </h:form>
+    </p:dialog>
+</html>
+
