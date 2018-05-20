@@ -7,6 +7,7 @@ package util;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
 
@@ -108,4 +109,13 @@ public class DateUtil {
         return null;
     }
 
+    public static Date subDayFromDate(Date dateToSubs) {
+        if (dateToSubs != null) {
+            GregorianCalendar gc = new GregorianCalendar();
+            gc.setTime(dateToSubs);
+            gc.add(GregorianCalendar.DATE, -1);
+            return gc.getTime();
+        }
+        return null;
+    }
 }

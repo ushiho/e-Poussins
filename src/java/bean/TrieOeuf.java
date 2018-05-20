@@ -33,7 +33,6 @@ public class TrieOeuf implements Serializable {
     @Temporal(javax.persistence.TemporalType.TIMESTAMP)
     private Date dateTrie;
     private int numSemaine;
-    private int annee;
     private BigDecimal entree;// = production des oeufs
     private BigDecimal vente;
     private BigDecimal don;
@@ -41,12 +40,21 @@ public class TrieOeuf implements Serializable {
     private BigDecimal situationFinale;
     private BigDecimal situationInitiale;
     private BigDecimal reception;
+    private BigDecimal misEnIncubation;
     @ManyToOne
     private Ferme ferme;
     @OneToOne
     private CategorieOeuf categorieOeuf;
     @OneToMany(mappedBy = "trieOeuf")
     private List<Incubation> incubations;
+
+    public BigDecimal getMisEnIncubation() {
+        return misEnIncubation;
+    }
+
+    public void setMisEnIncubation(BigDecimal misEnIncubation) {
+        this.misEnIncubation = misEnIncubation;
+    }
 
     public BigDecimal getReception() {
         return reception;
@@ -74,11 +82,12 @@ public class TrieOeuf implements Serializable {
         this.id = id;
     }
 
-    public TrieOeuf(Long id, Date dateTrie, int semaine, int annee, BigDecimal entree, BigDecimal vente, BigDecimal don, BigDecimal perte, BigDecimal situationFinale, BigDecimal situationInitiale) {
+    public TrieOeuf(BigDecimal reception, BigDecimal misEnIncubation, Long id, Date dateTrie, int semaine, BigDecimal entree, BigDecimal vente, BigDecimal don, BigDecimal perte, BigDecimal situationFinale, BigDecimal situationInitiale) {
+        this.misEnIncubation = misEnIncubation;
+        this.reception = reception;
         this.id = id;
         this.dateTrie = dateTrie;
         this.numSemaine = semaine;
-        this.annee = annee;
         this.entree = entree;
         this.vente = vente;
         this.don = don;
@@ -120,14 +129,6 @@ public class TrieOeuf implements Serializable {
 
     public void setNumSemaine(int numSemaine) {
         this.numSemaine = numSemaine;
-    }
-
-    public int getAnnee() {
-        return annee;
-    }
-
-    public void setAnnee(int annee) {
-        this.annee = annee;
     }
 
     public BigDecimal getEntree() {
@@ -211,7 +212,7 @@ public class TrieOeuf implements Serializable {
 
     @Override
     public String toString() {
-        return "TrieOeuf{" + "id=" + id + ", dateTrie=" + dateTrie + ", semaine=" + numSemaine + ", annee=" + annee + ", entree=" + entree + ", vente=" + vente + ", don=" + don + ", perte=" + perte + ", situationFinale=" + situationFinale + ", situationInitiale=" + situationInitiale + '}';
+        return "TrieOeuf{" + "id=" + id + ", dateTrie=" + dateTrie + ", semaine=" + numSemaine + ", entree=" + entree + ", vente=" + vente + ", don=" + don + ", perte=" + perte + ", situationFinale=" + situationFinale + ", situationInitiale=" + situationInitiale + '}';
     }
 
 }

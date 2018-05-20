@@ -6,6 +6,7 @@
 package service;
 
 import bean.TrieOeuf;
+import java.util.Date;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
@@ -28,5 +29,28 @@ public class TrieOeufFacade extends AbstractFacade<TrieOeuf> {
     public TrieOeufFacade() {
         super(TrieOeuf.class);
     }
-    
+
+    public TrieOeuf clone(TrieOeuf trieOeuf) {
+        if (trieOeuf == null) {
+            return null;
+        }
+        TrieOeuf clone = new TrieOeuf(trieOeuf.getMisEnIncubation(), trieOeuf.getReception(), trieOeuf.getId(),
+                trieOeuf.getDateTrie(), trieOeuf.getNumSemaine(), trieOeuf.getEntree(), trieOeuf.getVente(),
+                trieOeuf.getDon(), trieOeuf.getPerte(), trieOeuf.getSituationFinale(), trieOeuf.getSituationInitiale());
+        clone.setCategorieOeuf(trieOeuf.getCategorieOeuf());
+        clone.setFerme(trieOeuf.getFerme());
+        clone.setIncubations(trieOeuf.getIncubations());
+        return clone;
+    }
+
+    public TrieOeuf getLastTrieSavedByDate(TrieOeuf trieOeuf) {
+        System.out.println("f services => ha selecetd : " + trieOeuf);
+        if (trieOeuf != null) {
+            String req = "SELECT tr FROM TrieOeuf tr WHERE tr.dateTrie = '" + trieOeuf.getDateTrie() + "' "
+                    + " AND tr.categorieOeuf.id = '" + trieOeuf.getCategorieOeuf().getId() + "'";
+            return getUniqueResult(req);
+        }
+        return null;
+    }
+
 }

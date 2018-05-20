@@ -22,6 +22,7 @@ import javax.faces.context.FacesContext;
 import javax.faces.convert.Converter;
 import javax.faces.convert.FacesConverter;
 import service.CategorieOeufFacade;
+import util.DateUtil;
 
 @Named("trieOeufController")
 @SessionScoped
@@ -240,4 +241,55 @@ public class TrieOeufController implements Serializable {
 
     }
 
+    public void addToList() {
+        if (selected != null) {
+            getItems().add(ejbFacade.clone(selected));
+        }
+
+    }
+
+//    public void modifyFromList() {
+//        System.out.println("dkhl l modify : ");
+//        if (selected == null) {
+//            MessageUtil.showMsgSelectToModify();
+//        } else {
+//            getItems().remove(selected);
+//            setDates(DateUtil.formateDate("dd/MM/YYYY", selected.getDateDebut()),
+//                    DateUtil.formateDate("dd/MM/YYYY", selected.getDateFin()));
+//            setShowForm(true);
+//        }
+//    }
+//
+//    public void removeFromList() {
+//        if (selected == null) {
+//            MessageUtil.showMsgSelectToRemove();
+//        } else {
+//            ejbFacade.removeSelectedFromList(getItems(), selected);
+//            setShowForm(false);
+//            System.out.println("ha size : " + getItems().size());
+//            System.out.println("ha liste => : " + items);
+//            calculTotalMontants(2, selected);
+//            selected = null;
+//        }
+//    }
+    public void showForme3ByCategorie() {
+        if (selected != null && selected.getCategorieOeuf() != null && selected.getCategorieOeuf().getId() != null) {
+            setForme3(true);
+            return;
+        }
+        setForme3(false);
+    }
+
+    public void setSIToTheSelected() {
+        TrieOeuf lasteTrieOeuf = ejbFacade.getLastTrieSavedByDate(selected);
+        if (lasteTrieOeuf == null || lasteTrieOeuf.getSituationFinale() == null) {
+            selected.setSituationInitiale(new BigDecimal(0));
+        } else {
+            selected.setSituationInitiale(lasteTrieOeuf.getSituationFinale());
+        }
+    }
+
+    public void setDateToTheSelected() {
+        selected.setDateTrie(DateUtil.getSqlDateToSaveInDB(dateTrie));
+    }
 }
