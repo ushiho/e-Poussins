@@ -1,11 +1,14 @@
 package controller;
 
+import bean.CategorieOeuf;
 import bean.TrieOeuf;
 import controller.util.JsfUtil;
 import controller.util.JsfUtil.PersistAction;
 import service.TrieOeufFacade;
 
 import java.io.Serializable;
+import java.math.BigDecimal;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
@@ -18,6 +21,7 @@ import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
 import javax.faces.convert.Converter;
 import javax.faces.convert.FacesConverter;
+import service.CategorieOeufFacade;
 
 @Named("trieOeufController")
 @SessionScoped
@@ -25,18 +29,99 @@ public class TrieOeufController implements Serializable {
 
     @EJB
     private service.TrieOeufFacade ejbFacade;
-    private List<TrieOeuf> items = null;
+    @EJB
+    private CategorieOeufFacade categorieOeufFacade;
+    private List<TrieOeuf> items;
     private TrieOeuf selected;
+    private boolean forme1 = true;
+    private boolean forme2;
+    private boolean forme3;
+    private String dateTrie;
+    private BigDecimal restReception;
+    private Long idCategorieOeufsChosen;
+
+    public Long getIdCategorieOeufsChosen() {
+        return idCategorieOeufsChosen;
+    }
+
+    public void setIdCategorieOeufsChosen(Long idCategorieOeufsChosen) {
+        this.idCategorieOeufsChosen = idCategorieOeufsChosen;
+    }
+
+    public BigDecimal getRestReception() {
+        if (restReception == null) {
+            restReception = selected.getReception();
+        }
+        return restReception;
+    }
+
+    public void setRestReception(BigDecimal restReception) {
+        this.restReception = restReception;
+    }
+
+    public String getDateTrie() {
+        return dateTrie;
+    }
+
+    public void setDateTrie(String dateTrie) {
+        this.dateTrie = dateTrie;
+    }
 
     public TrieOeufController() {
     }
 
     public TrieOeuf getSelected() {
+        if (selected == null) {
+            selected = new TrieOeuf();
+        }
         return selected;
     }
 
     public void setSelected(TrieOeuf selected) {
         this.selected = selected;
+    }
+
+    public TrieOeufFacade getEjbFacade() {
+        return ejbFacade;
+    }
+
+    public void setEjbFacade(TrieOeufFacade ejbFacade) {
+        this.ejbFacade = ejbFacade;
+    }
+
+    public List<TrieOeuf> getItems() {
+        if (items == null) {
+            items = new ArrayList();
+        }
+        return items;
+    }
+
+    public void setItems(List<TrieOeuf> items) {
+        this.items = items;
+    }
+
+    public boolean isForme1() {
+        return forme1;
+    }
+
+    public void setForme1(boolean forme1) {
+        this.forme1 = forme1;
+    }
+
+    public boolean isForme2() {
+        return forme2;
+    }
+
+    public void setForme2(boolean forme2) {
+        this.forme2 = forme2;
+    }
+
+    public boolean isForme3() {
+        return forme3;
+    }
+
+    public void setForme3(boolean forme3) {
+        this.forme3 = forme3;
     }
 
     protected void setEmbeddableKeys() {
@@ -72,13 +157,6 @@ public class TrieOeufController implements Serializable {
             selected = null; // Remove selection
             items = null;    // Invalidate list of items to trigger re-query.
         }
-    }
-
-    public List<TrieOeuf> getItems() {
-        if (items == null) {
-            items = getFacade().findAll();
-        }
-        return items;
     }
 
     private void persist(PersistAction persistAction, String successMessage) {

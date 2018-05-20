@@ -95,7 +95,6 @@
                 <div class="filter"></div>
             </div>
             <div class="main">
-                <p:growl id="growl" life="2000" />
                 <div class="section profile-content">
                     <div class="container">
 
@@ -205,14 +204,14 @@
                                 <p class="card-just-text text-center">Avec ce formulaire vous pouvez enregistrer la trie des oeufs
                                     que vous avez faitte dans cette journée .</p>
                                 <p:spacer/><br/>
-                                <div class="text-center card-title">
-                                    <h6><h:outputText style="font-size: 15px;color: black;border-bottom: 3px solid red;"
-                                                      value="ETAPE 1" id="result" /></h6>
-                                </div>
-                                <p:spacer/>
-                                <p:spacer/>
                                 <h:form id="forme1">
-                                    <h:panelGroup rendered="true">
+                                    <h:panelGroup rendered="#{trieOeufController.forme1}">
+                                        <div class="text-center card-title">
+                                            <h6><h:outputText style="font-size: 15px;color: black;border-bottom: 3px solid red;"
+                                                              value="ETAPE 1" id="result" /></h6>
+                                        </div>
+                                        <p:spacer/>
+
                                         <div class="row">
                                             <div class="col-md-2" style="margin-left: 30px;margin-top: 10px;">
                                                 <p:outputLabel for="dateTrie">
@@ -225,9 +224,16 @@
                                                         <span class="glyphicon glyphicon-time"></span>
                                                         <i class="nc-icon nc-calendar-60" aria-hidden="true"></i>
                                                     </span>
-                                                    <p:inputText id="dateTrie" value="#{Tri}" required="true"
+                                                    <p:inputText id="dateTrie" value="#{trieOeufController.dateTrie}" required="true"
                                                                  class="form-control " placeholder="05/08/2017" title="Date de trie" />
                                                 </div>
+                                                <script type="text/javascript">
+                                                    $(function () {
+                                                        $('.datetimepicker').datetimepicker({
+                                                            format: 'DD/MM/YYYY'
+                                                        });
+                                                    });
+                                                </script>
                                             </div>
                                             <div class="col-md-2" style="margin-left: 80px;margin-top: 10px;">
                                                 <p:outputLabel for="semaine">
@@ -264,40 +270,44 @@
                                         </div>
                                     </h:panelGroup>
                                 </h:form>
-                                <p:spacer/>
-                                <p:spacer/>
                                 <h:form id="forme2">
                                     <h:panelGroup rendered="#{trieOeufController.forme2}">
+                                        <div class="text-center card-title">
+                                            <h6><h:outputText style="font-size: 15px;color: black;border-bottom: 3px solid red;"
+                                                              value="ETAPE 2" id="result" /></h6>
+                                        </div>
+                                        <p:spacer/>
                                         <div class="row">
-                                            <div class="col-3" style="margin-top: 5px;">
-                                                <p:commandLink update=":forme1 forme2" actionListener="#{trieOeufController.setForme1(true)}"
-                                                               id="retour" title="Retour à l'étape précedente" value="RETOUR" class="btn btn-outline-danger btn-sm">
-                                                    <f:actionListener binding="#{trieOeufController.setForme2(false)}"/>
-                                                </p:commandLink>
+                                            <div class="col-3" style="margin-top: 5px;margin-left: 70px;">
+                                                <h:commandLink  actionListener="#{trieOeufController.setForme1(true)}"
+                                                                id="retour" title="Retour à l'étape précedente" value="RETOUR" class="btn btn-outline-danger btn-sm">
+                                                    <f:actionListener binding="#{trieOeufController.setForme2(false)}" />
+                                                    <f:ajax render="forme2 :forme1" execute=":form1 form2"/>
+                                                </h:commandLink>
                                             </div>
-                                            <div class="col-2" style="margin-top: 10px;">
+                                            <div class="col-2" style="margin-top: 10px;margin-left: 150px;">
                                                 <p:outputLabel title="Le rest de réception "><label>REST </label></p:outputLabel>
                                             </div>
                                             <div class="col-3 form-control" >
-                                                <h:outputText value="rest " title="Le rest de réception " />
+                                                <h:outputText value="#{trieOeufController.restReception}" title="Le rest de réception " />
                                             </div>
                                         </div>
                                         <p:spacer/>
 
-                                        <div class="row" style="margin-top: 10px;">
+                                        <div class="row" style="margin-top: 10px;margin-left: 20px;">
                                             <div class="col-4" >
                                                 <p:outputLabel for="oeuf"><label class="note">CATÉGORIE DES OEUFS</label></p:outputLabel>
                                             </div>
                                             <div class="col-4" style="margin-left: 15px;">
                                                 <h:selectOneMenu style="width: 100%;" required="true" id="oeuf" value="#{trieOeufController.selected.categorieOeuf}" >
                                                     <f:selectItem itemLabel="-- Choisir une catégorie --" itemValue="" noSelectionOption="true" />
-
                                                     <f:selectItems value="#{categorieOeufController.getItemsAvailableSelectMany()}"
                                                                    var="oeuf"
                                                                    itemValue="#{oeuf}"/>
+                                                    <f:ajax execute=":forme3" render=":forme3"/>
                                                 </h:selectOneMenu>
                                             </div>
-                                            <div class="col-3" style="margin-top: 50px;margin-left: 10px;">
+                                            <div class="col-3" style="margin-top: 50px;margin-left: -17px;">
                                                 <p:commandLink update="" actionListener="#{trieOeufController.setForme3(true)}"
                                                                id="ajouter" title="Passer à l'étape suivante" value="AJOUTER CETTE CATÉGORIE" class="btn btn-outline-default btn-sm">
                                                 </p:commandLink>
@@ -310,9 +320,9 @@
                                 <p:separator/>
 
 
-<!--                                <div class="space-top">
-                                    <h:form id="form">
-                                        <h:panelGroup rendered="#{trieOeufController.forme1}">
+                                <div class="space-top">
+                                    <h:form id="forme3">
+                                        <h:panelGroup rendered="#{trieOeufController.selected.categorieOeuf != null}">
                                             <div class="row text-center">
                                                 <div class="col-lg-3 col-md-6 col-sm-10">
                                                     <p:outputLabel for="nFacture"><label class="note">N° FACTURE</label></p:outputLabel>
@@ -415,7 +425,7 @@
                                             <p:spacer/><br/><p:spacer/>
                                             <div class="row text-center">
                                                 <div class="col-lg-12 col-md-12 ">
-                                                    <p:commandLink update="form :options :datalist"  actionListener="#{exerciceISController.addToList()}" 
+                                                    <p:commandLink update=""  actionListener="#{exerciceISController.addToList()}" 
                                                                    id="save" value="ENREGISTRER" class="btn btn-sm">
                                                     </p:commandLink>
                                                 </div>
@@ -424,120 +434,120 @@
                                     </h:form>
                                     <p:spacer/>
                                     <div class="row" >
-                                        <h:form id="datalist">
-                                            <h:panelGroup rendered="#{exerciceISController.items.size()>0}">
-                                                hna rah zayda list b element
-                                                //////////////////////////////////////
-                                                <p:dataTable  value="#{exerciceISController.items}" var="item"
-                                                              class="table table-sm table-dark table-hover table-bordered"
-                                                              selectionMode="single" rowKey="#{item.numFacture}"
-                                                              selection="#{exerciceISController.selected}"
-                                                              >
-
-                                                    <p:ajax event="rowSelect" listener="#{exerciceISController.selected}" update="buttons :form"/>
-                                                    <p:ajax event="rowUnselect" update="buttons"/>
-
-                                                    <p:column>
-                                                        <f:facet name="header">
-                                                            <h:outputText value="N° FACTURE"/>
-                                                        </f:facet>
-                                                        <h:outputText value="#{item.numFacture}"/>
-                                                    </p:column>
-                                                    <p:column>
-                                                        <f:facet name="header">
-                                                            <h:outputText value="DATE DÉBUT"/>
-                                                        </f:facet>
-                                                        <h:outputText value="#{item.dateDebut}"/>
-                                                    </p:column>
-                                                    <p:column>
-                                                        <f:facet name="header">
-                                                            <h:outputText value="DATE FIN"/>
-                                                        </f:facet>
-                                                        <h:outputText value="#{item.dateFin}"/>
-                                                        <f:facet name="footer">
-                                                            <h:outputText value="TOTAL"/>
-                                                        </f:facet>
-                                                    </p:column>
-                                                    <p:column>
-                                                        <f:facet name="header">
-                                                            <h:outputText value="CHARGES"/>
-                                                        </f:facet>
-                                                        <h:outputText value="#{item.charges}"/>
-                                                        <f:facet name="footer">
-                                                            <h:outputText value="#{exerciceISController.totalCharges}"/>
-                                                        </f:facet>
-                                                    </p:column>
-                                                    <p:column>
-                                                        <f:facet name="header">
-                                                            <h:outputText value="PRODUITS"/>
-                                                        </f:facet>
-                                                        <h:outputText value="#{item.produits}"/>
-                                                        <f:facet name="footer">
-                                                            <h:outputText value="#{exerciceISController.totalProduits}"/>
-                                                        </f:facet>
-                                                    </p:column>
-                                                    <p:column>
-                                                        <f:facet name="header">
-                                                            <h:outputText value="DÉDUCTIBLES"/>
-                                                        </f:facet>
-                                                        <h:outputText value="#{item.deductibles}"/>
-                                                        <f:facet name="footer">
-                                                            <h:outputText value="#{exerciceISController.totalDeductibles}"/>
-                                                        </f:facet>
-                                                    </p:column>
-                                                    <p:column>
-                                                        <f:facet name="header">
-                                                            <h:outputText value="NON DÉDUCTIBLES"/>
-                                                        </f:facet>
-                                                        <h:outputText value="#{item.nonDeductibles}"/>
-                                                        <f:facet name="footer">
-                                                            <h:outputText value="#{exerciceISController.totalNonDeductibles}"/>
-                                                        </f:facet>
-                                                    </p:column>
-
-                                                    <f:facet name="footer">
-                                                        <h:form id="buttons">
-                                                            <p:commandButton id="editButton"   icon="ui-icon-pencil" value="MODIFIER" update=":form buttons :options  :ops"
-                                                                             actionListener="#{exerciceISController.modifyFromList()}">
-                                                            </p:commandButton>
-                                                            <p:commandButton id="deleteButton" icon="ui-icon-trash"  value="SUPPRIMER" 
-                                                                             action="#{exerciceISController.removeFromList()}" update=":datalist :options :form buttons :ops"></p:commandButton>
-                                                        </h:form>
-                                                    </f:facet>
-                                                </p:dataTable>
-                                            </h:panelGroup>
-                                        </h:form>
-
-                                        <h:form id="options">
-                                            <h:panelGroup rendered="#{exerciceISController.items.size()>0}">
-
-                                                <div class="row" id="options">
-                                                    <div class="col-md-1 " style="margin-left: 100px;">
-                                                        <p:commandLink  
-                                                            id="save" value="ENREGISTRER" class="btn btn-outline-default btn-sm">
-                                                        </p:commandLink>
-                                                    </div>
-                                                    <p:spacer/>
-                                                    <div class="col-md-5  " style="margin-left: 160px;">
-                                                        <p:commandLink  update=":form :datalist :growl :ops :result :options"
-                                                                        actionListener="#{exerciceISController.validerDeclarationIS()}" 
-                                                                        id="valider"   value="SOUMETTRE A VALIDATION" class="btn btn-outline-warning btn-sm">
-
-                                                        </p:commandLink>
-
-                                                    </div>
-                                                    <p:spacer/>
-                                                    <div class="col-md-1  " style="margin-left: 30px;">
-                                                        <p:commandLink actionListener="#{exerciceISController.items.clear()}" id="exit"   value="ANNULER" class="btn btn-outline-danger btn-sm">
-                                                        </p:commandLink>
-                                                    </div>
-                                                </div>
-                                            </h:panelGroup>
-                                        </h:form>
+                                        <!--                                                                        <h:form id="datalist">
+                                                                                                                    <h:panelGroup rendered="#{exerciceISController.items.size()>0}">
+                                                                                                                        hna rah zayda list b element
+                                                                                                                        //////////////////////////////////////
+                                                                                                                        <p:dataTable  value="#{exerciceISController.items}" var="item"
+                                                                                                                                      class="table table-sm table-dark table-hover table-bordered"
+                                                                                                                                      selectionMode="single" rowKey="#{item.numFacture}"
+                                                                                                                                      selection="#{exerciceISController.selected}"
+                                                                                                                                      >
+                                                                        
+                                                                                                                            <p:ajax event="rowSelect" listener="#{exerciceISController.selected}" update="buttons :form"/>
+                                                                                                                            <p:ajax event="rowUnselect" update="buttons"/>
+                                                                        
+                                                                                                                            <p:column>
+                                                                                                                                <f:facet name="header">
+                                                                                                                                    <h:outputText value="N° FACTURE"/>
+                                                                                                                                </f:facet>
+                                                                                                                                <h:outputText value="#{item.numFacture}"/>
+                                                                                                                            </p:column>
+                                                                                                                            <p:column>
+                                                                                                                                <f:facet name="header">
+                                                                                                                                    <h:outputText value="DATE DÉBUT"/>
+                                                                                                                                </f:facet>
+                                                                                                                                <h:outputText value="#{item.dateDebut}"/>
+                                                                                                                            </p:column>
+                                                                                                                            <p:column>
+                                                                                                                                <f:facet name="header">
+                                                                                                                                    <h:outputText value="DATE FIN"/>
+                                                                                                                                </f:facet>
+                                                                                                                                <h:outputText value="#{item.dateFin}"/>
+                                                                                                                                <f:facet name="footer">
+                                                                                                                                    <h:outputText value="TOTAL"/>
+                                                                                                                                </f:facet>
+                                                                                                                            </p:column>
+                                                                                                                            <p:column>
+                                                                                                                                <f:facet name="header">
+                                                                                                                                    <h:outputText value="CHARGES"/>
+                                                                                                                                </f:facet>
+                                                                                                                                <h:outputText value="#{item.charges}"/>
+                                                                                                                                <f:facet name="footer">
+                                                                                                                                    <h:outputText value="#{exerciceISController.totalCharges}"/>
+                                                                                                                                </f:facet>
+                                                                                                                            </p:column>
+                                                                                                                            <p:column>
+                                                                                                                                <f:facet name="header">
+                                                                                                                                    <h:outputText value="PRODUITS"/>
+                                                                                                                                </f:facet>
+                                                                                                                                <h:outputText value="#{item.produits}"/>
+                                                                                                                                <f:facet name="footer">
+                                                                                                                                    <h:outputText value="#{exerciceISController.totalProduits}"/>
+                                                                                                                                </f:facet>
+                                                                                                                            </p:column>
+                                                                                                                            <p:column>
+                                                                                                                                <f:facet name="header">
+                                                                                                                                    <h:outputText value="DÉDUCTIBLES"/>
+                                                                                                                                </f:facet>
+                                                                                                                                <h:outputText value="#{item.deductibles}"/>
+                                                                                                                                <f:facet name="footer">
+                                                                                                                                    <h:outputText value="#{exerciceISController.totalDeductibles}"/>
+                                                                                                                                </f:facet>
+                                                                                                                            </p:column>
+                                                                                                                            <p:column>
+                                                                                                                                <f:facet name="header">
+                                                                                                                                    <h:outputText value="NON DÉDUCTIBLES"/>
+                                                                                                                                </f:facet>
+                                                                                                                                <h:outputText value="#{item.nonDeductibles}"/>
+                                                                                                                                <f:facet name="footer">
+                                                                                                                                    <h:outputText value="#{exerciceISController.totalNonDeductibles}"/>
+                                                                                                                                </f:facet>
+                                                                                                                            </p:column>
+                                                                        
+                                                                                                                            <f:facet name="footer">
+                                                                                                                                <h:form id="buttons">
+                                                                                                                                    <p:commandButton id="editButton"   icon="ui-icon-pencil" value="MODIFIER" update=":form buttons :options  :ops"
+                                                                                                                                                     actionListener="#{exerciceISController.modifyFromList()}">
+                                                                                                                                    </p:commandButton>
+                                                                                                                                    <p:commandButton id="deleteButton" icon="ui-icon-trash"  value="SUPPRIMER" 
+                                                                                                                                                     action="#{exerciceISController.removeFromList()}" update=":datalist :options :form buttons :ops"></p:commandButton>
+                                                                                                                                </h:form>
+                                                                                                                            </f:facet>
+                                                                                                                        </p:dataTable>
+                                                                                                                    </h:panelGroup>
+                                                                                                                </h:form>
+                                        -->
+                                        <!--                                                                        <h:form id="options">
+                                                                                                                    <h:panelGroup rendered="#{exerciceISController.items.size()>0}">
+                                                                        
+                                                                                                                        <div class="row" id="options">
+                                                                                                                            <div class="col-md-1 " style="margin-left: 100px;">
+                                                                                                                                <p:commandLink  
+                                                                                                                                    id="save" value="ENREGISTRER" class="btn btn-outline-default btn-sm">
+                                                                                                                                </p:commandLink>
+                                                                                                                            </div>
+                                                                                                                            <p:spacer/>
+                                                                                                                            <div class="col-md-5  " style="margin-left: 160px;">
+                                                                                                                                <p:commandLink  update=":form :datalist :growl :ops :result :options"
+                                                                                                                                                actionListener="#{exerciceISController.validerDeclarationIS()}" 
+                                                                                                                                                id="valider"   value="SOUMETTRE A VALIDATION" class="btn btn-outline-warning btn-sm">
+                                                                        
+                                                                                                                                </p:commandLink>
+                                                                        
+                                                                                                                            </div>
+                                                                                                                            <p:spacer/>
+                                                                                                                            <div class="col-md-1  " style="margin-left: 30px;">
+                                                                                                                                <p:commandLink actionListener="#{exerciceISController.items.clear()}" id="exit"   value="ANNULER" class="btn btn-outline-danger btn-sm">
+                                                                                                                                </p:commandLink>
+                                                                                                                            </div>
+                                                                                                                        </div>
+                                                                                                                    </h:panelGroup>
+                                                                                                                </h:form>-->
                                     </div>
 
 
-                                </div>-->
+                                </div>
                                 <br />
 
 

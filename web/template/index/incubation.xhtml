@@ -1,0 +1,90 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui">
+    <h:head>
+        <title>e-Poussins</title>
+        <meta charset="utf-8" />
+        <link rel="icon" type="image/png" href="../assets/img/favicon.ico"></link>
+        <link rel="apple-touch-icon" sizes="76x76" href="../assets/img/apple-icon.png"></link>
+        <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+
+        <title>Direction Géneral des Impots</title>
+
+        <meta content='width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0' name='viewport' />
+        <meta name="viewport" content="width=device-width" />
+
+        <!-- Bootstrap core CSS     -->
+        <link href="../assets/css/bootstrap.min.css" rel="stylesheet" />
+        <link href="../assets/css/paper-kit.css?v=2.1.0" rel="stylesheet"/>
+
+        <!--  CSS for Demo Purpose, don't include it in your project     -->
+        <link href="../assets/css/demo.css" rel="stylesheet" />                                                                         
+        <link href="../assets/css/monCss.css" rel="stylesheet" />                                                                         
+
+        <!--     Fonts and icons     -->
+        <link href='http://fonts.googleapis.com/css?family=Montserrat:400,300,700' rel='stylesheet' type='text/css'></link>
+        <!--<link href="http://maxcdn.bootstrapcdn.com/font-awesome/latest/css/font-awesome.min.css" rel="stylesheet"></link>-->
+        <link href="../assets/css/nucleo-icons.css" rel="stylesheet"></link>
+    </h:head>
+    <h:body>
+         <nav class="navbar navbar-expand-lg fixed-top navbar-transparent" color-on-scroll="50">
+            <div class="container">
+                <div class="navbar-translate">
+                    <button class="navbar-toggler navbar-toggler-right navbar-burger" type="button" data-toggle="collapse" data-target="#navbarToggler" aria-controls="navbarTogglerDemo02" aria-expanded="false" aria-label="Toggle navigation">
+                        <span class="navbar-toggler-bar"></span>
+                        <span class="navbar-toggler-bar"></span>
+                        <span class="navbar-toggler-bar"></span>
+                    </button>
+                    <a class="navbar-brand " href="https://www.creative-tim.com">Direction Géneral des Impots</a>
+                </div>
+                <div class="collapse navbar-collapse" id="navbarToggler">
+                    <ul class="navbar-nav ml-auto">
+                        <li class="nav-item">
+                            <a href="profile.xhtml" class="nav-link"><i class="nc-icon nc-single-02"></i>Profile</a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="../index.html" class="nav-link"><i class="nc-icon nc-settings-gear-65"></i>Paramètres</a>
+                        </li>
+                        <li class="nav-item nav-link" id="noti_Container">
+                            <span id="notification_count">3</span>
+                            <a class="nav-link" id="notificationLink"><i class="nc-icon nc-bell-55 "></i></a>
+
+                            <!--                                <span class="badge badge-light num" style="font-size: x-small;">+9</span>-->
+                            <div id="notificationContainer">
+                                <div id="notificationTitle">Notifications</div>
+                                <div id="notificationsBody" >
+                                    <div class="nav-box">
+                                        <div class="inner-box">
+                                            <div class="tabs"><p style="margin-left: 10px;">Navbar content Start <span style="margin-left: 150px">date</span></p></div>
+                                            <div class="tabs"><p>Navbar content</p></div>
+                                            <div class="tabs"><p>Navbar content</p></div>
+                                            <div class="tabs"><p>Navbar content</p></div>
+                                            <div class="tabs"><p>Navbar content</p></div>
+                                            <div class="tabs"><p>Navbar content</p></div>
+                                            <div class="tabs"><p>Navbar content</p></div>
+                                            <div class="tabs"><p>Navbar content</p></div>
+                                            <div class="tabs"><p>Navbar content</p></div>
+                                            <div class="tabs"><p>Navbar content</p></div>
+                                            <div class="tabs"><p>Navbar content</p></div>
+                                            <div class="tabs"><p>Navbar content End</p></div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div id="notificationFooter"><a href="#">Tout voir</a></div>
+                            </div>
+                        </li>
+                        <li class="nav-item">
+                            <p:commandLink action="#{employeController.deconnecter()}"  class="nav-link"><i class="nc-icon nc-lock-circle-open"></i>Déconnexion</p:commandLink>
+                        </li>
+
+                    </ul>
+                </div>
+            </div>
+        </nav>
+        
+        
+    </h:body>
+</html>
+

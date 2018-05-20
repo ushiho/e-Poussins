@@ -6,6 +6,7 @@ import controller.util.JsfUtil.PersistAction;
 import service.UtilisateurFacade;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
@@ -18,6 +19,7 @@ import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
 import javax.faces.convert.Converter;
 import javax.faces.convert.FacesConverter;
+import util.SessionUtil;
 
 @Named("utilisateurController")
 @SessionScoped
@@ -25,18 +27,40 @@ public class UtilisateurController implements Serializable {
 
     @EJB
     private service.UtilisateurFacade ejbFacade;
-    private List<Utilisateur> items = null;
+    private List<Utilisateur> items;
     private Utilisateur selected;
 
     public UtilisateurController() {
     }
 
     public Utilisateur getSelected() {
+        if (selected == null) {
+            selected = new Utilisateur();
+        }
         return selected;
     }
 
     public void setSelected(Utilisateur selected) {
         this.selected = selected;
+    }
+
+    public UtilisateurFacade getEjbFacade() {
+        return ejbFacade;
+    }
+
+    public void setEjbFacade(UtilisateurFacade ejbFacade) {
+        this.ejbFacade = ejbFacade;
+    }
+
+    public List<Utilisateur> getItems() {
+        if (items == null) {
+            items = new ArrayList();
+        }
+        return items;
+    }
+
+    public void setItems(List<Utilisateur> items) {
+        this.items = items;
     }
 
     protected void setEmbeddableKeys() {
@@ -72,13 +96,6 @@ public class UtilisateurController implements Serializable {
             selected = null; // Remove selection
             items = null;    // Invalidate list of items to trigger re-query.
         }
-    }
-
-    public List<Utilisateur> getItems() {
-        if (items == null) {
-            items = getFacade().findAll();
-        }
-        return items;
     }
 
     private void persist(PersistAction persistAction, String successMessage) {
@@ -160,6 +177,15 @@ public class UtilisateurController implements Serializable {
             }
         }
 
+    }
+
+    public Utilisateur connectedUser() {
+        return ejbFacade.getConnectedUser("user");
+    }
+
+    public void deconnecter() {
+        ejbFacade.logout();
+        SessionUtil.redirectToPage("login.xhtml");// accueil 
     }
 
 }

@@ -37,6 +37,7 @@ public class CategorieOeuf implements Serializable {
     }
 
     public Long getId() {
+        System.out.println("ha select " + this.id);
         return id;
     }
 
@@ -74,7 +75,7 @@ public class CategorieOeuf implements Serializable {
 
     @Override
     public String toString() {
-        return "CategorieOeuf{" + "id=" + id + ", designation=" + designation + '}';
+        return designation;
     }
 
 }
