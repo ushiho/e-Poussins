@@ -114,7 +114,7 @@ public class CategorieOeufController implements Serializable {
     }
 
     public List<CategorieOeuf> getItemsAvailableSelectMany() {
-        return getFacade().findAll();
+        return ejbFacade.findAll();
     }
 
     public List<CategorieOeuf> getItemsAvailableSelectOne() {

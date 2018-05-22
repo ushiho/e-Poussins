@@ -46,6 +46,26 @@ public class TrieOeufController implements Serializable {
     private BigDecimal totalEntres = new BigDecimal(0);
     private BigDecimal reception;
     private Integer semaine;
+    private TrieOeuf selectedToModify;
+
+    public UtilisateurFacade getUtilisateurFacade() {
+        return utilisateurFacade;
+    }
+
+    public void setUtilisateurFacade(UtilisateurFacade utilisateurFacade) {
+        this.utilisateurFacade = utilisateurFacade;
+    }
+
+    public TrieOeuf getSelectedToModify() {
+        if (selectedToModify == null) {
+            selectedToModify = new TrieOeuf();
+        }
+        return selectedToModify;
+    }
+
+    public void setSelectedToModify(TrieOeuf selectedToModify) {
+        this.selectedToModify = selectedToModify;
+    }
 
     public BigDecimal getTotalEntres() {
         return totalEntres;
@@ -272,6 +292,7 @@ public class TrieOeufController implements Serializable {
     }
 
     public void addToList() {
+        System.out.println("cc hna f add to list");
         if (selected != null && !dateTrie.equals("")) {
             setDateAndSemainToTheSelected();
             getItems().add(ejbFacade.clone(selected));
@@ -282,11 +303,31 @@ public class TrieOeufController implements Serializable {
 
     }
 
-    public void modifyFromList() {
-        getItems().remove(selected);
-        setRestReception(getRestReception().add(selected.getEntree()));
-        setTotalEntres(getTotalEntres().subtract(selected.getEntree()));
+    public void remplisLesInputs() {
+        System.out.println("ha index of +1 : " + getItems().indexOf(selected) + 1);
+        setSelectedToModify(selected);
+        if (getRestReception().compareTo(getReception()) < 0) {
+            setRestReception(getRestReception().add(selected.getEntree()));
+        }
     }
+
+    public void modifyFromList() {
+        System.out.println("in : modify => ha indes of Modify Sele :" + items.indexOf(selectedToModify));
+        System.out.println("in : modify => ha indes of gher Sele :" + items.indexOf(selected));
+        System.out.println("ha selected to modify : " + selectedToModify + " ha l categrie : " + selectedToModify.getCategorieOeuf());
+        System.out.println("ha l index of selected to modify : " + items.indexOf(selectedToModify)
+                + " ha l categrie dyalo: " + items.indexOf(selectedToModify.getCategorieOeuf()));
+        items.set(items.indexOf(selectedToModify), selected);
+        setRestReception(getRestReception().subtract(selected.getEntree()));
+        setTotalEntres(getTotalEntres().subtract(selectedToModify.getEntree()));
+        setTotalEntres(getTotalEntres().add(selected.getEntree()));
+        setSelectedToModify(null);
+        setSelected(null);
+    }
+    
+//    private void replaceModifySelectedBySelectedInItems(){
+//       if() 
+//    }
 
     public void removeFromList() {
         getItems().remove(selected);

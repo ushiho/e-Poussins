@@ -4,7 +4,8 @@
       xmlns:h="http://xmlns.jcp.org/jsf/html"
       xmlns:p="http://primefaces.org/ui"
       xmlns:f="http://xmlns.jcp.org/jsf/core"
-      xmlns:a="http://xmlns.jcp.org/jsf/passthrough">
+      xmlns:a="http://xmlns.jcp.org/jsf/passthrough"
+      xmlns:c="http://xmlns.jcp.org/jsp/jstl/core">
     <h:head>
         <title>e-Poussins</title>
         <meta charset="utf-8" />
@@ -305,12 +306,12 @@
                                                 <p:outputLabel for="oeuf"><label class="note">CATÉGORIE DES OEUFS</label></p:outputLabel>
                                             </div>
                                             <div class="col-4" style="margin-left: -60px;">
-                                                <h:selectOneMenu disabled="#{trieOeufController.forme3}" style="width: 100%;" required="true" id="oeuf" value="#{trieOeufController.selected.categorieOeuf}" >
+                                                <h:selectOneMenu disabled="#{trieOeufController.selected.categorieOeuf.id!=null}" style="width: 100%;" required="true" id="oeuf" value="#{trieOeufController.selected.categorieOeuf}" >
                                                     <f:selectItem itemLabel="-- Choisir une catégorie --" itemValue="" noSelectionOption="true" />
                                                     <f:selectItems value="#{categorieOeufController.getItemsAvailableSelectMany()}"
                                                                    var="oeuf"
                                                                    itemValue="#{oeuf}"/>
-                                                    <p:ajax update=":forme3 forme2" listener="#{trieOeufController.showForme3ByCategorie()}"/>
+                                                    <p:ajax update=":forme3 forme2" listener="#{trieOeufController.setForme3(true)}"/>
                                                     <p:ajax listener="#{trieOeufController.setSIToTheSelected()}"/>
                                                 </h:selectOneMenu>
                                             </div>
@@ -325,10 +326,10 @@
                                                 </div>
                                             </h:panelGroup>
                                         </div>
+                                         <p:separator/>
                                     </h:panelGroup>
                                 </h:form>
 
-                                <p:separator/>
                                 <p:spacer/>
                                 <h:form id="forme3">
                                     <h:panelGroup rendered="#{trieOeufController.forme3}">
@@ -343,9 +344,9 @@
                                                     <span class="input-group-addon">
                                                         <i class="nc-icon nc-atom" aria-hidden="true"></i>
                                                     </span>
-                                                    <p:inputText validator="#{trieOeufController.testFields(1)}" id="entre" 
-                                                                 value="#{trieOeufController.selected.entree}" required="true"
-                                                                 class="form-control" title="nombre des oeufs en entrée" />
+                                                    <p:inputText  id="entre" 
+                                                                  value="#{trieOeufController.selected.entree}" required="true"
+                                                                  class="form-control" title="nombre des oeufs en entrée" />
                                                 </div>
                                             </div>
                                             <div class="col-md-2" style="margin-left: 90px;margin-top: 10px;">
@@ -423,15 +424,24 @@
                                             <div class="col-3">
                                                 <h:commandLink actionListener="#{trieOeufController.setForme3(false)}"
                                                                id="annuler"  value="ANNULER" class="btn btn-dark btn-sm">
-                                                    <f:actionListener binding="#{trieOeufController.selected.setSituationInitiale(null)}"/>
+                                                    <f:actionListener binding="#{trieOeufController.setSelected(null)}"/>
+                                                    <c:if test="#{trieOeufController.selectedToModify.categorieOeuf.id!=null}">
+                                                        <f:actionListener binding="#{trieOeufController.setSelected(trieOeufController.selectedToModify)}"/>
+                                                        <f:actionListener binding="#{trieOeufController.modifyFromList()}"/>
+                                                    </c:if>
                                                     <p:ajax update=":forme2 :forme2:oeuf forme3 :options"/>
                                                 </h:commandLink>
                                             </div>
 
                                             <div class="col-3" style="margin-left: 272px;">
-                                                <p:commandLink update=":forme2 forme3 :datalist :options" actionListener="#{trieOeufController.addToList()}"
-                                                               id="valider" title="Ajouter cette catégorie" value="VALIDER" class="btn btn-info btn-sm">
-                                                    <f:actionListener binding="#{trieOeufController.setForme3(false)}" />
+                                                <p:commandLink update=":forme2 forme3 :datalist :options" id="valider" title="Valider ces donnés" 
+                                                               value="VALIDER" actionListener="#{trieOeufController.setForme3(false)}" class="btn btn-info btn-sm">
+                                                    <c:if test="#{trieOeufController.selectedToModify.categorieOeuf.id==null}">
+                                                        <f:actionListener binding="#{trieOeufController.addToList()}" />
+                                                    </c:if>
+                                                    <c:if test="#{trieOeufController.selectedToModify.categorieOeuf.id!=null}">
+                                                        <f:actionListener binding="#{trieOeufController.modifyFromList()}" />
+                                                    </c:if>
                                                 </p:commandLink>
                                             </div>
                                         </div>
@@ -451,9 +461,7 @@
                                         <h6 style="color: black;" class="mr-auto ml-auto">Les catégories ajoutés </h6>
                                         <p:spacer/>
                                         <p:dataTable  value="#{trieOeufController.items}" var="item"
-                                                      class="table table-sm table-bordered" 
-                                                      selectionMode="single" rowKey="#{trieOeufController.items.indexOf(item)}"
-                                                      selection="#{trieOeufController.selected}"
+                                                      styleClass="table table-sm table-bordered"
                                                       >
                                             <p:column headerText="DATE">
                                                 <h:outputText value="#{trieOeufController.formatDateToString(item.dateTrie)}"/>
@@ -491,16 +499,19 @@
                                                     <h:outputText value="#{trieOeufController.totalEntres}"/>
                                                 </f:facet>
                                             </p:column>
-                                            
+
                                             <p:column style="width:50px;text-align: center">
-                                                <p:commandButton update=":forme3 :forme2:oeuf :forme2 " actionListener="#{trieOeufController.modifyFromList()}" icon="ui-icon-pencil" title="Modifier">
+                                                <p:commandButton update=":forme3 :forme2:oeuf :forme2 :datalist" actionListener="#{trieOeufController.setForme3(true)}" 
+                                                                 icon="ui-icon-pencil" title="Modifier">
                                                     <f:setPropertyActionListener value="#{item}" target="#{trieOeufController.selected}" />
-                                                    <f:actionListener binding="#{trieOeufController.setForme3(true)}" />
+                                                    <f:actionListener binding="#{trieOeufController.remplisLesInputs()}"/>
                                                 </p:commandButton>
                                             </p:column>
                                             <p:column style="width:50px;text-align: center">
-                                                <p:commandButton update=":forme3 :forme2 :datalist" actionListener="#{trieOeufController.removeFromList()}" icon="ui-icon-trash" title="Supprimer">
+                                                <p:commandButton update=":forme3 :forme2 :forme2:oeuf :datalist" icon="ui-icon-trash" title="Supprimer">
                                                     <f:setPropertyActionListener value="#{item}" target="#{trieOeufController.selected}" />
+                                                    <f:actionListener binding="#{trieOeufController.removeFromList()}"/>
+                                                    <f:actionListener binding="#{trieOeufController.setForme3(false)}"/>
                                                 </p:commandButton>
                                             </p:column>
 
@@ -508,7 +519,7 @@
                                         <p:spacer/>
                                         <div class="row" style="margin-left: 350px;" >
                                             <div class="col-3 " >
-                                                <p:commandLink rendered="#{trieOeufController.testFields(2)}" update=":forme2 :forme2:oeuf :forme3 datalist :forme1" actionListener="#{trieOeufController.saveItemsInDB()}"
+                                                <p:commandLink  update=":forme2 :forme2:oeuf :forme3 datalist :forme1" actionListener="#{trieOeufController.saveItemsInDB()}"
                                                                 id="save" value="ENREGISTRER" class="btn btn-outline-default btn-sm"
                                                                 title="Valider ces modifications">
                                                 </p:commandLink>
