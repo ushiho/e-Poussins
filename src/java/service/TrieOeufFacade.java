@@ -6,10 +6,12 @@
 package service;
 
 import bean.TrieOeuf;
+import java.math.BigDecimal;
 import java.util.Date;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import util.DateUtil;
 
 /**
  *
@@ -34,7 +36,7 @@ public class TrieOeufFacade extends AbstractFacade<TrieOeuf> {
         if (trieOeuf == null) {
             return null;
         }
-        TrieOeuf clone = new TrieOeuf(trieOeuf.getMisEnIncubation(), trieOeuf.getReception(), trieOeuf.getId(),
+        TrieOeuf clone = new TrieOeuf(trieOeuf.getReception(), trieOeuf.getMisEnIncubation(), trieOeuf.getId(),
                 trieOeuf.getDateTrie(), trieOeuf.getNumSemaine(), trieOeuf.getEntree(), trieOeuf.getVente(),
                 trieOeuf.getDon(), trieOeuf.getPerte(), trieOeuf.getSituationFinale(), trieOeuf.getSituationInitiale());
         clone.setCategorieOeuf(trieOeuf.getCategorieOeuf());
@@ -43,14 +45,40 @@ public class TrieOeufFacade extends AbstractFacade<TrieOeuf> {
         return clone;
     }
 
-    public TrieOeuf getLastTrieSavedByDate(TrieOeuf trieOeuf) {
+    public TrieOeuf getLastTrieSavedByDay(TrieOeuf trieOeuf) {
         System.out.println("f services => ha selecetd : " + trieOeuf);
         if (trieOeuf != null) {
-            String req = "SELECT tr FROM TrieOeuf tr WHERE tr.dateTrie = '" + trieOeuf.getDateTrie() + "' "
-                    + " AND tr.categorieOeuf.id = '" + trieOeuf.getCategorieOeuf().getId() + "'";
+            String req = "SELECT tr FROM TrieOeuf tr WHERE 1=1 ";
+            Date dateOfLastTrie = DateUtil.getSqlDate(DateUtil.subDayFromDate(trieOeuf.getDateTrie()));
+            if (dateOfLastTrie != null) {
+                req += " AND tr.dateTrie = '" + dateOfLastTrie + "' AND tr.categorieOeuf.id = '" + trieOeuf.getCategorieOeuf().getId() + "'";
+            }
             return getUniqueResult(req);
         }
         return null;
     }
 
+    public void calculateSF(TrieOeuf trieOeuf) {
+        if (trieOeuf == null) {
+            return;
+        }
+        if (trieOeuf.getMisEnIncubation() == null) {
+            trieOeuf.setMisEnIncubation(new BigDecimal(0));
+        }
+        if (trieOeuf.getEntree() == null) {
+            trieOeuf.setEntree(new BigDecimal(0));
+        }
+        if (trieOeuf.getPerte() == null) {
+            trieOeuf.setPerte(new BigDecimal(0));
+        }
+        if (trieOeuf.getVente() == null) {
+            trieOeuf.setVente(new BigDecimal(0));
+        }
+        if (trieOeuf.getDon() == null) {
+            trieOeuf.setDon(new BigDecimal(0));
+        }
+        trieOeuf.setSituationFinale((trieOeuf.getSituationInitiale().add(trieOeuf.getEntree()))
+                .subtract((trieOeuf.getMisEnIncubation().add(trieOeuf.getPerte()).add(
+                        trieOeuf.getVente()).add(trieOeuf.getDon()))));
+    }
 }

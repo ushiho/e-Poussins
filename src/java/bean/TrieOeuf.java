@@ -30,9 +30,9 @@ public class TrieOeuf implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
-    @Temporal(javax.persistence.TemporalType.TIMESTAMP)
+    @Temporal(javax.persistence.TemporalType.DATE)
     private Date dateTrie;
-    private int numSemaine;
+    private Integer numSemaine;
     private BigDecimal entree;// = production des oeufs
     private BigDecimal vente;
     private BigDecimal don;
@@ -47,6 +47,19 @@ public class TrieOeuf implements Serializable {
     private CategorieOeuf categorieOeuf;
     @OneToMany(mappedBy = "trieOeuf")
     private List<Incubation> incubations;
+    @OneToOne
+    private Utilisateur responsable;
+
+    public Utilisateur getResponsable() {
+        if (responsable == null) {
+            responsable = new Utilisateur();
+        }
+        return responsable;
+    }
+
+    public void setResponsable(Utilisateur responsable) {
+        this.responsable = responsable;
+    }
 
     public BigDecimal getMisEnIncubation() {
         return misEnIncubation;
@@ -82,7 +95,7 @@ public class TrieOeuf implements Serializable {
         this.id = id;
     }
 
-    public TrieOeuf(BigDecimal reception, BigDecimal misEnIncubation, Long id, Date dateTrie, int semaine, BigDecimal entree, BigDecimal vente, BigDecimal don, BigDecimal perte, BigDecimal situationFinale, BigDecimal situationInitiale) {
+    public TrieOeuf(BigDecimal reception, BigDecimal misEnIncubation, Long id, Date dateTrie, Integer semaine, BigDecimal entree, BigDecimal vente, BigDecimal don, BigDecimal perte, BigDecimal situationFinale, BigDecimal situationInitiale) {
         this.misEnIncubation = misEnIncubation;
         this.reception = reception;
         this.id = id;
@@ -123,11 +136,11 @@ public class TrieOeuf implements Serializable {
         this.dateTrie = dateTrie;
     }
 
-    public int getNumSemaine() {
+    public Integer getNumSemaine() {
         return numSemaine;
     }
 
-    public void setNumSemaine(int numSemaine) {
+    public void setNumSemaine(Integer numSemaine) {
         this.numSemaine = numSemaine;
     }
 

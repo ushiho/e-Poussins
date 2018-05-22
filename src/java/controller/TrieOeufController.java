@@ -1,6 +1,5 @@
 package controller;
 
-import bean.CategorieOeuf;
 import bean.TrieOeuf;
 import controller.util.JsfUtil;
 import controller.util.JsfUtil.PersistAction;
@@ -9,6 +8,7 @@ import service.TrieOeufFacade;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
@@ -22,7 +22,9 @@ import javax.faces.context.FacesContext;
 import javax.faces.convert.Converter;
 import javax.faces.convert.FacesConverter;
 import service.CategorieOeufFacade;
+import service.UtilisateurFacade;
 import util.DateUtil;
+import util.MessageUtil;
 
 @Named("trieOeufController")
 @SessionScoped
@@ -32,6 +34,8 @@ public class TrieOeufController implements Serializable {
     private service.TrieOeufFacade ejbFacade;
     @EJB
     private CategorieOeufFacade categorieOeufFacade;
+    @EJB
+    private UtilisateurFacade utilisateurFacade;
     private List<TrieOeuf> items;
     private TrieOeuf selected;
     private boolean forme1 = true;
@@ -39,19 +43,45 @@ public class TrieOeufController implements Serializable {
     private boolean forme3;
     private String dateTrie;
     private BigDecimal restReception;
-    private Long idCategorieOeufsChosen;
+    private BigDecimal totalEntres = new BigDecimal(0);
+    private BigDecimal reception;
+    private Integer semaine;
 
-    public Long getIdCategorieOeufsChosen() {
-        return idCategorieOeufsChosen;
+    public BigDecimal getTotalEntres() {
+        return totalEntres;
     }
 
-    public void setIdCategorieOeufsChosen(Long idCategorieOeufsChosen) {
-        this.idCategorieOeufsChosen = idCategorieOeufsChosen;
+    public void setTotalEntres(BigDecimal totalEntres) {
+        this.totalEntres = totalEntres;
+    }
+
+    public BigDecimal getReception() {
+        return reception;
+    }
+
+    public void setReception(BigDecimal reception) {
+        this.reception = reception;
+    }
+
+    public CategorieOeufFacade getCategorieOeufFacade() {
+        return categorieOeufFacade;
+    }
+
+    public void setCategorieOeufFacade(CategorieOeufFacade categorieOeufFacade) {
+        this.categorieOeufFacade = categorieOeufFacade;
+    }
+
+    public Integer getSemaine() {
+        return semaine;
+    }
+
+    public void setSemaine(Integer semaine) {
+        this.semaine = semaine;
     }
 
     public BigDecimal getRestReception() {
         if (restReception == null) {
-            restReception = selected.getReception();
+            restReception = getReception();
         }
         return restReception;
     }
@@ -242,36 +272,29 @@ public class TrieOeufController implements Serializable {
     }
 
     public void addToList() {
-        if (selected != null) {
+        if (selected != null && !dateTrie.equals("")) {
+            setDateAndSemainToTheSelected();
             getItems().add(ejbFacade.clone(selected));
+            setRestReception(getRestReception().subtract(selected.getEntree()));
+            setTotalEntres(getTotalEntres().add(selected.getEntree()));
+            setSelected(null);
         }
 
     }
 
-//    public void modifyFromList() {
-//        System.out.println("dkhl l modify : ");
-//        if (selected == null) {
-//            MessageUtil.showMsgSelectToModify();
-//        } else {
-//            getItems().remove(selected);
-//            setDates(DateUtil.formateDate("dd/MM/YYYY", selected.getDateDebut()),
-//                    DateUtil.formateDate("dd/MM/YYYY", selected.getDateFin()));
-//            setShowForm(true);
-//        }
-//    }
-//
-//    public void removeFromList() {
-//        if (selected == null) {
-//            MessageUtil.showMsgSelectToRemove();
-//        } else {
-//            ejbFacade.removeSelectedFromList(getItems(), selected);
-//            setShowForm(false);
-//            System.out.println("ha size : " + getItems().size());
-//            System.out.println("ha liste => : " + items);
-//            calculTotalMontants(2, selected);
-//            selected = null;
-//        }
-//    }
+    public void modifyFromList() {
+        getItems().remove(selected);
+        setRestReception(getRestReception().add(selected.getEntree()));
+        setTotalEntres(getTotalEntres().subtract(selected.getEntree()));
+    }
+
+    public void removeFromList() {
+        getItems().remove(selected);
+        setRestReception(getRestReception().add(selected.getEntree()));
+        setTotalEntres(getTotalEntres().subtract(selected.getEntree()));
+        setSelected(null);
+    }
+
     public void showForme3ByCategorie() {
         if (selected != null && selected.getCategorieOeuf() != null && selected.getCategorieOeuf().getId() != null) {
             setForme3(true);
@@ -281,7 +304,7 @@ public class TrieOeufController implements Serializable {
     }
 
     public void setSIToTheSelected() {
-        TrieOeuf lasteTrieOeuf = ejbFacade.getLastTrieSavedByDate(selected);
+        TrieOeuf lasteTrieOeuf = ejbFacade.getLastTrieSavedByDay(selected);
         if (lasteTrieOeuf == null || lasteTrieOeuf.getSituationFinale() == null) {
             selected.setSituationInitiale(new BigDecimal(0));
         } else {
@@ -289,7 +312,68 @@ public class TrieOeufController implements Serializable {
         }
     }
 
-    public void setDateToTheSelected() {
+    public void setDateAndSemainToTheSelected() {
+        selected.setNumSemaine(semaine);
         selected.setDateTrie(DateUtil.getSqlDateToSaveInDB(dateTrie));
+        selected.setReception(reception);
+    }
+
+    public String formatDateToString(Date dateToFormat) {
+        return DateUtil.formateDate("dd/MM/yyyy", dateToFormat);
+    }
+
+    public void saveItemsInDB() {
+        System.out.println("hi i m here");
+        if (items != null && !items.isEmpty() && items.get(0) != null) {
+            for (TrieOeuf item : items) {
+                ejbFacade.calculateSF(item);
+                item.setIncubations(null);
+//                item.setFerme(utilisateurFacade.getConnectedUser("user").getFerme());
+//                item.setResponsable(utilisateurFacade.getConnectedUser("user"));
+                item.setResponsable(null);
+                item.setFerme(null);
+                ejbFacade.create(item);
+            }
+//            return true;
+            MessageUtil.info("Vos donnés sont bien enregistrés ");
+            items.clear();
+            initAllParams();
+            return;
+        }
+        MessageUtil.error("Un erreur est survenue, Essayer plus tard");
+//        return false;
+    }
+
+    public void cancelSavingInDb() {
+        getItems().clear();
+        initAllParams();
+    }
+
+    private void initAllParams() {
+        setReception(null);
+        setRestReception(null);
+        setDateTrie("");
+        setForme1(true);
+        setForme2(false);
+        setForme3(false);
+        setSemaine(null);
+    }
+
+    public boolean testFields(int cas) {
+        System.out.println("ha selecetd : " + selected);
+        switch (cas) {
+            case 1:
+                if (selected.getEntree().compareTo(restReception) < 0) {
+                    return false;
+                }
+                return true;
+            case 2:
+                if (restReception.compareTo(totalEntres) != 0) {
+                    return false;
+                }
+                return true;
+            default:
+                return false;
+        }
     }
 }
