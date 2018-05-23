@@ -292,47 +292,43 @@ public class TrieOeufController implements Serializable {
     }
 
     public void addToList() {
-        System.out.println("cc hna f add to list");
         if (selected != null && !dateTrie.equals("")) {
             setDateAndSemainToTheSelected();
+            ejbFacade.calculateSF(selected);
             getItems().add(ejbFacade.clone(selected));
             setRestReception(getRestReception().subtract(selected.getEntree()));
             setTotalEntres(getTotalEntres().add(selected.getEntree()));
+            MessageUtil.info("La Catégorie '" + selected.getCategorieOeuf().getDesignation() + "' est ajoutée");
             setSelected(null);
         }
 
     }
 
-    public void remplisLesInputs() {
-        System.out.println("ha index of +1 : " + getItems().indexOf(selected) + 1);
-        setSelectedToModify(selected);
+    public void restoreRestReception() {
         if (getRestReception().compareTo(getReception()) < 0) {
             setRestReception(getRestReception().add(selected.getEntree()));
         }
+        setSelectedToModify(ejbFacade.clone(selected));
     }
 
     public void modifyFromList() {
-        System.out.println("in : modify => ha indes of Modify Sele :" + items.indexOf(selectedToModify));
-        System.out.println("in : modify => ha indes of gher Sele :" + items.indexOf(selected));
-        System.out.println("ha selected to modify : " + selectedToModify + " ha l categrie : " + selectedToModify.getCategorieOeuf());
-        System.out.println("ha l index of selected to modify : " + items.indexOf(selectedToModify)
-                + " ha l categrie dyalo: " + items.indexOf(selectedToModify.getCategorieOeuf()));
-        items.set(items.indexOf(selectedToModify), selected);
+        ejbFacade.calculateSF(selected);
+        System.out.println("modify => ha selected : " + selected);
+        System.out.println("modify => index of selected to modify: " + getItems().indexOf(selectedToModify));
+        System.out.println("modify => o ha selected to modify: " + selectedToModify);
+        System.out.println("avant ha la liste : " + getItems());
         setRestReception(getRestReception().subtract(selected.getEntree()));
         setTotalEntres(getTotalEntres().subtract(selectedToModify.getEntree()));
         setTotalEntres(getTotalEntres().add(selected.getEntree()));
-        setSelectedToModify(null);
-        setSelected(null);
+        System.out.println("apres ha la liste : " + getItems());
+        MessageUtil.info("Cette catégorie est bien modifié");
     }
-    
-//    private void replaceModifySelectedBySelectedInItems(){
-//       if() 
-//    }
 
     public void removeFromList() {
         getItems().remove(selected);
         setRestReception(getRestReception().add(selected.getEntree()));
         setTotalEntres(getTotalEntres().subtract(selected.getEntree()));
+        MessageUtil.info("Cette catégorie est supprimée");
         setSelected(null);
     }
 
@@ -345,6 +341,7 @@ public class TrieOeufController implements Serializable {
     }
 
     public void setSIToTheSelected() {
+        System.out.println("hi ,from si to th selected : ha forme3= "+isForme3());
         TrieOeuf lasteTrieOeuf = ejbFacade.getLastTrieSavedByDay(selected);
         if (lasteTrieOeuf == null || lasteTrieOeuf.getSituationFinale() == null) {
             selected.setSituationInitiale(new BigDecimal(0));
@@ -367,7 +364,6 @@ public class TrieOeufController implements Serializable {
         System.out.println("hi i m here");
         if (items != null && !items.isEmpty() && items.get(0) != null) {
             for (TrieOeuf item : items) {
-                ejbFacade.calculateSF(item);
                 item.setIncubations(null);
 //                item.setFerme(utilisateurFacade.getConnectedUser("user").getFerme());
 //                item.setResponsable(utilisateurFacade.getConnectedUser("user"));

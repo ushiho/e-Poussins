@@ -13,7 +13,7 @@
         <link rel="apple-touch-icon" sizes="76x76" href="../assets/img/apple-icon.png"></link>
         <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
 
-        <title>Direction Géneral des Impots</title>
+        <title>e-Poussins</title>
 
         <meta content='width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0' name='viewport' />
         <meta name="viewport" content="width=device-width" />
@@ -88,6 +88,9 @@
             </div>
         </nav>
         <!-- navBar -->
+        <h:form id="growl">
+            <p:growl showDetail="true" life="1200" />
+        </h:form>
         <div class="wrapper">
 
             <div class="documentation page-header  page-header-xs" data-parallax="true"
@@ -263,7 +266,7 @@
                                                 <p:inputText id="reception" value="#{trieOeufController.reception}" required="true"
                                                              placeholder="Nombre des oeufs " title="Quantité de réception" class="form-control"
                                                              >
-                                                    <p:ajax update=":forme2" listener="#{trieOeufController.setRestReception(trieOeufController.selected.reception)}"/>
+                                                    <p:ajax update=":forme2" listener="#{trieOeufController.setRestReception(trieOeufController.reception)}"/>
                                                 </p:inputText>
                                             </div>
                                             <div class="col-3" style="margin-top: 60px;margin-left: 10px;">
@@ -326,7 +329,7 @@
                                                 </div>
                                             </h:panelGroup>
                                         </div>
-                                         <p:separator/>
+                                        <p:separator/>
                                     </h:panelGroup>
                                 </h:form>
 
@@ -429,13 +432,13 @@
                                                         <f:actionListener binding="#{trieOeufController.setSelected(trieOeufController.selectedToModify)}"/>
                                                         <f:actionListener binding="#{trieOeufController.modifyFromList()}"/>
                                                     </c:if>
-                                                    <p:ajax update=":forme2 :forme2:oeuf forme3 :options"/>
+                                                    <p:ajax update=":forme2 :forme2:oeuf :datalist forme3"/>
                                                 </h:commandLink>
                                             </div>
 
                                             <div class="col-3" style="margin-left: 272px;">
-                                                <p:commandLink update=":forme2 forme3 :datalist :options" id="valider" title="Valider ces donnés" 
-                                                               value="VALIDER" actionListener="#{trieOeufController.setForme3(false)}" class="btn btn-info btn-sm">
+                                                <p:commandLink  id="valider" title="Valider ces donnés" update=":forme2 forme3 :datalist :growl"
+                                                                value="VALIDER" actionListener="#{trieOeufController.setForme3(false)}" class="btn btn-info btn-sm">
                                                     <c:if test="#{trieOeufController.selectedToModify.categorieOeuf.id==null}">
                                                         <f:actionListener binding="#{trieOeufController.addToList()}" />
                                                     </c:if>
@@ -455,7 +458,6 @@
 
                             <div class="row" style="margin-top: 10px;">
                                 <h:form id="datalist">
-                                    <p:growl id="growl" showDetail="true" sticky="true" />
                                     <h:panelGroup rendered="#{trieOeufController.items.size()>0}">
                                         <p:spacer/>
                                         <h6 style="color: black;" class="mr-auto ml-auto">Les catégories ajoutés </h6>
@@ -477,18 +479,6 @@
                                             </p:column>
                                             <p:column headerText="S.I">
                                                 <h:outputText value="#{item.situationInitiale}"/>
-                                            </p:column>
-                                            <p:column headerText="DON">
-                                                <h:outputText value="#{item.don}"/>
-                                            </p:column>
-                                            <p:column headerText="VENTES">
-                                                <h:outputText value="#{item.vente}"/>
-                                            </p:column>
-                                            <p:column headerText="PERTES">
-                                                <h:outputText value="#{item.perte}"/>
-                                            </p:column>
-                                            <p:column headerText="INCUBATION">
-                                                <h:outputText value="#{item.misEnIncubation}"/>
                                                 <f:facet name="footer">
                                                     <h:outputText value="Total" title="Total des entrés "/>
                                                 </f:facet>
@@ -499,17 +489,33 @@
                                                     <h:outputText value="#{trieOeufController.totalEntres}"/>
                                                 </f:facet>
                                             </p:column>
+                                            <p:column headerText="DON">
+                                                <h:outputText value="#{item.don}"/>
+                                            </p:column>
+                                            <p:column headerText="VENTES">
+                                                <h:outputText value="#{item.vente}"/>
+                                            </p:column>
+                                            <p:column headerText="PERTES">
+                                                <h:outputText value="#{item.perte}"/>
+                                            </p:column>
 
+                                            <p:column headerText="S.F">
+                                                <h:outputText value="#{item.situationFinale}"/>
+                                            </p:column>
+                                            <p:column headerText="INCUBATION">
+                                                <h:outputText value="#{item.misEnIncubation}"/>
+                                            </p:column>
                                             <p:column style="width:50px;text-align: center">
-                                                <p:commandButton update=":forme3 :forme2:oeuf :forme2 :datalist" actionListener="#{trieOeufController.setForme3(true)}" 
+                                                <p:commandButton update=":forme3 :forme2:oeuf :forme2 :datalist" ajax="true" 
+                                                                 actionListener="#{trieOeufController.setForme3(true)}" 
                                                                  icon="ui-icon-pencil" title="Modifier">
                                                     <f:setPropertyActionListener value="#{item}" target="#{trieOeufController.selected}" />
-                                                    <f:actionListener binding="#{trieOeufController.remplisLesInputs()}"/>
+                                                    <f:actionListener binding="#{trieOeufController.restoreRestReception()}"/>
                                                 </p:commandButton>
                                             </p:column>
                                             <p:column style="width:50px;text-align: center">
-                                                <p:commandButton update=":forme3 :forme2 :forme2:oeuf :datalist" icon="ui-icon-trash" title="Supprimer">
-                                                    <f:setPropertyActionListener value="#{item}" target="#{trieOeufController.selected}" />
+                                                <p:commandButton update=":forme3 :forme2 :forme2:oeuf :growl :datalist" icon="ui-icon-trash" title="Supprimer">
+                                                    <f:setPropertyActionListener  value="#{item}" target="#{trieOeufController.selected}" />
                                                     <f:actionListener binding="#{trieOeufController.removeFromList()}"/>
                                                     <f:actionListener binding="#{trieOeufController.setForme3(false)}"/>
                                                 </p:commandButton>
@@ -519,7 +525,7 @@
                                         <p:spacer/>
                                         <div class="row" style="margin-left: 350px;" >
                                             <div class="col-3 " >
-                                                <p:commandLink  update=":forme2 :forme2:oeuf :forme3 datalist :forme1" actionListener="#{trieOeufController.saveItemsInDB()}"
+                                                <p:commandLink  update=":forme2 :forme2:oeuf :growl :forme3 datalist :forme1" actionListener="#{trieOeufController.saveItemsInDB()}"
                                                                 id="save" value="ENREGISTRER" class="btn btn-outline-default btn-sm"
                                                                 title="Valider ces modifications">
                                                 </p:commandLink>
@@ -528,6 +534,7 @@
                                                 <p:commandLink actionListener="#{trieOeufController.cancelSavingInDb()}" id="exit" update=":forme2:oeuf :forme2 :forme3 datalist :forme1"
                                                                value="ANNULER" class="btn btn-outline-danger btn-sm"
                                                                title="Annuler tous vos modifications">
+                                                    <f:actionListener binding="#{trieOeufController.setSelected(null)}"/>
                                                 </p:commandLink>
                                             </div>
                                         </div>
@@ -536,15 +543,8 @@
                             </div>
                             <p:spacer/>
                             <hr/>
-                            <h:form id="options">
-                                <h:panelGroup rendered="#{trieOeufController.items.size()>0}">
-
-
-                                </h:panelGroup>
-                            </h:form>
                         </div>
                         <br/>
-
 
                         <!-- Tab panes -->
                         <div class="tab-content following" id="user_detail">
@@ -559,9 +559,9 @@
                         </div>
                     </div>
                 </div>
+
             </div>
         </div>
-
         <footer class="footer section-dark">
             <div class="container">
                 <div class="row">

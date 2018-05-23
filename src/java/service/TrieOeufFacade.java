@@ -7,7 +7,9 @@ package service;
 
 import bean.TrieOeuf;
 import java.math.BigDecimal;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
@@ -80,5 +82,16 @@ public class TrieOeufFacade extends AbstractFacade<TrieOeuf> {
         trieOeuf.setSituationFinale((trieOeuf.getSituationInitiale().add(trieOeuf.getEntree()))
                 .subtract((trieOeuf.getMisEnIncubation().add(trieOeuf.getPerte()).add(
                         trieOeuf.getVente()).add(trieOeuf.getDon()))));
+    }
+
+    public List<TrieOeuf> cloneList(List<TrieOeuf> trieOeufs) {
+        if (trieOeufs == null || trieOeufs.isEmpty() || trieOeufs.get(0) == null) {
+            return null;
+        }
+        List<TrieOeuf> clones = new ArrayList();
+        trieOeufs.forEach((trieOeuf) -> {
+            clones.add(clone(trieOeuf));
+        });
+        return clones;
     }
 }
