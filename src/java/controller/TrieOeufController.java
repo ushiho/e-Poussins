@@ -411,10 +411,7 @@ public class TrieOeufController implements Serializable {
     }
 
     public void removeFromList() {
-        System.out.println("from remove ha selected :" + selected);
-        System.out.println("from remove ha clone :" + ejbFacade.clone(selected));
-        
-        getItems().remove(selected);
+        getItems().remove(ejbFacade.indexOfSelected(items, selected));
         setRestReception(getRestReception().add(selected.getEntree()));
         setTotalEntres(getTotalEntres().subtract(selected.getEntree()));
         MessageUtil.info("La catégorie '" + getSelected().getCategorieOeuf().getDesignation() + "' est supprimée");

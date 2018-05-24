@@ -101,4 +101,28 @@ public class TrieOeufFacade extends AbstractFacade<TrieOeuf> {
         });
         return clones;
     }
+
+    public int indexOfSelected(List<TrieOeuf> trieOeufs, TrieOeuf selected) {
+        if (trieOeufs == null || trieOeufs.isEmpty() || trieOeufs.get(0) == null) {
+            return -1;
+        }
+        for (int i = 0; i < trieOeufs.size(); i++) {
+            TrieOeuf item = trieOeufs.get(i);
+            if (equals(item, selected)) {
+                System.out.println("hi from indexOfSelected ha i = " + i);
+                return i;
+            }
+        }
+        return -1;
+    }
+
+    public boolean equals(TrieOeuf item, TrieOeuf selected) {
+        return (item.getCategorieOeuf().equals(selected.getCategorieOeuf()) && item.getDateTrie().equals(selected.getDateTrie())
+                && item.getDon().compareTo(selected.getDon()) == 0 && item.getEntree().compareTo(selected.getEntree()) == 0
+                && item.getMisEnIncubation().equals(selected.getMisEnIncubation()) && item.getNumSemaine().equals(selected.getNumSemaine())
+                && item.getPerte().equals(selected.getPerte()) && item.getReception().equals(selected.getReception())
+                && item.getSituationFinale().equals(selected.getSituationFinale()) && item.getSituationInitiale().equals(selected.getSituationInitiale())
+                && item.getVente().equals(selected.getVente()));
+    }
+
 }
