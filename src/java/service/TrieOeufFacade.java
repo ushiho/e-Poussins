@@ -60,14 +60,14 @@ public class TrieOeufFacade extends AbstractFacade<TrieOeuf> {
         return getUniqueResult(req);
     }
 
-    public void calculateSF(TrieOeuf trieOeuf) {
+    public BigDecimal calculateSF(TrieOeuf trieOeuf) {
         if (trieOeuf == null) {
-            return;
+            return null;
         }
         initBigDecimalsBy0(trieOeuf);
-        trieOeuf.setSituationFinale((trieOeuf.getSituationInitiale().add(trieOeuf.getEntree()))
+        return (trieOeuf.getSituationInitiale().add(trieOeuf.getEntree()))
                 .subtract((trieOeuf.getMisEnIncubation().add(trieOeuf.getPerte()).add(
-                        trieOeuf.getVente()).add(trieOeuf.getDon()))));
+                        trieOeuf.getVente()).add(trieOeuf.getDon())));
     }
 
     public void initBigDecimalsBy0(TrieOeuf trieOeuf1) {

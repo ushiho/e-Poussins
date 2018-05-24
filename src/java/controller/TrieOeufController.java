@@ -318,6 +318,7 @@ public class TrieOeufController implements Serializable {
     }
 
     public void addOrModifyAndTestRestReception() {
+        System.out.println("addOrModifyAndTestRestReception ha liste " + getItems());
         if (getSelectedToModify().getCategorieOeuf().getId() == null) {
             if (testSFToSave()) {
                 return;
@@ -325,15 +326,12 @@ public class TrieOeufController implements Serializable {
             addToList();
             setForme3(false);
         } else {
-            System.out.println("avant lite est : " + getItems());
-            System.out.println("apres ha selecet : " + selected);
-            System.out.println("apres ha selecet ToModify : " + selectedToModify);
-
             if (testSFToSave()) {
-                System.out.println("testSFToSave is true !!");
-                System.out.println("apres lite est : " + getItems());
-                System.out.println("apres ha selecet : " + selected);
-                System.out.println("apres ha selecet ToModify : " + selectedToModify);
+                int index = ejbFacade.indexOfSelected(items, selected);
+                if (index > 0) {
+                    getItems().remove(index);
+                    getItems().add(ejbFacade.clone(selectedToModify));
+                }
                 return;
             }
             modifyFromList();
@@ -341,46 +339,22 @@ public class TrieOeufController implements Serializable {
         }
     }
 
-    public TrieOeuf clone(TrieOeuf trieOeuf) {
-        return ejbFacade.clone(trieOeuf);
-    }
-
     private boolean testSFToSave() {
-        System.out.println("ha liste from testSFToSave : " + getItems());
-        System.out.println("avant ha selecet : " + selected);
-        System.out.println("avant ha selecet ToModify : " + selectedToModify);
         if (testRestWithEntreeAndShowMsg()) {
-            System.out.println("testRestAndShowMsg is true nini");
             return true;
         }
-        System.out.println("ha liste from testSFToSave after testRestWithEntreeAndShowMsg: " + getItems());
-
-        System.out.println("avant calcul sf ha selecet : " + selected);
-        System.out.println("avant avant calcul sf ha selecet ToModify : " + selectedToModify);
-        System.out.println("ha liste from testSFToSave before calcul sf : " + getItems());
-
-        ejbFacade.calculateSF(selected);
-        System.out.println("avant sf <0 =>ha selected : " + selected);
-        System.out.println("avant sf <0 => ha selected to modify: " + selectedToModify);
-        System.out.println("ha liste from testSFToSave after calcul sf : " + getItems());
-
-        if (getSelected().getSituationFinale().compareTo(new BigDecimal(0)) < 0) {
+        BigDecimal sf = ejbFacade.calculateSF(selected);
+        if (sf.compareTo(new BigDecimal(0)) < 0) {
             MessageUtil.fatal("La situation finale est innaccèptable");
-            System.out.println("sf is <0 ");
             setForme3(true);
-            System.out.println("sf <0 =>ha selected : " + selected);
-            System.out.println("sf <0 => ha selected to modify: " + selectedToModify);
-            System.out.println("avant ha liset in testSFToSave " + getItems());
-            setSelected(getSelectedToModify());
-            System.out.println("apres ha liset in testSFToSave " + getItems());
             return true;
         }
+        selected.setSituationFinale(sf);
         return false;
     }
 
     private boolean testRestWithEntreeAndShowMsg() {
         if (selected.getEntree().compareTo(restReception) > 0) {
-            System.out.println("in testRestWithEntreeAndShowMsg ha liste apres : " + getItems());
             MessageUtil.fatal("Le nombre en entrée est supérieur au rest de la recéption");
             return true;
         }
@@ -389,12 +363,11 @@ public class TrieOeufController implements Serializable {
 
     public void restoreRestReception() {
         setRestReception(getRestReception().add(getSelected().getEntree()));
-        setSelectedToModify(clone(selected));
+        setSelectedToModify(ejbFacade.clone(selected));
         setCategorieOeufSelected(getSelected().getCategorieOeuf());
     }
 
     public void modifyFromList() {
-        System.out.println("cc mn modify");
         setRestReception(getRestReception().subtract(selected.getEntree()));
         setTotalEntres(getTotalEntres().subtract(selectedToModify.getEntree()));
         setTotalEntres(getTotalEntres().add(selected.getEntree()));
