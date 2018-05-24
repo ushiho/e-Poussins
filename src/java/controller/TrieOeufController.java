@@ -3,6 +3,7 @@ package controller;
 import bean.TrieOeuf;
 import controller.util.JsfUtil;
 import controller.util.JsfUtil.PersistAction;
+import java.io.IOException;
 import service.TrieOeufFacade;
 
 import java.io.Serializable;
@@ -18,9 +19,11 @@ import javax.ejb.EJBException;
 import javax.inject.Named;
 import javax.enterprise.context.SessionScoped;
 import javax.faces.component.UIComponent;
+import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
 import javax.faces.convert.Converter;
 import javax.faces.convert.FacesConverter;
+import javax.servlet.http.HttpServletRequest;
 import service.CategorieOeufFacade;
 import service.UtilisateurFacade;
 import util.DateUtil;
@@ -305,23 +308,32 @@ public class TrieOeufController implements Serializable {
     }
 
     public void restoreRestReception() {
-        if (getRestReception().compareTo(getReception()) < 0) {
-            setRestReception(getRestReception().add(selected.getEntree()));
-        }
-        setSelectedToModify(ejbFacade.clone(selected));
+        setRestReception(getRestReception().add(selectedToModify.getEntree()));
+        setSelected(selectedToModify);
+    }
+
+    public void cancelModify() {
+
     }
 
     public void modifyFromList() {
         ejbFacade.calculateSF(selected);
-        System.out.println("modify => ha selected : " + selected);
-        System.out.println("modify => index of selected to modify: " + getItems().indexOf(selectedToModify));
-        System.out.println("modify => o ha selected to modify: " + selectedToModify);
-        System.out.println("avant ha la liste : " + getItems());
+        System.out.println("ha slected : " + selected);
+        System.out.println("ha modify : " + selectedToModify);
+        System.out.println("index of th modify : " + items.indexOf(selectedToModify));
+//        getItems().remove(selectedToModify);
+//        getItems().add(ejbFacade.clone(selected));
         setRestReception(getRestReception().subtract(selected.getEntree()));
         setTotalEntres(getTotalEntres().subtract(selectedToModify.getEntree()));
         setTotalEntres(getTotalEntres().add(selected.getEntree()));
-        System.out.println("apres ha la liste : " + getItems());
         MessageUtil.info("Cette catégorie est bien modifié");
+        setSelected(null);
+        setSelectedToModify(null);
+    }
+
+    public void reloadAllThePage() throws IOException {
+        ExternalContext ec = FacesContext.getCurrentInstance().getExternalContext();
+        ec.redirect(((HttpServletRequest) ec.getRequest()).getRequestURI());
     }
 
     public void removeFromList() {
@@ -341,7 +353,7 @@ public class TrieOeufController implements Serializable {
     }
 
     public void setSIToTheSelected() {
-        System.out.println("hi ,from si to th selected : ha forme3= "+isForme3());
+        System.out.println("hi ,from si to th selected : ha forme3= " + isForme3());
         TrieOeuf lasteTrieOeuf = ejbFacade.getLastTrieSavedByDay(selected);
         if (lasteTrieOeuf == null || lasteTrieOeuf.getSituationFinale() == null) {
             selected.setSituationInitiale(new BigDecimal(0));
@@ -387,6 +399,8 @@ public class TrieOeufController implements Serializable {
     }
 
     private void initAllParams() {
+        setSelected(null);
+        setSelectedToModify(null);
         setReception(null);
         setRestReception(null);
         setDateTrie("");

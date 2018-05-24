@@ -41,7 +41,7 @@
                         <span class="navbar-toggler-bar"></span>
                         <span class="navbar-toggler-bar"></span>
                     </button>
-                    <a class="navbar-brand " href="https://www.creative-tim.com">Direction Géneral des Impots</a>
+                    <a class="navbar-brand " href="https://www.creative-tim.com">E-Poussins</a>
                 </div>
                 <div class="collapse navbar-collapse" id="navbarToggler">
                     <ul class="navbar-nav ml-auto">
@@ -120,7 +120,7 @@
                                                 <div class="card-header" role="tab" id="headingOne" >
                                                     <h6 >
 
-                                                        TELEDÉCLARATION
+                                                        OEUFS
 
                                                     </h6>
                                                 </div>
@@ -128,9 +128,11 @@
                                             <div id="collapseOne" class="collapse in" role="tabpanel" aria-labelledby="headingOne">
                                                 <div class="card-header">
                                                     <ul>
-                                                        <li><a href="#"><h6><span class="note">IS</span></h6></a></li>
-                                                        <li><a href="#"><h6><span class="note">IR</span></h6></a></li>
-                                                        <li><a href="declarationTva.xhtml"><h6><span class="note">TVA</span></h6></a></li>
+                                                        <li><a href="#"><h6><span class="note">TRIE OEUFS</span></h6></a></li>
+                                                        <li><a href="#"><h6><span class="note">SUIVIS OEUFS</span></h6></a></li>
+                                                        <li><a href="#"><h6><span class="note">CONSULTATION</span></h6></a></li>
+                                                        <li><a href="#"><h6><span class="note">VENTES</span></h6></a></li>
+                                                        <li><a href="#"><h6><span class="note">TRANSFERT</span></h6></a></li>
                                                     </ul>
                                                 </div>
                                             </div>
@@ -140,7 +142,7 @@
                                                 <div class="card-header" role="tab" id="headingTwo" data-toggle="collapse" data-parent="#accordion">
                                                     <h6 >
 
-                                                        TELEPAIEMENT
+                                                        INCUBATION
 
                                                     </h6>
                                                 </div>
@@ -148,9 +150,9 @@
                                             <div id="collapseTwo" class="collapse" role="tabpanel" aria-labelledby="headingTwo">
                                                 <div class="card-header">
                                                     <ul>
-                                                        <li><a href="#dropdown-row"><h6><span class="note">IS</span></h6></a></li>
-                                                        <li><a href="#inputs-row"><h6><span class="note">IR </span></h6></a></li>
-                                                        <li><a href="#textarea-row"><h6><span class="note">TVA</span></h6></a></li>
+                                                        <li><a href="#dropdown-row"><h6><span class="note">AJOUTE</span></h6></a></li>
+                                                        <li><a href="#dropdown-row"><h6><span class="note">SUIVIS JOURNALIER</span></h6></a></li>
+                                                        <li><a href="#inputs-row"><h6><span class="note">CONSULTATION</span></h6></a></li>
                                                     </ul>
                                                 </div>
                                             </div>
@@ -160,7 +162,7 @@
                                                 <div class="card-header" role="tab" id="headingTree" data-toggle="collapse" data-parent="#accordion">
                                                     <h6 >
 
-                                                        CONSULTATION
+                                                        ECLOSION
 
                                                     </h6>
                                                 </div>
@@ -168,8 +170,9 @@
                                             <div id="collapseTree" class="collapse" role="tabpanel" aria-labelledby="headingTree">
                                                 <div class="card-header">
                                                     <ul>
-                                                        <li><a href="historiqueIs.xhtml"><h6><span class="note">HISTORIQUE</span></h6></a></li>
-                                                        <li><a href="#pagination-row"><h6><span class="note">SITUATION FISCALE</span></h6></a></li>
+                                                        <li><a href="historiqueIs.xhtml"><h6><span class="note">AJOUTE</span></h6></a></li>
+                                                        <li><a href="#pagination-row"><h6><span class="note">CONSULTATION</span></h6></a></li>
+                                                        <li><a href="#pagination-row"><h6><span class="note">COMMERCIALISATION</span></h6></a></li>
                                                     </ul>
                                                 </div>
 
@@ -180,7 +183,7 @@
                                                 <div class="card-header" role="tab" id="headingfore" data-toggle="collapse" data-parent="#accordion">
                                                     <h6 >
 
-                                                        PARAMÈTRES
+                                                        COUVOIR
 
                                                     </h6>
                                                 </div>
@@ -188,8 +191,8 @@
                                             <div id="collapsefore" class="collapse" role="tabpanel" aria-labelledby="headingfore">
                                                 <div class="card-header">
                                                     <ul>
-                                                        <li><a href="#navbar-row"><h6><span class="note">MOT DE PASSE</span></h6></a></li>
-                                                        <li><a href="#pagination-row"><h6><span class="note">IDENTITÉ CONTRIBUABLE</span></h6></a></li>
+                                                        <li><a href="#navbar-row"><h6><span class="note">AJOUTER</span></h6></a></li>
+                                                        <li><a href="#pagination-row"><h6><span class="note">CONSULTER</span></h6></a></li>
                                                     </ul>
                                                 </div>
 
@@ -311,10 +314,9 @@
                                             <div class="col-4" style="margin-left: -60px;">
                                                 <h:selectOneMenu disabled="#{trieOeufController.selected.categorieOeuf.id!=null}" style="width: 100%;" required="true" id="oeuf" value="#{trieOeufController.selected.categorieOeuf}" >
                                                     <f:selectItem itemLabel="-- Choisir une catégorie --" itemValue="" noSelectionOption="true" />
-                                                    <f:selectItems value="#{categorieOeufController.getItemsAvailableSelectMany()}"
-                                                                   var="oeuf"
-                                                                   itemValue="#{oeuf}"/>
-                                                    <p:ajax update=":forme3 forme2" listener="#{trieOeufController.setForme3(true)}"/>
+                                                    <f:selectItems  value="#{categorieOeufController.getItemsAvailableSelectMany()}"
+                                                                   var="oeuf" itemValue="#{oeuf}"/>
+                                                    <p:ajax listener="#{trieOeufController.setForme3(true)}" update=":forme3 forme2" />
                                                     <p:ajax listener="#{trieOeufController.setSIToTheSelected()}"/>
                                                 </h:selectOneMenu>
                                             </div>
@@ -427,12 +429,8 @@
                                             <div class="col-3">
                                                 <h:commandLink actionListener="#{trieOeufController.setForme3(false)}"
                                                                id="annuler"  value="ANNULER" class="btn btn-dark btn-sm">
-                                                    <f:actionListener binding="#{trieOeufController.setSelected(null)}"/>
-                                                    <c:if test="#{trieOeufController.selectedToModify.categorieOeuf.id!=null}">
-                                                        <f:actionListener binding="#{trieOeufController.setSelected(trieOeufController.selectedToModify)}"/>
-                                                        <f:actionListener binding="#{trieOeufController.modifyFromList()}"/>
-                                                    </c:if>
-                                                    <p:ajax update=":forme2 :forme2:oeuf :datalist forme3"/>
+                                                    <p:ajax listener="#{trieOeufController.setSelected(null)}" resetValues="true" update=":forme2 :forme2:oeuf :datalist forme3"/>
+                                                    <p:ajax listener="#{trieOeufController.setSelectedToModify(null)}"/>
                                                 </h:commandLink>
                                             </div>
 
@@ -476,9 +474,6 @@
                                             </p:column>
                                             <p:column headerText="CATEGORIE">
                                                 <h:outputText value="#{item.categorieOeuf.designation}"/>
-                                            </p:column>
-                                            <p:column headerText="S.I">
-                                                <h:outputText value="#{item.situationInitiale}"/>
                                                 <f:facet name="footer">
                                                     <h:outputText value="Total" title="Total des entrés "/>
                                                 </f:facet>
@@ -489,6 +484,10 @@
                                                     <h:outputText value="#{trieOeufController.totalEntres}"/>
                                                 </f:facet>
                                             </p:column>
+                                            <p:column headerText="S.I">
+                                                <h:outputText value="#{item.situationInitiale}"/>
+                                            </p:column>
+
                                             <p:column headerText="DON">
                                                 <h:outputText value="#{item.don}"/>
                                             </p:column>
@@ -498,26 +497,26 @@
                                             <p:column headerText="PERTES">
                                                 <h:outputText value="#{item.perte}"/>
                                             </p:column>
-
-                                            <p:column headerText="S.F">
-                                                <h:outputText value="#{item.situationFinale}"/>
-                                            </p:column>
                                             <p:column headerText="INCUBATION">
                                                 <h:outputText value="#{item.misEnIncubation}"/>
                                             </p:column>
+                                            <p:column headerText="S.F">
+                                                <h:outputText value="#{item.situationFinale}"/>
+                                            </p:column>
+
                                             <p:column style="width:50px;text-align: center">
-                                                <p:commandButton update=":forme3 :forme2:oeuf :forme2 :datalist" ajax="true" 
+                                                <p:commandButton update=":forme3 :forme2:oeuf :forme2 :datalist"
                                                                  actionListener="#{trieOeufController.setForme3(true)}" 
                                                                  icon="ui-icon-pencil" title="Modifier">
-                                                    <f:setPropertyActionListener value="#{item}" target="#{trieOeufController.selected}" />
+                                                    <f:setPropertyActionListener value="#{item}" target="#{trieOeufController.selectedToModify}" />
                                                     <f:actionListener binding="#{trieOeufController.restoreRestReception()}"/>
                                                 </p:commandButton>
                                             </p:column>
                                             <p:column style="width:50px;text-align: center">
-                                                <p:commandButton update=":forme3 :forme2 :forme2:oeuf :growl :datalist" icon="ui-icon-trash" title="Supprimer">
+                                                <p:commandButton update=":forme3 :forme2 :forme2:oeuf :growl :datalist" icon="ui-icon-trash" 
+                                                                 actionListener="#{trieOeufController.setForme3(false)}" title="Supprimer">
                                                     <f:setPropertyActionListener  value="#{item}" target="#{trieOeufController.selected}" />
                                                     <f:actionListener binding="#{trieOeufController.removeFromList()}"/>
-                                                    <f:actionListener binding="#{trieOeufController.setForme3(false)}"/>
                                                 </p:commandButton>
                                             </p:column>
 
