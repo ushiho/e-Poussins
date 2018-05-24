@@ -89,7 +89,7 @@
         </nav>
         <!-- navBar -->
         <h:form id="growl">
-            <p:growl showDetail="true" life="1200" />
+            <p:growl showDetail="true" />
         </h:form>
         <div class="wrapper">
 
@@ -273,7 +273,7 @@
                                                 </p:inputText>
                                             </div>
                                             <div class="col-3" style="margin-top: 60px;margin-left: 10px;">
-                                                <p:commandLink update="forme1 :forme2" actionListener="#{trieOeufController.setForme2(true)}"
+                                                <p:commandLink update="forme1 :growl :forme2" actionListener="#{trieOeufController.setForme2(true)}"
                                                                id="suivant" title="Passer à l'étape suivante" value="SUIVANT" class="btn btn-outline-danger btn-sm">
                                                     <f:actionListener binding="#{trieOeufController.setForme1(false)}"/>
                                                 </p:commandLink>
@@ -312,10 +312,11 @@
                                                 <p:outputLabel for="oeuf"><label class="note">CATÉGORIE DES OEUFS</label></p:outputLabel>
                                             </div>
                                             <div class="col-4" style="margin-left: -60px;">
-                                                <h:selectOneMenu disabled="#{trieOeufController.selected.categorieOeuf.id!=null}" style="width: 100%;" required="true" id="oeuf" value="#{trieOeufController.selected.categorieOeuf}" >
+                                                <h:selectOneMenu disabled="#{trieOeufController.categorieOeufSelected.id!=null}" style="width: 100%;" required="true" id="oeuf" 
+                                                                 value="#{trieOeufController.categorieOeufSelected}" >
                                                     <f:selectItem itemLabel="-- Choisir une catégorie --" itemValue="" noSelectionOption="true" />
                                                     <f:selectItems  value="#{categorieOeufController.getItemsAvailableSelectMany()}"
-                                                                   var="oeuf" itemValue="#{oeuf}"/>
+                                                                    var="oeuf" itemValue="#{oeuf}"/>
                                                     <p:ajax listener="#{trieOeufController.setForme3(true)}" update=":forme3 forme2" />
                                                     <p:ajax listener="#{trieOeufController.setSIToTheSelected()}"/>
                                                 </h:selectOneMenu>
@@ -404,7 +405,7 @@
                                         <p:spacer/>
                                         <p:spacer/>
                                         <div class="row">
-                                            <h:panelGroup rendered="#{trieOeufController.selected.categorieOeuf.designation == 'OAC' || trieOeufController.selected.categorieOeuf.designation =='oac'}">
+                                            <h:panelGroup rendered="#{trieOeufController.categorieOeufSelected.designation == 'OAC' || trieOeufController.selected.categorieOeuf.designation =='oac'}">
                                                 <div class="col-md-2" style="margin-left: 180px;margin-top: 10px;">
                                                     <p:outputLabel for="incubation">
                                                         <label title="Les oeufs mis en incubation"  class="note"> INCUBATION</label>
@@ -429,20 +430,13 @@
                                             <div class="col-3">
                                                 <h:commandLink actionListener="#{trieOeufController.setForme3(false)}"
                                                                id="annuler"  value="ANNULER" class="btn btn-dark btn-sm">
-                                                    <p:ajax listener="#{trieOeufController.setSelected(null)}" resetValues="true" update=":forme2 :forme2:oeuf :datalist forme3"/>
-                                                    <p:ajax listener="#{trieOeufController.setSelectedToModify(null)}"/>
+                                                    <p:ajax listener="#{trieOeufController.cancelModify()}" resetValues="true" update=":forme2 :forme2:oeuf :datalist forme3"/>
                                                 </h:commandLink>
                                             </div>
 
                                             <div class="col-3" style="margin-left: 272px;">
                                                 <p:commandLink  id="valider" title="Valider ces donnés" update=":forme2 forme3 :datalist :growl"
-                                                                value="VALIDER" actionListener="#{trieOeufController.setForme3(false)}" class="btn btn-info btn-sm">
-                                                    <c:if test="#{trieOeufController.selectedToModify.categorieOeuf.id==null}">
-                                                        <f:actionListener binding="#{trieOeufController.addToList()}" />
-                                                    </c:if>
-                                                    <c:if test="#{trieOeufController.selectedToModify.categorieOeuf.id!=null}">
-                                                        <f:actionListener binding="#{trieOeufController.modifyFromList()}" />
-                                                    </c:if>
+                                                                value="VALIDER" actionListener="#{trieOeufController.addOrModifyAndTestRestReception()}" class="btn btn-info btn-sm">
                                                 </p:commandLink>
                                             </div>
                                         </div>

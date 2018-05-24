@@ -117,7 +117,9 @@ public class DateUtil {
             GregorianCalendar gc = new GregorianCalendar();
             gc.setTime(dateToSubs);
             gc.add(GregorianCalendar.DATE, -1);
-            return gc.getTime();
+            System.out.println("from dateUtil=> subDayFromDate=> gc.getTime : " + gc.getTime());
+            System.out.println("from dateUtil=> subDayFromDate=> sql Date of gc.getTime : " + getSqlDate(gc.getTime()));
+            return getSqlDate(gc.getTime());
         }
         return null;
     }

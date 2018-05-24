@@ -5,6 +5,8 @@
  */
 package service;
 
+import bean.CategorieOeuf;
+import static bean.Incubation_.trieOeuf;
 import bean.TrieOeuf;
 import java.math.BigDecimal;
 import java.util.ArrayList;
@@ -47,41 +49,46 @@ public class TrieOeufFacade extends AbstractFacade<TrieOeuf> {
         return clone;
     }
 
-    public TrieOeuf getLastTrieSavedByDay(TrieOeuf trieOeuf) {
-        System.out.println("f services => ha selecetd : " + trieOeuf);
-        if (trieOeuf != null) {
-            String req = "SELECT tr FROM TrieOeuf tr WHERE 1=1 ";
-            Date dateOfLastTrie = DateUtil.getSqlDate(DateUtil.subDayFromDate(trieOeuf.getDateTrie()));
-            if (dateOfLastTrie != null) {
-                req += " AND tr.dateTrie = '" + dateOfLastTrie + "' AND tr.categorieOeuf.id = '" + trieOeuf.getCategorieOeuf().getId() + "'";
-            }
-            return getUniqueResult(req);
+    public TrieOeuf getLastSavedByDay(Date date, CategorieOeuf categorieOeuf) {
+        String req = "SELECT tr FROM TrieOeuf tr WHERE 1=1 ";
+        if (date != null) {
+            req += " AND tr.dateTrie = '" + DateUtil.subDayFromDate(date) + "' ";
         }
-        return null;
+        if (categorieOeuf != null) {
+            req += " AND tr.categorieOeuf.id = '" + categorieOeuf.getId() + "'";
+        }
+        return getUniqueResult(req);
     }
 
     public void calculateSF(TrieOeuf trieOeuf) {
         if (trieOeuf == null) {
             return;
         }
-        if (trieOeuf.getMisEnIncubation() == null) {
-            trieOeuf.setMisEnIncubation(new BigDecimal(0));
-        }
-        if (trieOeuf.getEntree() == null) {
-            trieOeuf.setEntree(new BigDecimal(0));
-        }
-        if (trieOeuf.getPerte() == null) {
-            trieOeuf.setPerte(new BigDecimal(0));
-        }
-        if (trieOeuf.getVente() == null) {
-            trieOeuf.setVente(new BigDecimal(0));
-        }
-        if (trieOeuf.getDon() == null) {
-            trieOeuf.setDon(new BigDecimal(0));
-        }
+        initBigDecimalsBy0(trieOeuf);
         trieOeuf.setSituationFinale((trieOeuf.getSituationInitiale().add(trieOeuf.getEntree()))
                 .subtract((trieOeuf.getMisEnIncubation().add(trieOeuf.getPerte()).add(
                         trieOeuf.getVente()).add(trieOeuf.getDon()))));
+    }
+
+    public void initBigDecimalsBy0(TrieOeuf trieOeuf1) {
+        if (trieOeuf1.getSituationFinale() == null) {
+            trieOeuf1.setSituationFinale(new BigDecimal(0));
+        }
+        if (trieOeuf1.getMisEnIncubation() == null) {
+            trieOeuf1.setMisEnIncubation(new BigDecimal(0));
+        }
+        if (trieOeuf1.getEntree() == null) {
+            trieOeuf1.setEntree(new BigDecimal(0));
+        }
+        if (trieOeuf1.getPerte() == null) {
+            trieOeuf1.setPerte(new BigDecimal(0));
+        }
+        if (trieOeuf1.getVente() == null) {
+            trieOeuf1.setVente(new BigDecimal(0));
+        }
+        if (trieOeuf1.getDon() == null) {
+            trieOeuf1.setDon(new BigDecimal(0));
+        }
     }
 
     public List<TrieOeuf> cloneList(List<TrieOeuf> trieOeufs) {

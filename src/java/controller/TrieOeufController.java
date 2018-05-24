@@ -1,5 +1,6 @@
 package controller;
 
+import bean.CategorieOeuf;
 import bean.TrieOeuf;
 import controller.util.JsfUtil;
 import controller.util.JsfUtil.PersistAction;
@@ -50,6 +51,18 @@ public class TrieOeufController implements Serializable {
     private BigDecimal reception;
     private Integer semaine;
     private TrieOeuf selectedToModify;
+    private CategorieOeuf categorieOeufSelected;
+
+    public CategorieOeuf getCategorieOeufSelected() {
+        if (categorieOeufSelected == null) {
+            categorieOeufSelected = new CategorieOeuf();
+        }
+        return categorieOeufSelected;
+    }
+
+    public void setCategorieOeufSelected(CategorieOeuf categorieOeufSelected) {
+        this.categorieOeufSelected = categorieOeufSelected;
+    }
 
     public UtilisateurFacade getUtilisateurFacade() {
         return utilisateurFacade;
@@ -295,40 +308,79 @@ public class TrieOeufController implements Serializable {
     }
 
     public void addToList() {
-        if (selected != null && !dateTrie.equals("")) {
-            setDateAndSemainToTheSelected();
-            ejbFacade.calculateSF(selected);
-            getItems().add(ejbFacade.clone(selected));
-            setRestReception(getRestReception().subtract(selected.getEntree()));
-            setTotalEntres(getTotalEntres().add(selected.getEntree()));
-            MessageUtil.info("La Catégorie '" + selected.getCategorieOeuf().getDesignation() + "' est ajoutée");
-            setSelected(null);
-        }
+        remplirSelected();
+        getItems().add(ejbFacade.clone(selected));
+        setRestReception(getRestReception().subtract(selected.getEntree()));
+        setTotalEntres(getTotalEntres().add(selected.getEntree()));
+        MessageUtil.info("La Catégorie '" + selected.getCategorieOeuf().getDesignation() + "' est ajoutée");
+        setSelected(null);
+        setCategorieOeufSelected(null);
+    }
 
+    public void addOrModifyAndTestRestReception() {
+        if (getSelectedToModify().getCategorieOeuf().getId() == null) {
+            if (testSFToSave()) {
+                return;
+            }
+            addToList();
+            setForme3(false);
+        } else {
+            System.out.println("avant lite est : " + getItems());
+            if (testSFToSave()) {
+                System.out.println("testSFToSave is true !!");
+                System.out.println("apres lite est : " + getItems());
+                return;
+            }
+            modifyFromList();
+            setForme3(false);
+        }
+    }
+
+    private boolean testSFToSave() {
+        System.out.println("in testSFToSave ha list avant => " + getItems());
+        if (testRestWithEntreeAndShowMsg()) {
+            System.out.println("in testSFToSave=>testRestWithEntreeAndShowMsg ha list apres => " + getItems());
+            System.out.println("testRestAndShowMsg is true nini");
+            return true;
+        }
+        System.out.println("in testSFToSave ha list apres => " + getItems());
+        ejbFacade.calculateSF(selected);
+        if (getSelected().getSituationFinale().compareTo(new BigDecimal(0)) < 0) {
+            MessageUtil.fatal("La situation finale est innaccèptable");
+            System.out.println("sf is <0 ");
+            setForme3(true);
+            getSelected().setSituationFinale(null);
+            return true;
+        }
+        return false;
+    }
+
+    private boolean testRestWithEntreeAndShowMsg() {
+        System.out.println("in testRestWithEntreeAndShowMsg ha liste avant : " + getItems());
+        if (selected.getEntree().compareTo(restReception) > 0) {
+            System.out.println("in testRestWithEntreeAndShowMsg ha liste apres : " + getItems());
+            MessageUtil.fatal("Le nombre en entrée est supérieur au rest de la recéption");
+            return true;
+        }
+        return false;
     }
 
     public void restoreRestReception() {
         setRestReception(getRestReception().add(selectedToModify.getEntree()));
         setSelected(selectedToModify);
-    }
-
-    public void cancelModify() {
-
+        setCategorieOeufSelected(selectedToModify.getCategorieOeuf());
     }
 
     public void modifyFromList() {
-        ejbFacade.calculateSF(selected);
-        System.out.println("ha slected : " + selected);
-        System.out.println("ha modify : " + selectedToModify);
-        System.out.println("index of th modify : " + items.indexOf(selectedToModify));
-//        getItems().remove(selectedToModify);
-//        getItems().add(ejbFacade.clone(selected));
+        System.out.println("cc mn modify");
         setRestReception(getRestReception().subtract(selected.getEntree()));
         setTotalEntres(getTotalEntres().subtract(selectedToModify.getEntree()));
         setTotalEntres(getTotalEntres().add(selected.getEntree()));
-        MessageUtil.info("Cette catégorie est bien modifié");
+        selected.setCategorieOeuf(categorieOeufSelected);
+        MessageUtil.info("La catégorie '" + categorieOeufSelected.getDesignation() + "' est bien modifiée");
         setSelected(null);
         setSelectedToModify(null);
+        setCategorieOeufSelected(null);
     }
 
     public void reloadAllThePage() throws IOException {
@@ -340,7 +392,8 @@ public class TrieOeufController implements Serializable {
         getItems().remove(selected);
         setRestReception(getRestReception().add(selected.getEntree()));
         setTotalEntres(getTotalEntres().subtract(selected.getEntree()));
-        MessageUtil.info("Cette catégorie est supprimée");
+        MessageUtil.info("La catégorie '" + getSelected().getCategorieOeuf().getDesignation() + "' est supprimée");
+        setCategorieOeufSelected(null);
         setSelected(null);
     }
 
@@ -353,19 +406,19 @@ public class TrieOeufController implements Serializable {
     }
 
     public void setSIToTheSelected() {
-        System.out.println("hi ,from si to th selected : ha forme3= " + isForme3());
-        TrieOeuf lasteTrieOeuf = ejbFacade.getLastTrieSavedByDay(selected);
-        if (lasteTrieOeuf == null || lasteTrieOeuf.getSituationFinale() == null) {
-            selected.setSituationInitiale(new BigDecimal(0));
+        TrieOeuf lastTrieOeuf = ejbFacade.getLastSavedByDay(DateUtil.getSqlDateToSaveInDB(dateTrie), categorieOeufSelected);
+        if (lastTrieOeuf == null || lastTrieOeuf.getSituationFinale() == null) {
+            getSelected().setSituationInitiale(new BigDecimal(0));
         } else {
-            selected.setSituationInitiale(lasteTrieOeuf.getSituationFinale());
+            getSelected().setSituationInitiale(lastTrieOeuf.getSituationFinale());
         }
     }
 
-    public void setDateAndSemainToTheSelected() {
+    public void remplirSelected() {
         selected.setNumSemaine(semaine);
         selected.setDateTrie(DateUtil.getSqlDateToSaveInDB(dateTrie));
         selected.setReception(reception);
+        selected.setCategorieOeuf(categorieOeufSelected);
     }
 
     public String formatDateToString(Date dateToFormat) {
@@ -373,7 +426,6 @@ public class TrieOeufController implements Serializable {
     }
 
     public void saveItemsInDB() {
-        System.out.println("hi i m here");
         if (items != null && !items.isEmpty() && items.get(0) != null) {
             for (TrieOeuf item : items) {
                 item.setIncubations(null);
@@ -383,14 +435,12 @@ public class TrieOeufController implements Serializable {
                 item.setFerme(null);
                 ejbFacade.create(item);
             }
-//            return true;
             MessageUtil.info("Vos donnés sont bien enregistrés ");
             items.clear();
             initAllParams();
             return;
         }
         MessageUtil.error("Un erreur est survenue, Essayer plus tard");
-//        return false;
     }
 
     public void cancelSavingInDb() {
@@ -426,5 +476,13 @@ public class TrieOeufController implements Serializable {
             default:
                 return false;
         }
+    }
+
+    public void cancelModify() {
+        ejbFacade.initBigDecimalsBy0(getSelectedToModify());
+        setRestReception(getReception().subtract(getSelectedToModify().getEntree()));
+        setSelectedToModify(null);
+        setForme3(false);
+        setCategorieOeufSelected(null);
     }
 }

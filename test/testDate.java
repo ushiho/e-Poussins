@@ -1,5 +1,5 @@
 
-import java.util.List;
+import java.math.BigDecimal;
 
 /*
  * To change this license header, choose License Headers in Project Properties.
@@ -19,10 +19,10 @@ public class testDate {
 //
 //        System.out.println("after substract : " + dateAfter);
 //        System.out.println("after sub with format : " + DateUtil.getSqlDate(dateAfter));
-//        BigDecimal test = new BigDecimal(10);
-//        BigDecimal test2 = new BigDecimal(1);
-//        
-//        System.out.println("comparaison : "+test.compareTo(test2));
+        BigDecimal test = null;
+        BigDecimal test2 = new BigDecimal(1);
+        
+        System.out.println("comparaison : "+test.compareTo(new BigDecimal(0)));
 
           
     }
