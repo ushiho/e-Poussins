@@ -502,7 +502,7 @@
                                                 <p:commandButton update=":forme3 :forme2:oeuf :forme2 :datalist"
                                                                  actionListener="#{trieOeufController.setForme3(true)}" 
                                                                  icon="ui-icon-pencil" title="Modifier">
-                                                    <f:setPropertyActionListener value="#{item}" target="#{trieOeufController.selectedToModify}" />
+                                                    <f:setPropertyActionListener value="#{item}" target="#{trieOeufController.selected}" />
                                                     <f:actionListener binding="#{trieOeufController.restoreRestReception()}"/>
                                                 </p:commandButton>
                                             </p:column>
