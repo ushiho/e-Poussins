@@ -103,7 +103,7 @@ public class TrieOeufFacade extends AbstractFacade<TrieOeuf> {
     }
 
     public int indexOfSelected(List<TrieOeuf> trieOeufs, TrieOeuf selected) {
-        if (trieOeufs == null || trieOeufs.isEmpty() || trieOeufs.get(0) == null) {
+        if (testItems(trieOeufs)) {
             return -1;
         }
         for (int i = 0; i < trieOeufs.size(); i++) {
@@ -116,6 +116,10 @@ public class TrieOeufFacade extends AbstractFacade<TrieOeuf> {
         return -1;
     }
 
+    public boolean testItems(List<TrieOeuf> trieOeufs) {
+        return trieOeufs == null || trieOeufs.isEmpty() || trieOeufs.get(0) == null;
+    }
+
     public boolean equals(TrieOeuf item, TrieOeuf selected) {
         return (item.getCategorieOeuf().equals(selected.getCategorieOeuf()) && item.getDateTrie().equals(selected.getDateTrie())
                 && item.getDon().compareTo(selected.getDon()) == 0 && item.getEntree().compareTo(selected.getEntree()) == 0
@@ -125,4 +129,29 @@ public class TrieOeufFacade extends AbstractFacade<TrieOeuf> {
                 && item.getVente().equals(selected.getVente()));
     }
 
+    //add responsable in params to save it and save femre also
+    public void saveListToDB(List<TrieOeuf> items) {
+        System.out.println("hi from saveListToDB ha liste : " + items);
+        if (!testItems(items)) {
+            for (TrieOeuf item : items) {
+                item.setIncubations(null);
+//                item.setFerme(utilisateurFacade.getConnectedUser("user").getFerme());
+//                item.setResponsable(utilisateurFacade.getConnectedUser("user"));
+                item.setResponsable(null);
+                item.setFerme(null);
+                create(item);
+            }
+        }
+    }
+
+//    public BigDecimal calculRestReception(List<TrieOeuf> trieOeufs,int operation){
+//        if(testItems(trieOeufs)){
+//            return null;
+//        }
+//        switch(operation){
+//            case 1 : for (TrieOeuf item : trieOeufs) {
+//                    
+//                }
+//        }
+//    }
 }

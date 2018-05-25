@@ -52,6 +52,15 @@ public class TrieOeufController implements Serializable {
     private Integer semaine;
     private TrieOeuf selectedToModify;
     private CategorieOeuf categorieOeufSelected;
+    private boolean forme4;
+
+    public boolean isForme4() {
+        return forme4;
+    }
+
+    public void setForme4(boolean forme4) {
+        this.forme4 = forme4;
+    }
 
     public CategorieOeuf getCategorieOeufSelected() {
         if (categorieOeufSelected == null) {
@@ -62,14 +71,6 @@ public class TrieOeufController implements Serializable {
 
     public void setCategorieOeufSelected(CategorieOeuf categorieOeufSelected) {
         this.categorieOeufSelected = categorieOeufSelected;
-    }
-
-    public UtilisateurFacade getUtilisateurFacade() {
-        return utilisateurFacade;
-    }
-
-    public void setUtilisateurFacade(UtilisateurFacade utilisateurFacade) {
-        this.utilisateurFacade = utilisateurFacade;
     }
 
     public TrieOeuf getSelectedToModify() {
@@ -318,7 +319,6 @@ public class TrieOeufController implements Serializable {
     }
 
     public void addOrModifyAndTestRestReception() {
-        System.out.println("addOrModifyAndTestRestReception ha liste " + getItems());
         if (getSelectedToModify().getCategorieOeuf().getId() == null) {
             if (testSFToSave()) {
                 return;
@@ -421,25 +421,22 @@ public class TrieOeufController implements Serializable {
     }
 
     public void saveItemsInDB() {
-        if (items != null && !items.isEmpty() && items.get(0) != null) {
-            for (TrieOeuf item : items) {
-                item.setIncubations(null);
-//                item.setFerme(utilisateurFacade.getConnectedUser("user").getFerme());
-//                item.setResponsable(utilisateurFacade.getConnectedUser("user"));
-                item.setResponsable(null);
-                item.setFerme(null);
-                ejbFacade.create(item);
-            }
+        if (getRestReception().compareTo(new BigDecimal(0)) == 0) {
+            ejbFacade.saveListToDB(items);
             MessageUtil.info("Vos donnés sont bien enregistrés ");
+            setTotalEntres(null);
             items.clear();
             initAllParams();
+            setForme4(true);
             return;
         }
-        MessageUtil.error("Un erreur est survenue, Essayer plus tard");
+        MessageUtil.addMessage("Il vous reste " + getRestReception()+ " oeufs ,Choisie une catégorie"
+                + "pour les suvergarder .");
     }
 
     public void cancelSavingInDb() {
         getItems().clear();
+        setForme1(true);
         initAllParams();
     }
 
@@ -448,8 +445,8 @@ public class TrieOeufController implements Serializable {
         setSelectedToModify(null);
         setReception(null);
         setRestReception(null);
+        setTotalEntres(null);
         setDateTrie("");
-        setForme1(true);
         setForme2(false);
         setForme3(false);
         setSemaine(null);
@@ -474,11 +471,19 @@ public class TrieOeufController implements Serializable {
     }
 
     public void cancelModify() {
-        ejbFacade.initBigDecimalsBy0(getSelectedToModify());
-        setRestReception(getReception().subtract(getSelectedToModify().getEntree()));
+        System.out.println("in cancel modify");
+        if (getSelectedToModify().getCategorieOeuf().getId() != null) {
+            System.out.println("cancel modify");
+            ejbFacade.initBigDecimalsBy0(getSelectedToModify());
+            setRestReception(getRestReception().subtract(getSelectedToModify().getEntree()));
+        }
         setSelectedToModify(null);
         setSelected(null);
         setForme3(false);
         setCategorieOeufSelected(null);
+    }
+
+    public void imprimer() {
+
     }
 }
