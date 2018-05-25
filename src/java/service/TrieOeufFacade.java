@@ -6,12 +6,12 @@
 package service;
 
 import bean.CategorieOeuf;
-import static bean.Incubation_.trieOeuf;
 import bean.TrieOeuf;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import javax.ejb.EJB;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
@@ -26,6 +26,9 @@ public class TrieOeufFacade extends AbstractFacade<TrieOeuf> {
 
     @PersistenceContext(unitName = "e-PoussinsPU")
     private EntityManager em;
+
+    @EJB
+    private CategorieOeufFacade categorieOeufFacade;
 
     @Override
     protected EntityManager getEntityManager() {
@@ -144,14 +147,5 @@ public class TrieOeufFacade extends AbstractFacade<TrieOeuf> {
         }
     }
 
-//    public BigDecimal calculRestReception(List<TrieOeuf> trieOeufs,int operation){
-//        if(testItems(trieOeufs)){
-//            return null;
-//        }
-//        switch(operation){
-//            case 1 : for (TrieOeuf item : trieOeufs) {
-//                    
-//                }
-//        }
-//    }
+   
 }

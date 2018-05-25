@@ -6,6 +6,8 @@
 package service;
 
 import bean.CategorieOeuf;
+import static bean.TrieOeuf_.categorieOeuf;
+import java.util.List;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
@@ -28,5 +30,20 @@ public class CategorieOeufFacade extends AbstractFacade<CategorieOeuf> {
     public CategorieOeufFacade() {
         super(CategorieOeuf.class);
     }
-    
+
+    public boolean categorieOeufsExiste(List<CategorieOeuf> categorieOeufs, CategorieOeuf categorieOeuf) {
+        if (categorieOeuf == null) {
+            System.out.println("categorie == null ou autre chose");
+            return false;
+        }
+        return categorieOeufs.contains(categorieOeuf);
+    }
+
+    public CategorieOeuf clone(CategorieOeuf categorieOeuf) {
+        if (categorieOeuf != null) {
+            CategorieOeuf clone = new CategorieOeuf(categorieOeuf.getId(), categorieOeuf.getDesignation());
+            return clone;
+        }
+        return null;
+    }
 }

@@ -53,6 +53,18 @@ public class TrieOeufController implements Serializable {
     private TrieOeuf selectedToModify;
     private CategorieOeuf categorieOeufSelected;
     private boolean forme4;
+    private List<CategorieOeuf> categorieOeufsAdded;
+
+    public List<CategorieOeuf> getCategorieOeufsAdded() {
+        if (categorieOeufsAdded == null) {
+            categorieOeufsAdded = new ArrayList();
+        }
+        return categorieOeufsAdded;
+    }
+
+    public void setCategorieOeufsAdded(List<CategorieOeuf> categorieOeufsAdded) {
+        this.categorieOeufsAdded = categorieOeufsAdded;
+    }
 
     public boolean isForme4() {
         return forme4;
@@ -310,10 +322,20 @@ public class TrieOeufController implements Serializable {
 
     public void addToList() {
         remplirSelected();
+        if (categorieOeufFacade.categorieOeufsExiste(getCategorieOeufsAdded(), getCategorieOeufSelected())) {
+            MessageUtil.showMsg("Cette catégorie est déja ajoutée");
+            initSelectdAndCategorie();
+            return;
+        }
         getItems().add(ejbFacade.clone(selected));
+        getCategorieOeufsAdded().add(categorieOeufFacade.clone(categorieOeufSelected));
         setRestReception(getRestReception().subtract(selected.getEntree()));
         setTotalEntres(getTotalEntres().add(selected.getEntree()));
         MessageUtil.info("La Catégorie '" + selected.getCategorieOeuf().getDesignation() + "' est ajoutée");
+        initSelectdAndCategorie();
+    }
+
+    private void initSelectdAndCategorie() {
         setSelected(null);
         setCategorieOeufSelected(null);
     }
@@ -430,7 +452,7 @@ public class TrieOeufController implements Serializable {
             setForme4(true);
             return;
         }
-        MessageUtil.addMessage("Il vous reste " + getRestReception()+ " oeufs ,Choisie une catégorie"
+        MessageUtil.addMessage("Il vous reste " + getRestReception() + " oeufs ,Choisie une catégorie"
                 + "pour les suvergarder .");
     }
 
@@ -441,7 +463,6 @@ public class TrieOeufController implements Serializable {
     }
 
     private void initAllParams() {
-        setSelected(null);
         setSelectedToModify(null);
         setReception(null);
         setRestReception(null);
@@ -450,6 +471,8 @@ public class TrieOeufController implements Serializable {
         setForme2(false);
         setForme3(false);
         setSemaine(null);
+        initSelectdAndCategorie();
+        setCategorieOeufsAdded(null);
     }
 
     public boolean testFields(int cas) {
@@ -478,12 +501,12 @@ public class TrieOeufController implements Serializable {
             setRestReception(getRestReception().subtract(getSelectedToModify().getEntree()));
         }
         setSelectedToModify(null);
-        setSelected(null);
         setForme3(false);
-        setCategorieOeufSelected(null);
+        initSelectdAndCategorie();
     }
 
     public void imprimer() {
 
     }
+
 }
