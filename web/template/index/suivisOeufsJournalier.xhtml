@@ -31,7 +31,7 @@
         <!--<link href="http://maxcdn.bootstrapcdn.com/font-awesome/latest/css/font-awesome.min.css" rel="stylesheet"></link>-->
         <link href="../assets/css/nucleo-icons.css" rel="stylesheet"></link>
     </h:head>
-    <h:body>
+    <h:body onload="#{trieOeufController.initAllParams()}">
         <nav class="navbar navbar-expand-sm fixed-top navbar-transparent" color-on-scroll="50">
             <div class="container">
                 <div class="navbar-translate">
@@ -230,16 +230,17 @@
                                 </p>
                                 <br/>
                                 <p:spacer/>
-                                <h:form id="journalier">
+                                <h:form id="forme1">
                                     <div class="row" >
                                         <div class="col-sm-3 " style="margin-left: 2%;">
                                             <p:outputLabel for="annee"><label class="note" >ANNEE </label></p:outputLabel>
                                         </div>
                                         <div class="col-sm-3 " style="margin-left: -5%;margin-bottom: 10px;">
                                             <h:selectOneMenu style="width: 100%;" required="true" id="annee" 
-                                                             value="#{trieOeufController.categorieOeufSelected}" >
+                                                             value="#{trieOeufController.year}" >
                                                 <f:selectItem itemLabel="-- Année --" itemValue="" noSelectionOption="true" />
-                                                <f:selectItems  value="#{categorieOeufController.getItemsAvailableSelectMany()}"
+                                                <f:selectItem itemLabel="2018" itemValue="2018" />
+                                                <f:selectItems  value="#{trieOeufController.chargeYearsSavedInDB()}"
                                                                 var="annee" itemValue="#{annee}"/>
                                             </h:selectOneMenu>
                                         </div>
@@ -249,10 +250,20 @@
                                         <p:spacer/>
                                         <div class="col-sm-3 " style="margin-left: -5%;margin-bottom: 10px;" >
                                             <h:selectOneMenu style="width: 100%;" required="true" id="month" 
-                                                             value="#{trieOeufController.categorieOeufSelected}" >
+                                                             value="#{trieOeufController.mois}" >
                                                 <f:selectItem itemLabel="-- Mois --" itemValue="" noSelectionOption="true" />
-                                                <f:selectItems  value="#{categorieOeufController.getItemsAvailableSelectMany()}"
-                                                                var="mois" itemValue="#{mois}"/>
+                                                <f:selectItem itemLabel="JANVIER" itemValue="01" />
+                                                <f:selectItem itemLabel="FÉVRIER" itemValue="02" />
+                                                <f:selectItem itemLabel="MARS" itemValue="03" />
+                                                <f:selectItem itemLabel="AVRIL" itemValue="04"/>
+                                                <f:selectItem itemLabel="MAI" itemValue="05" />
+                                                <f:selectItem itemLabel="JUIN" itemValue="06"/>
+                                                <f:selectItem itemLabel="JUILLET" itemValue="07" />
+                                                <f:selectItem itemLabel="AOUT" itemValue="08" />
+                                                <f:selectItem itemLabel="SEPTEMBRE" itemValue="09" />
+                                                <f:selectItem itemLabel="OCTOBRE" itemValue="10" />
+                                                <f:selectItem itemLabel="NOVEMBRE" itemValue="11"/>
+                                                <f:selectItem itemLabel="DECEMBRE" itemValue="12"/>
                                             </h:selectOneMenu>
                                         </div>
                                         <p:spacer/>
@@ -267,7 +278,7 @@
                                                 <span class="input-group-addon">
                                                     <i class="nc-icon nc-calendar-60" aria-hidden="true"></i>
                                                 </span>
-                                                <p:inputText id="jourMin" value="#{trieOeufController.dayOrWeakOrMonthMin}" required="false" a:type='text'
+                                                <p:inputText id="jourMin" value="#{trieOeufController.inputMin}" required="false" a:type='text'
                                                              class="form-control " placeholder="Jour min de trie" title="Date de création" />
                                             </div>
                                         </div>
@@ -280,7 +291,7 @@
                                                 <span class="input-group-addon">
                                                     <i class="nc-icon nc-calendar-60" aria-hidden="true"></i>
                                                 </span>
-                                                <p:inputText id="jourMax" value="#{trieOeufController.dayOrWeakOrMonthMax}" required="false" a:type='text'
+                                                <p:inputText id="jourMax" value="#{trieOeufController.inputMax}" required="false" a:type='text'
                                                              class="form-control " placeholder="Jour max de trie" title="Date de création" />
                                             </div>
                                         </div>
@@ -293,7 +304,7 @@
                                             <p:outputLabel for="oeuf"><label class="note">CATÉGORIE DES OEUFS</label></p:outputLabel>
                                         </div>
                                         <div class="col-sm-4" style="margin-left: 5%;">
-                                            <h:selectOneMenu style="width: 100%;" required="true" id="oeuf" 
+                                            <h:selectOneMenu style="width: 100%;" id="oeuf" 
                                                              value="#{trieOeufController.categorieOeufSelected}" >
                                                 <f:selectItem itemLabel="-- Choisir une catégorie --" itemValue="" noSelectionOption="true" />
                                                 <f:selectItems  value="#{categorieOeufController.getItemsAvailableSelectMany()}"
@@ -303,8 +314,8 @@
                                         <p:spacer/>
                                         <div class="col-sm-2" style="margin-left: 6%;margin-top: 25px;">
                                             <p:commandLink  class="btn btn-outline-success btn-sm" 
-                                                            actionListener="#{trieOeufController.imprimer()}" title="Chercher les tries "
-                                                            update="">
+                                                            actionListener="#{trieOeufController.searchJournalier()}" title="Chercher les tries "
+                                                            update="forme1 :datalist">
                                                 <h:outputText value="CHERCHER" />
                                                 <i  class="nc-icon nc-zoom-split" aria-hidden="true"></i>
                                             </p:commandLink>
@@ -314,6 +325,103 @@
                                 </h:form>
                                 <br/>
                                 <p:spacer/><p:spacer/>
+
+                                <h:form id="datalist">
+                                    <h:panelGroup rendered="true">
+                                        <p:dataTable styleClass="table table-sm table-bordered" value="#{trieOeufController.items}" var="item">
+                                            <p:column>
+                                                <f:facet name="header">
+                                                    <h:outputText value="MisEnIncubation"/>
+                                                </f:facet>
+                                                <h:outputText value="#{item.misEnIncubation}"/>
+                                            </p:column>
+                                            <p:column>
+                                                <f:facet name="header">
+                                                    <h:outputText value="Reception"/>
+                                                </f:facet>
+                                                <h:outputText value="#{item.reception}"/>
+                                            </p:column>
+                                            <p:column>
+                                                <f:facet name="header">
+                                                    <h:outputText value="Ferme"/>
+                                                </f:facet>
+                                                <h:outputText value="#{item.ferme}"/>
+                                            </p:column>
+                                            <p:column>
+                                                <f:facet name="header">
+                                                    <h:outputText value="DateTrie"/>
+                                                </f:facet>
+                                                <h:outputText value="#{item.dateTrie}">
+                                                    <f:convertDateTime pattern="MM/dd/yyyy" />
+                                                </h:outputText>
+                                            </p:column>
+                                            <p:column>
+                                                <f:facet name="header">
+                                                    <h:outputText value="NumSemaine"/>
+                                                </f:facet>
+                                                <h:outputText value="#{item.numSemaine}"/>
+                                            </p:column>
+                                            <p:column>
+                                                <f:facet name="header">
+                                                    <h:outputText value="Entree"/>
+                                                </f:facet>
+                                                <h:outputText value="#{item.entree}"/>
+                                            </p:column>
+                                            <p:column>
+                                                <f:facet name="header">
+                                                    <h:outputText value="Vente"/>
+                                                </f:facet>
+                                                <h:outputText value="#{item.vente}"/>
+                                            </p:column>
+                                            <p:column>
+                                                <f:facet name="header">
+                                                    <h:outputText value="Don"/>
+                                                </f:facet>
+                                                <h:outputText value="#{item.don}"/>
+                                            </p:column>
+                                            <p:column>
+                                                <f:facet name="header">
+                                                    <h:outputText value="Perte"/>
+                                                </f:facet>
+                                                <h:outputText value="#{item.perte}"/>
+                                            </p:column>
+                                            <p:column>
+                                                <f:facet name="header">
+                                                    <h:outputText value="SituationFinale"/>
+                                                </f:facet>
+                                                <h:outputText value="#{item.situationFinale}"/>
+                                            </p:column>
+                                            <p:column>
+                                                <f:facet name="header">
+                                                    <h:outputText value="SituationInitiale"/>
+                                                </f:facet>
+                                                <h:outputText value="#{item.situationInitiale}"/>
+                                            </p:column>
+                                            <p:column>
+                                                <f:facet name="header">
+                                                    <h:outputText value="CategorieOeuf"/>
+                                                </f:facet>
+                                                <h:outputText value="#{item.categorieOeuf}"/>
+                                            </p:column>
+                                        </p:dataTable>
+                                        <div class="row">
+                                            <div class="col-sm-8" style="margin-left: 35%;">
+                                                <p:commandLink class="btn btn-outline-dark btn-sm " style="color: black;" actionListener="#{trieOeufController.setForme4(false)}"
+                                                               value="RETOUR" title="Revenir vers le formulaire" update="">
+                                                    <f:actionListener binding="#{trieOeufController.setForme1(true)}"/>
+                                                </p:commandLink>
+                                                <!--                                                    </div>
+                                                                                                    <div class="col-sm-3" style="">-->
+                                                
+                                                <p:commandLink style="margin-left: 15%;color: red;" class="btn btn-outline-info btn-sm"
+                                                               actionListener="#{trieOeufController.imprimer()}"
+                                                               value="IMPRIMER" title="Imprimer le document " update=":forme1 ">
+                                                    <f:actionListener binding="#{trieOeufController.setForme1(true)}"/>
+                                                </p:commandLink>
+                                            </div>
+                                        </div>
+                                    </h:panelGroup>
+                                </h:form>
 
                             </div>
                         </div>

@@ -55,22 +55,10 @@ public class TrieOeufController implements Serializable {
     private boolean forme4;
     private List<CategorieOeuf> categorieOeufsAdded;
     //attributes for suivis template
-    private List<Integer> yearsExisteInDB;
-    private Integer DayOrWeakOrMonthMin;
-    private Integer DayOrWeakOrMonthMax;
+    private Integer inputMin;
+    private Integer inputMax;
     private Integer mois;//to construct a date
     private Integer year;//to construct a date
-
-    public List<Integer> getYearsExisteInDB() {
-        if(yearsExisteInDB==null){
-            yearsExisteInDB = new ArrayList();
-        }
-        return yearsExisteInDB;
-    }
-
-    public void setYearsExisteInDB(List<Integer> yearsExisteInDB) {
-        this.yearsExisteInDB = yearsExisteInDB;
-    }
 
     public Integer getMois() {
         return mois;
@@ -87,23 +75,21 @@ public class TrieOeufController implements Serializable {
     public void setYear(Integer year) {
         this.year = year;
     }
-    
-    
 
-    public Integer getDayOrWeakOrMonthMin() {
-        return DayOrWeakOrMonthMin;
+    public Integer getInputMin() {
+        return inputMin;
     }
 
-    public void setDayOrWeakOrMonthMin(Integer DayOrWeakOrMonthMin) {
-        this.DayOrWeakOrMonthMin = DayOrWeakOrMonthMin;
+    public void setInputMin(Integer inputMin) {
+        this.inputMin = inputMin;
     }
 
-    public Integer getDayOrWeakOrMonthMax() {
-        return DayOrWeakOrMonthMax;
+    public Integer getInputMax() {
+        return inputMax;
     }
 
-    public void setDayOrWeakOrMonthMax(Integer DayOrWeakOrMonthMax) {
-        this.DayOrWeakOrMonthMax = DayOrWeakOrMonthMax;
+    public void setInputMax(Integer inputMax) {
+        this.inputMax = inputMax;
     }
 
     public List<CategorieOeuf> getCategorieOeufsAdded() {
@@ -513,7 +499,7 @@ public class TrieOeufController implements Serializable {
         initAllParams();
     }
 
-    private void initAllParams() {
+    public void initAllParams() {
         setSelectedToModify(null);
         setReception(null);
         setRestReception(null);
@@ -524,6 +510,7 @@ public class TrieOeufController implements Serializable {
         setSemaine(null);
         initSelectdAndCategorie();
         setCategorieOeufsAdded(null);
+        setItems(null);
     }
 
     public boolean testFields(int cas) {
@@ -559,9 +546,17 @@ public class TrieOeufController implements Serializable {
     public void imprimer() {
 
     }
-    
+
     // methods for suivis Templates
-    
-    
+    public List<Integer> chargeYearsSavedInDB() {
+        System.out.println("ha list des years : " + ejbFacade.yearsBetweenTwoDate(ejbFacade.minOrMaxDateExisteInDB(2), ejbFacade.minOrMaxDateExisteInDB(1)));
+        return ejbFacade.yearsBetweenTwoDate(ejbFacade.minOrMaxDateExisteInDB(2), ejbFacade.minOrMaxDateExisteInDB(1));
+    }
+
+    public void searchJournalier() {
+        System.out.println("salam c journalier");
+        setItems(ejbFacade.searchJournalier(year, mois, inputMin, inputMax, categorieOeufSelected));
+        System.out.println("ha list : " + getItems());
+    }
 
 }

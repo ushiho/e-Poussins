@@ -112,7 +112,6 @@ public class TrieOeufFacade extends AbstractFacade<TrieOeuf> {
         for (int i = 0; i < trieOeufs.size(); i++) {
             TrieOeuf item = trieOeufs.get(i);
             if (equals(item, selected)) {
-                System.out.println("hi from indexOfSelected ha i = " + i);
                 return i;
             }
         }
@@ -151,15 +150,14 @@ public class TrieOeufFacade extends AbstractFacade<TrieOeuf> {
 //        String req = "SELECT tr FROM TrieOeuf tr WHERE 1=1 ";
 //    }
     public Date minOrMaxDateExisteInDB(int minOrMax) {
-        if (minOrMax != 1 || minOrMax != 2) {
-            return null;
-        }
         String req = "SELECT ";
         switch (minOrMax) {
             case 1:
                 req += " MAX";
+                break;
             case 2:
                 req += " MIN";
+                break;
         }
         req += "(tr.dateTrie) FROM TrieOeuf tr";
         return (Date) em.createQuery(req).getResultList().get(0);
@@ -167,12 +165,44 @@ public class TrieOeufFacade extends AbstractFacade<TrieOeuf> {
 
     public List<Integer> yearsBetweenTwoDate(Date dateMin, Date dateMax) {
         List<Integer> years = new ArrayList();
-        int yearMin = new Integer(DateUtil.getYearOfaDate(dateMin));
-        int yearMax = new Integer(DateUtil.getYearOfaDate(dateMax));
+        System.out.println("ha date min : " + dateMin);
+        System.out.println("ha date max : " + dateMax);
+        int yearMin = DateUtil.getYearOfDate(dateMin);
+        int yearMax = DateUtil.getYearOfDate(dateMax);
         for (int i = yearMin; i < yearMax; i++) {
             years.add(i);
         }
         return years;
     }
 
+    public List<TrieOeuf> searchByDateMinOrMaxOrCategorie(Date dateMin, Date dateMax, CategorieOeuf categorieOeuf) {
+        String req = "SELECT tr FROM TrieOeuf tr WHERE 1=1 ";
+        if (dateMax != null) {
+            req += " AND tr.dateTrie <= '" + dateMax + "' ";
+        }
+        if (dateMax != null) {
+            req += " AND tr.dateTrie >= '" + dateMin + "' ";
+        }
+        if (categorieOeuf != null) {
+            req += " AND tr.categorieOeuf.id = '" + categorieOeuf.getId() + "'";
+        }
+        System.out.println("cc from seacrh requete");
+        return getMultipleResult(req);
+    }
+
+    public List<TrieOeuf> searchJournalier(Integer year, Integer month, Integer dayMin, Integer dayMax, CategorieOeuf categorieOeuf) {
+        if (year == null || month == null) {
+            return null;
+        } else if (dayMin == null) {
+            dayMin = 01;
+        } else if (dayMax == null) {
+            dayMax = DateUtil.maxDayInMonthOfYear(year, month, 1);
+        }
+        System.out.println("ha day max : "+dayMax);
+        System.out.println("ha day min : "+dayMin);
+        String moisAndYear = month + "/" + year;
+        System.out.println("service => from searchJournalier ha date min :" + DateUtil.getSqlDateToSaveInDB(dayMin + "/" + moisAndYear));
+        return searchByDateMinOrMaxOrCategorie(DateUtil.getSqlDateToSaveInDB(dayMin + "/" + moisAndYear),
+                DateUtil.getSqlDateToSaveInDB(dayMax + "/" + moisAndYear), categorieOeuf);
+    }
 }

@@ -32,9 +32,9 @@ public class DateUtil {
         return new java.sql.Timestamp(date.getTime());
     }
 
-    public static String getYearOfaDate(Date date) {
+    public static String getYearOfCurrentDate() {
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy");
-        return simpleDateFormat.format(date);
+        return simpleDateFormat.format(new Date());
     }
 
     public static String formateDate(String pattern, Date date) {
@@ -117,8 +117,6 @@ public class DateUtil {
             GregorianCalendar gc = new GregorianCalendar();
             gc.setTime(dateToSubs);
             gc.add(GregorianCalendar.DATE, -1);
-            System.out.println("from dateUtil=> subDayFromDate=> gc.getTime : " + gc.getTime());
-            System.out.println("from dateUtil=> subDayFromDate=> sql Date of gc.getTime : " + getSqlDate(gc.getTime()));
             return getSqlDate(gc.getTime());
         }
         return null;
@@ -130,4 +128,20 @@ public class DateUtil {
 //        }
 //        
 //    }
+    public static Integer getYearOfDate(Date date) {
+        if (date != null) {
+            GregorianCalendar gc = new GregorianCalendar();
+            gc.setTime(date);
+            System.out.println("From getYearOfDate ha year :" + gc.getTime().getYear());
+            return gc.getTime().getYear();
+        }
+        return null;
+    }
+
+    // Get the number of days in that month
+    public static int maxDayInMonthOfYear(int iYear, int iMonth, int iDay) {
+        //must init iMonth by 1 
+        Calendar mycal = new GregorianCalendar(iYear, iMonth-1, iDay);
+        return mycal.getActualMaximum(Calendar.DAY_OF_MONTH);
+    }
 }
