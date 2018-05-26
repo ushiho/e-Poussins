@@ -32,9 +32,9 @@ public class DateUtil {
         return new java.sql.Timestamp(date.getTime());
     }
 
-    public static String getYearOfCurrentDate() {
+    public static String getYearOfaDate(Date date) {
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy");
-        return simpleDateFormat.format(new Date());
+        return simpleDateFormat.format(date);
     }
 
     public static String formateDate(String pattern, Date date) {
@@ -123,4 +123,11 @@ public class DateUtil {
         }
         return null;
     }
+
+//    public static Date constructDateFromDays(Integer jrMin, Integer jrMax, Integer month,Integer annee) {
+//        if(month==null||annee==null){
+//            return null;
+//        }
+//        
+//    }
 }

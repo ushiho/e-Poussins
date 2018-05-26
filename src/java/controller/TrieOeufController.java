@@ -54,6 +54,57 @@ public class TrieOeufController implements Serializable {
     private CategorieOeuf categorieOeufSelected;
     private boolean forme4;
     private List<CategorieOeuf> categorieOeufsAdded;
+    //attributes for suivis template
+    private List<Integer> yearsExisteInDB;
+    private Integer DayOrWeakOrMonthMin;
+    private Integer DayOrWeakOrMonthMax;
+    private Integer mois;//to construct a date
+    private Integer year;//to construct a date
+
+    public List<Integer> getYearsExisteInDB() {
+        if(yearsExisteInDB==null){
+            yearsExisteInDB = new ArrayList();
+        }
+        return yearsExisteInDB;
+    }
+
+    public void setYearsExisteInDB(List<Integer> yearsExisteInDB) {
+        this.yearsExisteInDB = yearsExisteInDB;
+    }
+
+    public Integer getMois() {
+        return mois;
+    }
+
+    public void setMois(Integer mois) {
+        this.mois = mois;
+    }
+
+    public Integer getYear() {
+        return year;
+    }
+
+    public void setYear(Integer year) {
+        this.year = year;
+    }
+    
+    
+
+    public Integer getDayOrWeakOrMonthMin() {
+        return DayOrWeakOrMonthMin;
+    }
+
+    public void setDayOrWeakOrMonthMin(Integer DayOrWeakOrMonthMin) {
+        this.DayOrWeakOrMonthMin = DayOrWeakOrMonthMin;
+    }
+
+    public Integer getDayOrWeakOrMonthMax() {
+        return DayOrWeakOrMonthMax;
+    }
+
+    public void setDayOrWeakOrMonthMax(Integer DayOrWeakOrMonthMax) {
+        this.DayOrWeakOrMonthMax = DayOrWeakOrMonthMax;
+    }
 
     public List<CategorieOeuf> getCategorieOeufsAdded() {
         if (categorieOeufsAdded == null) {
@@ -508,5 +559,9 @@ public class TrieOeufController implements Serializable {
     public void imprimer() {
 
     }
+    
+    // methods for suivis Templates
+    
+    
 
 }

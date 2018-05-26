@@ -147,5 +147,32 @@ public class TrieOeufFacade extends AbstractFacade<TrieOeuf> {
         }
     }
 
-   
+//    public List<TrieOeuf> findByCriteria(Date dateMin, Date dateMax, CategorieOeuf categorieOeuf) {
+//        String req = "SELECT tr FROM TrieOeuf tr WHERE 1=1 ";
+//    }
+    public Date minOrMaxDateExisteInDB(int minOrMax) {
+        if (minOrMax != 1 || minOrMax != 2) {
+            return null;
+        }
+        String req = "SELECT ";
+        switch (minOrMax) {
+            case 1:
+                req += " MAX";
+            case 2:
+                req += " MIN";
+        }
+        req += "(tr.dateTrie) FROM TrieOeuf tr";
+        return (Date) em.createQuery(req).getResultList().get(0);
+    }
+
+    public List<Integer> yearsBetweenTwoDate(Date dateMin, Date dateMax) {
+        List<Integer> years = new ArrayList();
+        int yearMin = new Integer(DateUtil.getYearOfaDate(dateMin));
+        int yearMax = new Integer(DateUtil.getYearOfaDate(dateMax));
+        for (int i = yearMin; i < yearMax; i++) {
+            years.add(i);
+        }
+        return years;
+    }
+
 }

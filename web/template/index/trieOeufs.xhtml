@@ -36,7 +36,7 @@
             <p:growl showDetail="true" />
         </h:form>
         <!-- navBar -->
-        <nav class="navbar navbar-expand-sm fixed-top navbar-transparent" color-on-scroll="50">
+        <nav class="navbar navbar-expand-md fixed-top navbar-transparent" color-on-scroll="50">
             <div class="container">
                 <div class="navbar-translate">
                     <button class="navbar-toggler navbar-toggler-right navbar-burger" type="button" data-toggle="collapse" data-target="#navbarToggler" aria-controls="navbarTogglerDemo02" aria-expanded="false" aria-label="Toggle navigation">
@@ -45,7 +45,7 @@
                         <span class="navbar-toggler-bar"></span>
                     </button>
                     <a class="navbar-brand " href="https://www.creative-tim.com">
-                        <img src="../images/oeufsTitle.png" class="img-circle" />
+                        <img class="navbar-brand-ful img-circle" src="../images/oeufsTitle.png" />
                         <span class="images-title" >E-Poussins</span></a>
                 </div>
                 <div class="collapse navbar-collapse" id="navbarToggler">
@@ -135,6 +135,25 @@
                                                         <li><a href="#"><h6><span class="note">CONSULTATION</span></h6></a></li>
                                                         <li><a href="#"><h6><span class="note">VENTES</span></h6></a></li>
                                                         <li><a href="#"><h6><span class="note">TRANSFERT</span></h6></a></li>
+                                                    </ul>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div>
+                                            <a data-toggle="collapse" data-parent="#accordion" href="#collapseFive" aria-expanded="true" aria-controls="collapseFive">
+                                                <div class="card-header" role="tab" id="headingFive" >
+                                                    <h6 >
+                                                        SUIVIS 
+                                                    </h6>
+                                                </div>
+                                            </a>
+                                            <div id="collapseFive" class="collapse in" role="tabpanel" aria-labelledby="headingFive">
+                                                <div class="card-header">
+                                                    <ul>
+                                                        <li><a href="#"><h6><span class="note">SUIVIS JOURNALIER</span></h6></a></li>
+                                                        <li><a href="#"><h6><span class="note">SUIVIS HEBDOMADAIRE</span></h6></a></li>
+                                                        <li><a href="#"><h6><span class="note">SUIVIS MENSUEL</span></h6></a></li>
+                                                        <li><a href="#"><h6><span class="note">SUIVIS ANNUEL</span></h6></a></li>
                                                     </ul>
                                                 </div>
                                             </div>
@@ -326,14 +345,15 @@
                                                 </h:selectOneMenu>
                                             </div>
                                         </div>
-                                        <div class="row" style="margin-top: 20px;">
-                                            <div class="col-md-1" style="margin-left: 30%;margin-top: 10px;">
+                                        <p:spacer/>
+                                        <div class="row">
+                                            <div class="col-md-2" style="margin-left: 30%;margin-top: 10px;">
                                                 <p:outputLabel rendered="#{trieOeufController.forme3}">
                                                     <label title="Situation Initiale"  class="note"> S.I</label>
                                                 </p:outputLabel>
                                             </div>
                                             <h:panelGroup rendered="#{trieOeufController.forme3}">
-                                                <div class="col-sm-2 form-control" style="margin-left: 4%;">
+                                                <div class="col-sm-3 form-control" style="margin-left: -4%;">
                                                     <h:outputText value="#{trieOeufController.selected.situationInitiale}" title="Situation Initiale de cette catégorie" />
                                                 </div>
                                             </h:panelGroup>
@@ -433,7 +453,7 @@
                                         <p:spacer/>
                                         <div class="row">
 
-                                            <div class="col-sm-12" style="margin-left: 25%;">
+                                            <div class="col-sm-9" style="margin-left: 25%;">
                                                 <h:commandLink actionListener="#{trieOeufController.setForme3(false)}"
                                                                id="annuler"  value="ANNULER" class="btn btn-dark btn-sm">
                                                     <p:ajax listener="#{trieOeufController.cancelModify()}" resetValues="true" update=":forme2 :forme2:oeuf :datalist forme3"/>
@@ -491,8 +511,8 @@
                                         <h6 style="color: black;" class="mr-auto ml-auto">Les catégories ajoutés </h6>
                                         <p:spacer/>
                                         <p:dataTable style="width: 100%;" value="#{trieOeufController.items}" var="item"
-                                                      styleClass="table table-sm table-bordered"
-                                                      >
+                                                     styleClass="table table-sm table-bordered"
+                                                     >
                                             <p:column headerText="DATE">
                                                 <h:outputText value="#{trieOeufController.formatDateToString(item.dateTrie)}"/>
                                             </p:column>
