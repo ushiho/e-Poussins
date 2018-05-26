@@ -132,16 +132,17 @@ public class DateUtil {
         if (date != null) {
             GregorianCalendar gc = new GregorianCalendar();
             gc.setTime(date);
-            System.out.println("From getYearOfDate ha year :" + gc.getTime().getYear());
-            return gc.getTime().getYear();
+            System.out.println("From getYearOfDate ha year :" + gc.get(Calendar.YEAR));
+            return gc.get(Calendar.YEAR);
         }
         return null;
     }
 
     // Get the number of days in that month
-    public static int maxDayInMonthOfYear(int iYear, int iMonth, int iDay) {
+    public static int maxDayInMonthOfYear(int iYear, int iMonth) {
         //must init iMonth by 1 
-        Calendar mycal = new GregorianCalendar(iYear, iMonth-1, iDay);
+        System.out.println("from maxDayInMonthOfYear : month choisis" + iMonth);
+        Calendar mycal = new GregorianCalendar(iYear, iMonth - 1, 1);
         return mycal.getActualMaximum(Calendar.DAY_OF_MONTH);
     }
 }

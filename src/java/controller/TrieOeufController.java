@@ -555,8 +555,25 @@ public class TrieOeufController implements Serializable {
 
     public void searchJournalier() {
         System.out.println("salam c journalier");
+        if (ejbFacade.testItems(items)) {
+            setItems(null);
+        }
         setItems(ejbFacade.searchJournalier(year, mois, inputMin, inputMax, categorieOeufSelected));
+        testListAndShowMsg();
         System.out.println("ha list : " + getItems());
     }
 
+    public void testListAndShowMsg() {
+        if (ejbFacade.testItems(items)) {
+            MessageUtil.info("Pas de tries trouvés pour vos constraintes !");
+        }
+    }
+
+    public int maxDayInSelectedMonth() {
+        if (mois != null && year != null) {
+            System.out.println("ha day max : " + DateUtil.maxDayInMonthOfYear(year, mois));
+            return DateUtil.maxDayInMonthOfYear(year, mois);
+        }
+        return 31;
+    }
 }

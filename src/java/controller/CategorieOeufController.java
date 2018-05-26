@@ -6,6 +6,7 @@ import controller.util.JsfUtil.PersistAction;
 import service.CategorieOeufFacade;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
@@ -76,7 +77,7 @@ public class CategorieOeufController implements Serializable {
 
     public List<CategorieOeuf> getItems() {
         if (items == null) {
-            items = getFacade().findAll();
+            items = new ArrayList();
         }
         return items;
     }
@@ -114,6 +115,7 @@ public class CategorieOeufController implements Serializable {
     }
 
     public List<CategorieOeuf> getItemsAvailableSelectMany() {
+        System.out.println("cc from getItemsAvailableSelectMany");
         return ejbFacade.findAll();
     }
 

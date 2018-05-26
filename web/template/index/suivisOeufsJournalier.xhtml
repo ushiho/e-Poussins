@@ -30,8 +30,19 @@
         <link href='http://fonts.googleapis.com/css?family=Montserrat:400,300,700' rel='stylesheet' type='text/css'></link>
         <!--<link href="http://maxcdn.bootstrapcdn.com/font-awesome/latest/css/font-awesome.min.css" rel="stylesheet"></link>-->
         <link href="../assets/css/nucleo-icons.css" rel="stylesheet"></link>
+        <style>
+            .ui-growl {   
+                position:fixed;
+                top: 40%;
+                left: 37%;
+                width: 40%;
+                height: 10%;
+                z-index:9999; 
+            }
+        </style>
     </h:head>
     <h:body onload="#{trieOeufController.initAllParams()}">
+
         <nav class="navbar navbar-expand-sm fixed-top navbar-transparent" color-on-scroll="50">
             <div class="container">
                 <div class="navbar-translate">
@@ -86,6 +97,7 @@
 
                     </ul>
                 </div>
+                <p:growl class="ui-growl" id="growl" showDetail="true"/>
             </div>
         </nav>
 
@@ -236,10 +248,9 @@
                                             <p:outputLabel for="annee"><label class="note" >ANNEE </label></p:outputLabel>
                                         </div>
                                         <div class="col-sm-3 " style="margin-left: -5%;margin-bottom: 10px;">
-                                            <h:selectOneMenu style="width: 100%;" required="true" id="annee" 
+                                            <h:selectOneMenu style="width: 100%;" required="true" requiredMessage="Vous devez indiquer une année c'est obligatoire !" id="annee" 
                                                              value="#{trieOeufController.year}" >
                                                 <f:selectItem itemLabel="-- Année --" itemValue="" noSelectionOption="true" />
-                                                <f:selectItem itemLabel="2018" itemValue="2018" />
                                                 <f:selectItems  value="#{trieOeufController.chargeYearsSavedInDB()}"
                                                                 var="annee" itemValue="#{annee}"/>
                                             </h:selectOneMenu>
@@ -249,7 +260,7 @@
                                         </div>
                                         <p:spacer/>
                                         <div class="col-sm-3 " style="margin-left: -5%;margin-bottom: 10px;" >
-                                            <h:selectOneMenu style="width: 100%;" required="true" id="month" 
+                                            <h:selectOneMenu style="width: 100%;" required="true" requiredMessage="Vous devez indiquer un mois c'est obligatoire !" id="month" 
                                                              value="#{trieOeufController.mois}" >
                                                 <f:selectItem itemLabel="-- Mois --" itemValue="" noSelectionOption="true" />
                                                 <f:selectItem itemLabel="JANVIER" itemValue="01" />
@@ -278,8 +289,10 @@
                                                 <span class="input-group-addon">
                                                     <i class="nc-icon nc-calendar-60" aria-hidden="true"></i>
                                                 </span>
-                                                <p:inputText id="jourMin" value="#{trieOeufController.inputMin}" required="false" a:type='text'
-                                                             class="form-control " placeholder="Jour min de trie" title="Date de création" />
+                                                <h:inputText id="jourMin" value="#{trieOeufController.inputMin}" required="false" a:type='text'
+                                                             class="form-control " title="Date de création" >
+                                                    <f:validateLength minimum="1" maximum="#{trieOeufController.maxDayInSelectedMonth()}"/>
+                                                </h:inputText>
                                             </div>
                                         </div>
                                         <div class="col-sm-3" style="margin-left: 2%;margin-top: 10px;" >
@@ -291,8 +304,10 @@
                                                 <span class="input-group-addon">
                                                     <i class="nc-icon nc-calendar-60" aria-hidden="true"></i>
                                                 </span>
-                                                <p:inputText id="jourMax" value="#{trieOeufController.inputMax}" required="false" a:type='text'
-                                                             class="form-control " placeholder="Jour max de trie" title="Date de création" />
+                                                <h:inputText id="jourMax" value="#{trieOeufController.inputMax}" required="false" a:type='text'
+                                                             class="form-control " title="Date de création" >
+                                                    <f:validateLength minimum="1" maximum="#{trieOeufController.maxDayInSelectedMonth()}" />
+                                                </h:inputText>
                                             </div>
                                         </div>
                                         <p:spacer/>
@@ -300,7 +315,7 @@
                                     </div>
                                     <p:spacer/>
                                     <div class="row" style="margin-top: 20px;">
-                                        <div class="col-md-4" >
+                                        <div class="col-md-4" style="margin-left: 2%">
                                             <p:outputLabel for="oeuf"><label class="note">CATÉGORIE DES OEUFS</label></p:outputLabel>
                                         </div>
                                         <div class="col-sm-4" style="margin-left: 5%;">
@@ -315,7 +330,7 @@
                                         <div class="col-sm-2" style="margin-left: 6%;margin-top: 25px;">
                                             <p:commandLink  class="btn btn-outline-success btn-sm" 
                                                             actionListener="#{trieOeufController.searchJournalier()}" title="Chercher les tries "
-                                                            update="forme1 :datalist">
+                                                            update="forme1 :datalist :growl">
                                                 <h:outputText value="CHERCHER" />
                                                 <i  class="nc-icon nc-zoom-split" aria-hidden="true"></i>
                                             </p:commandLink>
@@ -351,9 +366,7 @@
                                                 <f:facet name="header">
                                                     <h:outputText value="DateTrie"/>
                                                 </f:facet>
-                                                <h:outputText value="#{item.dateTrie}">
-                                                    <f:convertDateTime pattern="MM/dd/yyyy" />
-                                                </h:outputText>
+                                                <h:outputText value="#{trieOeufController.formatDateToString(item.dateTrie)}"/>
                                             </p:column>
                                             <p:column>
                                                 <f:facet name="header">
@@ -412,8 +425,8 @@
                                                 </p:commandLink>
                                                 <!--                                                    </div>
                                                                                                     <div class="col-sm-3" style="">-->
-                                                
-                                                <p:commandLink style="margin-left: 15%;color: red;" class="btn btn-outline-info btn-sm"
+
+                                                <p:commandLink style="margin-left: 15%;color: black;" class="btn btn-outline-danger btn-sm"
                                                                actionListener="#{trieOeufController.imprimer()}"
                                                                value="IMPRIMER" title="Imprimer le document " update=":forme1 ">
                                                     <f:actionListener binding="#{trieOeufController.setForme1(true)}"/>
