@@ -92,7 +92,9 @@
                             </div>
                         </li>
                         <li class="nav-item">
-                            <p:commandLink action="#{employeController.deconnecter()}"  class="nav-link"><i class="nc-icon nc-lock-circle-open"></i>Déconnexion</p:commandLink>
+                            <p:commandLink action="#{utilisateurController.deconnecter()}"  class="nav-link">
+                                <i class="nc-icon nc-lock-circle-open"></i>Déconnexion
+                            </p:commandLink>
                         </li>
 
                     </ul>
@@ -190,7 +192,7 @@
                                             <div id="collapseFive" class="collapse in" role="tabpanel" aria-labelledby="headingFive">
                                                 <div class="card-header">
                                                     <ul>
-                                                        <li><a href="#"><h6><span class="note">JOURNALIER</span></h6></a></li>
+                                                        <li><a href="suivisOeufsJournalier.xhtml"><h6><span class="note">JOURNALIER</span></h6></a></li>
                                                         <li><a href="suivisOeufsHebdo.xhtml"><h6><span class="note">HEBDOMADAIRE</span></h6></a></li>
                                                         <li><a href="#"><h6><span class="note">MENSUEL</span></h6></a></li>
                                                     </ul>
@@ -282,7 +284,7 @@
                             <div class="col-lg-10 col-md-12">
                                 <div class="card-header col-md-12" >
                                     <p:outputLabel><h6 class="text-center note">
-                                            SUIVIS OEUFS <span style="color: #abd432;"> / JOURNALIER
+                                            SUIVIS OEUFS <span style="color: #abd432;"> / HEBDOMADAIRE
                                             </span>
                                         </h6></p:outputLabel>
                                 </div>
@@ -299,33 +301,11 @@
                                             <p:outputLabel for="annee"><label class="note" >ANNEE </label></p:outputLabel>
                                         </div>
                                         <div class="col-sm-3 " style="margin-left: 5%;margin-bottom: 10px;">
-                                            <h:selectOneMenu style="width: 100%;" required="true" requiredMessage="Vous devez indiquer une année c'est obligatoire !" id="annee" 
-                                                             value="#{trieOeufController.year}" >
+                                            <h:selectOneMenu style="width: 100%;" required="true" requiredMessage="Vous devez indiquer une année c'est obligatoire !"
+                                                             id="annee" value="#{trieOeufController.year}" >
                                                 <f:selectItem itemLabel="-- Année --" itemValue="" noSelectionOption="true" />
                                                 <f:selectItems  value="#{trieOeufController.chargeYearsSavedInDB()}"
                                                                 var="annee" itemValue="#{annee}"/>
-                                            </h:selectOneMenu>
-                                        </div>
-                                        <div class="col-sm-2" style="margin-left: 2%;" >
-                                            <p:outputLabel for="month"><label class="note">MOIS </label></p:outputLabel>
-                                        </div>
-                                        <p:spacer/>
-                                        <div class="col-sm-3 " style="margin-left: 5%;margin-bottom: 10px;" >
-                                            <h:selectOneMenu style="width: 100%;" required="true" requiredMessage="Vous devez indiquer un mois c'est obligatoire !" id="month" 
-                                                             value="#{trieOeufController.mois}" >
-                                                <f:selectItem itemLabel="-- Mois --" itemValue="" noSelectionOption="true" />
-                                                <f:selectItem itemLabel="JANVIER" itemValue="01" />
-                                                <f:selectItem itemLabel="FÉVRIER" itemValue="02" />
-                                                <f:selectItem itemLabel="MARS" itemValue="03" />
-                                                <f:selectItem itemLabel="AVRIL" itemValue="04"/>
-                                                <f:selectItem itemLabel="MAI" itemValue="05" />
-                                                <f:selectItem itemLabel="JUIN" itemValue="06"/>
-                                                <f:selectItem itemLabel="JUILLET" itemValue="07" />
-                                                <f:selectItem itemLabel="AOUT" itemValue="08" />
-                                                <f:selectItem itemLabel="SEPTEMBRE" itemValue="09" />
-                                                <f:selectItem itemLabel="OCTOBRE" itemValue="10" />
-                                                <f:selectItem itemLabel="NOVEMBRE" itemValue="11"/>
-                                                <f:selectItem itemLabel="DECEMBRE" itemValue="12"/>
                                             </h:selectOneMenu>
                                         </div>
                                         <p:spacer/>
@@ -333,21 +313,21 @@
                                     </div>
                                     <div class="row" style="margin-top: 20px;">
                                         <div class="col-sm-2 " style="margin-left: 2%;margin-top: 10px;">
-                                            <p:outputLabel for="jourMin"><label class="note" >JOUR MIN </label></p:outputLabel>
+                                            <p:outputLabel for="semaineMin"><label class="note" >MOIS MIN </label></p:outputLabel>
                                         </div>
                                         <div class="col-sm-3 " style="margin-left: 5%;">
                                             <div class="input-group" >
                                                 <span class="input-group-addon">
                                                     <i class="nc-icon nc-calendar-60" aria-hidden="true"></i>
                                                 </span>
-                                                <h:inputText id="jourMin" value="#{trieOeufController.inputMin}" required="false" a:type="tel"
-                                                             class="form-control " title="Jour min de trie" >
+                                                <h:inputText id="semaineMin" value="#{trieOeufController.inputMin}" required="false" a:type="num"
+                                                             class="form-control " title="Mois de trie" >
                                                     <f:validateLength minimum="1" maximum="#{trieOeufController.maxDayInSelectedMonth()}"/>
                                                 </h:inputText>
                                             </div>
                                         </div>
                                         <div class="col-sm-2" style="margin-left: 2%;margin-top: 10px;" >
-                                            <p:outputLabel for="jourMax"><label class="note">JOUR MAX </label></p:outputLabel>
+                                            <p:outputLabel for="semaineMax"><label class="note">MOIS MAX </label></p:outputLabel>
                                         </div>
                                         <p:spacer/>
                                         <div class="col-sm-3 " style="margin-left: 5%;" >
@@ -355,8 +335,8 @@
                                                 <span class="input-group-addon">
                                                     <i class="nc-icon nc-calendar-60" aria-hidden="true"></i>
                                                 </span>
-                                                <h:inputText id="jourMax" value="#{trieOeufController.inputMax}" required="false" a:type="tel"
-                                                             class="form-control " title="Jour max de trie" >
+                                                <h:inputText id="semaineMax" value="#{trieOeufController.inputMax}" required="false" a:type="num"
+                                                             class="form-control " title="Mois de trie" >
                                                     <f:validateLength minimum="1" maximum="#{trieOeufController.maxDayInSelectedMonth()}" />
                                                 </h:inputText>
                                             </div>
@@ -378,9 +358,9 @@
                                             </h:selectOneMenu>
                                         </div>
                                         <p:spacer/>
-                                        <div class="col-sm-2" style="margin-left: 5%;margin-top: 25px;">
+                                        <div class="col-sm-2" style="margin-left: 6%;margin-top: 25px;">
                                             <p:commandLink  class="btn btn-outline-success btn-sm" 
-                                                            actionListener="#{trieOeufController.searchJournalier()}" title="Chercher les tries "
+                                                            actionListener="#{trieOeufController.searchHebdo()}" title="Chercher les tries "
                                                             update="forme1 :datalist :growl">
                                                 <h:outputText value="CHERCHER" />
                                                 <i  class="nc-icon nc-zoom-split" aria-hidden="true"></i>
@@ -397,7 +377,7 @@
                                         <p:dataTable style="width: 100%;" styleClass="table table-sm table-bordered" value="#{trieOeufController.items}" var="item">
                                             <p:column>
                                                 <f:facet name="header">
-                                                    <h:outputText value="Date" style="width: 69px;"/>
+                                                    <h:outputText value="Date" title="Date de trie"/>
                                                 </f:facet>
                                                 <h:outputText value="#{trieOeufController.formatDateToString(item.dateTrie)}"/>
                                             </p:column>
@@ -407,18 +387,6 @@
                                                 </f:facet>
                                                 <h:outputText value="#{item.numSemaine}"/>
                                             </p:column>
-                                            <!--                                            <p:column>
-                                                                                            <f:facet name="header">
-                                                                                                <h:outputText value="Ferme"/>
-                                                                                            </f:facet>
-                                                                                            <h:outputText value="#{item.ferme}"/>
-                                                                                        </p:column>-->
-                                            <p:column>
-                                                <f:facet name="header">
-                                                    <h:outputText value="Categorie"/>
-                                                </f:facet>
-                                                <h:outputText value="#{item.categorieOeuf.designation}"/>
-                                            </p:column>
                                             <p:column>
                                                 <f:facet name="header">
                                                     <h:outputText value="Reception"/>
@@ -427,7 +395,7 @@
                                             </p:column>
                                             <p:column>
                                                 <f:facet name="header">
-                                                    <h:outputText value="S.I"/>
+                                                    <h:outputText value="S.I" title="Situation Initiale"/>
                                                 </f:facet>
                                                 <h:outputText value="#{item.situationInitiale}"/>
                                             </p:column>
@@ -439,38 +407,20 @@
                                             </p:column>
                                             <p:column>
                                                 <f:facet name="header">
-                                                    <h:outputText value="Vente"/>
-                                                </f:facet>
-                                                <h:outputText value="#{item.vente}"/>
-                                            </p:column>
-                                            <p:column>
-                                                <f:facet name="header">
-                                                    <h:outputText value="Don"/>
-                                                </f:facet>
-                                                <h:outputText value="#{item.don}"/>
-                                            </p:column>
-                                            <p:column>
-                                                <f:facet name="header">
-                                                    <h:outputText value="Perte"/>
-                                                </f:facet>
-                                                <h:outputText value="#{item.perte}"/>
-                                            </p:column>
-                                            <p:column>
-                                                <f:facet name="header">
-                                                    <h:outputText value="Incubation"/>
+                                                    <h:outputText value="Incubation" title="Nombre des oeufs incubés"/>
                                                 </f:facet>
                                                 <h:outputText value="#{item.misEnIncubation}"/>
                                             </p:column>
                                             <p:column>
                                                 <f:facet name="header">
-                                                    <h:outputText value="S.F"/>
+                                                    <h:outputText value="S.F" title="Situation Finale"/>
                                                 </f:facet>
                                                 <h:outputText value="#{item.situationFinale}"/>
                                             </p:column>
                                         </p:dataTable>
                                         <div class="row">
-                                            <div class="col-md-auto" >
-                                                <p:commandLink  class="btn btn-default btn-sm"
+                                            <div class="col-md-auto">
+                                                <p:commandLink class="btn btn-dark btn-sm"
                                                                actionListener="#{trieOeufController.imprimer()}"
                                                                value="EXPORTER" title="Imprimer le document " update=":forme1 :exporteForm"
                                                                oncomplete="PF('exporteDialog').show()">
@@ -515,3 +465,4 @@
     <script src="../assets/js/bootstrap-datetimepicker.min.js"></script>
 
 </html>
+

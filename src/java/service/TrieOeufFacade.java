@@ -218,4 +218,22 @@ public class TrieOeufFacade extends AbstractFacade<TrieOeuf> {
                     DateUtil.getSqlDateToSaveInDB(dayMax + "/" + moisAndYear), categorieOeuf);
         }
     }
+
+    public List<TrieOeuf> findByNumSemaine(Integer year, Integer semaineMax, Integer semaineMin, CategorieOeuf categorieOeuf) {
+        String req = "SELECT tr FROM TrieOeuf tr WHERE 1=1 ";
+        if (semaineMax != null) {
+            req += " AND tr.numSemaine >= '" + semaineMax + "' ";
+        }
+        if (semaineMin != null) {
+            req += " AND tr.numSemaine <= '" + semaineMin + "' ";
+        }
+        if (year != null) {
+            // select the year
+        }
+        if (categorieOeuf != null) {
+            req += " AND tr.categorieOeuf.id = '" + categorieOeuf.getId() + "' ";
+        }
+        return getMultipleResult(req);
+    }
+
 }

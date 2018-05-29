@@ -30,11 +30,19 @@
         <link href='http://fonts.googleapis.com/css?family=Montserrat:400,300,700' rel='stylesheet' type='text/css'></link>
         <!--<link href="http://maxcdn.bootstrapcdn.com/font-awesome/latest/css/font-awesome.min.css" rel="stylesheet"></link>-->
         <link href="../assets/css/nucleo-icons.css" rel="stylesheet"></link>
+        <style>
+            .ui-growl {   
+                position:fixed;
+                top: 40%;
+                left: 37%;
+                width: 40%;
+                height: 10%;
+                z-index:9999; 
+            }
+        </style>
     </h:head>
-    <h:body>
-        <h:form id="growl">
-            <p:growl showDetail="true" />
-        </h:form>
+    <h:body onload="#{trieOeufController.initParamUsedInSuivis()}">
+            <p:growl id="growl" showDetail="true" />
         <!-- navBar -->
         <nav class="navbar navbar-expand-md fixed-top navbar-transparent" color-on-scroll="50">
             <div class="container">
@@ -44,7 +52,7 @@
                         <span class="navbar-toggler-bar"></span>
                         <span class="navbar-toggler-bar"></span>
                     </button>
-                    <a class="navbar-brand " href="https://www.creative-tim.com">
+                    <a class="navbar-brand " href="">
                         <img class="navbar-brand-ful img-circle" src="../images/oeufsTitle.png" />
                         <span class="images-title" >E-Poussins</span></a>
                 </div>
@@ -85,7 +93,9 @@
                             </div>
                         </li>
                         <li class="nav-item">
-                            <p:commandLink action="#{employeController.deconnecter()}"  class="nav-link"><i class="nc-icon nc-lock-circle-open"></i>Déconnexion</p:commandLink>
+                            <p:commandLink action="#{utilisateurController.deconnecter()}"  class="nav-link">
+                                <i class="nc-icon nc-lock-circle-open"></i>Déconnexion
+                            </p:commandLink>
                         </li>
 
                     </ul>
@@ -131,7 +141,6 @@
                                                 <div class="card-header">
                                                     <ul>
                                                         <li><a href="#"><h6><span class="note">TRIE OEUFS</span></h6></a></li>
-                                                        <li><a href="#"><h6><span class="note">SUIVIS OEUFS</span></h6></a></li>
                                                         <li><a href="#"><h6><span class="note">CONSULTATION</span></h6></a></li>
                                                         <li><a href="#"><h6><span class="note">VENTES</span></h6></a></li>
                                                         <li><a href="#"><h6><span class="note">TRANSFERT</span></h6></a></li>
@@ -143,17 +152,16 @@
                                             <a data-toggle="collapse" data-parent="#accordion" href="#collapseFive" aria-expanded="true" aria-controls="collapseFive">
                                                 <div class="card-header" role="tab" id="headingFive" >
                                                     <h6 >
-                                                        SUIVIS 
+                                                        SUIVIS OEUFS
                                                     </h6>
                                                 </div>
                                             </a>
                                             <div id="collapseFive" class="collapse in" role="tabpanel" aria-labelledby="headingFive">
                                                 <div class="card-header">
                                                     <ul>
-                                                        <li><a href="#"><h6><span class="note">SUIVIS JOURNALIER</span></h6></a></li>
-                                                        <li><a href="#"><h6><span class="note">SUIVIS HEBDOMADAIRE</span></h6></a></li>
-                                                        <li><a href="#"><h6><span class="note">SUIVIS MENSUEL</span></h6></a></li>
-                                                        <li><a href="#"><h6><span class="note">SUIVIS ANNUEL</span></h6></a></li>
+                                                        <li><a href="suivisOeufsJournalier.xhtml"><h6><span class="note">JOURNALIER</span></h6></a></li>
+                                                        <li><a href="suivisOeufsHebdo.xhtml"><h6><span class="note">HEBDOMADAIRE</span></h6></a></li>
+                                                        <li><a href="#"><h6><span class="note">MENSUEL</span></h6></a></li>
                                                     </ul>
                                                 </div>
                                             </div>
@@ -256,6 +264,7 @@
                                                         <i class="nc-icon nc-calendar-60" aria-hidden="true"></i>
                                                     </span>
                                                     <p:inputText id="dateTrie" value="#{trieOeufController.dateTrie}" required="true"
+                                                                 requiredMessage="Vous devez indiquer une date"
                                                                  class="form-control " placeholder="05/08/2017" title="Date de trie" />
                                                 </div>
                                                 <script type="text/javascript">
@@ -278,6 +287,7 @@
                                                         <i class="nc-icon nc-calendar-60" aria-hidden="true"></i>
                                                     </span>
                                                     <p:inputText id="semaine" value="#{trieOeufController.semaine}" required="true"
+                                                                 requiredMessage="Vous devez indiquer une semaine"
                                                                  class="form-control " placeholder="N° semaine de trie" title="Numéro de semaine de trie" />
                                                 </div>
                                             </div>
@@ -291,6 +301,7 @@
                                             <div class="col-sm-3">
                                                 <p:inputText id="reception" value="#{trieOeufController.reception}" required="true"
                                                              placeholder="Nombre des oeufs " title="Quantité de réception" class="form-control"
+                                                             requiredMessage="Vous devez indique la quantité des oeufs à la réception"
                                                              >
                                                     <p:ajax update=":forme2" listener="#{trieOeufController.setRestReception(trieOeufController.reception)}"/>
                                                 </p:inputText>
@@ -603,9 +614,9 @@
                 <div class="row">
                     <nav class="footer-nav">
                         <ul>
-                            <li><a href="https://www.creative-tim.com">Creative Tim</a></li>
-                            <li><a href="http://blog.creative-tim.com">Blog</a></li>
-                            <li><a href="https://www.creative-tim.com/license">Licenses</a></li>
+                            <li><a >Creative Tim</a></li>
+                            <li><a >Blog</a></li>
+                            <li><a >Licenses</a></li>
                         </ul>
                     </nav>
                     <div class="credits ml-auto">

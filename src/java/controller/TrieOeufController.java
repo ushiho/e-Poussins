@@ -554,13 +554,8 @@ public class TrieOeufController implements Serializable {
     }
 
     public void searchJournalier() {
-        System.out.println("salam c journalier");
-        if (ejbFacade.testItems(items)) {
-            setItems(null);
-        }
         setItems(ejbFacade.searchJournalier(year, mois, inputMin, inputMax, categorieOeufSelected));
         testListAndShowMsg();
-        System.out.println("ha list : " + getItems());
     }
 
     public void testListAndShowMsg() {
@@ -575,5 +570,19 @@ public class TrieOeufController implements Serializable {
             return DateUtil.maxDayInMonthOfYear(year, mois);
         }
         return 31;
+    }
+
+    public void initParamUsedInSuivis() {
+        initAllParams();
+        setYear(null);
+        setMois(null);
+        setInputMax(null);
+        setInputMin(null);
+    }
+
+    // methods for hebdo template
+    public void searchHebdo() {
+        setItems(ejbFacade.findByNumSemaine(year, inputMax, inputMin, categorieOeufSelected));
+        testListAndShowMsg();
     }
 }
