@@ -10,6 +10,7 @@ import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.servlet.http.HttpSession;
+import util.PassUtil;
 import util.SessionUtil;
 
 /**
@@ -53,4 +54,26 @@ public class UtilisateurFacade extends AbstractFacade<Utilisateur> {
     public Utilisateur findByLogin(String login) {
         return getUniqueResult("SELECT u FROM Utilisateur u WHERE u.login like '" + login + "'");
     }
+
+    public int seConnecter(Utilisateur utilisateur) {
+        if (utilisateur == null) {
+            return -3;
+        }
+        Utilisateur existe = findByLogin(utilisateur.getLogin());
+        if (existe == null) {
+            return -1;
+        } else if (!PassUtil.testTwoPasswords(utilisateur.getPassword(), existe.getPassword())) {
+            return -2;
+        } else {
+            cloneUserAndSaveInSession(existe);
+            return 1;
+        }
+    }
+
+    private void cloneUserAndSaveInSession(Utilisateur existe) {
+        Utilisateur clone = clone(existe);
+        clone.setPassword(null);
+        SessionUtil.registerUser(clone);
+    }
+
 }

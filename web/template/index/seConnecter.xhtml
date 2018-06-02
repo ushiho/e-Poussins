@@ -11,7 +11,7 @@
         <link rel="apple-touch-icon" sizes="76x76" href="../images/oeufs.png"></link>
         <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
         <script src='https://www.google.com/recaptcha/api.js'></script>
-        <title>Direction Générale des Impots</title>
+        <title>e-Poussins</title>
 
         <meta content='width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0' name='viewport' />
         <meta name="viewport" content="width=device-width" />
@@ -19,6 +19,7 @@
         <!-- Bootstrap core CSS     -->
         <link href="../assets/css/bootstrap.min.css" rel="stylesheet" />
         <link href="../assets/css/paper-kit.css?v=2.1.0" rel="stylesheet"/>
+        <link href="../assets/css/monCss.css" rel="stylesheet"/>
 
         <!--  CSS for Demo Purpose, don't include it in your project     -->
         <link href="../assets/css/demo.css" rel="stylesheet" />
@@ -35,79 +36,84 @@
                 <div class="filter"></div>
             </div>
             <div class="main">
-<!--                <div class="col-md-3 mr-auto" style="">
-                    <img class="image" src="../images/oeufs.png"/> 
-                </div>-->
+                <!--                <div class="col-md-3 mr-auto" style="">
+                                    <img class="image" src="../images/oeufs.png"/> 
+                                </div>-->
                 <div class="section landing-section">
                     <div class="container">
-                        <div class="row">
+                        <div class="row card-columns">
                             <div class="col-md-8 ml-auto mr-auto">
 
-                                <div class="card-header col-md-12 ml-auto mr-auto" >
-                                    <p:outputLabel class="text-center"><h6 class="text-center note">BIENVENUE SUR VOTRE ESPACE </h6></p:outputLabel>
+                                <div class="card-header text-center " >
+                                    <p:outputLabel >
+                                        <h6 class="text-center note">BIENVENUE SUR VOTRE ESPACE </h6>
+                                    </p:outputLabel>
                                 </div>
                                 <h:form id="form" class="contact-form">
                                     <div class="row">
                                         <div class="col-md-4 ml-auto" >
                                             <p:outputLabel for="if"><label class="note" >
-                                                    IDENTIFIANT :</label></p:outputLabel>
-                                            <p:outputLabel for="password"><label class="note" >
-                                                    MOT DE PASSE :</label></p:outputLabel>
+                                                    LOGIN </label></p:outputLabel>
                                         </div>
-                                        <div class="col-md-6 ml-auto">
-                                            <p:outputLabel value=""/>
-                                            <div  class="input-group">
+                                        <div class="col-md-6 ml-auto" style="margin-top: 15px;">
+                                            <div class="input-group">
                                                 <span class="input-group-addon">
                                                     <i class="nc-icon nc-user-run"></i>
                                                 </span>
-                                                <p:inputText id="if" value="#{utilisateurController.selected.login}" 
+                                                <p:inputText id="if" value="#{utilisateurController.selected.login}" required="true"
                                                              a:type="text" class="form-control"></p:inputText>
                                             </div>
-                                            <p:outputLabel value=""/>
+                                        </div>
+                                        <div class="col-md-4 ml-auto">
+                                            <p:outputLabel for="password"><label class="note" >
+                                                    MOT DE PASSE </label></p:outputLabel>
+                                        </div>
+                                        <div class="col-md-6 ml-auto" style="margin-top: 15px;">
                                             <div  class="input-group">
                                                 <span class="input-group-addon">
                                                     <i class="nc-icon nc-key-25"></i>
                                                 </span>
-                                                <p:password a:type="password" id="password" value="#{utilisateurController.selected.password}" 
+                                                <p:password a:type="password" id="password" required="true"
+                                                            value="#{utilisateurController.selected.password}" 
                                                             class="form-control"></p:password>
                                             </div>
                                         </div>
 
                                     </div>
                                     <div class="row">
-                                        <h:outputLabel id="res">
-                                            <script src='https://www.google.com/recaptcha/api.js'></script>
-                                            <div class="text-center" style="margin-left: 200px;">
-                                                <p:spacer></p:spacer>
+                                        <div class="ml-auto mr-auto">
+                                            <h:outputLabel id="res">
+                                                <script src='https://www.google.com/recaptcha/api.js'></script>
+                                                <p:spacer/>
                                                 <div class="g-recaptcha" id="reCaptcha" data-sitekey="6LerFVIUAAAAAD7izZ3VCu7PMhRAuypTQabi9qhy">
-                                                    <!--<p:message  showDetail="true"  ></p:message>-->
                                                 </div>
 
-                                                <p:spacer/>
-                                                <p:spacer/>
-
-                                                <p:outputLabel  rendered="#{employeController.userCaNotConnect}" class="notification-text" style="color: red;font-size: 13px;">
+                                                <p:outputLabel  rendered="#{utilisateurController.userCaNotConnect}" class="notification-text" 
+                                                                style="color: red;font-size: 13px;margin-top: 5px;">
                                                     Désolé mot de passe ou identifiant est incorrect !
                                                 </p:outputLabel>
-                                            </div>
-                                        </h:outputLabel>
+                                            </h:outputLabel>
+                                        </div>
                                     </div>
                                     <div class="row">
-                                        <div class="col-8 ml-auto mr-auto">
-                                            <div class="forgot nav-link" style="margin-top: 20px;">
-                                                <a id="annuler" href="resetPassword.xhtml" title="Réntialiser votre mot de passe ?">
-                                                    <strong style="font-size: 15px;"> MOT DE PASSE OUBLIÉE ?</strong>
+                                        <div class="col-md-6">
+                                            <div class="forgot nav-link " style="margin-top: 25px;margin-left: 10%;">
+                                                <a id="annuler" class="nav-link" href="resetPassword.xhtml" title="Réntialiser votre mot de passe ?">
+                                                    MOT DE PASSE OUBLIÉE ?
                                                 </a>
                                             </div>
                                         </div>
-                                        <div class="col-md-2 ml-auto mr-auto">
-                                            <p:commandLink id="nextButton" update="res " ajax="true" action="#{employeController.seConnecter()}" class="btn btn-sm btn-default" value="VALIDER">
-                                            </p:commandLink>
+                                        <div class="col-md-4" style="margin-left: 10%;">
+                                            <h:commandLink id="nextButton"
+                                                           action="#{utilisateurController.seConnecter()}" 
+                                                           class="btn btn-sm btn-default" value="CONNECTER">
+                                            </h:commandLink>
                                         </div>
 
                                     </div>
                                 </h:form>
                             </div>
+                            <!--<p:growl id="growl" class="ui-growl" />-->
                         </div>
                     </div>
                 </div>

@@ -370,6 +370,7 @@ public class TrieOeufController implements Serializable {
         setTotalEntres(getTotalEntres().add(selected.getEntree()));
         MessageUtil.info("La Catégorie '" + selected.getCategorieOeuf().getDesignation() + "' est ajoutée");
         initSelectdAndCategorie();
+        setForme3(false);
     }
 
     private void initSelectdAndCategorie() {
@@ -383,7 +384,6 @@ public class TrieOeufController implements Serializable {
                 return;
             }
             addToList();
-            setForme3(false);
         } else {
             if (testSFToSave()) {
                 int index = ejbFacade.indexOfSelected(items, selected);
@@ -394,7 +394,6 @@ public class TrieOeufController implements Serializable {
                 return;
             }
             modifyFromList();
-            setForme3(false);
         }
     }
 
@@ -435,6 +434,7 @@ public class TrieOeufController implements Serializable {
         setSelected(null);
         setSelectedToModify(null);
         setCategorieOeufSelected(null);
+        setForme3(false);
     }
 
     public void reloadAllThePage() throws IOException {
@@ -485,7 +485,7 @@ public class TrieOeufController implements Serializable {
             MessageUtil.info("Vos donnés sont bien enregistrés ");
             setTotalEntres(null);
             items.clear();
-            initAllParams();
+            initParamsUsedInTrie();
             setForme4(true);
             return;
         }
@@ -496,10 +496,10 @@ public class TrieOeufController implements Serializable {
     public void cancelSavingInDb() {
         getItems().clear();
         setForme1(true);
-        initAllParams();
+        initParamsUsedInTrie();
     }
 
-    public void initAllParams() {
+    public void initParamsUsedInTrie() {
         setSelectedToModify(null);
         setReception(null);
         setRestReception(null);
@@ -572,8 +572,7 @@ public class TrieOeufController implements Serializable {
         return 31;
     }
 
-    public void initParamUsedInSuivis() {
-        initAllParams();
+    public void initParamsUsedInSuivis() {
         setYear(null);
         setMois(null);
         setInputMax(null);

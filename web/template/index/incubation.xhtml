@@ -2,7 +2,8 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:h="http://xmlns.jcp.org/jsf/html"
-      xmlns:p="http://primefaces.org/ui">
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
     <h:head>
         <title>e-Poussins</title>
         <meta charset="utf-8" />
@@ -29,7 +30,7 @@
         <link href="../assets/css/nucleo-icons.css" rel="stylesheet"></link>
     </h:head>
     <h:body>
-         <nav class="navbar navbar-expand-lg fixed-top navbar-transparent" color-on-scroll="50">
+        <nav class="navbar navbar-expand-lg fixed-top navbar-transparent" color-on-scroll="50">
             <div class="container">
                 <div class="navbar-translate">
                     <button class="navbar-toggler navbar-toggler-right navbar-burger" type="button" data-toggle="collapse" data-target="#navbarToggler" aria-controls="navbarTogglerDemo02" aria-expanded="false" aria-label="Toggle navigation">
@@ -76,15 +77,207 @@
                             </div>
                         </li>
                         <li class="nav-item">
-                            <p:commandLink action="#{employeController.deconnecter()}"  class="nav-link"><i class="nc-icon nc-lock-circle-open"></i>Déconnexion</p:commandLink>
+                            <h:form>
+                                <h:commandLink class="nav-link" action="#{utilisateurController.deconnecter()}" >
+                                    <i class="nc-icon nc-key-25"></i>Déconnexion
+                                </h:commandLink>
+                            </h:form>
                         </li>
 
                     </ul>
                 </div>
             </div>
         </nav>
-        
-        
+
+        <div class="wrapper">
+
+            <div class="documentation page-header  page-header-xs" data-parallax="true"
+
+                 style="background-image: url('../assets/img/lamp.jpg');">
+                <div class="filter"></div>
+            </div>
+            <div class="main">
+                <div class="section profile-content">
+                    <div class="container">
+                        <div class="owner">
+                            <div class="avatar"></div>
+                            <div class="name">
+                                <h4 class="title">
+                                    <p:outputLabel value="USER"/>
+                                    <br /></h4>
+                            </div>
+                        </div>
+                        <div class="row tim-row">
+                            <div class="col-lg-3 col-md-6">
+                                <div class="fixed-section">
+
+                                    <div id="accordion" role="tablist" aria-multiselectable="true">
+                                        <div >
+                                            <a data-toggle="collapse" data-parent="#accordion" href="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+                                                <div class="card-header" role="tab" id="headingOne" >
+                                                    <h6 >
+
+                                                        OEUFS
+
+                                                    </h6>
+                                                </div>
+                                            </a>
+                                            <div id="collapseOne" class="collapse in" role="tabpanel" aria-labelledby="headingOne">
+                                                <div class="card-header">
+                                                    <ul>
+                                                        <li><a href="#"><h6><span class="note">TRIE OEUFS</span></h6></a></li>
+                                                        <li><a href="#"><h6><span class="note">CONSULTATION</span></h6></a></li>
+                                                        <li><a href="#"><h6><span class="note">VENTES</span></h6></a></li>
+                                                        <li><a href="#"><h6><span class="note">TRANSFERT</span></h6></a></li>
+                                                    </ul>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div>
+                                            <a data-toggle="collapse" data-parent="#accordion" href="#collapseFive" aria-expanded="true" aria-controls="collapseFive">
+                                                <div class="card-header" role="tab" id="headingFive" >
+                                                    <h6 >
+                                                        SUIVIS OEUFS
+                                                    </h6>
+                                                </div>
+                                            </a>
+                                            <div id="collapseFive" class="collapse in" role="tabpanel" aria-labelledby="headingFive">
+                                                <div class="card-header">
+                                                    <ul>
+                                                        <li><a href="suivisOeufsJournalier.xhtml"><h6><span class="note">JOURNALIER</span></h6></a></li>
+                                                        <li><a href="suivisOeufsHebdo.xhtml"><h6><span class="note">HEBDOMADAIRE</span></h6></a></li>
+                                                        <li><a href="#"><h6><span class="note">MENSUEL</span></h6></a></li>
+                                                    </ul>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div >
+                                            <a class="collapsed" data-toggle="collapse" data-parent="#accordion" href="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
+                                                <div class="card-header" role="tab" id="headingTwo" data-toggle="collapse" data-parent="#accordion">
+                                                    <h6 >
+
+                                                        INCUBATION
+
+                                                    </h6>
+                                                </div>
+                                            </a>
+                                            <div id="collapseTwo" class="collapse" role="tabpanel" aria-labelledby="headingTwo">
+                                                <div class="card-header">
+                                                    <ul>
+                                                        <li><a href="#dropdown-row"><h6><span class="note">AJOUTE</span></h6></a></li>
+                                                        <li><a href="#dropdown-row"><h6><span class="note">SUIVIS JOURNALIER</span></h6></a></li>
+                                                        <li><a href="#inputs-row"><h6><span class="note">CONSULTATION</span></h6></a></li>
+                                                    </ul>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div >
+                                            <a class="collapsed" data-toggle="collapse" data-parent="#accordion" href="#collapseTree" aria-expanded="false" aria-controls="collapseTree">
+                                                <div class="card-header" role="tab" id="headingTree" data-toggle="collapse" data-parent="#accordion">
+                                                    <h6 >
+
+                                                        ECLOSION
+
+                                                    </h6>
+                                                </div>
+                                            </a>
+                                            <div id="collapseTree" class="collapse" role="tabpanel" aria-labelledby="headingTree">
+                                                <div class="card-header">
+                                                    <ul>
+                                                        <li><a href="historiqueIs.xhtml"><h6><span class="note">AJOUTE</span></h6></a></li>
+                                                        <li><a href="#pagination-row"><h6><span class="note">CONSULTATION</span></h6></a></li>
+                                                        <li><a href="#pagination-row"><h6><span class="note">COMMERCIALISATION</span></h6></a></li>
+                                                    </ul>
+                                                </div>
+
+                                            </div>
+                                        </div>
+                                        <div >
+                                            <a class="collapsed" data-toggle="collapse" data-parent="#accordion" href="#collapsefore" aria-expanded="false" aria-controls="collapsefore">
+                                                <div class="card-header" role="tab" id="headingfore" data-toggle="collapse" data-parent="#accordion">
+                                                    <h6 >
+
+                                                        COUVOIR
+
+                                                    </h6>
+                                                </div>
+                                            </a>
+                                            <div id="collapsefore" class="collapse" role="tabpanel" aria-labelledby="headingfore">
+                                                <div class="card-header">
+                                                    <ul>
+                                                        <li><a href="#navbar-row"><h6><span class="note">AJOUTER</span></h6></a></li>
+                                                        <li><a href="#pagination-row"><h6><span class="note">CONSULTER</span></h6></a></li>
+                                                    </ul>
+                                                </div>
+
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col-lg-9 col-md-12">
+                                <div class="card-header col-md-12 ml-auto mr-auto" >
+                                    <p:outputLabel><h6 class="text-center note">INCUBATION
+                                            <span style="color: #abd432;"> / AJOUTE</span>
+                                        </h6></p:outputLabel>
+                                </div>
+                                <p:spacer/>
+                                <p:spacer/>
+                                <h:panelGroup rendered="#{!trieOeufController.forme4}" id="intro">
+                                    <p class="card-just-text text-center">Avec ce formulaire vous pouvez compléter les infos de vos trie ,En ajoutant
+                                        des incubations . Pour le faire vous devez indiquer la date de trie pour lier le trie avec l'incubation .</p>
+                                    <p:spacer/><br/>
+                                </h:panelGroup>
+                                <h:form id="forme1">
+                                    <h:panelGroup rendered=""
+                                                  <div class="row" >
+                                            <div class="col-sm-2 " style="margin-left: 2%;">
+                                                <p:outputLabel for="annee"><label class="note" >ANNEE </label></p:outputLabel>
+                                            </div>
+                                            <div class="col-sm-3 " style="margin-left: 5%;margin-bottom: 10px;">
+                                                <h:selectOneMenu style="width: 100%;" required="true" requiredMessage="Vous devez indiquer une année c'est obligatoire !" id="annee" 
+                                                                 value="#{trieOeufController.year}" >
+                                                    <f:selectItem itemLabel="-- Année --" itemValue="" noSelectionOption="true" />
+                                                    <f:selectItems  value="#{trieOeufController.chargeYearsSavedInDB()}"
+                                                                    var="annee" itemValue="#{annee}"/>
+                                                </h:selectOneMenu>
+                                            </div>
+                                            <div class="col-sm-2" style="margin-left: 2%;" >
+                                                <p:outputLabel for="month"><label class="note">MOIS </label></p:outputLabel>
+                                            </div>
+                                            <p:spacer/>
+                                            <div class="col-sm-3 " style="margin-left: 5%;margin-bottom: 10px;" >
+                                                <h:selectOneMenu style="width: 100%;" required="true" requiredMessage="Vous devez indiquer un mois c'est obligatoire !" id="month" 
+                                                                 value="#{trieOeufController.mois}" >
+                                                    <f:selectItem itemLabel="-- Mois --" itemValue="" noSelectionOption="true" />
+                                                    <f:selectItem itemLabel="JANVIER" itemValue="01" />
+                                                    <f:selectItem itemLabel="FÉVRIER" itemValue="02" />
+                                                    <f:selectItem itemLabel="MARS" itemValue="03" />
+                                                    <f:selectItem itemLabel="AVRIL" itemValue="04"/>
+                                                    <f:selectItem itemLabel="MAI" itemValue="05" />
+                                                    <f:selectItem itemLabel="JUIN" itemValue="06"/>
+                                                    <f:selectItem itemLabel="JUILLET" itemValue="07" />
+                                                    <f:selectItem itemLabel="AOUT" itemValue="08" />
+                                                    <f:selectItem itemLabel="SEPTEMBRE" itemValue="09" />
+                                                    <f:selectItem itemLabel="OCTOBRE" itemValue="10" />
+                                                    <f:selectItem itemLabel="NOVEMBRE" itemValue="11"/>
+                                                    <f:selectItem itemLabel="DECEMBRE" itemValue="12"/>
+                                                </h:selectOneMenu>
+                                            </div>
+                                            <p:spacer/>
+
+                                        </div>
+                                    </h:panelGroup>
+                                </h:form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
     </h:body>
 </html>
 

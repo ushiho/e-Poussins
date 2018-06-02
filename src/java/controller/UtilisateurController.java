@@ -3,6 +3,7 @@ package controller;
 import bean.Utilisateur;
 import controller.util.JsfUtil;
 import controller.util.JsfUtil.PersistAction;
+import java.io.IOException;
 import service.UtilisateurFacade;
 
 import java.io.Serializable;
@@ -19,7 +20,9 @@ import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
 import javax.faces.convert.Converter;
 import javax.faces.convert.FacesConverter;
+import util.MessageUtil;
 import util.SessionUtil;
+import util.VerifyRecaptchaUtil;
 
 @Named("utilisateurController")
 @SessionScoped
@@ -29,6 +32,7 @@ public class UtilisateurController implements Serializable {
     private service.UtilisateurFacade ejbFacade;
     private List<Utilisateur> items;
     private Utilisateur selected;
+    private boolean userCaNotConnect;
 
     public UtilisateurController() {
     }
@@ -61,6 +65,14 @@ public class UtilisateurController implements Serializable {
 
     public void setItems(List<Utilisateur> items) {
         this.items = items;
+    }
+
+    public boolean isUserCaNotConnect() {
+        return userCaNotConnect;
+    }
+
+    public void setUserCaNotConnect(boolean userCaNotConnect) {
+        this.userCaNotConnect = userCaNotConnect;
     }
 
     protected void setEmbeddableKeys() {
@@ -184,8 +196,22 @@ public class UtilisateurController implements Serializable {
     }
 
     public void deconnecter() {
+        System.out.println("cc from deconnecter");
         ejbFacade.logout();
-        SessionUtil.redirectToPage("login.xhtml");// accueil 
+        SessionUtil.redirectToPage("seConnecter.xhtml");// accueil 
+    }
+
+    public void seConnecter() throws IOException {
+        int res = ejbFacade.seConnecter(selected);
+        boolean recaptcha = VerifyRecaptchaUtil.getRecaptcha();
+        System.out.println(res + "ha recaptcha : " + recaptcha);
+        if (res > 0 ) {
+            SessionUtil.redirectToPage("trieOeufs.xhtml");
+            setUserCaNotConnect(false);
+        } else {
+            MessageUtil.error("Désolé mot de passe ou identifiant est incorrect !");
+            setUserCaNotConnect(true);
+        }
     }
 
 }

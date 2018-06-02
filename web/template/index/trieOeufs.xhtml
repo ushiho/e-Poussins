@@ -30,19 +30,9 @@
         <link href='http://fonts.googleapis.com/css?family=Montserrat:400,300,700' rel='stylesheet' type='text/css'></link>
         <!--<link href="http://maxcdn.bootstrapcdn.com/font-awesome/latest/css/font-awesome.min.css" rel="stylesheet"></link>-->
         <link href="../assets/css/nucleo-icons.css" rel="stylesheet"></link>
-        <style>
-            .ui-growl {   
-                position:fixed;
-                top: 40%;
-                left: 37%;
-                width: 40%;
-                height: 10%;
-                z-index:9999; 
-            }
-        </style>
     </h:head>
-    <h:body onload="#{trieOeufController.initParamUsedInSuivis()}">
-            <p:growl id="growl" />
+    <h:body onload="#{trieOeufController.initParamsUsedInSuivis()}">
+        <!--<p id="growl" class="ui-growl"/>-->
         <!-- navBar -->
         <nav class="navbar navbar-expand-md fixed-top navbar-transparent" color-on-scroll="50">
             <div class="container">
@@ -93,9 +83,11 @@
                             </div>
                         </li>
                         <li class="nav-item">
-                            <p:commandLink action="#{utilisateurController.deconnecter()}"  class="nav-link">
-                                <i class="nc-icon nc-lock-circle-open"></i>Déconnexion
-                            </p:commandLink>
+                            <h:form>
+                            <h:commandLink class="nav-link" action="#{utilisateurController.deconnecter()}" >
+                                <i class="nc-icon nc-key-25"></i>Déconnexion
+                            </h:commandLink>
+                            </h:form>
                         </li>
 
                     </ul>
@@ -309,7 +301,7 @@
                                                 </p:inputText>
                                             </div>
                                             <div class="col-sm-3" style="margin-top: 60px;margin-left: 10px;">
-                                                <p:commandLink update="forme1 :growl :forme2" actionListener="#{trieOeufController.setForme2(true)}"
+                                                <p:commandLink update="forme1  :forme2" actionListener="#{trieOeufController.setForme2(true)}"
                                                                id="suivant" title="Passer à l'étape suivante" value="SUIVANT" class="btn btn-outline-danger btn-sm">
                                                     <f:actionListener binding="#{trieOeufController.setForme1(false)}"/>
                                                 </p:commandLink>
@@ -471,9 +463,9 @@
                                                                id="annuler"  value="ANNULER" class="btn btn-dark btn-sm">
                                                     <p:ajax listener="#{trieOeufController.cancelModify()}" resetValues="true" update=":forme2 :forme2:oeuf :datalist forme3"/>
                                                 </h:commandLink>
-                                                <p:commandLink  id="valider" title="Valider ces donnés" update=":forme2 forme3 :datalist :growl"
+                                                <p:commandLink  id="valider" title="Valider ces donnés" update=":forme2 forme3 :datalist "
                                                                 value="VALIDER" actionListener="#{trieOeufController.addOrModifyAndTestRestReception()}"
-                                                                style="margin-left: 25%" class="btn btn-info btn-sm">
+                                                                style="margin-left: 46%" class="btn btn-outline-default btn-sm">
                                                 </p:commandLink>
                                             </div>
                                         </div>
@@ -576,7 +568,7 @@
                                                 </p:commandButton>
                                             </p:column>
                                             <p:column style="width:50px;text-align: center">
-                                                <p:commandButton update=":forme3 :forme2 :forme2:oeuf :growl :datalist" icon="ui-icon-trash" 
+                                                <p:commandButton update=":forme3 :forme2 :forme2:oeuf  :datalist" icon="ui-icon-trash" 
                                                                  actionListener="#{trieOeufController.setForme3(false)}" title="Supprimer">
                                                     <f:setPropertyActionListener  value="#{item}" target="#{trieOeufController.selected}" />
                                                     <f:actionListener binding="#{trieOeufController.removeFromList()}"/>
@@ -587,7 +579,7 @@
                                         <p:spacer/>
                                         <div class="row" style="margin-left: 350px;" >
                                             <div class="col-3 " >
-                                                <p:commandLink  update=":forme2 :forme2:oeuf :growl :forme3 datalist :forme4 :intro" actionListener="#{trieOeufController.saveItemsInDB()}"
+                                                <p:commandLink  update=":forme2 :forme2:oeuf  :forme3 datalist :forme4 :intro" actionListener="#{trieOeufController.saveItemsInDB()}"
                                                                 id="save" value="ENREGISTRER" class="btn btn-outline-default btn-sm"
                                                                 title="Valider ces modifications">
                                                 </p:commandLink>

@@ -150,9 +150,9 @@ public class Utilisateur implements Serializable {
     }
 
     public Ferme getFerme() {
-        if (ferme == null) {
-            ferme = new Ferme();
-        }
+//        if (ferme == null) {
+//            ferme = new Ferme();
+//        }
         return ferme;
     }
 
@@ -161,9 +161,9 @@ public class Utilisateur implements Serializable {
     }
 
     public Question getQuestion() {
-        if (question == null) {
-            question = new Question();
-        }
+//        if (question == null) {
+//            question = new Question();
+//        }
         return question;
     }
 
