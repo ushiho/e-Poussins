@@ -42,7 +42,7 @@
         </style>
     </h:head>
     <h:body onload="#{trieOeufController.initParamUsedInSuivis()}">
-            <p:growl id="growl" showDetail="true" />
+            <p:growl id="growl" />
         <!-- navBar -->
         <nav class="navbar navbar-expand-md fixed-top navbar-transparent" color-on-scroll="50">
             <div class="container">
@@ -233,7 +233,9 @@
 
                             <div class="col-lg-9 col-md-12">
                                 <div class="card-header col-md-12 ml-auto mr-auto" >
-                                    <p:outputLabel><h6 class="text-center note">TRIE DES OEUFS : </h6></p:outputLabel>
+                                    <p:outputLabel><h6 class="text-center note">OEUFS
+                                            <span style="color: #abd432;"> / TRIE OEUFS</span>
+                                        </h6></p:outputLabel>
                                 </div>
                                 <p:spacer/>
                                 <p:spacer/>
@@ -264,7 +266,7 @@
                                                         <i class="nc-icon nc-calendar-60" aria-hidden="true"></i>
                                                     </span>
                                                     <p:inputText id="dateTrie" value="#{trieOeufController.dateTrie}" required="true"
-                                                                 requiredMessage="Vous devez indiquer une date"
+                                                                 requiredMessage="Vous devez indiquer une date" style="cursor: pointer;"
                                                                  class="form-control " placeholder="05/08/2017" title="Date de trie" />
                                                 </div>
                                                 <script type="text/javascript">
@@ -287,7 +289,7 @@
                                                         <i class="nc-icon nc-calendar-60" aria-hidden="true"></i>
                                                     </span>
                                                     <p:inputText id="semaine" value="#{trieOeufController.semaine}" required="true"
-                                                                 requiredMessage="Vous devez indiquer une semaine"
+                                                                 requiredMessage="Vous devez indiquer une semaine" style="cursor: pointer;"
                                                                  class="form-control " placeholder="N° semaine de trie" title="Numéro de semaine de trie" />
                                                 </div>
                                             </div>
@@ -299,7 +301,7 @@
                                                 </p:outputLabel>
                                             </div>
                                             <div class="col-sm-3">
-                                                <p:inputText id="reception" value="#{trieOeufController.reception}" required="true"
+                                                <p:inputText id="reception" value="#{trieOeufController.reception}" required="true" style="cursor: pointer;"
                                                              placeholder="Nombre des oeufs " title="Quantité de réception" class="form-control"
                                                              requiredMessage="Vous devez indique la quantité des oeufs à la réception"
                                                              >
