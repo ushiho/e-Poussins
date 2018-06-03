@@ -222,6 +222,7 @@
                             </div>
 
                             <div class="col-lg-10 col-md-12">
+                                <p:growl id="growl" class="ui-growl" />
                                 <div class="card-header col-md-12 ml-auto mr-auto" >
                                     <p:outputLabel><h6 class="text-center note">OEUFS
                                             <span style="color: #abd432;"> / TRIE OEUFS</span>
@@ -301,7 +302,7 @@
                                                 </p:inputText>
                                             </div>
                                             <div class="col-sm-3" style="margin-top: 40px;margin-left: 5%;">
-                                                <p:commandLink update="forme1  :forme2" actionListener="#{trieOeufController.setForme2(true)}"
+                                                <p:commandLink update="forme1 :growl :forme2" actionListener="#{trieOeufController.setForme2(true)}"
                                                                id="suivant" title="Passer à l'étape suivante" value="SUIVANT" class="btn btn-outline-danger btn-sm">
                                                     <f:actionListener binding="#{trieOeufController.setForme1(false)}"/>
                                                 </p:commandLink>

@@ -241,11 +241,15 @@ public class IncubationController implements Serializable {
         System.out.println("ha date : " + dateTrie);
         setTrieOeufOAC(trieOeufFacade.findOACByDate(DateUtil.getSqlDateToSaveInDB(dateTrie)));
         if (getTrieOeufOAC() == null) {
-            MessageUtil.addMessage("Pas de trie trouvés pour la date " + dateTrie + "");
+            MessageUtil.info("Pas de trie trouvé pour la date " + dateTrie + "");
         }
     }
 
     public boolean thereIsIncubation() {
         return !(trieOeufOAC.getMisEnIncubation().compareTo(new BigDecimal(0)) == 0);
+    }
+
+    public void test() {
+        System.out.println("c  v hama");
     }
 }

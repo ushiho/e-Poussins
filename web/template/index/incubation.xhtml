@@ -25,7 +25,7 @@
 
         <!--     Fonts and icons     -->
         <link href='http://fonts.googleapis.com/css?family=Montserrat:400,300,700' rel='stylesheet' type='text/css'></link>
-        <!--<link href="http://maxcdn.bootstrapcdn.com/font-awesome/latest/css/font-awesome.min.css" rel="stylesheet"></link>-->
+        <link href="http://maxcdn.bootstrapcdn.com/font-awesome/latest/css/font-awesome.min.css" rel="stylesheet"></link>
         <link href="../assets/css/nucleo-icons.css" rel="stylesheet"></link>
     </h:head>
     <h:body>
@@ -219,7 +219,6 @@
                                 </div>
                             </div>
                             <div class="col-lg-10 col-md-12">
-                                <!--<pid="growl" class="ui-growl" showDetail="false" ></p>-->
                                 <div class="card-header col-md-12 ml-auto mr-auto" >
                                     <p:outputLabel><h6 class="text-center note">INCUBATION
                                             <span style="color: #abd432;"> / AJOUTE</span>
@@ -234,7 +233,7 @@
                                     <br/>
                                 </h:panelGroup>
                                 <h:form id="forme1">
-                                    <h:panelGroup rendered="true" >
+                                    <h:panelGroup rendered="#{incubationController.forme1}" >
                                         <div class="row" style="margin-top: 20px;">
                                             <div class="col-md-3 ml-auto mr-auto" style="margin-top: 5px;">
                                                 <p:outputLabel for="dateTrie">
@@ -266,6 +265,9 @@
                                                     <h:outputText value="CHERCHER" />
                                                     <i  class="nc-icon nc-zoom-split" aria-hidden="true"></i>
                                                 </p:commandLink>
+                                            </div>
+                                            <div class="col-md-6 mr-auto ml-auto">
+                                                <p:messages id="messages" autoUpdate="true" showDetail="false" closable="true" />
                                             </div>
                                         </div>
                                     </h:panelGroup>
@@ -366,9 +368,42 @@
                                     </h:panelGroup>
                                 </h:form>
                                 <h:form id="forme2">
-                                    <h:panelGroup rendered="#{incubationController.forme2}">
+                                    <h:panelGroup rendered="true">
                                         <div class="row">
-                                            
+                                            <div class="col-md-12 input-group ">
+                                                <div class="col-md-3" style="margin-top: 10px;">
+                                                    <h:outputText value="DATE INCUBATION" />
+                                                </div>
+                                                <div class="col-md-3">
+                                                    <div class="input-group date datetimepicker" >
+                                                        <span class="input-group-addon">
+                                                            <span class="glyphicon glyphicon-time"></span>
+                                                            <i class="nc-icon nc-calendar-60" aria-hidden="true"></i>
+                                                        </span>
+                                                        <p:inputText widgetVar="dateIncubation" value="#{incubationController.dateTrie}" required="true"
+                                                                     requiredMessage="Vous devez indiquer une date" style="cursor: pointer;"
+                                                                     class="form-control " placeholder="05/08/2017" title="Date de trie" />
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-3">
+                                                    <div class="input-group date datetimepicker" >
+                                                        <span class="input-group-addon">
+                                                            <span class="glyphicon glyphicon-time"></span>
+                                                            <i class="nc-icon nc-calendar-60" aria-hidden="true"></i>
+                                                        </span>
+                                                        <p:inputText widgetVar="sameDate" value="#{incubationController.dateTrie}" required="true"
+                                                                     requiredMessage="Vous devez indiquer une date" style="cursor: pointer;"
+                                                                     class="form-control " placeholder="05/08/2017" title="Date de trie" />
+                                                    </div>
+                                                </div>
+                                                <script type="text/javascript">
+                                                    $(function () {
+                                                        $('.datetimepicker').datetimepicker({
+                                                            format: 'DD/MM/YYYY'
+                                                        });
+                                                    });
+                                                </script>
+                                            </div>
                                         </div>
                                     </h:panelGroup>
                                 </h:form>
