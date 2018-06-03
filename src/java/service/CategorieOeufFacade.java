@@ -46,4 +46,11 @@ public class CategorieOeufFacade extends AbstractFacade<CategorieOeuf> {
         }
         return null;
     }
+
+    public CategorieOeuf findByNom(String nom) {
+        if (nom != null && !"".equals(nom)) {
+            return getUniqueResult("SELECT cat FROM CategorieOeuf cat WHERE cat.designation LIKE '" + nom + "'");
+        }
+        return null;
+    }
 }

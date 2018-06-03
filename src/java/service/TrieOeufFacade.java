@@ -16,6 +16,7 @@ import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import util.DateUtil;
+import util.SearchUtil;
 
 /**
  *
@@ -53,14 +54,9 @@ public class TrieOeufFacade extends AbstractFacade<TrieOeuf> {
     }
 
     public TrieOeuf getLastSavedByDay(Date date, CategorieOeuf categorieOeuf) {
-        String req = "SELECT tr FROM TrieOeuf tr WHERE 1=1 ";
-        if (date != null) {
-            req += " AND tr.dateTrie = '" + DateUtil.subDayFromDate(date) + "' ";
-        }
-        if (categorieOeuf != null) {
-            req += " AND tr.categorieOeuf.id = '" + categorieOeuf.getId() + "'";
-        }
-        return getUniqueResult(req);
+        return getUniqueResult("SELECT tr FROM TrieOeuf tr WHERE 1=1 "
+                + SearchUtil.addConstraint("tr", "dateTrie", "=", date)
+                + SearchUtil.addConstraint("tr", "categorie.id", "=", categorieOeuf.getId()));
     }
 
     public BigDecimal calculateSF(TrieOeuf trieOeuf) {
@@ -146,9 +142,6 @@ public class TrieOeufFacade extends AbstractFacade<TrieOeuf> {
         }
     }
 
-//    public List<TrieOeuf> findByCriteria(Date dateMin, Date dateMax, CategorieOeuf categorieOeuf) {
-//        String req = "SELECT tr FROM TrieOeuf tr WHERE 1=1 ";
-//    }
     public Date minOrMaxDateExisteInDB(int minOrMax) {
         String req = "SELECT ";
         switch (minOrMax) {
@@ -165,11 +158,7 @@ public class TrieOeufFacade extends AbstractFacade<TrieOeuf> {
 
     public List<Integer> yearsBetweenTwoDate(Date dateMin, Date dateMax) {
         List<Integer> years = new ArrayList();
-        int yearMin = DateUtil.getYearOfDate(dateMin);
-        int yearMax = DateUtil.getYearOfDate(dateMax);
-        System.out.println("year max  " + yearMax);
-        System.out.println("year min " + yearMin);
-        fillListOfYears(yearMax, yearMin, years);
+        fillListOfYears(DateUtil.getYearOfDate(dateMax), DateUtil.getYearOfDate(dateMin), years);
         return years;
     }
 
@@ -183,24 +172,16 @@ public class TrieOeufFacade extends AbstractFacade<TrieOeuf> {
         }
     }
 
-    public List<TrieOeuf> searchByDateMinOrMaxOrCategorie(Date dateMin, Date dateMax, CategorieOeuf categorieOeuf) {
-        String req = "SELECT tr FROM TrieOeuf tr WHERE 1=1 ";
-        if (dateMax != null) {
-            req += " AND tr.dateTrie <= '" + dateMax + "' ";
-        }
-        if (dateMax != null) {
-            req += " AND tr.dateTrie >= '" + dateMin + "' ";
-        }
+    public List<TrieOeuf> findByDateMinOrMaxOrCategorie(Date dateMin, Date dateMax, CategorieOeuf categorieOeuf) {
+        String req = "SELECT tr FROM TrieOeuf tr WHERE 1=1 "
+                + SearchUtil.addConstraintMinMax("tr", "dateTrie", dateMin, dateMax);
         if (categorieOeuf != null) {
-            req += " AND tr.categorieOeuf.id = '" + categorieOeuf.getId() + "'";
+            req += SearchUtil.addConstraint("tr", "categorieOeuf.id", "=", categorieOeuf.getId());
         }
-        System.out.println("cc from seacrh requete ha dateMin : " + dateMin);
-        System.out.println("cc from seacrh requete ha dateMax : " + dateMax);
         return getMultipleResult(req);
     }
 
     public List<TrieOeuf> searchJournalier(Integer year, Integer month, Integer dayMin, Integer dayMax, CategorieOeuf categorieOeuf) {
-        System.out.println("searchJournalier ha day Max in entree : " + dayMax);
         if (year == null || month == null) {
             return null;
         } else {
@@ -208,32 +189,30 @@ public class TrieOeufFacade extends AbstractFacade<TrieOeuf> {
                 dayMin = 01;
             }
             if (dayMax == null) {
-                System.out.println("cc dayMax is null o ha res d fct: " + DateUtil.maxDayInMonthOfYear(year, month));
                 dayMax = DateUtil.maxDayInMonthOfYear(year, month);
             }
-            System.out.println("from sevice searchJournalier ha day max " + dayMax);
             String moisAndYear = month + "/" + year;
-            System.out.println("service => from searchJournalier ha date min :" + DateUtil.getSqlDateToSaveInDB(dayMin + "/" + moisAndYear));
-            return searchByDateMinOrMaxOrCategorie(DateUtil.getSqlDateToSaveInDB(dayMin + "/" + moisAndYear),
+            return findByDateMinOrMaxOrCategorie(DateUtil.getSqlDateToSaveInDB(dayMin + "/" + moisAndYear),
                     DateUtil.getSqlDateToSaveInDB(dayMax + "/" + moisAndYear), categorieOeuf);
         }
     }
 
-    public List<TrieOeuf> findByNumSemaine(Integer year, Integer semaineMax, Integer semaineMin, CategorieOeuf categorieOeuf) {
-        String req = "SELECT tr FROM TrieOeuf tr WHERE 1=1 ";
-        if (semaineMax != null) {
-            req += " AND tr.numSemaine >= '" + semaineMax + "' ";
-        }
-        if (semaineMin != null) {
-            req += " AND tr.numSemaine <= '" + semaineMin + "' ";
+    public List<TrieOeuf> findByNumSemaineOrCategorie(Integer year, Integer semaineMax, Integer semaineMin, CategorieOeuf categorieOeuf) {
+        String req = "SELECT tr FROM TrieOeuf tr WHERE 1=1 "
+                + SearchUtil.addConstraintMinMax("tr", "numSemaine", semaineMin, semaineMax);
+        if (categorieOeuf != null) {
+            req += SearchUtil.addConstraint("tr", "categorieOeuf.id", "=", categorieOeuf.getId());
         }
         if (year != null) {
-            // select the year
+
         }
-        if (categorieOeuf != null) {
-            req += " AND tr.categorieOeuf.id = '" + categorieOeuf.getId() + "' ";
-        }
+        //il manque l annés !!!!!!!!!!!!!
         return getMultipleResult(req);
+    }
+
+    public TrieOeuf findOACByDate(Date date) {
+        return getUniqueResult("SELECT tr FROM TrieOeuf tr WHERE tr.dateTrie = '" + date + "'"
+                + " AND tr.categorieOeuf.designation LIKE 'OAC' ");
     }
 
 }

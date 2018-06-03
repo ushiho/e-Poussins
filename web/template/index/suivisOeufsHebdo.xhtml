@@ -201,7 +201,7 @@
                                             <div id="collapseTwo" class="collapse" role="tabpanel" aria-labelledby="headingTwo">
                                                 <div class="card-header">
                                                     <ul>
-                                                        <li><a href="#dropdown-row"><h6><span class="note">AJOUTE</span></h6></a></li>
+                                                        <li><a href="incubation.xhtml"><h6><span class="note">AJOUTE</span></h6></a></li>
                                                         <li><a href="#inputs-row"><h6><span class="note">CONSULTATION</span></h6></a></li>
                                                     </ul>
                                                 </div>
@@ -362,50 +362,79 @@
 
                                 <h:form id="datalist">
                                     <h:panelGroup rendered="#{trieOeufController.items.size()>0}">
-                                        <p:dataTable style="width: 100%;" styleClass="table table-sm table-bordered" value="#{trieOeufController.items}" var="item">
-                                            <p:column>
+                                        <h:dataTable style="width: 100%;" styleClass="table table-sm table-bordered" value="#{trieOeufController.items}" var="item">
+                                            <h:column>
                                                 <f:facet name="header">
-                                                    <h:outputText value="Date" title="Date de trie"/>
+                                                    <h:outputText value="Date de Trie"/>
                                                 </f:facet>
-                                                <h:outputText value="#{trieOeufController.formatDateToString(item.dateTrie)}"/>
-                                            </p:column>
-                                            <p:column>
+                                                <h:outputText value="#{item.dateTrie}">
+                                                    <f:convertDateTime pattern="dd/MM/yyyy" />
+                                                </h:outputText>
+                                            </h:column>
+                                            <h:column>
                                                 <f:facet name="header">
                                                     <h:outputText value="Semaine"/>
                                                 </f:facet>
                                                 <h:outputText value="#{item.numSemaine}"/>
-                                            </p:column>
-                                            <p:column>
+                                            </h:column>
+                                            <h:column>
                                                 <f:facet name="header">
-                                                    <h:outputText value="Reception"/>
+                                                    <h:outputText value="Catégorie"/>
+                                                </f:facet>
+                                                <h:outputText value="#{item.categorieOeuf.designation}"/>
+                                            </h:column>
+                                            <h:column>
+                                                <f:facet name="header">
+                                                    <h:outputText value="Recéption"/>
                                                 </f:facet>
                                                 <h:outputText value="#{item.reception}"/>
-                                            </p:column>
-                                            <p:column>
+                                            </h:column>
+
+                                            <h:column>
                                                 <f:facet name="header">
-                                                    <h:outputText value="S.I" title="Situation Initiale"/>
+                                                    <h:outputText value="Situation Initiale"/>
                                                 </f:facet>
                                                 <h:outputText value="#{item.situationInitiale}"/>
-                                            </p:column>
-                                            <p:column>
+                                            </h:column>
+
+                                            <h:column>
                                                 <f:facet name="header">
-                                                    <h:outputText value="Entree"/>
+                                                    <h:outputText value="Entrée"/>
                                                 </f:facet>
                                                 <h:outputText value="#{item.entree}"/>
-                                            </p:column>
-                                            <p:column>
+                                            </h:column>
+                                            <h:column>
                                                 <f:facet name="header">
-                                                    <h:outputText value="Incubation" title="Nombre des oeufs incubés"/>
+                                                    <h:outputText value="Incubés"/>
                                                 </f:facet>
                                                 <h:outputText value="#{item.misEnIncubation}"/>
-                                            </p:column>
-                                            <p:column>
+                                            </h:column>
+
+                                            <h:column>
                                                 <f:facet name="header">
-                                                    <h:outputText value="S.F" title="Situation Finale"/>
+                                                    <h:outputText value="Vente"/>
+                                                </f:facet>
+                                                <h:outputText value="#{item.vente}"/>
+                                            </h:column>
+                                            <h:column>
+                                                <f:facet name="header">
+                                                    <h:outputText value="Don"/>
+                                                </f:facet>
+                                                <h:outputText value="#{item.don}"/>
+                                            </h:column>
+                                            <h:column>
+                                                <f:facet name="header">
+                                                    <h:outputText value="Perte"/>
+                                                </f:facet>
+                                                <h:outputText value="#{item.perte}"/>
+                                            </h:column>
+                                            <h:column>
+                                                <f:facet name="header">
+                                                    <h:outputText value="Situation Finale"/>
                                                 </f:facet>
                                                 <h:outputText value="#{item.situationFinale}"/>
-                                            </p:column>
-                                        </p:dataTable>
+                                            </h:column>
+                                        </h:dataTable>
                                         <div class="row">
                                             <div class="col-md-auto">
                                                 <p:commandLink class="btn btn-dark btn-sm"

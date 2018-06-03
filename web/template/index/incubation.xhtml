@@ -111,7 +111,7 @@
                             </div>
                         </div>
                         <div class="row tim-row">
-                            <div class="col-lg-3 col-md-6">
+                            <div class="col-lg-2 col-md-6">
                                 <div class="fixed-section">
 
                                     <div id="accordion" role="tablist" aria-multiselectable="true">
@@ -128,7 +128,7 @@
                                             <div id="collapseOne" class="collapse in" role="tabpanel" aria-labelledby="headingOne">
                                                 <div class="card-header">
                                                     <ul>
-                                                        <li><a href="#"><h6><span class="note">TRIE OEUFS</span></h6></a></li>
+                                                        <li><a href="trieOeufs.xhtml"><h6><span class="note">TRIE OEUFS</span></h6></a></li>
                                                         <li><a href="#"><h6><span class="note">CONSULTATION</span></h6></a></li>
                                                         <li><a href="#"><h6><span class="note">VENTES</span></h6></a></li>
                                                         <li><a href="#"><h6><span class="note">TRANSFERT</span></h6></a></li>
@@ -218,8 +218,8 @@
                                     </div>
                                 </div>
                             </div>
-
-                            <div class="col-lg-9 col-md-12">
+                            <div class="col-lg-10 col-md-12">
+                                <!--<pid="growl" class="ui-growl" showDetail="false" ></p>-->
                                 <div class="card-header col-md-12 ml-auto mr-auto" >
                                     <p:outputLabel><h6 class="text-center note">INCUBATION
                                             <span style="color: #abd432;"> / AJOUTE</span>
@@ -227,26 +227,27 @@
                                 </div>
                                 <p:spacer/>
                                 <p:spacer/>
-                                <h:panelGroup rendered="#{!trieOeufController.forme4}" id="intro">
+                                <h:panelGroup rendered="true" id="intro">
                                     <p class="card-just-text text-center">Avec ce formulaire vous pouvez compléter les infos de vos trie ,En ajoutant
                                         des incubations . Pour le faire vous devez indiquer la date de trie pour lier le trie avec l'incubation .</p>
-                                    <p:spacer/><br/>
+                                    <p:spacer/>
+                                    <br/>
                                 </h:panelGroup>
                                 <h:form id="forme1">
                                     <h:panelGroup rendered="true" >
-                                        <div class="row">
-                                            <div class="col-md-2" style="margin-left: 30px;margin-top: 10px;">
+                                        <div class="row" style="margin-top: 20px;">
+                                            <div class="col-md-3 ml-auto mr-auto" style="margin-top: 5px;">
                                                 <p:outputLabel for="dateTrie">
-                                                    <label  class="note"> DATE</label>
+                                                    <label  class="note"> DATE DE TRIE</label>
                                                 </p:outputLabel>
                                             </div>
-                                            <div class="col-sm-3">
+                                            <div class="col-md-3 mr-auto ">
                                                 <div class="input-group date datetimepicker" >
                                                     <span class="input-group-addon">
                                                         <span class="glyphicon glyphicon-time"></span>
                                                         <i class="nc-icon nc-calendar-60" aria-hidden="true"></i>
                                                     </span>
-                                                    <p:inputText id="dateTrie" value="#{trieOeufController.dateTrie}" required="true"
+                                                    <p:inputText id="dateTrie" value="#{incubationController.dateTrie}" required="true"
                                                                  requiredMessage="Vous devez indiquer une date" style="cursor: pointer;"
                                                                  class="form-control " placeholder="05/08/2017" title="Date de trie" />
                                                 </div>
@@ -258,13 +259,116 @@
                                                     });
                                                 </script>
                                             </div>
-                                            <div class="col-sm-3">
+                                            <div class="col-md-3 ml-auto" style="margin-top: 2.5px;">
                                                 <p:commandLink  class="btn btn-outline-info btn-sm" 
-                                                            actionListener="#{trieOeufController.searchHebdo()}" update="">
-                                                <h:outputText value="CHERCHER" />
-                                                <i  class="nc-icon nc-zoom-split" aria-hidden="true"></i>
-                                            </p:commandLink>
+                                                                actionListener="#{incubationController.seachForTrieOeufOACByDate()}" 
+                                                                update=":datalist forme1 ">
+                                                    <h:outputText value="CHERCHER" />
+                                                    <i  class="nc-icon nc-zoom-split" aria-hidden="true"></i>
+                                                </p:commandLink>
                                             </div>
+                                        </div>
+                                    </h:panelGroup>
+                                </h:form>
+                                <h:form id="datalist">
+                                    <h:panelGroup rendered="#{incubationController.trieOeufOAC !=null}">
+                                        <p:spacer/>
+                                        <h:dataTable style="margin-top: 10px;" styleClass="table table-striped table-sm table-bordered"
+                                                     value="#{incubationController.trieOeufOAC}" var="item">
+
+                                            <h:column>
+                                                <f:facet name="header">
+                                                    <h:outputText class="heart" value="Date de Trie"/>
+                                                </f:facet>
+                                                <h:outputText value="#{item.dateTrie}">
+                                                    <f:convertDateTime pattern="dd/MM/yyyy" />
+                                                </h:outputText>
+                                            </h:column>
+                                            <h:column>
+                                                <f:facet name="header">
+                                                    <h:outputText value="Semaine"/>
+                                                </f:facet>
+                                                <h:outputText value="#{item.numSemaine}"/>
+                                            </h:column>
+                                            <h:column>
+                                                <f:facet name="header">
+                                                    <h:outputText value="Catégorie"/>
+                                                </f:facet>
+                                                <h:outputText value="#{item.categorieOeuf.designation}"/>
+                                            </h:column>
+                                            <h:column>
+                                                <f:facet name="header">
+                                                    <h:outputText value="Recéption"/>
+                                                </f:facet>
+                                                <h:outputText value="#{item.reception}"/>
+                                            </h:column>
+
+                                            <h:column>
+                                                <f:facet name="header">
+                                                    <h:outputText value="Situation Initiale"/>
+                                                </f:facet>
+                                                <h:outputText value="#{item.situationInitiale}"/>
+                                            </h:column>
+
+                                            <h:column>
+                                                <f:facet name="header">
+                                                    <h:outputText value="Entrée"/>
+                                                </f:facet>
+                                                <h:outputText value="#{item.entree}"/>
+                                            </h:column>
+                                            <h:column>
+                                                <f:facet name="header">
+                                                    <h:outputText value="Incubés"/>
+                                                </f:facet>
+                                                <h:outputText value="#{item.misEnIncubation}"/>
+                                            </h:column>
+
+                                            <h:column>
+                                                <f:facet name="header">
+                                                    <h:outputText value="Vente"/>
+                                                </f:facet>
+                                                <h:outputText value="#{item.vente}"/>
+                                            </h:column>
+                                            <h:column>
+                                                <f:facet name="header">
+                                                    <h:outputText value="Don"/>
+                                                </f:facet>
+                                                <h:outputText value="#{item.don}"/>
+                                            </h:column>
+                                            <h:column>
+                                                <f:facet name="header">
+                                                    <h:outputText value="Perte"/>
+                                                </f:facet>
+                                                <h:outputText value="#{item.perte}"/>
+                                            </h:column>
+                                            <h:column>
+                                                <f:facet name="header">
+                                                    <h:outputText value="Situation Finale"/>
+                                                </f:facet>
+                                                <h:outputText value="#{item.situationFinale}"/>
+                                            </h:column>
+                                        </h:dataTable>
+                                        <p:spacer/>
+                                        <div class="col-auto mr-auto">
+                                            <p style="color: black">Si le trie ci-dessus est correspondant à ce que vous souhaite 
+                                                ,cliquer sur suivant .
+                                                <span class="text-danger">Vous ne pouvez pas continuer 
+                                                    s'il n'existent pas des oeufs incubés .</span></p>
+                                        </div>
+                                        <div class="col-md-1 ml-auto mr-auto" style="margin-top: 10px;">
+                                            <h:commandLink rendered="#{incubationController.thereIsIncubation()}"  class="btn btn-outline-default btn-sm" 
+                                                           actionListener="#{incubationController.setForme1(false)}" >
+                                                <h:outputText value="SUIVANT" />
+                                                <i  class="nc-icon nc-delivery-fast" aria-hidden="true"></i>
+                                                <p:ajax update=":datalist :forme1 " listener="#{incubationController.setForme2(true)}"/>
+                                            </h:commandLink>
+                                        </div>
+                                    </h:panelGroup>
+                                </h:form>
+                                <h:form id="forme2">
+                                    <h:panelGroup rendered="#{incubationController.forme2}">
+                                        <div class="row">
+                                            
                                         </div>
                                     </h:panelGroup>
                                 </h:form>

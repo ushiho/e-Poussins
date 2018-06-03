@@ -1,12 +1,15 @@
 package controller;
 
 import bean.Incubation;
+import bean.TrieOeuf;
 import controller.util.JsfUtil;
 import controller.util.JsfUtil.PersistAction;
 import service.IncubationFacade;
 
 import java.io.Serializable;
+import java.math.BigDecimal;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
@@ -19,6 +22,10 @@ import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
 import javax.faces.convert.Converter;
 import javax.faces.convert.FacesConverter;
+import service.CategorieOeufFacade;
+import service.TrieOeufFacade;
+import util.DateUtil;
+import util.MessageUtil;
 
 @Named("incubationController")
 @SessionScoped
@@ -26,11 +33,36 @@ public class IncubationController implements Serializable {
 
     @EJB
     private service.IncubationFacade ejbFacade;
+    @EJB
+    private TrieOeufFacade trieOeufFacade;
+    @EJB
+    private CategorieOeufFacade categorieOeufFacade;
     private List<Incubation> items = null;
     private Incubation selected;
     private boolean forme1;
     private boolean forme2;
     private boolean forme3;
+    private TrieOeuf trieOeufOAC;
+    private String dateTrie;
+
+    public String getDateTrie() {
+        if (dateTrie == null) {
+            setDateTrie("");
+        }
+        return dateTrie;
+    }
+
+    public void setDateTrie(String dateTrie) {
+        this.dateTrie = dateTrie;
+    }
+
+    public TrieOeuf getTrieOeufOAC() {
+        return trieOeufOAC;
+    }
+
+    public void setTrieOeufOAC(TrieOeuf trieOeufOAC) {
+        this.trieOeufOAC = trieOeufOAC;
+    }
 
     public IncubationController() {
     }
@@ -205,4 +237,15 @@ public class IncubationController implements Serializable {
 
     }
 
+    public void seachForTrieOeufOACByDate() {
+        System.out.println("ha date : " + dateTrie);
+        setTrieOeufOAC(trieOeufFacade.findOACByDate(DateUtil.getSqlDateToSaveInDB(dateTrie)));
+        if (getTrieOeufOAC() == null) {
+            MessageUtil.addMessage("Pas de trie trouvés pour la date " + dateTrie + "");
+        }
+    }
+
+    public boolean thereIsIncubation() {
+        return !(trieOeufOAC.getMisEnIncubation().compareTo(new BigDecimal(0)) == 0);
+    }
 }

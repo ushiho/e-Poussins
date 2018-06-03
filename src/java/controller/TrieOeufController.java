@@ -427,16 +427,19 @@ public class TrieOeufController implements Serializable {
 
     public void modifyFromList() {
         if (selected != null && selectedToModify != null) {
-            setRestReception(getRestReception().subtract(selected.getEntree()));
-            setTotalEntres(getTotalEntres().subtract(selectedToModify.getEntree()));
-            setTotalEntres(getTotalEntres().add(selected.getEntree()));
+            calculRestReceptionAndEntree();
             selected.setCategorieOeuf(categorieOeufSelected);
             MessageUtil.info("La catégorie '" + categorieOeufSelected.getDesignation() + "' est bien modifiée");
-            setSelected(null);
             setSelectedToModify(null);
-            setCategorieOeufSelected(null);
             setForme3(false);
+            initSelectdAndCategorie();
         }
+    }
+
+    private void calculRestReceptionAndEntree() {
+        setRestReception(getRestReception().subtract(selected.getEntree()));
+        setTotalEntres(getTotalEntres().subtract(selectedToModify.getEntree()));
+        setTotalEntres(getTotalEntres().add(selected.getEntree()));
     }
 
     public void reloadAllThePage() throws IOException {
@@ -455,13 +458,6 @@ public class TrieOeufController implements Serializable {
         }
     }
 
-    public void showForme3ByCategorie() {
-        if (selected != null && selected.getCategorieOeuf() != null && selected.getCategorieOeuf().getId() != null) {
-            setForme3(true);
-            return;
-        }
-        setForme3(false);
-    }
 
     public void setSIToTheSelected() {
         TrieOeuf lastTrieOeuf = ejbFacade.getLastSavedByDay(DateUtil.getSqlDateToSaveInDB(dateTrie), categorieOeufSelected);
@@ -488,7 +484,6 @@ public class TrieOeufController implements Serializable {
             ejbFacade.saveListToDB(items);
             MessageUtil.info("Vos donnés sont bien enregistrés ");
             setTotalEntres(null);
-            items.clear();
             initParamsUsedInTrie();
             setForme4(true);
             return;
@@ -498,7 +493,6 @@ public class TrieOeufController implements Serializable {
     }
 
     public void cancelSavingInDb() {
-        getItems().clear();
         setForme1(true);
         initParamsUsedInTrie();
     }
@@ -553,7 +547,6 @@ public class TrieOeufController implements Serializable {
 
     // methods for suivis Templates
     public List<Integer> chargeYearsSavedInDB() {
-        System.out.println("ha list des years : " + ejbFacade.yearsBetweenTwoDate(ejbFacade.minOrMaxDateExisteInDB(2), ejbFacade.minOrMaxDateExisteInDB(1)));
         return ejbFacade.yearsBetweenTwoDate(ejbFacade.minOrMaxDateExisteInDB(2), ejbFacade.minOrMaxDateExisteInDB(1));
     }
 
@@ -581,11 +574,12 @@ public class TrieOeufController implements Serializable {
         setMois(null);
         setInputMax(null);
         setInputMin(null);
+        setItems(null);
     }
 
     // methods for hebdo template
     public void searchHebdo() {
-        setItems(ejbFacade.findByNumSemaine(year, inputMax, inputMin, categorieOeufSelected));
+        setItems(ejbFacade.findByNumSemaineOrCategorie(year, inputMax, inputMin, categorieOeufSelected));
         testListAndShowMsg();
     }
 }
