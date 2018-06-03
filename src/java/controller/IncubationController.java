@@ -39,11 +39,20 @@ public class IncubationController implements Serializable {
     private CategorieOeufFacade categorieOeufFacade;
     private List<Incubation> items = null;
     private Incubation selected;
-    private boolean forme1;
+    private boolean forme1 = true;
     private boolean forme2;
     private boolean forme3;
     private TrieOeuf trieOeufOAC;
     private String dateTrie;
+    private boolean nextToForme2;
+
+    public boolean isNextToForme2() {
+        return nextToForme2;
+    }
+
+    public void setNextToForme2(boolean nextToForme2) {
+        this.nextToForme2 = nextToForme2;
+    }
 
     public String getDateTrie() {
         if (dateTrie == null) {
@@ -242,11 +251,13 @@ public class IncubationController implements Serializable {
         setTrieOeufOAC(trieOeufFacade.findOACByDate(DateUtil.getSqlDateToSaveInDB(dateTrie)));
         if (getTrieOeufOAC() == null) {
             MessageUtil.info("Pas de trie trouvé pour la date " + dateTrie + "");
+        } else {
+            thereIsIncubation();
         }
     }
 
-    public boolean thereIsIncubation() {
-        return !(trieOeufOAC.getMisEnIncubation().compareTo(new BigDecimal(0)) == 0);
+    public void thereIsIncubation() {
+        setNextToForme2(!(trieOeufOAC.getMisEnIncubation().compareTo(new BigDecimal(0)) == 0));
     }
 
     public void test() {

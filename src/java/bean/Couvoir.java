@@ -99,7 +99,7 @@ public class Couvoir implements Serializable {
 
     @Override
     public String toString() {
-        return "Couvoir{" + "id=" + id + ", nom=" + nom + ", capaciteMax=" + capaciteMax + '}';
+        return nom ;
     }
 
 }

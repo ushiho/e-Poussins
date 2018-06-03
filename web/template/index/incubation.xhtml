@@ -275,7 +275,7 @@
                                 <h:form id="datalist">
                                     <h:panelGroup rendered="#{incubationController.trieOeufOAC !=null}">
                                         <p:spacer/>
-                                        <h:dataTable style="margin-top: 10px;" styleClass="table table-striped table-sm table-bordered"
+                                        <h:dataTable style="margin-top: 10px;" styleClass="table table-striped table-hover table-bordered"
                                                      value="#{incubationController.trieOeufOAC}" var="item">
 
                                             <h:column>
@@ -307,7 +307,7 @@
 
                                             <h:column>
                                                 <f:facet name="header">
-                                                    <h:outputText value="Situation Initiale"/>
+                                                    <h:outputText value="S.I"/>
                                                 </f:facet>
                                                 <h:outputText value="#{item.situationInitiale}"/>
                                             </h:column>
@@ -345,65 +345,89 @@
                                             </h:column>
                                             <h:column>
                                                 <f:facet name="header">
-                                                    <h:outputText value="Situation Finale"/>
+                                                    <h:outputText value="S.F"/>
                                                 </f:facet>
                                                 <h:outputText value="#{item.situationFinale}"/>
                                             </h:column>
                                         </h:dataTable>
                                         <p:spacer/>
-                                        <div class="col-auto mr-auto">
-                                            <p style="color: black">Si le trie ci-dessus est correspondant à ce que vous souhaite 
-                                                ,cliquer sur suivant .
-                                                <span class="text-danger">Vous ne pouvez pas continuer 
-                                                    s'il n'existent pas des oeufs incubés .</span></p>
-                                        </div>
+                                        <h:panelGroup rendered="#{!incubationController.forme2}">
+                                            <div class="col-auto mr-auto">
+                                                <p style="color: black">Si le trie ci-dessus est correspondant à ce que vous souhaite 
+                                                    ,cliquer sur suivant .
+                                                    <span class="text-danger">Vous ne pouvez pas continuer 
+                                                        s'il n'existent pas des oeufs incubés .</span></p>
+                                            </div>
+                                        </h:panelGroup>
                                         <div class="col-md-1 ml-auto mr-auto" style="margin-top: 10px;">
-                                            <h:commandLink rendered="#{incubationController.thereIsIncubation()}"  class="btn btn-outline-default btn-sm" 
+                                            <h:commandLink rendered="#{incubationController.nextToForme2}"  class="btn btn-outline-default btn-sm" 
                                                            actionListener="#{incubationController.setForme1(false)}" >
                                                 <h:outputText value="SUIVANT" />
-                                                <i  class="nc-icon nc-delivery-fast" aria-hidden="true"></i>
-                                                <p:ajax update=":datalist :forme1 " listener="#{incubationController.setForme2(true)}"/>
+                                                <i  class="nc-icon nc-minimal-right" aria-hidden="true"></i>
+                                                <f:ajax listener="#{incubationController.setNextToForme2(false)}" />
+                                                <p:ajax update=":datalist :forme1 :forme2" listener="#{incubationController.setForme2(true)}"/>
                                             </h:commandLink>
                                         </div>
                                     </h:panelGroup>
                                 </h:form>
                                 <h:form id="forme2">
-                                    <h:panelGroup rendered="true">
+                                    <h:panelGroup rendered="#{incubationController.forme2}">
                                         <div class="row">
-                                            <div class="col-md-12 input-group ">
-                                                <div class="col-md-3" style="margin-top: 10px;">
-                                                    <h:outputText value="DATE INCUBATION" />
-                                                </div>
-                                                <div class="col-md-3">
-                                                    <div class="input-group date datetimepicker" >
-                                                        <span class="input-group-addon">
-                                                            <span class="glyphicon glyphicon-time"></span>
-                                                            <i class="nc-icon nc-calendar-60" aria-hidden="true"></i>
-                                                        </span>
-                                                        <p:inputText widgetVar="dateIncubation" value="#{incubationController.dateTrie}" required="true"
-                                                                     requiredMessage="Vous devez indiquer une date" style="cursor: pointer;"
-                                                                     class="form-control " placeholder="05/08/2017" title="Date de trie" />
-                                                    </div>
-                                                </div>
-                                                <div class="col-md-3">
-                                                    <div class="input-group date datetimepicker" >
-                                                        <span class="input-group-addon">
-                                                            <span class="glyphicon glyphicon-time"></span>
-                                                            <i class="nc-icon nc-calendar-60" aria-hidden="true"></i>
-                                                        </span>
-                                                        <p:inputText widgetVar="sameDate" value="#{incubationController.dateTrie}" required="true"
-                                                                     requiredMessage="Vous devez indiquer une date" style="cursor: pointer;"
-                                                                     class="form-control " placeholder="05/08/2017" title="Date de trie" />
-                                                    </div>
-                                                </div>
-                                                <script type="text/javascript">
-                                                    $(function () {
-                                                        $('.datetimepicker').datetimepicker({
-                                                            format: 'DD/MM/YYYY'
-                                                        });
-                                                    });
-                                                </script>
+                                            <div class="col-md-3" style="margin-top: 5px;">
+                                                <h:commandLink class="btn btn-outline-default btn-sm"
+                                                               actionListener="#{incubationController.setForme1(true)}" >
+                                                    <i class="nc-icon nc-minimal-left"></i>
+                                                    <h:outputText value="RETOUR" />
+                                                    <f:ajax listener="#{incubationController.setNextToForme2(true)}" />
+                                                    <p:ajax update=":datalist :forme1 :forme2" listener="#{incubationController.setForme2(false)}"/>
+                                                </h:commandLink>
                                             </div>
+                                            <div class="col-md-4" style="margin-top: 10px;">
+                                                <p:outputLabel for="dateIncub"><h:outputText value="DATE INCUBATION" /></p:outputLabel>
+                                            </div>
+                                            <div class="col-md-3 ">
+                                                <div class="input-group date datetimepicker" >
+                                                    <span class="input-group-addon">
+                                                        <span class="glyphicon glyphicon-time"></span>
+                                                        <i class="nc-icon nc-calendar-60" aria-hidden="true"></i>
+                                                    </span>
+                                                    <p:inputText id="dateIncub" value="#{incubationController.dateTrie}" required="true"
+                                                                 requiredMessage="Vous devez indiquer une date" style="cursor: pointer;"
+                                                                 class="form-control " placeholder="05/08/2017" title="Date d'incubation " />
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <p:spacer/>
+                                        <div class="row" style="margin-top: 30px;">
+                                            <div class="col-md-3 ml-auto mr-auto" style="margin-top: 10px;">
+                                                <p:outputLabel for="dateEclos"><h:outputText value="DATE ECLOSION" /></p:outputLabel>
+                                            </div>
+                                            <div class="col-md-3 mr-auto">
+                                                <div class="input-group date datetimepicker" >
+                                                    <span class="input-group-addon">
+                                                        <span class="glyphicon glyphicon-time"></span>
+                                                        <i class="nc-icon nc-calendar-60" aria-hidden="true"></i>
+                                                    </span>
+                                                    <p:inputText id="dateEclos" value="#{incubationController.dateTrie}" required="true"
+                                                                 requiredMessage="Vous devez indiquer une date" style="cursor: pointer;"
+                                                                 class="form-control " placeholder="05/08/2017" title="Date d'éclosion " />
+                                                </div>
+                                            </div>
+                                            <div class="col-md-2" style="margin-top: 10px;">
+                                                <p:outputLabel for="couvoir"><label class="note">COUVOIR</label></p:outputLabel>
+                                            </div>
+                                            <div class="col-md-3" style="margin-top: 10px;">
+                                                <h:selectOneMenu style="width: 100%;" required="true" id="couvoir" 
+                                                                 value="#{incubationController.selected.couvoir}" >
+                                                    <f:selectItem itemLabel="-- Choisir une catégorie --" itemValue="" noSelectionOption="true" />
+                                                    <f:selectItems  value="#{couvoirController.getItemsAvailableSelectMany()}"
+                                                                    var="couvoir" itemValue="#{couvoir}"/>
+                                                    <p:ajax listener="#{trieOeufController.setForme3(true)}" update=" forme2" />
+                                                </h:selectOneMenu>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+
                                         </div>
                                     </h:panelGroup>
                                 </h:form>
@@ -413,6 +437,13 @@
                 </div>
             </div>
         </div>
+        <script type="text/javascript">
+            $(function () {
+                $('.datetimepicker').datetimepicker({
+                    format: 'DD/MM/YYYY'
+                });
+            });
+        </script>
 
 
     </h:body>

@@ -145,4 +145,13 @@ public class DateUtil {
         Calendar mycal = new GregorianCalendar(iYear, iMonth - 1, 1);
         return mycal.getActualMaximum(Calendar.DAY_OF_MONTH);
     }
+
+    public static int weekNumberFromDate(Date date) {
+        if (date != null) {
+            Calendar cal = Calendar.getInstance();
+            cal.setTime(date);
+            return cal.get(Calendar.WEEK_OF_YEAR);
+        }
+        return -1;
+    }
 }

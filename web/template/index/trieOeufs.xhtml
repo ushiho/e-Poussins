@@ -258,7 +258,9 @@
                                                     </span>
                                                     <p:inputText id="dateTrie" value="#{trieOeufController.dateTrie}" required="true" 
                                                                  requiredMessage="Vous devez indiquer une date" style="cursor: pointer;"
-                                                                 class="form-control " placeholder="05/08/2017" title="Date de trie" />
+                                                                 class="form-control " placeholder="05/08/2017" title="Date de trie" >
+                                                        <f:ajax listener="#{trieOeufController.setSemaine()}" render="semaine" execute="semaine"/>
+                                                    </p:inputText>
                                                 </div>
                                                 <script type="text/javascript">
                                                     $(function () {
@@ -275,15 +277,7 @@
                                                 </p:outputLabel>
                                             </div>
                                             <div class="col-sm-3">
-                                                <div class="input-group" >
-                                                    <span class="input-group-addon">
-                                                        <span class="glyphicon glyphicon-time"></span>
-                                                        <i class="nc-icon nc-calendar-60" aria-hidden="true"></i>
-                                                    </span>
-                                                    <p:inputText id="semaine" value="#{trieOeufController.semaine}" required="true"
-                                                                 requiredMessage="Vous devez indiquer une semaine" style="cursor: pointer;"
-                                                                 class="form-control " placeholder="N° semaine de trie" title="Numéro de semaine de trie" />
-                                                </div>
+                                                <p:outputLabel><h:outputText  id="semaine" value="#{trieOeufController.semaine}" /></p:outputLabel>
                                             </div>
                                         </div>
                                         <p:spacer/>
@@ -296,8 +290,7 @@
                                             <div class="col-sm-3">
                                                 <p:inputText id="reception" value="#{trieOeufController.reception}" required="true" style="cursor: pointer;"
                                                              placeholder="Nombre des oeufs " title="Quantité de réception" class="form-control"
-                                                             requiredMessage="Vous devez indique la quantité des oeufs à la réception"
-                                                             >
+                                                             requiredMessage="Vous devez indique la quantité des oeufs à la réception" >
                                                     <p:ajax update=":forme2" listener="#{trieOeufController.setRestReception(trieOeufController.reception)}"/>
                                                 </p:inputText>
                                             </div>

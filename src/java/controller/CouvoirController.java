@@ -6,6 +6,7 @@ import controller.util.JsfUtil.PersistAction;
 import service.CouvoirFacade;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
@@ -32,11 +33,25 @@ public class CouvoirController implements Serializable {
     }
 
     public Couvoir getSelected() {
+        if (selected == null) {
+            selected = new Couvoir();
+        }
         return selected;
     }
 
     public void setSelected(Couvoir selected) {
         this.selected = selected;
+    }
+
+    public List<Couvoir> getItems() {
+        if (items == null) {
+            items = new ArrayList();
+        }
+        return items;
+    }
+
+    public void setItems(List<Couvoir> items) {
+        this.items = items;
     }
 
     protected void setEmbeddableKeys() {
@@ -74,13 +89,6 @@ public class CouvoirController implements Serializable {
         }
     }
 
-    public List<Couvoir> getItems() {
-        if (items == null) {
-            items = getFacade().findAll();
-        }
-        return items;
-    }
-
     private void persist(PersistAction persistAction, String successMessage) {
         if (selected != null) {
             setEmbeddableKeys();
@@ -114,7 +122,7 @@ public class CouvoirController implements Serializable {
     }
 
     public List<Couvoir> getItemsAvailableSelectMany() {
-        return getFacade().findAll();
+        return ejbFacade.findAll();
     }
 
     public List<Couvoir> getItemsAvailableSelectOne() {

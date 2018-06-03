@@ -161,8 +161,13 @@ public class TrieOeufController implements Serializable {
         return semaine;
     }
 
-    public void setSemaine(Integer semaine) {
-        this.semaine = semaine;
+    public void setSemaine() {
+        System.out.println("ccc s set dammaine");
+        if (!"".equals(dateTrie)) {
+            this.semaine = DateUtil.weekNumberFromDate(DateUtil.getSqlDateToSaveInDB(dateTrie));
+        } else {
+            this.semaine = null;
+        }
     }
 
     public BigDecimal getRestReception() {
@@ -458,7 +463,6 @@ public class TrieOeufController implements Serializable {
         }
     }
 
-
     public void setSIToTheSelected() {
         TrieOeuf lastTrieOeuf = ejbFacade.getLastSavedByDay(DateUtil.getSqlDateToSaveInDB(dateTrie), categorieOeufSelected);
         if (lastTrieOeuf == null || lastTrieOeuf.getSituationFinale() == null) {
@@ -505,7 +509,6 @@ public class TrieOeufController implements Serializable {
         setDateTrie("");
         setForme2(false);
         setForme3(false);
-        setSemaine(null);
         initSelectdAndCategorie();
         setCategorieOeufsAdded(null);
         setItems(null);
@@ -582,4 +585,5 @@ public class TrieOeufController implements Serializable {
         setItems(ejbFacade.findByNumSemaineOrCategorie(year, inputMax, inputMin, categorieOeufSelected));
         testListAndShowMsg();
     }
+
 }
