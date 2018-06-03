@@ -6,6 +6,7 @@ import controller.util.JsfUtil.PersistAction;
 import service.IncubationFacade;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
@@ -27,16 +28,65 @@ public class IncubationController implements Serializable {
     private service.IncubationFacade ejbFacade;
     private List<Incubation> items = null;
     private Incubation selected;
+    private boolean forme1;
+    private boolean forme2;
+    private boolean forme3;
 
     public IncubationController() {
     }
 
     public Incubation getSelected() {
+        if (selected == null) {
+            selected = new Incubation();
+        }
         return selected;
     }
 
     public void setSelected(Incubation selected) {
         this.selected = selected;
+    }
+
+    public IncubationFacade getEjbFacade() {
+        return ejbFacade;
+    }
+
+    public void setEjbFacade(IncubationFacade ejbFacade) {
+        this.ejbFacade = ejbFacade;
+    }
+
+    public List<Incubation> getItems() {
+        if (items == null) {
+            items = new ArrayList();
+        }
+        return items;
+    }
+
+    public void setItems(List<Incubation> items) {
+        this.items = items;
+    }
+
+    public boolean isForme1() {
+        return forme1;
+    }
+
+    public void setForme1(boolean forme1) {
+        this.forme1 = forme1;
+    }
+
+    public boolean isForme2() {
+        return forme2;
+    }
+
+    public void setForme2(boolean forme2) {
+        this.forme2 = forme2;
+    }
+
+    public boolean isForme3() {
+        return forme3;
+    }
+
+    public void setForme3(boolean forme3) {
+        this.forme3 = forme3;
     }
 
     protected void setEmbeddableKeys() {
@@ -72,13 +122,6 @@ public class IncubationController implements Serializable {
             selected = null; // Remove selection
             items = null;    // Invalidate list of items to trigger re-query.
         }
-    }
-
-    public List<Incubation> getItems() {
-        if (items == null) {
-            items = getFacade().findAll();
-        }
-        return items;
     }
 
     private void persist(PersistAction persistAction, String successMessage) {

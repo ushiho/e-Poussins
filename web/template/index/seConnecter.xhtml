@@ -30,6 +30,21 @@
         <link href="../assets/css/nucleo-icons.css" rel="stylesheet"></link>
     </h:head>
     <h:body >
+        <nav class="navbar bar navbar-expand-lg fixed-top navbar-transparent" color-on-scroll="80">
+            <div class="container">
+                <div class="navbar-translate">
+                    <button class="navbar-toggler navbar-toggler-right navbar-burger" type="button" data-toggle="collapse" data-target="#navbarToggler" aria-controls="navbarTogglerDemo02" aria-expanded="false" aria-label="Toggle navigation">
+                        <span class="navbar-toggler-bar"></span>
+                        <span class="navbar-toggler-bar"></span>
+                        <span class="navbar-toggler-bar"></span>
+                    </button>
+                    <a class="navbar-brand " href="">
+                        <img class="navbar-brand-ful img-circle" src="../images/oeufsTitle.png" />
+                        <span class="images-title" >E-Poussins</span></a>
+                </div>
+            </div>
+        </nav>
+
         <div class="wrapper">
             <div class="documentation page-header  page-header-xs" data-parallax="true"
                  style="background-image: url('../images/ilya-yakover.jpg');">
@@ -39,82 +54,80 @@
                 <!--                <div class="col-md-3 mr-auto" style="">
                                     <img class="image" src="../images/oeufs.png"/> 
                                 </div>-->
-                <div class="section landing-section">
-                    <div class="container">
-                        <div class="row card-columns">
-                            <div class="col-md-8 ml-auto mr-auto">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-md-8 ml-auto mr-auto">
 
-                                <div class="card-header text-center " >
-                                    <p:outputLabel >
-                                        <h6 class="text-center note">BIENVENUE SUR VOTRE ESPACE </h6>
-                                    </p:outputLabel>
-                                </div>
-                                <h:form id="form" class="contact-form">
-                                    <div class="row">
-                                        <div class="col-md-4 ml-auto" >
-                                            <p:outputLabel for="if"><label class="note" >
-                                                    LOGIN </label></p:outputLabel>
-                                        </div>
-                                        <div class="col-md-6 ml-auto" style="margin-top: 15px;">
-                                            <div class="input-group">
-                                                <span class="input-group-addon">
-                                                    <i class="nc-icon nc-user-run"></i>
-                                                </span>
-                                                <p:inputText id="if" value="#{utilisateurController.selected.login}" required="true"
-                                                             a:type="text" class="form-control"></p:inputText>
-                                            </div>
-                                        </div>
-                                        <div class="col-md-4 ml-auto">
-                                            <p:outputLabel for="password"><label class="note" >
-                                                    MOT DE PASSE </label></p:outputLabel>
-                                        </div>
-                                        <div class="col-md-6 ml-auto" style="margin-top: 15px;">
-                                            <div  class="input-group">
-                                                <span class="input-group-addon">
-                                                    <i class="nc-icon nc-key-25"></i>
-                                                </span>
-                                                <p:password a:type="password" id="password" required="true"
-                                                            value="#{utilisateurController.selected.password}" 
-                                                            class="form-control"></p:password>
-                                            </div>
-                                        </div>
-
-                                    </div>
-                                    <div class="row">
-                                        <div class="ml-auto mr-auto">
-                                            <h:outputLabel id="res">
-                                                <script src='https://www.google.com/recaptcha/api.js'></script>
-                                                <p:spacer/>
-                                                <div class="g-recaptcha" id="reCaptcha" data-sitekey="6LerFVIUAAAAAD7izZ3VCu7PMhRAuypTQabi9qhy">
-                                                </div>
-
-                                                <p:outputLabel  rendered="#{utilisateurController.userCaNotConnect}" class="notification-text" 
-                                                                style="color: red;font-size: 13px;margin-top: 5px;">
-                                                    Désolé mot de passe ou identifiant est incorrect !
-                                                </p:outputLabel>
-                                            </h:outputLabel>
-                                        </div>
-                                    </div>
-                                    <div class="row">
-                                        <div class="col-md-6">
-                                            <div class="forgot nav-link " style="margin-top: 25px;margin-left: 10%;">
-                                                <a id="annuler" class="nav-link" href="resetPassword.xhtml" title="Réntialiser votre mot de passe ?">
-                                                    MOT DE PASSE OUBLIÉE ?
-                                                </a>
-                                            </div>
-                                        </div>
-                                        <div class="col-md-4" style="margin-left: 10%;">
-                                            <h:commandLink id="nextButton"
-                                                           action="#{utilisateurController.seConnecter()}" 
-                                                           class="btn btn-sm btn-default" value="CONNECTER">
-                                            </h:commandLink>
-                                        </div>
-
-                                    </div>
-                                </h:form>
+                            <div class="card-header text-center " >
+                                <p:outputLabel >
+                                    <h6 class="text-center note">BIENVENUE SUR VOTRE ESPACE </h6>
+                                </p:outputLabel>
                             </div>
-                            <!--<p:growl id="growl" class="ui-growl" />-->
+                            <h:form id="form" class="contact-form">
+                                <div class="row">
+                                    <div class="col-md-4 ml-auto" >
+                                        <p:outputLabel for="if"><label class="note" >
+                                                LOGIN </label></p:outputLabel>
+                                    </div>
+                                    <div class="col-md-6 ml-auto" style="margin-top: 15px;">
+                                        <div class="input-group">
+                                            <span class="input-group-addon">
+                                                <i class="nc-icon nc-user-run"></i>
+                                            </span>
+                                            <p:inputText id="if" value="#{utilisateurController.selected.login}" required="true"
+                                                         a:type="text" class="form-control"></p:inputText>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4 ml-auto">
+                                        <p:outputLabel for="password"><label class="note" >
+                                                MOT DE PASSE </label></p:outputLabel>
+                                    </div>
+                                    <div class="col-md-6 ml-auto" style="margin-top: 15px;">
+                                        <div  class="input-group">
+                                            <span class="input-group-addon">
+                                                <i class="nc-icon nc-key-25"></i>
+                                            </span>
+                                            <p:password a:type="password" id="password" required="true"
+                                                        value="#{utilisateurController.selected.password}" 
+                                                        class="form-control"></p:password>
+                                        </div>
+                                    </div>
+
+                                </div>
+                                <div class="row">
+                                    <div class="ml-auto mr-auto">
+                                        <h:outputLabel id="res">
+                                            <script src='https://www.google.com/recaptcha/api.js'></script>
+                                            <p:spacer/>
+                                            <div class="g-recaptcha" id="reCaptcha" data-sitekey="6LerFVIUAAAAAD7izZ3VCu7PMhRAuypTQabi9qhy">
+                                            </div>
+
+                                            <p:outputLabel  rendered="#{utilisateurController.userCaNotConnect}" class="notification-text" 
+                                                            style="color: red;font-size: 13px;margin-top: 5px;">
+                                                Désolé mot de passe ou identifiant est incorrect !
+                                            </p:outputLabel>
+                                        </h:outputLabel>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <div class="forgot nav-link " style="margin-top: 25px;margin-left: 10%;">
+                                            <a id="annuler" class="nav-link" href="resetPassword.xhtml" title="Réntialiser votre mot de passe ?">
+                                                MOT DE PASSE OUBLIÉE ?
+                                            </a>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4" style="margin-left: 10%;">
+                                        <h:commandLink id="nextButton"
+                                                       action="#{utilisateurController.seConnecter()}" 
+                                                       class="btn btn-sm btn-default" value="CONNECTER">
+                                        </h:commandLink>
+                                    </div>
+
+                                </div>
+                            </h:form>
                         </div>
+                        <!--<p:growl id="growl" class="ui-growl" />-->
                     </div>
                 </div>
             </div>

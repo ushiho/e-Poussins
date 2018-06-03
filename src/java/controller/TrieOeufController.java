@@ -426,15 +426,17 @@ public class TrieOeufController implements Serializable {
     }
 
     public void modifyFromList() {
-        setRestReception(getRestReception().subtract(selected.getEntree()));
-        setTotalEntres(getTotalEntres().subtract(selectedToModify.getEntree()));
-        setTotalEntres(getTotalEntres().add(selected.getEntree()));
-        selected.setCategorieOeuf(categorieOeufSelected);
-        MessageUtil.info("La catégorie '" + categorieOeufSelected.getDesignation() + "' est bien modifiée");
-        setSelected(null);
-        setSelectedToModify(null);
-        setCategorieOeufSelected(null);
-        setForme3(false);
+        if (selected != null && selectedToModify != null) {
+            setRestReception(getRestReception().subtract(selected.getEntree()));
+            setTotalEntres(getTotalEntres().subtract(selectedToModify.getEntree()));
+            setTotalEntres(getTotalEntres().add(selected.getEntree()));
+            selected.setCategorieOeuf(categorieOeufSelected);
+            MessageUtil.info("La catégorie '" + categorieOeufSelected.getDesignation() + "' est bien modifiée");
+            setSelected(null);
+            setSelectedToModify(null);
+            setCategorieOeufSelected(null);
+            setForme3(false);
+        }
     }
 
     public void reloadAllThePage() throws IOException {
@@ -443,12 +445,14 @@ public class TrieOeufController implements Serializable {
     }
 
     public void removeFromList() {
-        getItems().remove(ejbFacade.indexOfSelected(items, selected));
-        setRestReception(getRestReception().add(selected.getEntree()));
-        setTotalEntres(getTotalEntres().subtract(selected.getEntree()));
-        MessageUtil.info("La catégorie '" + getSelected().getCategorieOeuf().getDesignation() + "' est supprimée");
-        setCategorieOeufSelected(null);
-        setSelected(null);
+        if (selected != null) {
+            getItems().remove(ejbFacade.indexOfSelected(items, selected));
+            setRestReception(getRestReception().add(selected.getEntree()));
+            setTotalEntres(getTotalEntres().subtract(selected.getEntree()));
+            MessageUtil.info("La catégorie '" + getSelected().getCategorieOeuf().getDesignation() + "' est supprimée");
+            setCategorieOeufSelected(null);
+            setSelected(null);
+        }
     }
 
     public void showForme3ByCategorie() {

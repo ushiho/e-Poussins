@@ -7,7 +7,6 @@
       xmlns:a="http://xmlns.jcp.org/jsf/passthrough"
       xmlns:c="http://xmlns.jcp.org/jsp/jstl/core">
     <h:head>
-        <title>e-Poussins</title>
         <meta charset="utf-8" />
         <link rel="icon" type="image/png" href="../images/oeufs.ico"></link>
         <link rel="apple-touch-icon" sizes="76x76" href="../images/oeufs.png"></link>
@@ -32,9 +31,8 @@
         <link href="../assets/css/nucleo-icons.css" rel="stylesheet"></link>
     </h:head>
     <h:body onload="#{trieOeufController.initParamsUsedInSuivis()}">
-        <!--<p id="growl" class="ui-growl"/>-->
         <!-- navBar -->
-        <nav class="navbar navbar-expand-md fixed-top navbar-transparent" color-on-scroll="50">
+        <nav class="navbar bar navbar-expand-lg fixed-top navbar-transparent" color-on-scroll="80">
             <div class="container">
                 <div class="navbar-translate">
                     <button class="navbar-toggler navbar-toggler-right navbar-burger" type="button" data-toggle="collapse" data-target="#navbarToggler" aria-controls="navbarTogglerDemo02" aria-expanded="false" aria-label="Toggle navigation">
@@ -84,9 +82,9 @@
                         </li>
                         <li class="nav-item">
                             <h:form>
-                            <h:commandLink class="nav-link" action="#{utilisateurController.deconnecter()}" >
-                                <i class="nc-icon nc-key-25"></i>Déconnexion
-                            </h:commandLink>
+                                <h:commandLink class="nav-link" action="#{utilisateurController.deconnecter()}" >
+                                    <i class="nc-icon nc-key-25"></i>Déconnexion
+                                </h:commandLink>
                             </h:form>
                         </li>
 
@@ -115,7 +113,7 @@
                             </div>
                         </div>
                         <div class="row tim-row">
-                            <div class="col-lg-3 col-md-6">
+                            <div class="col-lg-2 col-md-6">
                                 <div class="fixed-section">
 
                                     <div id="accordion" role="tablist" aria-multiselectable="true">
@@ -153,7 +151,7 @@
                                                     <ul>
                                                         <li><a href="suivisOeufsJournalier.xhtml"><h6><span class="note">JOURNALIER</span></h6></a></li>
                                                         <li><a href="suivisOeufsHebdo.xhtml"><h6><span class="note">HEBDOMADAIRE</span></h6></a></li>
-                                                        <li><a href="#"><h6><span class="note">MENSUEL</span></h6></a></li>
+                                                        <li><a href="suivisOeufsMensuel.xhtml"><h6><span class="note">MENSUEL</span></h6></a></li>
                                                     </ul>
                                                 </div>
                                             </div>
@@ -223,13 +221,13 @@
                                 </div>
                             </div>
 
-                            <div class="col-lg-9 col-md-12">
+                            <div class="col-lg-10 col-md-12">
                                 <div class="card-header col-md-12 ml-auto mr-auto" >
                                     <p:outputLabel><h6 class="text-center note">OEUFS
                                             <span style="color: #abd432;"> / TRIE OEUFS</span>
                                         </h6></p:outputLabel>
                                 </div>
-                                <p:spacer/>
+                                <!--<p id=" class="ui" autoUpdate="true" />-->
                                 <p:spacer/>
                                 <h:panelGroup rendered="#{!trieOeufController.forme4}" id="intro">
                                     <p class="card-just-text text-center">Avec ce formulaire vous pouvez enregistrer la trie des oeufs
@@ -246,7 +244,7 @@
                                         <p:spacer/>
 
                                         <div class="row">
-                                            <div class="col-md-2" style="margin-left: 30px;margin-top: 10px;">
+                                            <div class="col-md-2" style="margin-top: 10px;margin-left: 5%;">
                                                 <p:outputLabel for="dateTrie">
                                                     <label  class="note"> DATE</label>
                                                 </p:outputLabel>
@@ -257,7 +255,7 @@
                                                         <span class="glyphicon glyphicon-time"></span>
                                                         <i class="nc-icon nc-calendar-60" aria-hidden="true"></i>
                                                     </span>
-                                                    <p:inputText id="dateTrie" value="#{trieOeufController.dateTrie}" required="true"
+                                                    <p:inputText id="dateTrie" value="#{trieOeufController.dateTrie}" required="true" 
                                                                  requiredMessage="Vous devez indiquer une date" style="cursor: pointer;"
                                                                  class="form-control " placeholder="05/08/2017" title="Date de trie" />
                                                 </div>
@@ -269,7 +267,8 @@
                                                     });
                                                 </script>
                                             </div>
-                                            <div class="col-md-2" style="margin-left: 80px;margin-top: 10px;">
+                                            <p:spacer/>
+                                            <div class="col-md-2" style="margin-left: 5%;margin-top: 10px;">
                                                 <p:outputLabel for="semaine">
                                                     <label  class="note"> N° SEMAINE</label>
                                                 </p:outputLabel>
@@ -286,8 +285,9 @@
                                                 </div>
                                             </div>
                                         </div>
-                                        <div class="row" style="margin-top: 30px;">
-                                            <div class="col-md-3" style="margin-left: 170px;margin-top: 10px;">
+                                        <p:spacer/>
+                                        <div class="row" style="">
+                                            <div class="col-md-2" style="margin-left: 5%;margin-top: 10px;">
                                                 <p:outputLabel for="reception">
                                                     <label>RÉCEPTION </label>
                                                 </p:outputLabel>
@@ -300,7 +300,7 @@
                                                     <p:ajax update=":forme2" listener="#{trieOeufController.setRestReception(trieOeufController.reception)}"/>
                                                 </p:inputText>
                                             </div>
-                                            <div class="col-sm-3" style="margin-top: 60px;margin-left: 10px;">
+                                            <div class="col-sm-3" style="margin-top: 40px;margin-left: 5%;">
                                                 <p:commandLink update="forme1  :forme2" actionListener="#{trieOeufController.setForme2(true)}"
                                                                id="suivant" title="Passer à l'étape suivante" value="SUIVANT" class="btn btn-outline-danger btn-sm">
                                                     <f:actionListener binding="#{trieOeufController.setForme1(false)}"/>
@@ -316,30 +316,31 @@
                                                               value="ETAPE 2" /></h6>
                                         </div>
                                         <p:spacer/>
-                                        <div class="row">
-                                            <div class="col-sm-3" style="margin-top: 5px;margin-left: 10%;">
-                                                <h:commandLink rendered="#{trieOeufController.items.size()==0}" actionListener="#{trieOeufController.setForme1(true)}"
-                                                               id="retour" title="Retour à l'étape précedente" value="RETOUR" class="btn btn-outline-danger btn-sm">
-                                                    <f:actionListener binding="#{trieOeufController.setForme2(false)}" />
-                                                    <f:actionListener binding="#{trieOeufController.setSelected(null)}"/>
-                                                    <f:actionListener binding="#{trieOeufController.setForme3(false)}"/>
-                                                    <p:ajax update="forme2 forme2:oeuf :forme1 :forme3"/>
-                                                </h:commandLink>
-                                            </div>
-                                            <div class="col-sm-2" style="margin-top: 15px;margin-left: 10%;">
-                                                <p:outputLabel title="le reste à la réception"><label>LE REST </label></p:outputLabel>
-                                            </div>
-                                            <div class="col-sm-3 form-control" style="margin-left: 4%">
-                                                <h:outputText value="#{trieOeufController.restReception}" title="le reste à la réception" />
-                                            </div>
+
+                                        <div class="col-md-4" style="margin-top: 5px;">
+                                            <h:commandLink rendered="#{trieOeufController.items.size()==0}" actionListener="#{trieOeufController.setForme1(true)}"
+                                                           id="retour" title="Retour à l'étape précedente" value="RETOUR" class="btn btn-outline-danger btn-sm">
+                                                <f:actionListener binding="#{trieOeufController.setForme2(false)}" />
+                                                <f:actionListener binding="#{trieOeufController.setSelected(null)}"/>
+                                                <f:actionListener binding="#{trieOeufController.setCategorieOeufSelected(null)}"/>
+                                                <f:actionListener binding="#{trieOeufController.setForme3(false)}"/>
+                                                <p:ajax update="forme2 forme2:oeuf :forme1 :forme3"/>
+                                            </h:commandLink>
                                         </div>
                                         <p:spacer/>
+                                        <div class="row">
+                                            <div class="col-md-2" style="margin-top: 10px;margin-left: 5%;">
+                                                <p:outputLabel title="le reste à la réception"><label>LE REST </label></p:outputLabel>
+                                            </div>
+                                            <div class="col-md-2 form-control" >
+                                                <h:outputText value="#{trieOeufController.restReception}" title="le reste à la réception" />
+                                            </div>
+                                            <p:spacer/>
 
-                                        <div class="row" style="margin-top: 20px;margin-left: 2%;">
-                                            <div class="col-md-5" >
+                                            <div class="col-md-3" style="margin-left: 5%;margin-top: 10px;">
                                                 <p:outputLabel for="oeuf"><label class="note">CATÉGORIE DES OEUFS</label></p:outputLabel>
                                             </div>
-                                            <div class="col-4" style="margin-left: 15%;">
+                                            <div class="col-md-3" style="margin-top: 10px;">
                                                 <h:selectOneMenu disabled="#{trieOeufController.categorieOeufSelected.id!=null}" style="width: 100%;" required="true" id="oeuf" 
                                                                  value="#{trieOeufController.categorieOeufSelected}" >
                                                     <f:selectItem itemLabel="-- Choisir une catégorie --" itemValue="" noSelectionOption="true" />
@@ -352,13 +353,13 @@
                                         </div>
                                         <p:spacer/>
                                         <div class="row">
-                                            <div class="col-md-2" style="margin-left: 30%;margin-top: 10px;">
+                                            <div class="col-md-4" style="margin-left: 25%;margin-top: 10px;">
                                                 <p:outputLabel rendered="#{trieOeufController.forme3}">
-                                                    <label title="Situation Initiale"  class="note"> S.I</label>
+                                                    <label  class="note">SITUATION INITIALE</label>
                                                 </p:outputLabel>
                                             </div>
                                             <h:panelGroup rendered="#{trieOeufController.forme3}">
-                                                <div class="col-sm-3 form-control" style="margin-left: -4%;">
+                                                <div class="col-md-3 form-control">
                                                     <h:outputText value="#{trieOeufController.selected.situationInitiale}" title="Situation Initiale de cette catégorie" />
                                                 </div>
                                             </h:panelGroup>
@@ -371,7 +372,7 @@
                                 <h:form id="forme3">
                                     <h:panelGroup rendered="#{trieOeufController.forme3}">
                                         <div class="row">
-                                            <div class="col-md-2" style="margin-left: 2%;margin-top: 10px;">
+                                            <div class="col-md-2" style="margin-left: 5%;margin-top: 10px;">
                                                 <p:outputLabel for="entre">
                                                     <label title="nombre des oeufs en entrée"  class="note"> ENTREE</label>
                                                 </p:outputLabel>
@@ -386,7 +387,7 @@
                                                                   class="form-control" title="nombre des oeufs en entrée" />
                                                 </div>
                                             </div>
-                                            <div class="col-md-2" style="margin-left: 8%;margin-top: 10px;">
+                                            <div class="col-md-2" style="margin-left: 5%;margin-top: 10px;">
                                                 <p:outputLabel for="don">
                                                     <label title="Les oeufs de don" class="note"> DON</label>
                                                 </p:outputLabel>
@@ -404,7 +405,7 @@
                                         <p:spacer/>
                                         <p:spacer/>
                                         <div class="row">
-                                            <div class="col-md-2" style="margin-left: 2%;margin-top: 10px;">
+                                            <div class="col-md-2" style="margin-left: 5%;margin-top: 10px;">
                                                 <p:outputLabel for="vente">
                                                     <label title="nombre des oeufs ventés"  class="note"> VENTES</label>
                                                 </p:outputLabel>
@@ -418,7 +419,7 @@
                                                                  class="form-control " title="nombre des oeufs ventés" />
                                                 </div>
                                             </div>
-                                            <div class="col-sm-2" style="margin-left: 8%;margin-top: 10px;">
+                                            <div class="col-sm-2" style="margin-left: 5%;margin-top: 10px;">
                                                 <p:outputLabel for="perte">
                                                     <label   class="note"> PERTES</label>
                                                 </p:outputLabel>
@@ -437,12 +438,12 @@
                                         <p:spacer/>
                                         <div class="row">
                                             <h:panelGroup rendered="#{trieOeufController.categorieOeufSelected.designation == 'OAC' || trieOeufController.selected.categorieOeuf.designation =='oac'}">
-                                                <div class="col-md-2" style="margin-left: 15%;margin-top: 10px;">
+                                                <div class="col-md-2" style="margin-left: 25%;margin-top: 10px;">
                                                     <p:outputLabel for="incubation">
                                                         <label title="Les oeufs mis en incubation"  class="note"> INCUBATION</label>
                                                     </p:outputLabel>
                                                 </div>
-                                                <div class="col-sm-3" style="margin-left: 10%;">
+                                                <div class="col-sm-3" style="">
                                                     <div class="input-group" >
                                                         <span class="input-group-addon">
                                                             <i class="nc-icon nc-atom" aria-hidden="true"></i>
@@ -458,14 +459,17 @@
                                         <p:spacer/>
                                         <div class="row">
 
-                                            <div class="col-sm-9" style="margin-left: 25%;">
+                                            <div class="col-md-3 ml-auto" >
                                                 <h:commandLink actionListener="#{trieOeufController.setForme3(false)}"
-                                                               id="annuler"  value="ANNULER" class="btn btn-dark btn-sm">
+                                                               id="annuler"  value="ANNULER" class="btn btn-default btn-sm">
                                                     <p:ajax listener="#{trieOeufController.cancelModify()}" resetValues="true" update=":forme2 :forme2:oeuf :datalist forme3"/>
                                                 </h:commandLink>
+                                            </div>
+                                            <p:spacer style="margin-top: 10px;"/>
+                                            <div class="col-md-4 ml-auto">
                                                 <p:commandLink  id="valider" title="Valider ces donnés" update=":forme2 forme3 :datalist "
                                                                 value="VALIDER" actionListener="#{trieOeufController.addOrModifyAndTestRestReception()}"
-                                                                style="margin-left: 46%" class="btn btn-outline-default btn-sm">
+                                                                class="btn btn-default btn-sm">
                                                 </p:commandLink>
                                             </div>
                                         </div>
@@ -585,7 +589,8 @@
                                                 </p:commandLink>
                                             </div>
                                             <div class="col-3" style="margin-left: 100px;">
-                                                <p:commandLink actionListener="#{trieOeufController.cancelSavingInDb()}" id="exit" update=":forme2:oeuf :forme2 :forme3 datalist :forme1"
+                                                <p:commandLink actionListener="#{trieOeufController.cancelSavingInDb()}" id="exit" 
+                                                               update=":forme2:oeuf :forme2 :forme3 datalist :forme1 "
                                                                value="ANNULER" class="btn btn-outline-danger btn-sm"
                                                                title="Annuler tous vos modifications">
                                                     <f:actionListener binding="#{trieOeufController.setSelected(null)}"/>

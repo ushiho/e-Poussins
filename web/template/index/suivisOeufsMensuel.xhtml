@@ -32,7 +32,7 @@
     </h:head>
     <h:body onload="#{trieOeufController.initParamsUsedInSuivis()}">
 
-        <nav class="navbar navbar-expand-sm fixed-top navbar-transparent" color-on-scroll="50">
+        <nav class="navbar bar navbar-expand-lg fixed-top navbar-transparent" color-on-scroll="80">
             <div class="container">
                 <div class="navbar-translate">
                     <button class="navbar-toggler navbar-toggler-right navbar-burger" type="button" data-toggle="collapse" data-target="#navbarToggler" aria-controls="navbarTogglerDemo02" aria-expanded="false" aria-label="Toggle navigation">
@@ -88,11 +88,11 @@
 
                     </ul>
                 </div>
-                <p:growl class="ui-growl" id="growl"/>
+                <!--<p class="ui" id="/>-->
 
                 <p:dialog id="exporteDlg" widgetVar="exporteDialog" 
                           header="Format de fichier à exporter" modal="true"
-                          styleClass="ui-growl">
+                          styleClass="ui">
                     <h:form id="exporteForm">
                         <h:panelGroup id="display">
                             <div class="row">
@@ -350,7 +350,7 @@
                                         <div class="col-sm-2" style="margin-left: 6%;margin-top: 25px;">
                                             <p:commandLink  class="btn btn-outline-success btn-sm" 
                                                             actionListener="#{trieOeufController.searchHebdo()}" title="Chercher les tries "
-                                                            update="forme1 :datalist :growl">
+                                                            update="forme1 :datalist ">
                                                 <h:outputText value="CHERCHER" />
                                                 <i  class="nc-icon nc-zoom-split" aria-hidden="true"></i>
                                             </p:commandLink>
@@ -419,11 +419,11 @@
                                     </h:panelGroup>
                                 </h:form>
                                 <br/>
-                                <div class="embed-responsive embed-responsive-16by9">
+<!--                                <div class="embed-responsive embed-responsive-16by9">
                                     <iframe class="embed-responsive-item" 
-                                            src="../video" 
+                                            src="../video/17.mp4" 
                                             allowfullscreen="true"></iframe>
-                                </div>
+                                </div>-->
                             </div>
                         </div>
                     </div>

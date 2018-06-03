@@ -5,13 +5,12 @@
       xmlns:p="http://primefaces.org/ui"
       xmlns:f="http://xmlns.jcp.org/jsf/core">
     <h:head>
-        <title>e-Poussins</title>
         <meta charset="utf-8" />
-        <link rel="icon" type="image/png" href="../assets/img/favicon.ico"></link>
-        <link rel="apple-touch-icon" sizes="76x76" href="../assets/img/apple-icon.png"></link>
+        <link rel="icon" type="image/png" href="../images/oeufs.ico"></link>
+        <link rel="apple-touch-icon" sizes="76x76" href="../images/oeufs.png"></link>
         <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
 
-        <title>Direction Géneral des Impots</title>
+        <title>e-Poussins</title>
 
         <meta content='width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0' name='viewport' />
         <meta name="viewport" content="width=device-width" />
@@ -30,15 +29,19 @@
         <link href="../assets/css/nucleo-icons.css" rel="stylesheet"></link>
     </h:head>
     <h:body>
-        <nav class="navbar navbar-expand-lg fixed-top navbar-transparent" color-on-scroll="50">
-            <div class="container">
+        <nav class="navbar bar navbar-expand-lg fixed-top navbar-transparent" color-on-scroll="80" >
+            <div class="container" style="min-height: 60px;height: 60px;">
                 <div class="navbar-translate">
                     <button class="navbar-toggler navbar-toggler-right navbar-burger" type="button" data-toggle="collapse" data-target="#navbarToggler" aria-controls="navbarTogglerDemo02" aria-expanded="false" aria-label="Toggle navigation">
                         <span class="navbar-toggler-bar"></span>
                         <span class="navbar-toggler-bar"></span>
                         <span class="navbar-toggler-bar"></span>
                     </button>
-                    <a class="navbar-brand " href="https://www.creative-tim.com">Direction Géneral des Impots</a>
+                    <div style="float: left;">
+                        <a class="navbar-brand " href="">
+                            <img class="navbar-brand-ful img-circle" src="../images/oeufsTitle.png" />
+                            <span class="images-title" >E-Poussins</span></a>
+                    </div>
                 </div>
                 <div class="collapse navbar-collapse" id="navbarToggler">
                     <ul class="navbar-nav ml-auto">
@@ -230,43 +233,38 @@
                                     <p:spacer/><br/>
                                 </h:panelGroup>
                                 <h:form id="forme1">
-                                    <h:panelGroup rendered=""
-                                                  <div class="row" >
-                                            <div class="col-sm-2 " style="margin-left: 2%;">
-                                                <p:outputLabel for="annee"><label class="note" >ANNEE </label></p:outputLabel>
+                                    <h:panelGroup rendered="true" >
+                                        <div class="row">
+                                            <div class="col-md-2" style="margin-left: 30px;margin-top: 10px;">
+                                                <p:outputLabel for="dateTrie">
+                                                    <label  class="note"> DATE</label>
+                                                </p:outputLabel>
                                             </div>
-                                            <div class="col-sm-3 " style="margin-left: 5%;margin-bottom: 10px;">
-                                                <h:selectOneMenu style="width: 100%;" required="true" requiredMessage="Vous devez indiquer une année c'est obligatoire !" id="annee" 
-                                                                 value="#{trieOeufController.year}" >
-                                                    <f:selectItem itemLabel="-- Année --" itemValue="" noSelectionOption="true" />
-                                                    <f:selectItems  value="#{trieOeufController.chargeYearsSavedInDB()}"
-                                                                    var="annee" itemValue="#{annee}"/>
-                                                </h:selectOneMenu>
+                                            <div class="col-sm-3">
+                                                <div class="input-group date datetimepicker" >
+                                                    <span class="input-group-addon">
+                                                        <span class="glyphicon glyphicon-time"></span>
+                                                        <i class="nc-icon nc-calendar-60" aria-hidden="true"></i>
+                                                    </span>
+                                                    <p:inputText id="dateTrie" value="#{trieOeufController.dateTrie}" required="true"
+                                                                 requiredMessage="Vous devez indiquer une date" style="cursor: pointer;"
+                                                                 class="form-control " placeholder="05/08/2017" title="Date de trie" />
+                                                </div>
+                                                <script type="text/javascript">
+                                                    $(function () {
+                                                        $('.datetimepicker').datetimepicker({
+                                                            format: 'DD/MM/YYYY'
+                                                        });
+                                                    });
+                                                </script>
                                             </div>
-                                            <div class="col-sm-2" style="margin-left: 2%;" >
-                                                <p:outputLabel for="month"><label class="note">MOIS </label></p:outputLabel>
+                                            <div class="col-sm-3">
+                                                <p:commandLink  class="btn btn-outline-info btn-sm" 
+                                                            actionListener="#{trieOeufController.searchHebdo()}" update="">
+                                                <h:outputText value="CHERCHER" />
+                                                <i  class="nc-icon nc-zoom-split" aria-hidden="true"></i>
+                                            </p:commandLink>
                                             </div>
-                                            <p:spacer/>
-                                            <div class="col-sm-3 " style="margin-left: 5%;margin-bottom: 10px;" >
-                                                <h:selectOneMenu style="width: 100%;" required="true" requiredMessage="Vous devez indiquer un mois c'est obligatoire !" id="month" 
-                                                                 value="#{trieOeufController.mois}" >
-                                                    <f:selectItem itemLabel="-- Mois --" itemValue="" noSelectionOption="true" />
-                                                    <f:selectItem itemLabel="JANVIER" itemValue="01" />
-                                                    <f:selectItem itemLabel="FÉVRIER" itemValue="02" />
-                                                    <f:selectItem itemLabel="MARS" itemValue="03" />
-                                                    <f:selectItem itemLabel="AVRIL" itemValue="04"/>
-                                                    <f:selectItem itemLabel="MAI" itemValue="05" />
-                                                    <f:selectItem itemLabel="JUIN" itemValue="06"/>
-                                                    <f:selectItem itemLabel="JUILLET" itemValue="07" />
-                                                    <f:selectItem itemLabel="AOUT" itemValue="08" />
-                                                    <f:selectItem itemLabel="SEPTEMBRE" itemValue="09" />
-                                                    <f:selectItem itemLabel="OCTOBRE" itemValue="10" />
-                                                    <f:selectItem itemLabel="NOVEMBRE" itemValue="11"/>
-                                                    <f:selectItem itemLabel="DECEMBRE" itemValue="12"/>
-                                                </h:selectOneMenu>
-                                            </div>
-                                            <p:spacer/>
-
                                         </div>
                                     </h:panelGroup>
                                 </h:form>
@@ -279,5 +277,31 @@
 
 
     </h:body>
+    <!-- Core JS Files -->
+    <!--<script src="../assets/js/jquery-3.2.1.js" type="text/javascript"></script>-->
+    <!--<script src="../assets/js/jquery-ui-1.12.1.custom.min.js" type="text/javascript"></script>-->
+    <script src="../assets/js/popper.js" type="text/javascript"></script>
+    <script src="../assets/js/bootstrap.min.js" type="text/javascript"></script>
+    <!-- <script src="../assets/js/tether.min.js" type="text/javascript"></script> -->
+    <!--<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.11.0/umd/popper.min.js" integrity="sha384-b/U6ypiBEHpOf/4+1nzFpr53nxSS+GLCkfwBdFNTxtclqqenISfwAzpKaMNFNmj4" crossorigin="anonymous"></script>-->
+    <script src="../assets/js/bootstrap.min.js" type="text/javascript"></script>
+
+
+    <!--  Paper Kit Initialization snd functons -->
+    <script src="../assets/js/paper-kit.js?v=2.1.0"></script>
+
+    <!-- Plugin for Share buttons -->
+    <!--<script src="../assets/js/jquery.sharrre.js"></script>-->
+
+    <!-- Plugin for Switches -->
+    <script src="../assets/js/bootstrap-switch.min.js"></script>
+
+    <!--  Plugins for Slider -->
+    <script src="../assets/js/nouislider.js"></script>
+
+    <script src="../assets/js/mon_JS.js"></script>
+    <!--  Plugins for DateTimePicker -->
+    <script src="../assets/js/moment.min.js"></script>
+    <script src="../assets/js/bootstrap-datetimepicker.min.js"></script>
 </html>
 
