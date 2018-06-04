@@ -162,7 +162,7 @@ public class TrieOeufController implements Serializable {
     }
 
     public void setSemaine(Integer semaine) {
-        if (semaine < 0) {
+        if (semaine == null || semaine < 0) {
             this.semaine = null;
             return;
         }
@@ -516,9 +516,11 @@ public class TrieOeufController implements Serializable {
         setDateTrie("");
         setForme2(false);
         setForme3(false);
+        setForme1(true);
         initSelectdAndCategorie();
         setCategorieOeufsAdded(null);
         setItems(null);
+        setSemaine(null);
     }
 
     public boolean testFields(int cas) {
