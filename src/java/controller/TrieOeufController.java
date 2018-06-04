@@ -161,13 +161,18 @@ public class TrieOeufController implements Serializable {
         return semaine;
     }
 
-    public void setSemaine() {
-        System.out.println("ccc s set dammaine");
-        if (!"".equals(dateTrie)) {
-            this.semaine = DateUtil.weekNumberFromDate(DateUtil.getSqlDateToSaveInDB(dateTrie));
-        } else {
+    public void setSemaine(Integer semaine) {
+        if (semaine < 0) {
             this.semaine = null;
+            return;
         }
+        this.semaine = semaine;
+        System.out.println("cc is etSemaine : " + semaine);
+    }
+
+    public void weekOfSelectedDate() {
+        System.out.println("cc from weekOfSelectedDate ");
+        setSemaine(DateUtil.weekNumberFromDate(DateUtil.getSqlDateToSaveInDB(dateTrie)));
     }
 
     public BigDecimal getRestReception() {
@@ -464,6 +469,8 @@ public class TrieOeufController implements Serializable {
     }
 
     public void setSIToTheSelected() {
+        System.out.println("cc c setSIToTheSelected ha date : " + dateTrie);
+        System.out.println("cc c setSIToTheSelected ha sql date bd : " + DateUtil.getSqlDateToSaveInDB(dateTrie));
         TrieOeuf lastTrieOeuf = ejbFacade.getLastSavedByDay(DateUtil.getSqlDateToSaveInDB(dateTrie), categorieOeufSelected);
         if (lastTrieOeuf == null || lastTrieOeuf.getSituationFinale() == null) {
             getSelected().setSituationInitiale(new BigDecimal(0));

@@ -10,12 +10,14 @@
 }
 .ui-growl {   
     position:fixed;
-    top: 40%;
-    left: 15%;
-    right: 25%;
-    width: 70%;
-    height: 10%;
-    z-index:9999; 
+    top: 13%;
+    /*    left: 15%;
+        right: 25%;*/
+    float: right;
+    width: 30%;
+    height: 5%;
+    z-index:9999;
+
 }
 
 .myCustomStyle {

@@ -27,6 +27,13 @@
         <link href='http://fonts.googleapis.com/css?family=Montserrat:400,300,700' rel='stylesheet' type='text/css'></link>
         <link href="http://maxcdn.bootstrapcdn.com/font-awesome/latest/css/font-awesome.min.css" rel="stylesheet"></link>
         <link href="../assets/css/nucleo-icons.css" rel="stylesheet"></link>
+        <script type="text/javascript">
+            $(function () {
+                $('.datetimepicker').datetimepicker({
+                    format: 'DD/MM/YYYY'
+                });
+            });
+        </script>
     </h:head>
     <h:body>
         <nav class="navbar bar navbar-expand-lg fixed-top navbar-transparent" color-on-scroll="80" >
@@ -103,10 +110,12 @@
                 <div class="section profile-content">
                     <div class="container">
                         <div class="owner">
-                            <div class="avatar"></div>
+                            <div class="avatar">
+                                <img src="../images/respoSmall.jpg" alt="respo img" class="img-circle img-no-padding img-responsive" />
+                            </div>
                             <div class="name">
                                 <h4 class="title">
-                                    <p:outputLabel value="USER"/>
+                                    <p:outputLabel value="#{utilisateurController.connectedUser().nom} #{utilisateurController.connectedUser().prenom}"/>
                                     <br /></h4>
                             </div>
                         </div>
@@ -127,12 +136,18 @@
                                             </a>
                                             <div id="collapseOne" class="collapse in" role="tabpanel" aria-labelledby="headingOne">
                                                 <div class="card-header">
-                                                    <ul>
-                                                        <li><a href="trieOeufs.xhtml"><h6><span class="note">TRIE OEUFS</span></h6></a></li>
-                                                        <li><a href="#"><h6><span class="note">CONSULTATION</span></h6></a></li>
-                                                        <li><a href="#"><h6><span class="note">VENTES</span></h6></a></li>
-                                                        <li><a href="#"><h6><span class="note">TRANSFERT</span></h6></a></li>
-                                                    </ul>
+                                                    <h:form>
+                                                        <ul>
+                                                            <li>
+                                                                <h:commandLink action="trieOeufs.xhtml">
+
+                                                                </h:commandLink>
+                                                            </li>
+                                                            <li><a href="#"><h6><span class="note">CONSULTATION</span></h6></a></li>
+                                                            <li><a href="#"><h6><span class="note">VENTES</span></h6></a></li>
+                                                            <li><a href="#"><h6><span class="note">TRANSFERT</span></h6></a></li>
+                                                        </ul>
+                                                    </h:form>
                                                 </div>
                                             </div>
                                         </div>
@@ -147,9 +162,21 @@
                                             <div id="collapseFive" class="collapse in" role="tabpanel" aria-labelledby="headingFive">
                                                 <div class="card-header">
                                                     <ul>
-                                                        <li><a href="suivisOeufsJournalier.xhtml"><h6><span class="note">JOURNALIER</span></h6></a></li>
-                                                        <li><a href="suivisOeufsHebdo.xhtml"><h6><span class="note">HEBDOMADAIRE</span></h6></a></li>
-                                                        <li><a href="#"><h6><span class="note">MENSUEL</span></h6></a></li>
+                                                        <li>
+                                                            <h:commandLink action="suivisOeufsJournalier.xhtml">
+                                                                <h6>JOURNALIER</h6>
+                                                            </h:commandLink>
+                                                        </li>
+                                                        <li>
+                                                            <h:commandLink action="suivisOeufsHebdo.xhtml">
+                                                                <h6>HEBDOMADAIRE</h6>
+                                                            </h:commandLink>
+                                                        </li>
+                                                        <li>
+                                                            <h:commandLink action="suivisOeufsMensuel.xhtml">
+                                                                <h6>MENSUEL</h6>
+                                                            </h:commandLink>
+                                                        </li>
                                                     </ul>
                                                 </div>
                                             </div>
@@ -167,7 +194,11 @@
                                             <div id="collapseTwo" class="collapse" role="tabpanel" aria-labelledby="headingTwo">
                                                 <div class="card-header">
                                                     <ul>
-                                                        <li><a href="#dropdown-row"><h6><span class="note">AJOUTE</span></h6></a></li>
+                                                        <li>
+                                                            <h:commandLink action="#dropdown-row">
+                                                                <h6>AJOUTE</h6>
+                                                            </h:commandLink>
+                                                        </li>
                                                         <li><a href="#dropdown-row"><h6><span class="note">SUIVIS JOURNALIER</span></h6></a></li>
                                                         <li><a href="#inputs-row"><h6><span class="note">CONSULTATION</span></h6></a></li>
                                                     </ul>
@@ -219,6 +250,9 @@
                                 </div>
                             </div>
                             <div class="col-lg-10 col-md-12">
+                                <h:form id="growl">
+                                    <p:growl showDetail="false" autoUpdate="true" class="ui-growl" life="2500" />
+                                </h:form>
                                 <div class="card-header col-md-12 ml-auto mr-auto" >
                                     <p:outputLabel><h6 class="text-center note">INCUBATION
                                             <span style="color: #abd432;"> / AJOUTE</span>
@@ -250,13 +284,6 @@
                                                                  requiredMessage="Vous devez indiquer une date" style="cursor: pointer;"
                                                                  class="form-control " placeholder="05/08/2017" title="Date de trie" />
                                                 </div>
-                                                <script type="text/javascript">
-                                                    $(function () {
-                                                        $('.datetimepicker').datetimepicker({
-                                                            format: 'DD/MM/YYYY'
-                                                        });
-                                                    });
-                                                </script>
                                             </div>
                                             <div class="col-md-3 ml-auto" style="margin-top: 2.5px;">
                                                 <p:commandLink  class="btn btn-outline-info btn-sm" 
@@ -437,15 +464,24 @@
                 </div>
             </div>
         </div>
-        <script type="text/javascript">
-            $(function () {
-                $('.datetimepicker').datetimepicker({
-                    format: 'DD/MM/YYYY'
-                });
-            });
-        </script>
-
-
+        <footer class="footer section-dark">
+            <div class="container">
+                <div class="row">
+                    <nav class="footer-nav">
+                        <ul>
+                            <li><a >Creative </a></li>
+                            <li><a >Blog</a></li>
+                            <li><a >Licenses</a></li>
+                        </ul>
+                    </nav>
+                    <div class="credits ml-auto">
+                        <span class="copyright">
+                            © <script>document.write(new Date().getFullYear());</script>, made with <i class="fa fa-heart heart"></i> by LOTFI
+                        </span>
+                    </div>
+                </div>
+            </div>
+        </footer>
     </h:body>
     <!-- Core JS Files -->
     <!--<script src="../assets/js/jquery-3.2.1.js" type="text/javascript"></script>-->

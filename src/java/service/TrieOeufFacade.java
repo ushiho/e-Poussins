@@ -55,8 +55,8 @@ public class TrieOeufFacade extends AbstractFacade<TrieOeuf> {
 
     public TrieOeuf getLastSavedByDay(Date date, CategorieOeuf categorieOeuf) {
         return getUniqueResult("SELECT tr FROM TrieOeuf tr WHERE 1=1 "
-                + SearchUtil.addConstraint("tr", "dateTrie", "=", date)
-                + SearchUtil.addConstraint("tr", "categorie.id", "=", categorieOeuf.getId()));
+                + SearchUtil.addConstraint("tr", "dateTrie", "=", DateUtil.subDayFromDate(date))
+                + SearchUtil.addConstraint("tr", "categorieOeuf.id", "=", categorieOeuf.getId()));
     }
 
     public BigDecimal calculateSF(TrieOeuf trieOeuf) {
