@@ -27,6 +27,50 @@
         <link href='http://fonts.googleapis.com/css?family=Montserrat:400,300,700' rel='stylesheet' type='text/css'></link>
         <link href="http://maxcdn.bootstrapcdn.com/font-awesome/latest/css/font-awesome.min.css" rel="stylesheet"></link>
         <link href="../assets/css/nucleo-icons.css" rel="stylesheet"></link>
+        <link ref="stylesheet" type="text/css" href="../assets/css/snackbar.min.css" />
+        <style>
+            #snackbar {
+                visibility: hidden;
+                min-width: 250px;
+                margin-left: -125px;
+                background-color: #333;
+                color: #fff;
+                text-align: center;
+                border-radius: 2px;
+                padding: 16px;
+                position: fixed;
+                z-index: 1;
+                left: 50%;
+                bottom: 30px;
+                font-size: 17px;
+            }
+
+            #snackbar.show {
+                visibility: visible;
+                -webkit-animation: fadein 0.5s, fadeout 0.5s 2.5s;
+                animation: fadein 0.5s, fadeout 0.5s 2.5s;
+            }
+
+            @-webkit-keyframes fadein {
+                from {bottom: 0; opacity: 0;} 
+                to {bottom: 30px; opacity: 1;}
+            }
+
+            @keyframes fadein {
+                from {bottom: 0; opacity: 0;}
+                to {bottom: 30px; opacity: 1;}
+            }
+
+            @-webkit-keyframes fadeout {
+                from {bottom: 30px; opacity: 1;} 
+                to {bottom: 0; opacity: 0;}
+            }
+
+            @keyframes fadeout {
+                from {bottom: 30px; opacity: 1;}
+                to {bottom: 0; opacity: 0;}
+            }
+        </style>
     </h:head>
     <h:body>
         <nav class="navbar bar navbar-expand-lg fixed-top navbar-transparent" color-on-scroll="80" >
@@ -101,7 +145,7 @@
             </div>
             <div class="main">
                 <!--<div style="text-align:center;padding:1em 0;">--> 
-                    <!--<h4><a style="text-decoration:none;" href="https://www.zeitverschiebung.net/fr/city/2553604"><span style="color:gray;">Heure actuelle</span><br />Casablanca, Maroc</a></h4> <iframe src="https://www.zeitverschiebung.net/clock-widget-iframe-v2?language=fr&size=small&timezone=Africa%2FCasablanca" width="100%" height="90" frameborder="0" seamless></iframe> </div>-->
+                <!--<h4><a style="text-decoration:none;" href="https://www.zeitverschiebung.net/fr/city/2553604"><span style="color:gray;">Heure actuelle</span><br />Casablanca, Maroc</a></h4> <iframe src="https://www.zeitverschiebung.net/clock-widget-iframe-v2?language=fr&size=small&timezone=Africa%2FCasablanca" width="100%" height="90" frameborder="0" seamless></iframe> </div>-->
                 <div class="section profile-content">
                     <div class="container">
                         <div class="owner">
@@ -422,9 +466,9 @@
                                                         <span class="glyphicon glyphicon-time"></span>
                                                         <i class="nc-icon nc-calendar-60" aria-hidden="true"></i>
                                                     </span>
-                                                    <p:inputText id="dateIncub" value="#{incubationController.dateTrie}" required="true"
-                                                                 requiredMessage="Vous devez indiquer une date" style="cursor: pointer;"
-                                                                 class="form-control " placeholder="05/08/2017" title="Date d'incubation " />
+                                                    <p:inputText id="dateIncub" value="#{incubationController.selected.dateIncubation}" required="true"
+                                                                 requiredMessage="Vous devez indiquer une date d'incubation" style="cursor: pointer;"
+                                                                 class="form-control " placeholder="#{incubationController.dateTrie}" title="Date d'incubation " />
                                                 </div>
                                                 <script type="text/javascript">
                                                     $(function () {
@@ -446,9 +490,9 @@
                                                         <span class="glyphicon glyphicon-time"></span>
                                                         <i class="nc-icon nc-calendar-60" aria-hidden="true"></i>
                                                     </span>
-                                                    <p:inputText id="dateEclos" value="#{incubationController.dateTrie}" required="true"
-                                                                 requiredMessage="Vous devez indiquer une date" style="cursor: pointer;"
-                                                                 class="form-control " placeholder="05/08/2017" title="Date d'éclosion " />
+                                                    <p:inputText id="dateEclos" value="#{incubationController.selected.dateIncubation}" required="true"
+                                                                 requiredMessage="Vous devez indiquer une date d'eclosion" style="cursor: pointer;"
+                                                                 class="form-control " placeholder="#{incubationController.dateTrie}" title="Date d'éclosion " />
                                                 </div>
                                                 <script type="text/javascript">
                                                     $(function () {
@@ -462,165 +506,160 @@
                                                 <p:outputLabel for="couvoir"><label class="note">COUVOIR</label></p:outputLabel>
                                             </div>
                                             <div class="col-md-3" style="margin-top: 10px;">
-                                                <h:selectOneMenu style="width: 100%;" required="true" id="couvoir" 
-                                                                 value="#{incubationController.selected.couvoir}" >
+                                                <h:selectOneMenu onclick="myFunction()" style="width: 100%;" id="couvoir" value="#{couvoirController.selected}" >
                                                     <f:selectItem itemLabel="-- Choisir un couvoir --" itemValue="" noSelectionOption="true" />
                                                     <f:selectItems  value="#{couvoirController.getItemsAvailableSelectMany()}"
                                                                     var="couvoir" itemValue="#{couvoir}"/>
-                                                    <p:ajax event="click" listener="#{incubationController.setModal(true)}" update="modal forme2" />
+                                                    <p:ajax event="click" update=":modal " />
                                                 </h:selectOneMenu>
                                             </div>
                                         </div>
+                                        <div id="snackbar">
+                                            <h:commandLink class="btn btn-link btn-warning" value="Consulter l'état de cet couvoir"
+                                                           action="#{incubationController.selected.setCouvoir(couvoircontroller.selected)}"
+                                                           onclick="$('#myModal').modal('show');" immediate="true">
+                                                <f:ajax execute="@this" render="forme2"/>
+                                            </h:commandLink>
+                                        </div>
                                         <p:spacer/>
-                                        <h:panelGrid id="modal" rendered="#{incubationController.modal}">
-                                            <div class="col-md-12">
-                                                <p>
-                                                    <h:commandLink class="btn btn-link btn-warning" value="Consulter l'état de cet couvoir"
-                                                                   action="#{couvoirController.setSelected(incubationController.selected.couvoir)}"
-                                                                   onclick="$('#myModal').modal('show');" immediate="true">
-                                                        <f:ajax execute="@this" render="forme2"/>
-                                                    </h:commandLink>
-                                                </p>
-                                            </div>
-                                        </h:panelGrid>
                                     </h:panelGroup>
                                 </h:form>
                             </div>
                         </div>
                     </div>
                 </div>
+                <h:form id="modal">
+                    <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                        <div class="modal-dialog" role="document">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title text-center" id="exampleModalLabel">Modal title</h5>
+                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                        <span aria-hidden="true">&times;</span>
+                                    </button>
+                                </div>
+                                <div class="modal-body">
+                                    <div class="container-fluid">
+                                        <div class="row">
+                                            <div class="col-sm-6">
+                                                <div class="row">
+                                                    <div class="col-6 col-sm-3 mr-auto" style="margin-top: 10px;margin-left: -15%;">
+                                                        <h:outputText value="Ferme" />
+                                                    </div>
+                                                    <div class="col-6 col-sm-9 ml-auto">
+                                                        <div class="input-group" >
+                                                            <span class="input-group-addon">
+                                                                <span class="glyphicon glyphicon-time"></span>
+                                                                <i class="nc-icon nc-calendar-60" aria-hidden="true"></i>
+                                                            </span>
+                                                            <h:outputText class="form-control" value="#{couvoirController.selected.ferme.nom}" />
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-sm-6">
+                                                <div class="row">
+                                                    <div class="col-6 col-sm-3 mr-auto" style="margin-top: 10px;">
+                                                        <h:outputText value="Nom" />
+                                                    </div>
+                                                    <div class="col-6 col-sm-9 ml-auto" style="margin-left: 10%;">
+                                                        <div class="input-group" >
+                                                            <span class="input-group-addon">
+                                                                <span class="glyphicon glyphicon-time"></span>
+                                                                <i class="nc-icon nc-calendar-60" aria-hidden="true"></i>
+                                                            </span>
+                                                            <h:outputText class="form-control" value="#{couvoirController.selected.nom}" />
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <p:spacer/>
+                                        <div class="row">
+                                            <div class="col-sm-6">
+                                                <div class="row">
+                                                    <div class="col-6 col-sm-3 mr-auto" style="margin-top: 10px;margin-left: -15%;">
+                                                        <h:outputText value="Capacité" />
+                                                    </div>
+                                                    <div class="col-6 col-sm-9 ml-auto">
+                                                        <div class="input-group" >
+                                                            <span class="input-group-addon">
+                                                                <span class="glyphicon glyphicon-time"></span>
+                                                                <i class="nc-icon nc-calendar-60" aria-hidden="true"></i>
+                                                            </span>
+                                                            <h:outputText class="form-control" value="#{couvoirController.selected.capacite}" />
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-sm-6">
+                                                <div class="row">
+                                                    <div class="col-6 col-sm-3 mr-auto" style="margin-top: 10px;">
+                                                        <h:outputText value="Rest" />
+                                                    </div>
+                                                    <div class="col-6 col-sm-9 ml-auto" style="margin-left: 10%;">
+                                                        <div class="input-group" >
+                                                            <span class="input-group-addon">
+                                                                <span class="glyphicon glyphicon-time"></span>
+                                                                <i class="nc-icon nc-calendar-60" aria-hidden="true"></i>
+                                                            </span>
+                                                            <h:outputText class="form-control" value="#{couvoirController.showRestCapaciteOfCouvoir()}" />
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <p:spacer/>
+                                        <div class="row">
+                                            <div class="col-sm-6">
+                                                <div class="row">
+                                                    <div class="col-6 col-sm-3 mr-auto" style="margin-top: 10px;margin-left: -15%;">
+                                                        <h:outputText value="Incubés" />
+                                                    </div>
+                                                    <div class="col-6 col-sm-9 ml-auto">
+                                                        <div class="input-group" >
+                                                            <span class="input-group-addon">
+                                                                <span class="glyphicon glyphicon-time"></span>
+                                                                <i class="nc-icon nc-calendar-60" aria-hidden="true"></i>
+                                                            </span>
+                                                            <h:outputText class="form-control" value="#{couvoirController.showTotalIncubes()}" />
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-sm-6">
+                                                <div class="row">
+                                                    <div class="col-6 col-sm-3 mr-auto" style="margin-top: 10px;">
+                                                        <h:outputText value="Eclos" title="Total des eclos dans cet couvoir " />
+                                                    </div>
+                                                    <div class="col-6 col-sm-9 ml-auto" style="margin-left: 10%;">
+                                                        <div class="input-group" >
+                                                            <span class="input-group-addon">
+                                                                <span class="glyphicon glyphicon-time"></span>
+                                                                <i class="nc-icon nc-calendar-60" aria-hidden="true"></i>
+                                                            </span>
+                                                            <h:outputText title="Total des eclos dans cet couvoir " class="form-control" value="#{couvoirController.showTotalEclos()}" />
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
 
-                <!-- Modal -->
-                <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-                    <div class="modal-dialog" role="document">
-                        <div class="modal-content">
-                            <div class="modal-header">
-                                <h5 class="modal-title text-center" id="exampleModalLabel">Modal title</h5>
-                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                    <span aria-hidden="true">&times;</span>
-                                </button>
-                            </div>
-                            <div class="modal-body">
-                                <div class="container-fluid">
-                                    <div class="row">
-                                        <div class="col-sm-6">
-                                            <div class="row">
-                                                <div class="col-6 col-sm-3 mr-auto" style="margin-top: 5px;margin-left: -15%;">
-                                                    <h:outputText value="Ferme" />
-                                                </div>
-                                                <div class="col-6 col-sm-9 ml-auto">
-                                                    <div class="input-group" >
-                                                        <span class="input-group-addon">
-                                                            <span class="glyphicon glyphicon-time"></span>
-                                                            <i class="nc-icon nc-calendar-60" aria-hidden="true"></i>
-                                                        </span>
-                                                        <h:outputText class="form-control" value="#{couvoirController.selected.capacite}" />
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="col-sm-6">
-                                            <div class="row">
-                                                <div class="col-6 col-sm-3 mr-auto" style="margin-top: 5px;">
-                                                    <h:outputText value="Nom" />
-                                                </div>
-                                                <div class="col-6 col-sm-9 ml-auto" style="margin-left: 10%;">
-                                                    <div class="input-group" >
-                                                        <span class="input-group-addon">
-                                                            <span class="glyphicon glyphicon-time"></span>
-                                                            <i class="nc-icon nc-calendar-60" aria-hidden="true"></i>
-                                                        </span>
-                                                        <h:outputText class="form-control" value="#{couvoirController.selected.capacite}" />
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
                                     </div>
-                                    <p:spacer/>
-                                    <div class="row">
-                                        <div class="col-sm-6">
-                                            <div class="row">
-                                                <div class="col-6 col-sm-3 mr-auto" style="margin-top: 5px;margin-left: -15%;">
-                                                    <h:outputText value="Capacité" />
-                                                </div>
-                                                <div class="col-6 col-sm-9 ml-auto">
-                                                    <div class="input-group" >
-                                                        <span class="input-group-addon">
-                                                            <span class="glyphicon glyphicon-time"></span>
-                                                            <i class="nc-icon nc-calendar-60" aria-hidden="true"></i>
-                                                        </span>
-                                                        <h:outputText class="form-control" value="#{couvoirController.selected.capacite}" />
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="col-sm-6">
-                                            <div class="row">
-                                                <div class="col-6 col-sm-3 mr-auto" style="margin-top: 5px;">
-                                                    <h:outputText value="Rest" />
-                                                </div>
-                                                <div class="col-6 col-sm-9 ml-auto" style="margin-left: 10%;">
-                                                    <div class="input-group" >
-                                                        <span class="input-group-addon">
-                                                            <span class="glyphicon glyphicon-time"></span>
-                                                            <i class="nc-icon nc-calendar-60" aria-hidden="true"></i>
-                                                        </span>
-                                                        <h:outputText class="form-control" value="#{couvoirController.selected.capacite}" />
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <p:spacer/>
-                                    <div class="row">
-                                        <div class="col-sm-6">
-                                            <div class="row">
-                                                <div class="col-6 col-sm-3 mr-auto" style="margin-top: 5px;margin-left: -15%;">
-                                                    <h:outputText value="Incubés" />
-                                                </div>
-                                                <div class="col-6 col-sm-9 ml-auto">
-                                                    <div class="input-group" >
-                                                        <span class="input-group-addon">
-                                                            <span class="glyphicon glyphicon-time"></span>
-                                                            <i class="nc-icon nc-calendar-60" aria-hidden="true"></i>
-                                                        </span>
-                                                        <h:outputText class="form-control" value="#{couvoirController.selected.capacite}" />
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="col-sm-6">
-                                            <div class="row">
-                                                <div class="col-6 col-sm-3 mr-auto" style="margin-top: 5px;">
-                                                    <h:outputText value="Eclos" />
-                                                </div>
-                                                <div class="col-6 col-sm-9 ml-auto" style="margin-left: 10%;">
-                                                    <div class="input-group" >
-                                                        <span class="input-group-addon">
-                                                            <span class="glyphicon glyphicon-time"></span>
-                                                            <i class="nc-icon nc-calendar-60" aria-hidden="true"></i>
-                                                        </span>
-                                                        <h:outputText class="form-control" value="#{couvoirController.selected.capacite}" />
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    
                                 </div>
-                            </div>
-                            <div class="modal-footer">
-                                <div class="left-side">
-                                    <button type="button" class="btn btn-default btn-link" data-dismiss="modal">Never mind</button>
-                                </div>
-                                <div class="divider"></div>
-                                <div class="right-side">
-                                    <button type="button" class="btn btn-danger btn-link">Delete</button>
+                                <div class="modal-footer">
+                                    <div class="left-side">
+                                        <button type="button" class="btn btn-default btn-link" data-dismiss="modal">Fermer</button>
+                                    </div>
+                                    <div class="divider"></div>
+                                    <div class="right-side">
+                                        <!--<button type="button" class="btn btn-danger btn-link"></button>-->
+                                    </div>
                                 </div>
                             </div>
                         </div>
                     </div>
-                </div>
+                </h:form>
             </div>
         </div>
         <footer class="footer footer-black">
@@ -641,6 +680,15 @@
                 </div>
             </div>
         </footer>
+        <script>
+            function myFunction() {
+                var x = document.getElementById("snackbar");
+                x.className = "show";
+                setTimeout(function () {
+                    x.className = x.className.replace("show", "");
+                }, 3000);
+            }
+        </script>
     </h:body>
     <!-- Core JS Files -->
     <!--<script src="../assets/js/jquery-3.2.1.js" type="text/javascript"></script>-->
@@ -668,5 +716,6 @@
     <!--  Plugins for DateTimePicker -->
     <script src="../assets/js/moment.min.js"></script>
     <script src="../assets/js/bootstrap-datetimepicker.min.js"></script>
+    <script src="../assets/js/snackbar.min.js"></script>
 </html>
 

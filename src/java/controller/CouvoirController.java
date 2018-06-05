@@ -6,6 +6,7 @@ import controller.util.JsfUtil.PersistAction;
 import service.CouvoirFacade;
 
 import java.io.Serializable;
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
@@ -19,6 +20,9 @@ import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
 import javax.faces.convert.Converter;
 import javax.faces.convert.FacesConverter;
+import service.EclosionFacade;
+import service.IncubationFacade;
+import util.MessageUtil;
 
 @Named("couvoirController")
 @SessionScoped
@@ -26,6 +30,10 @@ public class CouvoirController implements Serializable {
 
     @EJB
     private service.CouvoirFacade ejbFacade;
+    @EJB
+    private IncubationFacade incubationFacade;
+    @EJB
+    private EclosionFacade eclosionFacade;
     private List<Couvoir> items = null;
     private Couvoir selected;
 
@@ -33,6 +41,7 @@ public class CouvoirController implements Serializable {
     }
 
     public Couvoir getSelected() {
+        System.out.println("cc is getSelected from covoirController " + selected);
         if (selected == null) {
             selected = new Couvoir();
         }
@@ -170,4 +179,21 @@ public class CouvoirController implements Serializable {
 
     }
 
+    public BigDecimal showRestCapaciteOfCouvoir() {
+        BigDecimal rest = ejbFacade.calcRestOfCapacite(selected);
+        System.out.println("cc is showRestCapaciteOfCouvoir ha rest : " + rest);
+        if (rest != null && !(rest.compareTo(new BigDecimal(0)) > 0)) {
+            MessageUtil.fatal("Le couvoir est plein !");
+            rest = new BigDecimal(0);
+        }
+        return rest;
+    }
+
+    public BigDecimal showTotalIncubes() {
+        return incubationFacade.sumOfQteIncubeByCouvoir(selected);
+    }
+
+    public BigDecimal showTotalEclos() {
+        return eclosionFacade.calcTotalEclosByCouvoir(selected);
+    }
 }

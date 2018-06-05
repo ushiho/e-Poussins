@@ -26,7 +26,7 @@ public class Eclosion implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
-    @Temporal(javax.persistence.TemporalType.TIMESTAMP)
+    @Temporal(javax.persistence.TemporalType.DATE)
     private Date dateEclosion;
     private int numeroSemaine;
     private int annee;

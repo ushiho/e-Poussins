@@ -23,6 +23,7 @@ import javax.faces.context.FacesContext;
 import javax.faces.convert.Converter;
 import javax.faces.convert.FacesConverter;
 import service.CategorieOeufFacade;
+import service.CouvoirFacade;
 import service.TrieOeufFacade;
 import util.DateUtil;
 import util.MessageUtil;
@@ -37,6 +38,8 @@ public class IncubationController implements Serializable {
     private TrieOeufFacade trieOeufFacade;
     @EJB
     private CategorieOeufFacade categorieOeufFacade;
+    @EJB
+    private CouvoirFacade couvoirFacade;
     private List<Incubation> items = null;
     private Incubation selected;
     private boolean forme1 = true;
@@ -269,7 +272,5 @@ public class IncubationController implements Serializable {
         setNextToForme2(!(trieOeufOAC.getMisEnIncubation().compareTo(new BigDecimal(0)) == 0));
     }
 
-    public void test() {
-        System.out.println("c  v hama");
-    }
+    
 }

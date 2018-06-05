@@ -211,8 +211,11 @@ public class TrieOeufFacade extends AbstractFacade<TrieOeuf> {
     }
 
     public TrieOeuf findOACByDate(Date date) {
-        return getUniqueResult("SELECT tr FROM TrieOeuf tr WHERE tr.dateTrie = '" + date + "'"
-                + " AND tr.categorieOeuf.designation LIKE 'OAC' ");
+        if (date != null) {
+            return getUniqueResult("SELECT tr FROM TrieOeuf tr WHERE tr.dateTrie = '" + date + "'"
+                    + " AND tr.categorieOeuf.designation LIKE 'OAC' ");
+        }
+        return null;
     }
 
 }

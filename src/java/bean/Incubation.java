@@ -33,7 +33,7 @@ public class Incubation implements Serializable {
     private int annee;
     private BigDecimal qteIncube;
     @ManyToOne
-    private TrieOeuf trieOeuf; 
+    private TrieOeuf trieOeuf;
     @ManyToOne
     private Couvoir couvoir;
     @OneToOne(mappedBy = "incubation")
@@ -113,6 +113,7 @@ public class Incubation implements Serializable {
     }
 
     public void setCouvoir(Couvoir couvoir) {
+        System.out.println("cc is set Couvoir from bean icubation: " + couvoir);
         this.couvoir = couvoir;
     }
 

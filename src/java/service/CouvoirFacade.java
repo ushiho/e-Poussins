@@ -6,6 +6,8 @@
 package service;
 
 import bean.Couvoir;
+import java.math.BigDecimal;
+import javax.ejb.EJB;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
@@ -20,6 +22,9 @@ public class CouvoirFacade extends AbstractFacade<Couvoir> {
     @PersistenceContext(unitName = "e-PoussinsPU")
     private EntityManager em;
 
+    @EJB
+    private IncubationFacade incubationFacade;
+
     @Override
     protected EntityManager getEntityManager() {
         return em;
@@ -28,5 +33,16 @@ public class CouvoirFacade extends AbstractFacade<Couvoir> {
     public CouvoirFacade() {
         super(Couvoir.class);
     }
-    
+
+    public BigDecimal calcRestOfCapacite(Couvoir couvoir) {
+        if (couvoir == null) {
+            return null;
+        }
+        BigDecimal qteIncubes = incubationFacade.sumOfQteIncubeByCouvoir(couvoir);
+        if (qteIncubes == null) {
+            return null;
+        }
+        return couvoir.getCapacite().subtract(qteIncubes);
+    }
+
 }

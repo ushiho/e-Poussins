@@ -5,6 +5,7 @@
  */
 package service;
 
+import java.math.BigDecimal;
 import java.util.List;
 import javax.persistence.EntityManager;
 
@@ -60,7 +61,6 @@ public abstract class AbstractFacade<T> {
         javax.persistence.Query q = getEntityManager().createQuery(cq);
         return ((Long) q.getSingleResult()).intValue();
     }
-    //ajouter par le prof
 
     public Long generate(String beanName, String attributeName) {
         String requete = "SELECT max(item." + attributeName + ") FROM " + beanName + " item";
@@ -69,6 +69,17 @@ public abstract class AbstractFacade<T> {
             return 1L;
         }
         return maxId.get(0) + 1;
+    }
+
+    public BigDecimal calculSumBigDecimal(String beanName, String beanAbrev, String attributeName, String where) {
+        String requete = "SELECT sum(" + beanAbrev + "." + attributeName + ") FROM " + beanName + " " + beanAbrev
+                + " " + where;
+        System.out.println("cc from calculSumBigDecimal ha req : " + requete);
+        List<BigDecimal> sum = getEntityManager().createQuery(requete).getResultList();
+        if (sum == null || sum.isEmpty()) {
+            return null;
+        }
+        return sum.get(0);
     }
 
     public T getUniqueResult(String query) {
@@ -82,7 +93,7 @@ public abstract class AbstractFacade<T> {
 
     public List<T> getMultipleResult(String query) {
         List<T> list = getEntityManager().createQuery(query).getResultList();
-        if (list != null && list.size() > 0) {
+        if (list != null && list.size() > 0 && list.get(0) != null) {
             return list;
         }
         return null;
