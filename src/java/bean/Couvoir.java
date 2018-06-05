@@ -25,7 +25,7 @@ public class Couvoir implements Serializable {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
     private String nom;
-    private BigDecimal capaciteMax;
+    private BigDecimal capacite;
     @ManyToOne
     private Ferme ferme; // dans qulle ferme existe ce couvoir
 
@@ -35,7 +35,7 @@ public class Couvoir implements Serializable {
     public Couvoir(Long id, String nom, BigDecimal capaciteMax) {
         this.id = id;
         this.nom = nom;
-        this.capaciteMax = capaciteMax;
+        this.capacite = capaciteMax;
     }
 
     public Couvoir(Long id) {
@@ -50,12 +50,12 @@ public class Couvoir implements Serializable {
         this.nom = nom;
     }
 
-    public BigDecimal getCapaciteMax() {
-        return capaciteMax;
+    public BigDecimal getCapacite() {
+        return capacite;
     }
 
-    public void setCapaciteMax(BigDecimal capaciteMax) {
-        this.capaciteMax = capaciteMax;
+    public void setCapacite(BigDecimal capacite) {
+        this.capacite = capacite;
     }
 
     public Long getId() {

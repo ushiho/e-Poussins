@@ -328,7 +328,7 @@
                                                 <p:inputText id="reception" value="#{trieOeufController.reception}" required="true" style="cursor: pointer;"
                                                              placeholder="Nombre des oeufs " title="Quantité de réception" class="form-control"
                                                              requiredMessage="Vous devez indique la quantité des oeufs à la réception" >
-                                                    <p:ajax update=":forme2" listener="#{trieOeufController.setRestReception(trieOeufController.reception)}"/>
+                                                    <p:ajax event="change" update=":forme2" listener="#{trieOeufController.setRestReception(trieOeufController.reception)}"/>
                                                 </p:inputText>
                                             </div>
                                             <div class="col-md-3 ml-auto" style="margin-top: 5px;">
@@ -638,7 +638,7 @@
                 </div>
             </div>
         </div>
-        <footer class="footer section-dark">
+        <footer class="footer footer-black">
             <div class="container">
                 <div class="row">
                     <nav class="footer-nav">

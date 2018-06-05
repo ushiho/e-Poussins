@@ -100,6 +100,8 @@
                 <div class="filter"></div>
             </div>
             <div class="main">
+                <!--<div style="text-align:center;padding:1em 0;">--> 
+                    <!--<h4><a style="text-decoration:none;" href="https://www.zeitverschiebung.net/fr/city/2553604"><span style="color:gray;">Heure actuelle</span><br />Casablanca, Maroc</a></h4> <iframe src="https://www.zeitverschiebung.net/clock-widget-iframe-v2?language=fr&size=small&timezone=Africa%2FCasablanca" width="100%" height="90" frameborder="0" seamless></iframe> </div>-->
                 <div class="section profile-content">
                     <div class="container">
                         <div class="owner">
@@ -113,7 +115,7 @@
                             </div>
                         </div>
                         <div class="row tim-row">
-                            <div class="col-lg-2 col-md-6">
+                            <div class="col-lg-2 col-md-4 ml-auto">
                                 <div class="fixed-section">
 
                                     <div id="accordion" role="tablist" aria-multiselectable="true">
@@ -424,6 +426,13 @@
                                                                  requiredMessage="Vous devez indiquer une date" style="cursor: pointer;"
                                                                  class="form-control " placeholder="05/08/2017" title="Date d'incubation " />
                                                 </div>
+                                                <script type="text/javascript">
+                                                    $(function () {
+                                                        $('.datetimepicker').datetimepicker({
+                                                            format: 'DD/MM/YYYY'
+                                                        });
+                                                    });
+                                                </script>
                                             </div>
                                         </div>
                                         <p:spacer/>
@@ -441,6 +450,13 @@
                                                                  requiredMessage="Vous devez indiquer une date" style="cursor: pointer;"
                                                                  class="form-control " placeholder="05/08/2017" title="Date d'éclosion " />
                                                 </div>
+                                                <script type="text/javascript">
+                                                    $(function () {
+                                                        $('.datetimepicker').datetimepicker({
+                                                            format: 'DD/MM/YYYY'
+                                                        });
+                                                    });
+                                                </script>
                                             </div>
                                             <div class="col-md-2" style="margin-top: 10px;">
                                                 <p:outputLabel for="couvoir"><label class="note">COUVOIR</label></p:outputLabel>
@@ -448,25 +464,166 @@
                                             <div class="col-md-3" style="margin-top: 10px;">
                                                 <h:selectOneMenu style="width: 100%;" required="true" id="couvoir" 
                                                                  value="#{incubationController.selected.couvoir}" >
-                                                    <f:selectItem itemLabel="-- Choisir une catégorie --" itemValue="" noSelectionOption="true" />
+                                                    <f:selectItem itemLabel="-- Choisir un couvoir --" itemValue="" noSelectionOption="true" />
                                                     <f:selectItems  value="#{couvoirController.getItemsAvailableSelectMany()}"
                                                                     var="couvoir" itemValue="#{couvoir}"/>
-                                                    <p:ajax listener="#{trieOeufController.setForme3(true)}" update=" forme2" />
+                                                    <p:ajax event="click" listener="#{incubationController.setModal(true)}" update="modal forme2" />
                                                 </h:selectOneMenu>
                                             </div>
                                         </div>
-                                        <div class="row">
-
-                                        </div>
+                                        <p:spacer/>
+                                        <h:panelGrid id="modal" rendered="#{incubationController.modal}">
+                                            <div class="col-md-12">
+                                                <p>
+                                                    <h:commandLink class="btn btn-link btn-warning" value="Consulter l'état de cet couvoir"
+                                                                   action="#{couvoirController.setSelected(incubationController.selected.couvoir)}"
+                                                                   onclick="$('#myModal').modal('show');" immediate="true">
+                                                        <f:ajax execute="@this" render="forme2"/>
+                                                    </h:commandLink>
+                                                </p>
+                                            </div>
+                                        </h:panelGrid>
                                     </h:panelGroup>
                                 </h:form>
                             </div>
                         </div>
                     </div>
                 </div>
+
+                <!-- Modal -->
+                <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                    <div class="modal-dialog" role="document">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title text-center" id="exampleModalLabel">Modal title</h5>
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
+                            </div>
+                            <div class="modal-body">
+                                <div class="container-fluid">
+                                    <div class="row">
+                                        <div class="col-sm-6">
+                                            <div class="row">
+                                                <div class="col-6 col-sm-3 mr-auto" style="margin-top: 5px;margin-left: -15%;">
+                                                    <h:outputText value="Ferme" />
+                                                </div>
+                                                <div class="col-6 col-sm-9 ml-auto">
+                                                    <div class="input-group" >
+                                                        <span class="input-group-addon">
+                                                            <span class="glyphicon glyphicon-time"></span>
+                                                            <i class="nc-icon nc-calendar-60" aria-hidden="true"></i>
+                                                        </span>
+                                                        <h:outputText class="form-control" value="#{couvoirController.selected.capacite}" />
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-6">
+                                            <div class="row">
+                                                <div class="col-6 col-sm-3 mr-auto" style="margin-top: 5px;">
+                                                    <h:outputText value="Nom" />
+                                                </div>
+                                                <div class="col-6 col-sm-9 ml-auto" style="margin-left: 10%;">
+                                                    <div class="input-group" >
+                                                        <span class="input-group-addon">
+                                                            <span class="glyphicon glyphicon-time"></span>
+                                                            <i class="nc-icon nc-calendar-60" aria-hidden="true"></i>
+                                                        </span>
+                                                        <h:outputText class="form-control" value="#{couvoirController.selected.capacite}" />
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <p:spacer/>
+                                    <div class="row">
+                                        <div class="col-sm-6">
+                                            <div class="row">
+                                                <div class="col-6 col-sm-3 mr-auto" style="margin-top: 5px;margin-left: -15%;">
+                                                    <h:outputText value="Capacité" />
+                                                </div>
+                                                <div class="col-6 col-sm-9 ml-auto">
+                                                    <div class="input-group" >
+                                                        <span class="input-group-addon">
+                                                            <span class="glyphicon glyphicon-time"></span>
+                                                            <i class="nc-icon nc-calendar-60" aria-hidden="true"></i>
+                                                        </span>
+                                                        <h:outputText class="form-control" value="#{couvoirController.selected.capacite}" />
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-6">
+                                            <div class="row">
+                                                <div class="col-6 col-sm-3 mr-auto" style="margin-top: 5px;">
+                                                    <h:outputText value="Rest" />
+                                                </div>
+                                                <div class="col-6 col-sm-9 ml-auto" style="margin-left: 10%;">
+                                                    <div class="input-group" >
+                                                        <span class="input-group-addon">
+                                                            <span class="glyphicon glyphicon-time"></span>
+                                                            <i class="nc-icon nc-calendar-60" aria-hidden="true"></i>
+                                                        </span>
+                                                        <h:outputText class="form-control" value="#{couvoirController.selected.capacite}" />
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <p:spacer/>
+                                    <div class="row">
+                                        <div class="col-sm-6">
+                                            <div class="row">
+                                                <div class="col-6 col-sm-3 mr-auto" style="margin-top: 5px;margin-left: -15%;">
+                                                    <h:outputText value="Incubés" />
+                                                </div>
+                                                <div class="col-6 col-sm-9 ml-auto">
+                                                    <div class="input-group" >
+                                                        <span class="input-group-addon">
+                                                            <span class="glyphicon glyphicon-time"></span>
+                                                            <i class="nc-icon nc-calendar-60" aria-hidden="true"></i>
+                                                        </span>
+                                                        <h:outputText class="form-control" value="#{couvoirController.selected.capacite}" />
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-6">
+                                            <div class="row">
+                                                <div class="col-6 col-sm-3 mr-auto" style="margin-top: 5px;">
+                                                    <h:outputText value="Eclos" />
+                                                </div>
+                                                <div class="col-6 col-sm-9 ml-auto" style="margin-left: 10%;">
+                                                    <div class="input-group" >
+                                                        <span class="input-group-addon">
+                                                            <span class="glyphicon glyphicon-time"></span>
+                                                            <i class="nc-icon nc-calendar-60" aria-hidden="true"></i>
+                                                        </span>
+                                                        <h:outputText class="form-control" value="#{couvoirController.selected.capacite}" />
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    
+                                </div>
+                            </div>
+                            <div class="modal-footer">
+                                <div class="left-side">
+                                    <button type="button" class="btn btn-default btn-link" data-dismiss="modal">Never mind</button>
+                                </div>
+                                <div class="divider"></div>
+                                <div class="right-side">
+                                    <button type="button" class="btn btn-danger btn-link">Delete</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
-        <footer class="footer section-dark">
+        <footer class="footer footer-black">
             <div class="container">
                 <div class="row">
                     <nav class="footer-nav">

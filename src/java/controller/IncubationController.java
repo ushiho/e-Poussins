@@ -42,9 +42,18 @@ public class IncubationController implements Serializable {
     private boolean forme1 = true;
     private boolean forme2;
     private boolean forme3;
+    private boolean modal;
     private TrieOeuf trieOeufOAC;
     private String dateTrie;
     private boolean nextToForme2;
+
+    public boolean isModal() {
+        return modal;
+    }
+
+    public void setModal(boolean modal) {
+        this.modal = modal;
+    }
 
     public boolean isNextToForme2() {
         return nextToForme2;
