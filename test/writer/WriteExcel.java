@@ -84,14 +84,14 @@ public void setOutputFile(String inputFile) {
             addNumber(sheet, 1, i, i * i);
         }
         // Lets calculate the sum of it
-        StringBuffer buf = new StringBuffer();
-        buf.append("SUM(A2:A10)");
-        Formula f = new Formula(0, 10, buf.toString());
-        sheet.addCell(f);
-        buf = new StringBuffer();
-        buf.append("SUM(B2:B10)");
-        f = new Formula(1, 10, buf.toString());
-        sheet.addCell(f);
+//        StringBuffer buf = new StringBuffer();
+//        buf.append("SUM(A2:A10)");
+//        Formula f = new Formula(0, 10, buf.toString());
+//        sheet.addCell(f);
+//        buf = new StringBuffer();
+//        buf.append("SUM(B2:B10)");
+//        f = new Formula(1, 10, buf.toString());
+//        sheet.addCell(f);
 
         // now a bit of text
         for (int i = 12; i < 20; i++) {
