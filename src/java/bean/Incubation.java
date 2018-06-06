@@ -114,6 +114,7 @@ public class Incubation implements Serializable {
 
     public void setCouvoir(Couvoir couvoir) {
         System.out.println("cc is set Couvoir from bean icubation: " + couvoir);
+        System.out.println("cc from bean icubation: " + this.couvoir);
         this.couvoir = couvoir;
     }
 

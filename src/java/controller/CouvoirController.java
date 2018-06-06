@@ -179,21 +179,29 @@ public class CouvoirController implements Serializable {
 
     }
 
-    public BigDecimal showRestCapaciteOfCouvoir() {
+    public BigDecimal showRestCapaciteOfCouvoir(Couvoir selected) {
         BigDecimal rest = ejbFacade.calcRestOfCapacite(selected);
         System.out.println("cc is showRestCapaciteOfCouvoir ha rest : " + rest);
-        if (rest != null && !(rest.compareTo(new BigDecimal(0)) > 0)) {
-            MessageUtil.fatal("Le couvoir est plein !");
+        if (rest == null) {
+            rest = getSelected().getCapacite();
+        }
+        return rest;
+    }
+
+    private BigDecimal initNullvalue(BigDecimal rest) {
+        if (rest == null) {
             rest = new BigDecimal(0);
         }
         return rest;
     }
 
-    public BigDecimal showTotalIncubes() {
-        return incubationFacade.sumOfQteIncubeByCouvoir(selected);
+    public BigDecimal showTotalIncubes(Couvoir selected) {
+        BigDecimal totalIncubes = incubationFacade.sumOfQteIncubeByCouvoir(selected);
+        return initNullvalue(totalIncubes);
     }
 
-    public BigDecimal showTotalEclos() {
-        return eclosionFacade.calcTotalEclosByCouvoir(selected);
+    public BigDecimal showTotalEclos(Couvoir selected) {
+        BigDecimal totalEclos = eclosionFacade.calcTotalEclosByCouvoir(selected);
+        return initNullvalue(totalEclos);
     }
 }

@@ -6,6 +6,7 @@ import controller.util.JsfUtil.PersistAction;
 import service.EclosionFacade;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
@@ -32,11 +33,25 @@ public class EclosionController implements Serializable {
     }
 
     public Eclosion getSelected() {
+        if (selected == null) {
+            selected = new Eclosion();
+        }
         return selected;
     }
 
     public void setSelected(Eclosion selected) {
         this.selected = selected;
+    }
+
+    public List<Eclosion> getItems() {
+        if (items == null) {
+            items = new ArrayList();
+        }
+        return items;
+    }
+
+    public void setItems(List<Eclosion> items) {
+        this.items = items;
     }
 
     protected void setEmbeddableKeys() {
@@ -72,13 +87,6 @@ public class EclosionController implements Serializable {
             selected = null; // Remove selection
             items = null;    // Invalidate list of items to trigger re-query.
         }
-    }
-
-    public List<Eclosion> getItems() {
-        if (items == null) {
-            items = getFacade().findAll();
-        }
-        return items;
     }
 
     private void persist(PersistAction persistAction, String successMessage) {

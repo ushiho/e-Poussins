@@ -28,49 +28,6 @@
         <link href="http://maxcdn.bootstrapcdn.com/font-awesome/latest/css/font-awesome.min.css" rel="stylesheet"></link>
         <link href="../assets/css/nucleo-icons.css" rel="stylesheet"></link>
         <link ref="stylesheet" type="text/css" href="../assets/css/snackbar.min.css" />
-        <style>
-            #snackbar {
-                visibility: hidden;
-                min-width: 250px;
-                margin-left: -125px;
-                background-color: #333;
-                color: #fff;
-                text-align: center;
-                border-radius: 2px;
-                padding: 16px;
-                position: fixed;
-                z-index: 1;
-                left: 50%;
-                bottom: 30px;
-                font-size: 17px;
-            }
-
-            #snackbar.show {
-                visibility: visible;
-                -webkit-animation: fadein 0.5s, fadeout 0.5s 2.5s;
-                animation: fadein 0.5s, fadeout 0.5s 2.5s;
-            }
-
-            @-webkit-keyframes fadein {
-                from {bottom: 0; opacity: 0;} 
-                to {bottom: 30px; opacity: 1;}
-            }
-
-            @keyframes fadein {
-                from {bottom: 0; opacity: 0;}
-                to {bottom: 30px; opacity: 1;}
-            }
-
-            @-webkit-keyframes fadeout {
-                from {bottom: 30px; opacity: 1;} 
-                to {bottom: 0; opacity: 0;}
-            }
-
-            @keyframes fadeout {
-                from {bottom: 30px; opacity: 1;}
-                to {bottom: 0; opacity: 0;}
-            }
-        </style>
     </h:head>
     <h:body>
         <nav class="navbar bar navbar-expand-lg fixed-top navbar-transparent" color-on-scroll="80" >
@@ -301,9 +258,14 @@
                                 </div>
                                 <p:spacer/>
                                 <p:spacer/>
-                                <h:panelGroup rendered="true" id="intro">
+                                <h:panelGroup rendered="#{!incubationController.forme3}" id="intro">
                                     <p class="card-just-text text-center">Avec ce formulaire vous pouvez compléter les infos de vos trie ,En ajoutant
                                         des incubations . Pour le faire vous devez indiquer la date de trie pour lier le trie avec l'incubation .</p>
+                                    <p:spacer/>
+                                    <br/>
+                                </h:panelGroup>
+                                <h:panelGroup rendered="#{incubationController.forme3}" id="result">
+                                    <p class="ml-auto mr-auto text-center">Si les donnés ci dessous sont corrects veuillez les validés, sinon vous pouvez les reécrire en cliquant <span style="font-family: serif;font-size: 13px;">RETOUR</span> .</p>
                                     <p:spacer/>
                                     <br/>
                                 </h:panelGroup>
@@ -436,11 +398,10 @@
                                         </h:panelGroup>
                                         <div class="col-md-1 ml-auto mr-auto" style="margin-top: 10px;">
                                             <h:commandLink rendered="#{incubationController.nextToForme2}"  class="btn btn-outline-default btn-sm" 
-                                                           actionListener="#{incubationController.setForme1(false)}" >
+                                                           actionListener="#{incubationController.fromeForm1ToForm2()}" >
                                                 <h:outputText value="SUIVANT" />
                                                 <i  class="nc-icon nc-minimal-right" aria-hidden="true"></i>
-                                                <f:ajax listener="#{incubationController.setNextToForme2(false)}" />
-                                                <p:ajax update=":datalist :forme1 :forme2" listener="#{incubationController.setForme2(true)}"/>
+                                                <p:ajax update=":datalist :forme1 :forme2" />
                                             </h:commandLink>
                                         </div>
                                     </h:panelGroup>
@@ -450,11 +411,10 @@
                                         <div class="row">
                                             <div class="col-md-3" style="margin-top: 5px;">
                                                 <h:commandLink class="btn btn-outline-default btn-sm"
-                                                               actionListener="#{incubationController.setForme1(true)}" >
+                                                               actionListener="#{incubationController.fromeForm2ToForm1()}" >
                                                     <i class="nc-icon nc-minimal-left"></i>
                                                     <h:outputText value="RETOUR" />
-                                                    <f:ajax listener="#{incubationController.setNextToForme2(true)}" />
-                                                    <p:ajax update=":datalist :forme1 :forme2" listener="#{incubationController.setForme2(false)}"/>
+                                                    <p:ajax update=":datalist :forme1 forme2" />
                                                 </h:commandLink>
                                             </div>
                                             <div class="col-md-4" style="margin-top: 10px;">
@@ -466,8 +426,8 @@
                                                         <span class="glyphicon glyphicon-time"></span>
                                                         <i class="nc-icon nc-calendar-60" aria-hidden="true"></i>
                                                     </span>
-                                                    <p:inputText id="dateIncub" value="#{incubationController.selected.dateIncubation}" required="true"
-                                                                 requiredMessage="Vous devez indiquer une date d'incubation" style="cursor: pointer;"
+                                                    <p:inputText id="dateIncub" value="#{incubationController.dateIncubes}" required="true"
+                                                                 requiredMessage="Indiquer la date d'incubation" style="cursor: pointer;"
                                                                  class="form-control " placeholder="#{incubationController.dateTrie}" title="Date d'incubation " />
                                                 </div>
                                                 <script type="text/javascript">
@@ -481,17 +441,17 @@
                                         </div>
                                         <p:spacer/>
                                         <div class="row" style="margin-top: 30px;">
-                                            <div class="col-md-3 ml-auto mr-auto" style="margin-top: 10px;">
+                                            <div class="col-3 ml-auto mr-auto" style="margin-top: 10px;">
                                                 <p:outputLabel for="dateEclos"><h:outputText value="DATE ECLOSION" /></p:outputLabel>
                                             </div>
-                                            <div class="col-md-3 mr-auto">
+                                            <div class="col-3 mr-auto">
                                                 <div class="input-group date datetimepicker" >
                                                     <span class="input-group-addon">
                                                         <span class="glyphicon glyphicon-time"></span>
                                                         <i class="nc-icon nc-calendar-60" aria-hidden="true"></i>
                                                     </span>
-                                                    <p:inputText id="dateEclos" value="#{incubationController.selected.dateIncubation}" required="true"
-                                                                 requiredMessage="Vous devez indiquer une date d'eclosion" style="cursor: pointer;"
+                                                    <p:inputText id="dateEclos" value="#{incubationController.dateEclos}" required="true"
+                                                                 requiredMessage="Indiquer la date d'eclosion" style="cursor: pointer;"
                                                                  class="form-control " placeholder="#{incubationController.dateTrie}" title="Date d'éclosion " />
                                                 </div>
                                                 <script type="text/javascript">
@@ -502,26 +462,107 @@
                                                     });
                                                 </script>
                                             </div>
-                                            <div class="col-md-2" style="margin-top: 10px;">
+                                            <div class="col-2" style="margin-top: 10px;">
                                                 <p:outputLabel for="couvoir"><label class="note">COUVOIR</label></p:outputLabel>
                                             </div>
                                             <div class="col-md-3" style="margin-top: 10px;">
-                                                <h:selectOneMenu onclick="myFunction()" style="width: 100%;" id="couvoir" value="#{couvoirController.selected}" >
+                                                <h:selectOneMenu  onclick="myFunction()" style="width: 100%;" id="couvoir" value="#{incubationController.selected.couvoir}" 
+                                                                  required="true" requiredMessage="Choisi un couvoir !">
                                                     <f:selectItem itemLabel="-- Choisir un couvoir --" itemValue="" noSelectionOption="true" />
                                                     <f:selectItems  value="#{couvoirController.getItemsAvailableSelectMany()}"
                                                                     var="couvoir" itemValue="#{couvoir}"/>
-                                                    <p:ajax event="click" update=":modal " />
+                                                    <p:ajax event="blur" update=":modal " />
                                                 </h:selectOneMenu>
+                                            </div>
+                                        </div>
+                                        <p:spacer />
+                                        <div class="row" style="margin-bottom: 20px;margin-top: 10px;">
+                                            <div class="col-auto ml-auto mr-auto">
+                                                <h:commandLink class="btn btn-sm btn-default" value="SUIVANT" actionListener="#{incubationController.setForme3(true)}" >
+                                                    <f:actionListener binding="#{incubationController.setTrieOeufOAC(null)}" />
+                                                    <p:ajax process=":forme2" listener="#{incubationController.setForme2(false)}" update="forme2 :forme3 :datalist :intro :result"  />
+                                                </h:commandLink>
                                             </div>
                                         </div>
                                         <div id="snackbar">
                                             <h:commandLink class="btn btn-link btn-warning" value="Consulter l'état de cet couvoir"
-                                                           action="#{incubationController.selected.setCouvoir(couvoircontroller.selected)}"
+                                                           actionListener="#{incubationController.selected.setCouvoir(couvoircontroller.selected)}"
                                                            onclick="$('#myModal').modal('show');" immediate="true">
-                                                <f:ajax execute="@this" render="forme2"/>
+                                                <f:ajax execute="@this" />
                                             </h:commandLink>
                                         </div>
                                         <p:spacer/>
+                                    </h:panelGroup>
+                                </h:form>
+                                <h:form id="forme3">
+                                    <h:panelGroup rendered="#{incubationController.forme3}" >
+                                        <div class="row" style="margin-top: 20px;">
+                                            <div class="col" style="margin-top: 10px;">
+                                                <h:outputText value="Date Incubation" />
+                                            </div>
+                                            <div class="col">
+                                                <div class="input-group" >
+                                                    <span class="input-group-addon">
+                                                        <span class="glyphicon glyphicon-time"></span>
+                                                    </span>
+                                                    <h:outputText class="form-control" value="#{incubationController.dateIncubes}" />
+                                                </div>
+                                            </div>
+                                            <div class="col"></div>
+                                            <div class="col" style="margin-top: 10px;">
+                                                <h:outputText value="Date Eclosion" />
+                                            </div>
+                                            <div class="col">
+                                                <div class="input-group" >
+                                                    <span class="input-group-addon">
+                                                        <span class="glyphicon glyphicon-time"></span>
+                                                    </span>
+                                                    <h:outputText class="form-control" value="#{incubationController.dateEclos}" />
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <p:spacer />
+                                        <div class="row" style="margin-top: 10px;">
+                                            <div class="col" style="margin-top: 10px;">
+                                                Oeufs Incubés
+                                            </div>
+                                            <div class="col">
+                                                <div class="input-group" >
+                                                    <span class="input-group-addon">
+                                                        <span class="glyphicon glyphicon-time"></span>
+                                                    </span>
+                                                    <h:outputText class="form-control" value="#{incubationController.selected.qteIncube}" />
+                                                </div>
+                                            </div>
+                                            <div class="col"></div>
+                                            <div class="col" style="margin-top: 10px;">
+                                                <h:outputText title="Nombre des jours restants" value="Jours restants " />
+                                            </div>
+                                            <div class="col">
+                                                <div class="input-group" >
+                                                    <span class="input-group-addon">
+                                                        <span class="glyphicon glyphicon-time"></span>
+                                                    </span>
+                                                    <h:outputText title="Nombre des jours restants" class="form-control" value="#{incubationController.selected.qteIncube}" />
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <p:spacer/>
+                                        <br/>
+                                        <div class="row" style="margin-top: 10px;">
+                                            <div class="col-md-4 ml-auto mr-auto">
+                                                <h:commandLink class="btn btn-sm btn-danger" value="RETOUR" actionListener="#{incubationController.setForme3(false)}" >
+                                                    <f:actionListener binding="#{incubationController.setForme2(true)}" />
+                                                    <f:actionListener binding="#{incubationController.setTrieOeufOAC(incubationController.trieOeufOAC)}" />
+                                                    <p:ajax update=":forme2 forme3 :datalist" />
+                                                </h:commandLink>
+                                            </div>
+                                            <div class="col-md-2 offset-md-6 mr-auto">
+                                                <h:commandLink value="VALIDER" class="btn btn-sm btn-success" actionListener="#{incubationController.setForme3(false)}" >
+
+                                                </h:commandLink>
+                                            </div>
+                                        </div>
                                     </h:panelGroup>
                                 </h:form>
                             </div>
@@ -533,7 +574,9 @@
                         <div class="modal-dialog" role="document">
                             <div class="modal-content">
                                 <div class="modal-header">
-                                    <h5 class="modal-title text-center" id="exampleModalLabel">Modal title</h5>
+                                    <h6 class="modal-title text-center" id="exampleModalLabel">
+                                        <h:outputText value="infos sur #{incubationController.selected.couvoir.nom}" />
+                                    </h6>
                                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                         <span aria-hidden="true">&times;</span>
                                     </button>
@@ -550,9 +593,8 @@
                                                         <div class="input-group" >
                                                             <span class="input-group-addon">
                                                                 <span class="glyphicon glyphicon-time"></span>
-                                                                <i class="nc-icon nc-calendar-60" aria-hidden="true"></i>
                                                             </span>
-                                                            <h:outputText class="form-control" value="#{couvoirController.selected.ferme.nom}" />
+                                                            <h:outputText class="form-control" value="#{incubationController.selected.couvoir.ferme.nom}" />
                                                         </div>
                                                     </div>
                                                 </div>
@@ -566,9 +608,8 @@
                                                         <div class="input-group" >
                                                             <span class="input-group-addon">
                                                                 <span class="glyphicon glyphicon-time"></span>
-                                                                <i class="nc-icon nc-calendar-60" aria-hidden="true"></i>
                                                             </span>
-                                                            <h:outputText class="form-control" value="#{couvoirController.selected.nom}" />
+                                                            <h:outputText class="form-control" value="#{incubationController.selected.couvoir.nom}" />
                                                         </div>
                                                     </div>
                                                 </div>
@@ -585,9 +626,8 @@
                                                         <div class="input-group" >
                                                             <span class="input-group-addon">
                                                                 <span class="glyphicon glyphicon-time"></span>
-                                                                <i class="nc-icon nc-calendar-60" aria-hidden="true"></i>
                                                             </span>
-                                                            <h:outputText class="form-control" value="#{couvoirController.selected.capacite}" />
+                                                            <h:outputText class="form-control" value="#{incubationController.selected.couvoir.capacite}" />
                                                         </div>
                                                     </div>
                                                 </div>
@@ -595,15 +635,15 @@
                                             <div class="col-sm-6">
                                                 <div class="row">
                                                     <div class="col-6 col-sm-3 mr-auto" style="margin-top: 10px;">
-                                                        <h:outputText value="Rest" />
+                                                        <h:outputText value="Rest" title="L'espace disponible" />
                                                     </div>
                                                     <div class="col-6 col-sm-9 ml-auto" style="margin-left: 10%;">
                                                         <div class="input-group" >
                                                             <span class="input-group-addon">
                                                                 <span class="glyphicon glyphicon-time"></span>
-                                                                <i class="nc-icon nc-calendar-60" aria-hidden="true"></i>
                                                             </span>
-                                                            <h:outputText class="form-control" value="#{couvoirController.showRestCapaciteOfCouvoir()}" />
+                                                            <h:outputText class="form-control" title="L'espace disponible" 
+                                                                          value="#{couvoirController.showRestCapaciteOfCouvoir(incubationController.selected.couvoir)}" />
                                                         </div>
                                                     </div>
                                                 </div>
@@ -620,9 +660,8 @@
                                                         <div class="input-group" >
                                                             <span class="input-group-addon">
                                                                 <span class="glyphicon glyphicon-time"></span>
-                                                                <i class="nc-icon nc-calendar-60" aria-hidden="true"></i>
                                                             </span>
-                                                            <h:outputText class="form-control" value="#{couvoirController.showTotalIncubes()}" />
+                                                            <h:outputText class="form-control" value="#{couvoirController.showTotalIncubes(incubationController.selected.couvoir)}" />
                                                         </div>
                                                     </div>
                                                 </div>
@@ -636,9 +675,8 @@
                                                         <div class="input-group" >
                                                             <span class="input-group-addon">
                                                                 <span class="glyphicon glyphicon-time"></span>
-                                                                <i class="nc-icon nc-calendar-60" aria-hidden="true"></i>
                                                             </span>
-                                                            <h:outputText title="Total des eclos dans cet couvoir " class="form-control" value="#{couvoirController.showTotalEclos()}" />
+                                                            <h:outputText title="Total des eclos dans cet couvoir " class="form-control" value="#{couvoirController.showTotalEclos(incubationController.selected.couvoir)}" />
                                                         </div>
                                                     </div>
                                                 </div>
@@ -686,7 +724,10 @@
                 x.className = "show";
                 setTimeout(function () {
                     x.className = x.className.replace("show", "");
-                }, 3000);
+                }, 10000);
+                setPos(function () {
+                    x.className = x.className.replace("show", "");
+                }, left);
             }
         </script>
     </h:body>

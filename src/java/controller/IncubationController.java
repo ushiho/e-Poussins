@@ -1,5 +1,6 @@
 package controller;
 
+import bean.Couvoir;
 import bean.Incubation;
 import bean.TrieOeuf;
 import controller.util.JsfUtil;
@@ -9,7 +10,6 @@ import service.IncubationFacade;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
@@ -31,7 +31,7 @@ import util.MessageUtil;
 @Named("incubationController")
 @SessionScoped
 public class IncubationController implements Serializable {
-
+    
     @EJB
     private service.IncubationFacade ejbFacade;
     @EJB
@@ -48,127 +48,145 @@ public class IncubationController implements Serializable {
     private boolean modal;
     private TrieOeuf trieOeufOAC;
     private String dateTrie;
+    private String dateEclos;
+    private String dateIncubes;
     private boolean nextToForme2;
-
+    
+    public String getDateEclos() {
+        return dateEclos;
+    }
+    
+    public void setDateEclos(String dateEclos) {
+        this.dateEclos = dateEclos;
+    }
+    
+    public String getDateIncubes() {
+        return dateIncubes;
+    }
+    
+    public void setDateIncubes(String dateIncubes) {
+        this.dateIncubes = dateIncubes;
+    }
+    
     public boolean isModal() {
         return modal;
     }
-
+    
     public void setModal(boolean modal) {
         this.modal = modal;
     }
-
+    
     public boolean isNextToForme2() {
         return nextToForme2;
     }
-
+    
     public void setNextToForme2(boolean nextToForme2) {
         this.nextToForme2 = nextToForme2;
     }
-
+    
     public String getDateTrie() {
         if (dateTrie == null) {
             setDateTrie("");
         }
         return dateTrie;
     }
-
+    
     public void setDateTrie(String dateTrie) {
         this.dateTrie = dateTrie;
     }
-
+    
     public TrieOeuf getTrieOeufOAC() {
         return trieOeufOAC;
     }
-
+    
     public void setTrieOeufOAC(TrieOeuf trieOeufOAC) {
         this.trieOeufOAC = trieOeufOAC;
     }
-
+    
     public IncubationController() {
     }
-
+    
     public Incubation getSelected() {
         if (selected == null) {
             selected = new Incubation();
         }
         return selected;
     }
-
+    
     public void setSelected(Incubation selected) {
         this.selected = selected;
     }
-
+    
     public IncubationFacade getEjbFacade() {
         return ejbFacade;
     }
-
+    
     public void setEjbFacade(IncubationFacade ejbFacade) {
         this.ejbFacade = ejbFacade;
     }
-
+    
     public List<Incubation> getItems() {
         if (items == null) {
             items = new ArrayList();
         }
         return items;
     }
-
+    
     public void setItems(List<Incubation> items) {
         this.items = items;
     }
-
+    
     public boolean isForme1() {
         return forme1;
     }
-
+    
     public void setForme1(boolean forme1) {
         this.forme1 = forme1;
     }
-
+    
     public boolean isForme2() {
         return forme2;
     }
-
+    
     public void setForme2(boolean forme2) {
         this.forme2 = forme2;
     }
-
+    
     public boolean isForme3() {
         return forme3;
     }
-
+    
     public void setForme3(boolean forme3) {
         this.forme3 = forme3;
     }
-
+    
     protected void setEmbeddableKeys() {
     }
-
+    
     protected void initializeEmbeddableKey() {
     }
-
+    
     private IncubationFacade getFacade() {
         return ejbFacade;
     }
-
+    
     public Incubation prepareCreate() {
         selected = new Incubation();
         initializeEmbeddableKey();
         return selected;
     }
-
+    
     public void create() {
         persist(PersistAction.CREATE, ResourceBundle.getBundle("/Bundle").getString("IncubationCreated"));
         if (!JsfUtil.isValidationFailed()) {
             items = null;    // Invalidate list of items to trigger re-query.
         }
     }
-
+    
     public void update() {
         persist(PersistAction.UPDATE, ResourceBundle.getBundle("/Bundle").getString("IncubationUpdated"));
     }
-
+    
     public void destroy() {
         persist(PersistAction.DELETE, ResourceBundle.getBundle("/Bundle").getString("IncubationDeleted"));
         if (!JsfUtil.isValidationFailed()) {
@@ -176,7 +194,7 @@ public class IncubationController implements Serializable {
             items = null;    // Invalidate list of items to trigger re-query.
         }
     }
-
+    
     private void persist(PersistAction persistAction, String successMessage) {
         if (selected != null) {
             setEmbeddableKeys();
@@ -204,22 +222,22 @@ public class IncubationController implements Serializable {
             }
         }
     }
-
+    
     public Incubation getIncubation(java.lang.Long id) {
         return getFacade().find(id);
     }
-
+    
     public List<Incubation> getItemsAvailableSelectMany() {
         return getFacade().findAll();
     }
-
+    
     public List<Incubation> getItemsAvailableSelectOne() {
         return getFacade().findAll();
     }
-
+    
     @FacesConverter(forClass = Incubation.class)
     public static class IncubationControllerConverter implements Converter {
-
+        
         @Override
         public Object getAsObject(FacesContext facesContext, UIComponent component, String value) {
             if (value == null || value.length() == 0) {
@@ -229,19 +247,19 @@ public class IncubationController implements Serializable {
                     getValue(facesContext.getELContext(), null, "incubationController");
             return controller.getIncubation(getKey(value));
         }
-
+        
         java.lang.Long getKey(String value) {
             java.lang.Long key;
             key = Long.valueOf(value);
             return key;
         }
-
+        
         String getStringKey(java.lang.Long value) {
             StringBuilder sb = new StringBuilder();
             sb.append(value);
             return sb.toString();
         }
-
+        
         @Override
         public String getAsString(FacesContext facesContext, UIComponent component, Object object) {
             if (object == null) {
@@ -255,9 +273,9 @@ public class IncubationController implements Serializable {
                 return null;
             }
         }
-
+        
     }
-
+    
     public void seachForTrieOeufOACByDate() {
         System.out.println("ha date : " + dateTrie);
         setTrieOeufOAC(trieOeufFacade.findOACByDate(DateUtil.getSqlDateToSaveInDB(dateTrie)));
@@ -267,10 +285,25 @@ public class IncubationController implements Serializable {
             thereIsIncubation();
         }
     }
-
+    
     public void thereIsIncubation() {
         setNextToForme2(!(trieOeufOAC.getMisEnIncubation().compareTo(new BigDecimal(0)) == 0));
     }
-
+    
+    public void fromeForm1ToForm2() {
+        setForme1(false);
+        setForme2(true);
+        setNextToForme2(false);
+        getSelected().setTrieOeuf(trieOeufOAC);
+        getSelected().setQteIncube(trieOeufOAC.getMisEnIncubation());
+    }
+    
+    public void fromeForm2ToForm1() {
+        setForme2(false);
+        setForme1(true);
+        setNextToForme2(true);
+        getSelected().setTrieOeuf(null);
+        getSelected().setQteIncube(null);
+    }
     
 }
