@@ -9,6 +9,7 @@ import bean.CategorieOeuf;
 import bean.TrieOeuf;
 import java.math.BigDecimal;
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.Date;
 import java.util.List;
 import javax.ejb.EJB;
@@ -218,4 +219,23 @@ public class TrieOeufFacade extends AbstractFacade<TrieOeuf> {
         return null;
     }
 
+    public int countElementExistInWeek(List<TrieOeuf> trieOeufsInDifferentDateAndReception, int semaine) {
+        int i = 0;
+        i = trieOeufsInDifferentDateAndReception.stream().filter((trieOeuf) -> (trieOeuf.getNumSemaine() == semaine)).map((_item) -> 1).reduce(i, Integer::sum);
+        return i;
+    }
+
+    public List<TrieOeuf> triesInSameDateAndReception(List<TrieOeuf> trieOeufs, Date date,BigDecimal reception) {
+        List<TrieOeuf> triesInSameDateAndReception = new ArrayList();
+        for (TrieOeuf trieOeuf : trieOeufs) {
+            if (trieOeuf.getDateTrie().compareTo(date) == 0 && trieOeuf.getReception().compareTo(reception) == 0) {
+                triesInSameDateAndReception.add(trieOeuf);
+            }
+        }
+        return triesInSameDateAndReception;
+    }
+
+    public void arrangeTrieByDate(List<TrieOeuf> trieOeufs) {
+        trieOeufs.sort(Comparator.comparing(o -> o.getDateTrie()));
+    }
 }

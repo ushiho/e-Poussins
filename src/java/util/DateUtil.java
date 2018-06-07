@@ -94,7 +94,7 @@ public class DateUtil {
     }
 
     //test two dates
-    public static int compareTwoDates(Date dateDebut, Date dateFin) {
+    public static int compareYrearsOfTwoDates(Date dateDebut, Date dateFin) {
         if (dateDebut == null || dateFin == null) {
             return -1;
         } else if (dateDebut.compareTo(dateFin) > 0) {
