@@ -41,12 +41,11 @@ public class ExcelUtil {
     public static void addNumber(WritableSheet sheet, int column, int row, Integer integer, WritableCellFormat cellFormat) throws WriteException {
         jxl.write.Number number = new jxl.write.Number(column, row, integer, cellFormat);
         sheet.addCell(number);
+        System.out.println("hi from addNumber  row => " + row + " o ha colone = " + column);
     }
 
-    public static void addDate(WritableSheet sheet, int column, int row, Date date, WritableCellFormat cellFormat) throws WriteException {
-        DateFormat customDateFormat = new DateFormat("dd/MM/yyyy");
-        WritableCellFormat dateFormat = new WritableCellFormat(customDateFormat);
-        DateTime dateCell = new DateTime(0, 6, date, dateFormat);
+    public static void addDate(WritableSheet sheet, int column, int row, Date date, WritableCellFormat dateFormat) throws WriteException {
+        DateTime dateCell = new DateTime(column, row, date, dateFormat);
         sheet.addCell(dateCell);
     }
 

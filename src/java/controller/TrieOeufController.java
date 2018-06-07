@@ -4,6 +4,7 @@ import bean.CategorieOeuf;
 import bean.TrieOeuf;
 import controller.util.JsfUtil;
 import controller.util.JsfUtil.PersistAction;
+import document.TrieOeufsExcel;
 import java.io.IOException;
 import service.TrieOeufFacade;
 
@@ -25,6 +26,7 @@ import javax.faces.context.FacesContext;
 import javax.faces.convert.Converter;
 import javax.faces.convert.FacesConverter;
 import javax.servlet.http.HttpServletRequest;
+import jxl.write.WriteException;
 import service.CategorieOeufFacade;
 import service.UtilisateurFacade;
 import util.DateUtil;
@@ -40,6 +42,7 @@ public class TrieOeufController implements Serializable {
     private CategorieOeufFacade categorieOeufFacade;
     @EJB
     private UtilisateurFacade utilisateurFacade;
+    private final TrieOeufsExcel trieOeufsExcel = new TrieOeufsExcel();
     private List<TrieOeuf> items;
     private TrieOeuf selected;
     private boolean forme1 = true;
@@ -59,6 +62,11 @@ public class TrieOeufController implements Serializable {
     private Integer inputMax;
     private Integer mois;//to construct a date
     private Integer year;//to construct a date
+
+    public TrieOeufsExcel getTrieOeufsExcel() {
+
+        return trieOeufsExcel;
+    }
 
     public Integer getMois() {
         return mois;
@@ -553,8 +561,16 @@ public class TrieOeufController implements Serializable {
         initSelectdAndCategorie();
     }
 
-    public void imprimer() {
-
+    public void imprimer() throws IOException, WriteException {
+        if (items != null && !items.isEmpty()) {
+            ejbFacade.arrangeTrieByDate(items);
+            trieOeufsExcel.setTrieOeufs(items);
+            trieOeufsExcel.setCategorieOeufs(categorieOeufFacade.findAll());
+            trieOeufsExcel.write();
+            MessageUtil.info("Fichier Excel crée avec succes");
+            return;
+        }
+        MessageUtil.fatal("Erreur !!");
     }
 
     // methods for suivis Templates

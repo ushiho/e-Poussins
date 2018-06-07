@@ -6,7 +6,6 @@
 package service;
 
 import bean.CategorieOeuf;
-import static bean.TrieOeuf_.categorieOeuf;
 import java.util.List;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
@@ -25,6 +24,10 @@ public class CategorieOeufFacade extends AbstractFacade<CategorieOeuf> {
     @Override
     protected EntityManager getEntityManager() {
         return em;
+    }
+
+    public void test() {
+        System.out.println("ha text validi from test catego facad");
     }
 
     public CategorieOeufFacade() {

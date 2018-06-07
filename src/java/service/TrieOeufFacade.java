@@ -225,7 +225,7 @@ public class TrieOeufFacade extends AbstractFacade<TrieOeuf> {
         return i;
     }
 
-    public List<TrieOeuf> triesInSameDateAndReception(List<TrieOeuf> trieOeufs, Date date,BigDecimal reception) {
+    public List<TrieOeuf> triesInSameDateAndReception(List<TrieOeuf> trieOeufs, Date date, BigDecimal reception) {
         List<TrieOeuf> triesInSameDateAndReception = new ArrayList();
         for (TrieOeuf trieOeuf : trieOeufs) {
             if (trieOeuf.getDateTrie().compareTo(date) == 0 && trieOeuf.getReception().compareTo(reception) == 0) {
@@ -236,6 +236,7 @@ public class TrieOeufFacade extends AbstractFacade<TrieOeuf> {
     }
 
     public void arrangeTrieByDate(List<TrieOeuf> trieOeufs) {
+        System.out.println("cc from arrangeTrieByDate ha list : " + trieOeufs);
         trieOeufs.sort(Comparator.comparing(o -> o.getDateTrie()));
     }
 }
