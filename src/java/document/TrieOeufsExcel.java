@@ -10,12 +10,8 @@ import bean.TrieOeuf;
 import java.io.IOException;
 import java.util.Date;
 import java.util.List;
-import javax.ejb.EJB;
-import jxl.format.Alignment;
 import jxl.format.Colour;
 import jxl.format.UnderlineStyle;
-import jxl.format.VerticalAlignment;
-import jxl.write.DateFormat;
 import jxl.write.WritableCellFormat;
 import jxl.write.WritableFont;
 import jxl.write.WritableSheet;
@@ -35,7 +31,6 @@ public class TrieOeufsExcel {
     private final CategorieOeufFacade categorieOeufFacade = new CategorieOeufFacade();
     private List<TrieOeuf> trieOeufs;
     private List<CategorieOeuf> categorieOeufs;
-    private final WritableFont fontHeader = new WritableFont(WritableFont.ARIAL, 11, WritableFont.BOLD, false, UnderlineStyle.SINGLE, Colour.BLUE_GREY);
 
     public void setTrieOeufs(List<TrieOeuf> trieOeufs) {
         this.trieOeufs = trieOeufs;
@@ -51,29 +46,35 @@ public class TrieOeufsExcel {
         WritableWorkbook workbook = ExcelUtil.createWorkBook(path);
         WritableSheet sheet = ExcelUtil.createSheet(workbook, "Trie Oeufs", 0);
 
-        WritableCellFormat cellFormatCategorie = ExcelUtil.centerContentInCell(new WritableCellFormat(fontHeader));
-        cellFormatCategorie.setBackground(Colour.BRIGHT_GREEN);
-
-        WritableCellFormat totalPertes = new WritableCellFormat(new WritableFont(WritableFont.TIMES, 11, WritableFont.BOLD));
-        totalPertes.setBackground(Colour.SKY_BLUE);
-
-        writeLeftTitles(sheet, startRowAt, cellFormatCategorie, fontAttributs(Colour.BLACK), totalPertes);
+        writeLeftTitles(sheet, startRowAt, fontAttributs(Colour.BLACK));
 
         fillContent(sheet);
 
         ExcelUtil.writeAndCloseWorkbook(workbook);
     }
 
-    public void writeLeftTitles(WritableSheet sheet, int startRowAt, WritableCellFormat cellFormatCategorie, WritableFont fontAttributs, WritableCellFormat totalPertes) throws WriteException {
-        ExcelUtil.addLabel(sheet, 0, 0, "Jour", ExcelUtil.centerContentInCell(new WritableCellFormat(fontHeader)));
+    private WritableCellFormat stylingTotalPerteCell() throws WriteException {
+        WritableCellFormat totalPertes = new WritableCellFormat(new WritableFont(WritableFont.TIMES, 11, WritableFont.BOLD));
+        totalPertes.setBackground(Colour.SKY_BLUE);
+        return totalPertes;
+    }
+
+    private WritableCellFormat stylingCategorieCell() throws WriteException {
+        WritableCellFormat cellFormatCategorie = ExcelUtil.centerContentInCell(new WritableCellFormat(fontHeader(Colour.BLUE_GREY)));
+        cellFormatCategorie.setBackground(Colour.BRIGHT_GREEN);
+        return cellFormatCategorie;
+    }
+
+    public void writeLeftTitles(WritableSheet sheet, int startRowAt, WritableFont fontAttributs) throws WriteException {
+        ExcelUtil.addLabel(sheet, 0, 0, "Jour", ExcelUtil.centerContentInCell(new WritableCellFormat(fontHeader(Colour.BLUE_GREY))));
         ExcelUtil.mergeRows(sheet, 0, 0, 2, 20);
-        ExcelUtil.addLabel(sheet, 0, 3, "Réception", ExcelUtil.centerContentInCell(new WritableCellFormat(fontHeader)));
+        ExcelUtil.addLabel(sheet, 0, 3, "Réception", ExcelUtil.centerContentInCell(new WritableCellFormat(fontHeader(Colour.BLUE_GREY))));
         ExcelUtil.mergeRows(sheet, 0, 3, 4, 20);
         for (CategorieOeuf categorieOeuf : this.categorieOeufs) {
-            ExcelUtil.addLabel(sheet, 0, startRowAt, categorieOeuf.getDesignation(), cellFormatCategorie);
+            ExcelUtil.addLabel(sheet, 0, startRowAt, categorieOeuf.getDesignation(), stylingCategorieCell());
             startRowAt = addNamesOfAttributs(categorieOeuf, sheet, startRowAt + 1, new WritableCellFormat(fontAttributs));
         }
-        ExcelUtil.addLabel(sheet, 0, sheet.getRows() + 1, "Total des pertes", totalPertes);
+        ExcelUtil.addLabel(sheet, 0, sheet.getRows(), "Total des pertes", stylingTotalPerteCell());
     }
 
     public int addNamesOfAttributs(CategorieOeuf categorieOeuf, WritableSheet sheet, int startRowAt, WritableCellFormat cellFormat) throws WriteException {
@@ -109,11 +110,12 @@ public class TrieOeufsExcel {
         System.out.println("cc from fillDatesInSheet ha date : " + date + " ha row " + row + " o ha colomne = > " + column);
         WritableCellFormat cellFormat = new WritableCellFormat(new jxl.write.DateFormat("dd/MM/yyyy"));
         cellFormat.setBackground(Colour.YELLOW);
+        cellFormat.setFont(fontHeader(Colour.BLACK));
         ExcelUtil.addDate(sheet, column, row, date, cellFormat);
     }
 
     public void fillSemaineInSheet(WritableSheet sheet, int semaine, int column) throws WriteException {
-        WritableCellFormat semaineCell = ExcelUtil.centerContentInCell(new WritableCellFormat(fontHeader));
+        WritableCellFormat semaineCell = ExcelUtil.centerContentInCell(new WritableCellFormat(fontHeader(Colour.BLUE_GREY)));
         semaineCell.setBackground(Colour.IVORY);
         ExcelUtil.addNumber(sheet, column, 0, semaine, semaineCell);
         ExcelUtil.mergeColumns(sheet, 0, column, trieOeufFacade.countElementExistInWeek(this.trieOeufs, semaine), 10);
@@ -121,21 +123,20 @@ public class TrieOeufsExcel {
     }
 
     public void fillReception(WritableSheet sheet, int column, int row, Integer integer) throws WriteException {
-        WritableCellFormat receptionCell = new WritableCellFormat(fontHeader);
+        WritableCellFormat receptionCell = new WritableCellFormat(fontHeader(Colour.BLUE_GREY));
         ExcelUtil.centerContentInCell(receptionCell);
         ExcelUtil.addNumber(sheet, column, row, integer, receptionCell);
         ExcelUtil.mergeRows(sheet, column, row, row + 1, 20);
     }
 
-    public void fillAndMergeAllReceptionRows(WritableSheet sheet) throws WriteException {
-        for (int col = 0; col < this.trieOeufs.size(); col++) {
-            TrieOeuf trieOeuf = this.trieOeufs.get(col);
-
-//            fillReception(sheet, col+1, 3, trieOeuf.getReception());
-        }
-        ExcelUtil.mergeRows(sheet, 0, 3, 4, 20);
-    }
-
+//    public void fillAndMergeAllReceptionRows(WritableSheet sheet) throws WriteException {
+//        for (int col = 0; col < this.trieOeufs.size(); col++) {
+//            TrieOeuf trieOeuf = this.trieOeufs.get(col);
+//
+////            fillReception(sheet, col+1, 3, trieOeuf.getReception());
+//        }
+//        ExcelUtil.mergeRows(sheet, 0, 3, 4, 20);
+//    }
     public void fillContent(WritableSheet sheet) throws WriteException {
         List<TrieOeuf> trieOeufsInSameDateAndReception;
         int startColumn = 1;
@@ -147,6 +148,7 @@ public class TrieOeufsExcel {
             trieOeufsInSameDateAndReception = trieOeufFacade.triesInSameDateAndReception(trieOeufs, trieOeuf.getDateTrie(), trieOeuf.getReception());
             System.out.println("ha khooto : " + trieOeufsInSameDateAndReception + "ha size de lit : " + trieOeufsInSameDateAndReception.size());
             fillContentsInAttributs(trieOeufsInSameDateAndReception, sheet, startColumn);
+
             startColumn++;
         }
     }
@@ -155,16 +157,25 @@ public class TrieOeufsExcel {
         TrieOeuf trieOeuf = trieOeufsInSameDateAndReception.get(0);
         fillReception(sheet, startColumn, 3, trieOeuf.getReception().intValue());
         fillDatesInSheet(sheet, trieOeuf.getDateTrie(), startColumn, 1);
+        insertTrieValues(trieOeufsInSameDateAndReception, sheet, startColumn);
+        fillTotalPert(sheet, startColumn, sheet.getRows(), trieOeufs);
+    }
 
+    private void fillTotalPert(WritableSheet sheet, int col, int row, List<TrieOeuf> trieOeufs) throws WriteException {
+        ExcelUtil.addNumber(sheet, col, row, trieOeufFacade.calculTotalPerte(trieOeufs).intValue(), stylingTotalPerteCell());
+    }
+
+    private void insertTrieValues(List<TrieOeuf> trieOeufsInSameDateAndReception, WritableSheet sheet, int startColumn) throws WriteException {
         for (TrieOeuf trieOeufHaveSameDateAndReception : trieOeufsInSameDateAndReception) {
 
             System.out.println("ha trie from fillContentsInAttributs : " + trieOeufHaveSameDateAndReception);
-            int startRow = startRowAt(trieOeufHaveSameDateAndReception.getCategorieOeuf()) + 1;
+            int startRow = startRowAt(trieOeufHaveSameDateAndReception.getCategorieOeuf());
+            ExcelUtil.addLabel(sheet, startColumn, startRow, "", stylingCategorieCell());
             System.out.println("h row from fillcontent : " + startRow);
             if (trieOeufHaveSameDateAndReception.getCategorieOeuf().getDesignation().equals("OAC")) {
-                fillCategorieOacAttributs(sheet, startColumn, startRow, trieOeufHaveSameDateAndReception);
+                fillCategorieOacAttributs(sheet, startColumn, startRow + 1, trieOeufHaveSameDateAndReception);
             } else {
-                fillOthersCategorieAttributs(sheet, startColumn, startRow, trieOeufHaveSameDateAndReception);
+                fillOthersCategorieAttributs(sheet, startColumn, startRow + 1, trieOeufHaveSameDateAndReception);
             }
             trieOeufs.remove(trieOeufHaveSameDateAndReception);
         }
@@ -191,14 +202,13 @@ public class TrieOeufsExcel {
         ExcelUtil.addNumber(sheet, startColumn, startRow + 5, trieOeufHaveSameDateAndReception.getSituationFinale().intValue(), new WritableCellFormat(fontAttributs(Colour.RED)));
     }
 
-    public int endRowByCategorie(CategorieOeuf categorieOeuf) {
-        int i = 6;
-        if (categorieOeuf.getDesignation().equals("OAC")) {
-            i = 7;
-        }
-        return i;
-    }
-
+//    public int endRowByCategorie(CategorieOeuf categorieOeuf) {
+//        int i = 6;
+//        if (categorieOeuf.getDesignation().equals("OAC")) {
+//            i = 7;
+//        }
+//        return i;
+//    }
     public int startRowAt(CategorieOeuf categorieOeuf) {
         switch (categorieOeuf.getDesignation()) {
             case "OAC":
@@ -228,4 +238,9 @@ public class TrieOeufsExcel {
     private WritableFont fontAttributs(Colour colour) {
         return new WritableFont(WritableFont.TIMES, 11, WritableFont.BOLD, false, UnderlineStyle.NO_UNDERLINE, colour);
     }
+
+    private WritableFont fontHeader(Colour colour) {
+        return new WritableFont(WritableFont.ARIAL, 11, WritableFont.BOLD, false, UnderlineStyle.SINGLE, colour);
+    }
+
 }

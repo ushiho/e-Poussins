@@ -239,4 +239,15 @@ public class TrieOeufFacade extends AbstractFacade<TrieOeuf> {
         System.out.println("cc from arrangeTrieByDate ha list : " + trieOeufs);
         trieOeufs.sort(Comparator.comparing(o -> o.getDateTrie()));
     }
+
+    public BigDecimal calculTotalPerte(List<TrieOeuf> trieOeufs) {
+        BigDecimal total = new BigDecimal(0);
+        if (trieOeufs == null || trieOeufs.isEmpty()) {
+            return total;
+        }
+        for (TrieOeuf trieOeuf : trieOeufs) {
+            total.add(trieOeuf.getPerte());
+        }
+        return total;
+    }
 }
