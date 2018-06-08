@@ -76,6 +76,7 @@ public abstract class AbstractFacade<T> {
                 + " " + where;
         System.out.println("cc from calculSumBigDecimal ha req : " + requete);
         List<BigDecimal> sum = getEntityManager().createQuery(requete).getResultList();
+        System.out.println("ha sum => " + sum);
         if (sum == null || sum.isEmpty()) {
             return null;
         }

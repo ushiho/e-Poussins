@@ -1,6 +1,7 @@
 
 import java.util.Date;
 import util.DateUtil;
+import util.PassUtil;
 
 /*
  * To change this license header, choose License Headers in Project Properties.
@@ -14,13 +15,14 @@ import util.DateUtil;
 public class testDate {
 
     public static void main(String[] args) {
-        String date = "03/06/2018";
-        Date dateAfter = DateUtil.subDayFromDate(DateUtil.getSqlDateToSaveInDB(date));
+//        String date = "03/06/2018";
+//        Date dateAfter = DateUtil.subDayFromDate(DateUtil.getSqlDateToSaveInDB(date));
+//
+//        System.out.println("after substract : " + dateAfter);
+//        System.out.println("after sub with format : " + DateUtil.getSqlDate(dateAfter));
+//        System.out.println("num week from "+DateUtil.weekNumberFromDate(dateAfter));
 
-        System.out.println("after substract : " + dateAfter);
-        System.out.println("after sub with format : " + DateUtil.getSqlDate(dateAfter));
-        System.out.println("num week from "+DateUtil.weekNumberFromDate(dateAfter));
-
+        System.out.println(PassUtil.passToSh1("hamza"));
           
     }
 }

@@ -20,6 +20,7 @@
         <!-- Bootstrap core CSS     -->
         <link href="../assets/css/bootstrap.min.css" rel="stylesheet" />
         <link href="../assets/css/paper-kit.css?v=2.1.0" rel="stylesheet"/>
+        <link href="../assets/css/docs.min.css" rel="stylesheet"/>
 
         <!--  CSS for Demo Purpose, don't include it in your project     -->
         <link href="../assets/css/demo.css" rel="stylesheet" />                                                                         
@@ -101,10 +102,10 @@
                  style="background-image: url('../assets/img/lamp.jpg');">
                 <div class="filter"></div>
             </div>
-<!--            <marquee behavior="scroll" direction="left" scrollamount="3" scrolldelay="5">
-                <h:outputText style="font-size:10pt;color: black" 
-                              value="Bienvenue sur votre espace Ms/Mme #{utilisateurController.connectedUser().nom} #{utilisateurController.connectedUser().prenom}" />
-            </marquee>-->
+            <!--            <marquee behavior="scroll" direction="left" scrollamount="3" scrolldelay="5">
+                            <h:outputText style="font-size:10pt;color: black" 
+                                          value="Bienvenue sur votre espace Ms/Mme #{utilisateurController.connectedUser().nom} #{utilisateurController.connectedUser().prenom}" />
+                        </marquee>-->
             <div class="main">
                 <div class="section profile-content">
                     <div class="container">
@@ -115,7 +116,7 @@
                             <div class="name">
                                 <h6 class="title">
                                     <!--<marquee behavior="scroll" direction="left" scrollamount="3" scrolldelay="5">-->
-                                        <h:outputText value="#{utilisateurController.connectedUser().nom} #{utilisateurController.connectedUser().prenom}"/>
+                                    <h:outputText value="#{utilisateurController.connectedUser().nom} #{utilisateurController.connectedUser().prenom}"/>
                                     <!--</marquee>-->    
                                 </h6>
                             </div>
@@ -125,38 +126,38 @@
                                 <div class="fixed-section">
 
                                     <div id="accordion" role="tablist" aria-multiselectable="true">
-                                        <div >
-                                            <a data-toggle="collapse" data-parent="#accordion" href="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
-                                                <div class="card-header" role="tab" id="headingOne" >
-                                                    <h6 >
+                                        <h:form>
+                                            <div >
+                                                <a data-toggle="collapse" data-parent="#accordion" href="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+                                                    <div class="card-header" role="tab" id="headingOne" >
+                                                        <h6 >
 
-                                                        OEUFS
+                                                            OEUFS
 
-                                                    </h6>
-                                                </div>
-                                            </a>
-                                            <div id="collapseOne" class="collapse in" role="tabpanel" aria-labelledby="headingOne">
-                                                <div class="card-header">
-                                                    <ul>
-                                                        <li><a href="#"><h6><span class="note">TRIE OEUFS</span></h6></a></li>
-                                                        <li><a href="#"><h6><span class="note">CONSULTATION</span></h6></a></li>
-                                                        <li><a href="#"><h6><span class="note">VENTES</span></h6></a></li>
-                                                        <li><a href="#"><h6><span class="note">TRANSFERT</span></h6></a></li>
-                                                    </ul>
+                                                        </h6>
+                                                    </div>
+                                                </a>
+                                                <div id="collapseOne" class="collapse in" role="tabpanel" aria-labelledby="headingOne">
+                                                    <div class="card-header">
+                                                        <ul>
+                                                            <li><a href="#"><h6><span class="note">TRIE OEUFS</span></h6></a></li>
+                                                            <li><a href="#"><h6><span class="note">CONSULTATION</span></h6></a></li>
+                                                            <li><a href="#"><h6><span class="note">VENTES</span></h6></a></li>
+                                                            <li><a href="#"><h6><span class="note">TRANSFERT</span></h6></a></li>
+                                                        </ul>
+                                                    </div>
                                                 </div>
                                             </div>
-                                        </div>
-                                        <div>
-                                            <a data-toggle="collapse" data-parent="#accordion" href="#collapseFive" aria-expanded="true" aria-controls="collapseFive">
-                                                <div class="card-header" role="tab" id="headingFive" >
-                                                    <h6 >
-                                                        SUIVIS OEUFS
-                                                    </h6>
-                                                </div>
-                                            </a>
-                                            <div id="collapseFive" class="collapse in" role="tabpanel" aria-labelledby="headingFive">
-                                                <div class="card-header">
-                                                    <h:form id="suivis">
+                                            <div>
+                                                <a data-toggle="collapse" data-parent="#accordion" href="#collapseFive" aria-expanded="true" aria-controls="collapseFive">
+                                                    <div class="card-header" role="tab" id="headingFive" >
+                                                        <h6 >
+                                                            SUIVIS OEUFS
+                                                        </h6>
+                                                    </div>
+                                                </a>
+                                                <div id="collapseFive" class="collapse in" role="tabpanel" aria-labelledby="headingFive">
+                                                    <div class="card-header">
                                                         <ul>
                                                             <li>
                                                                 <h:commandLink action="suivisOeufsJournalier.xhtml">
@@ -177,23 +178,21 @@
                                                                 </h:commandLink>
                                                             </li>
                                                         </ul>
-                                                    </h:form>
+                                                    </div>
                                                 </div>
                                             </div>
-                                        </div>
-                                        <div >
-                                            <a class="collapsed" data-toggle="collapse" data-parent="#accordion" href="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
-                                                <div class="card-header" role="tab" id="headingTwo" data-toggle="collapse" data-parent="#accordion">
-                                                    <h6 >
+                                            <div >
+                                                <a class="collapsed" data-toggle="collapse" data-parent="#accordion" href="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
+                                                    <div class="card-header" role="tab" id="headingTwo" data-toggle="collapse" data-parent="#accordion">
+                                                        <h6 >
 
-                                                        INCUBATION
+                                                            INCUBATION
 
-                                                    </h6>
-                                                </div>
-                                            </a>
-                                            <div id="collapseTwo" class="collapse" role="tabpanel" aria-labelledby="headingTwo">
-                                                <div class="card-header">
-                                                    <h:form id="incubation">
+                                                        </h6>
+                                                    </div>
+                                                </a>
+                                                <div id="collapseTwo" class="collapse" role="tabpanel" aria-labelledby="headingTwo">
+                                                    <div class="card-header">
                                                         <ul>
                                                             <li>
                                                                 <h:commandLink action="incubation.xhtml">
@@ -202,51 +201,51 @@
                                                             </li>
                                                             <li><a href="#inputs-row"><h6><span class="note">CONSULTATION</span></h6></a></li>
                                                         </ul>
-                                                    </h:form>
+                                                    </div>
                                                 </div>
                                             </div>
-                                        </div>
-                                        <div >
-                                            <a class="collapsed" data-toggle="collapse" data-parent="#accordion" href="#collapseTree" aria-expanded="false" aria-controls="collapseTree">
-                                                <div class="card-header" role="tab" id="headingTree" data-toggle="collapse" data-parent="#accordion">
-                                                    <h6 >
+                                            <div >
+                                                <a class="collapsed" data-toggle="collapse" data-parent="#accordion" href="#collapseTree" aria-expanded="false" aria-controls="collapseTree">
+                                                    <div class="card-header" role="tab" id="headingTree" data-toggle="collapse" data-parent="#accordion">
+                                                        <h6 >
 
-                                                        ECLOSION
+                                                            ECLOSION
 
-                                                    </h6>
+                                                        </h6>
+                                                    </div>
+                                                </a>
+                                                <div id="collapseTree" class="collapse" role="tabpanel" aria-labelledby="headingTree">
+                                                    <div class="card-header">
+                                                        <ul>
+                                                            <li><a href="historiqueIs.xhtml"><h6><span class="note">AJOUTE</span></h6></a></li>
+                                                            <li><a href="#pagination-row"><h6><span class="note">CONSULTATION</span></h6></a></li>
+                                                            <li><a href="#pagination-row"><h6><span class="note">COMMERCIALISATION</span></h6></a></li>
+                                                        </ul>
+                                                    </div>
+
                                                 </div>
-                                            </a>
-                                            <div id="collapseTree" class="collapse" role="tabpanel" aria-labelledby="headingTree">
-                                                <div class="card-header">
-                                                    <ul>
-                                                        <li><a href="historiqueIs.xhtml"><h6><span class="note">AJOUTE</span></h6></a></li>
-                                                        <li><a href="#pagination-row"><h6><span class="note">CONSULTATION</span></h6></a></li>
-                                                        <li><a href="#pagination-row"><h6><span class="note">COMMERCIALISATION</span></h6></a></li>
-                                                    </ul>
-                                                </div>
-
                                             </div>
-                                        </div>
-                                        <div >
-                                            <a class="collapsed" data-toggle="collapse" data-parent="#accordion" href="#collapsefore" aria-expanded="false" aria-controls="collapsefore">
-                                                <div class="card-header" role="tab" id="headingfore" data-toggle="collapse" data-parent="#accordion">
-                                                    <h6 >
+                                            <div >
+                                                <a class="collapsed" data-toggle="collapse" data-parent="#accordion" href="#collapsefore" aria-expanded="false" aria-controls="collapsefore">
+                                                    <div class="card-header" role="tab" id="headingfore" data-toggle="collapse" data-parent="#accordion">
+                                                        <h6 >
 
-                                                        COUVOIR
+                                                            COUVOIR
 
-                                                    </h6>
+                                                        </h6>
+                                                    </div>
+                                                </a>
+                                                <div id="collapsefore" class="collapse" role="tabpanel" aria-labelledby="headingfore">
+                                                    <div class="card-header">
+                                                        <ul>
+                                                            <li><a href="#navbar-row"><h6><span class="note">AJOUTER</span></h6></a></li>
+                                                            <li><a href="#pagination-row"><h6><span class="note">CONSULTER</span></h6></a></li>
+                                                        </ul>
+                                                    </div>
+
                                                 </div>
-                                            </a>
-                                            <div id="collapsefore" class="collapse" role="tabpanel" aria-labelledby="headingfore">
-                                                <div class="card-header">
-                                                    <ul>
-                                                        <li><a href="#navbar-row"><h6><span class="note">AJOUTER</span></h6></a></li>
-                                                        <li><a href="#pagination-row"><h6><span class="note">CONSULTER</span></h6></a></li>
-                                                    </ul>
-                                                </div>
-
                                             </div>
-                                        </div>
+                                        </h:form>
                                     </div>
                                 </div>
                             </div>
@@ -273,69 +272,73 @@
                                                               value="ETAPE 1" /></h6>
                                         </div>
                                         <p:spacer/>
+                                        <div class="container">
+                                            <div class="row">
 
-                                        <div class="row">
-
-                                            <div class="col-md-2" style="margin-top: 10px;margin-left: 5%;">
-                                                <p:outputLabel for="dateTrie">
-                                                    <label  class="note"> DATE</label>
-                                                </p:outputLabel>
-                                            </div>
-                                            <div class="col-md-3">
-                                                <div class="input-group date datetimepicker" >
-                                                    <span class="input-group-addon">
-                                                        <span class="glyphicon glyphicon-time"></span>
-                                                        <i class="nc-icon nc-calendar-60" aria-hidden="true"></i>
-                                                    </span>
-                                                    <p:inputText id="dateTrie" value="#{trieOeufController.dateTrie}" required="true" 
-                                                                 requiredMessage="Vous devez indiquer une date" style="cursor: pointer;"
-                                                                 class="form-control " placeholder="05/08/2017" title="Date de trie" >
-                                                        <p:ajax event="blur" listener="#{trieOeufController.weekOfSelectedDate()}" update="semaine"/>
-                                                    </p:inputText>
+                                                <div class="col-1 mr-auto" style="margin-top: 10px;">
+                                                    <h:outputLabel for="dateTrie">
+                                                        <h:outputText value="DATE" />
+                                                    </h:outputLabel>
                                                 </div>
-                                                <script type="text/javascript">
-                                                    $(function () {
-                                                        $('.datetimepicker').datetimepicker({
-                                                            format: 'DD/MM/YYYY'
+                                                <div class="col-3 mr-auto">
+                                                    <div class="input-group date datetimepicker" >
+                                                        <span class="input-group-addon">
+                                                            <span class="glyphicon glyphicon-time"></span>
+                                                            <i class="nc-icon nc-calendar-60" aria-hidden="true"></i>
+                                                        </span>
+                                                        <p:inputText id="dateTrie" value="#{trieOeufController.dateTrie}" required="true"
+                                                                     requiredMessage="Indiquer la date de trie" style="cursor: pointer;"
+                                                                     class="form-control " placeholder="05/08/2017" title="Date de trie" >
+                                                            <p:ajax event="blur" listener="#{trieOeufController.weekOfSelectedDate()}" update="semaine"/>
+                                                        </p:inputText>
+                                                    </div>
+                                                    <script type="text/javascript">
+                                                        $(function () {
+                                                            $('.datetimepicker').datetimepicker({
+                                                                format: 'DD/MM/YYYY'
+                                                            });
                                                         });
-                                                    });
-                                                </script>
-                                            </div>
-                                            <p:spacer/>
-                                            <div class="col-md-2" style="margin-left: 5%;margin-top: 10px;">
-                                                <p:outputLabel for="semaine">
-                                                    <label  class="note"> N° SEMAINE</label>
-                                                </p:outputLabel>
-                                            </div>
-                                            <div class="col-md-3">
-                                                <div class="input-group" >
-                                                    <span class="input-group-addon">
-                                                        <span class="glyphicon glyphicon-time"></span>
-                                                        <i class="nc-icon nc-calendar-60" aria-hidden="true"></i>
-                                                    </span>
-                                                    <h:outputText class="form-control"  id="semaine" value="#{trieOeufController.semaine}" />
+                                                    </script>
+                                                </div>
+                                                <p:spacer/>
+                                                <div class="col-3" style="margin-top: 10px;">
+                                                    <h:outputLabel for="semaine">
+                                                        <h:outputText value="N° SEMAINE" />
+                                                    </h:outputLabel>
+                                                </div>
+                                                <div class="col-2 text-center">
+                                                    <div class="input-group" >
+                                                        <span class="input-group-addon">
+                                                            <span class="glyphicon glyphicon-time"></span>
+                                                            <i class="nc-icon nc-calendar-60" aria-hidden="true"></i>
+                                                        </span>
+                                                        <h:outputText class="form-control"  id="semaine" value="#{trieOeufController.semaine}" />
+                                                    </div>
                                                 </div>
                                             </div>
                                         </div>
                                         <p:spacer/>
-                                        <div class="row" style="">
-                                            <div class="col-md-2" style="margin-left: 5%;margin-top: 10px;">
-                                                <p:outputLabel for="reception">
-                                                    <label>RÉCEPTION </label>
-                                                </p:outputLabel>
-                                            </div>
-                                            <div class="col-md-3">
-                                                <p:inputText id="reception" value="#{trieOeufController.reception}" required="true" style="cursor: pointer;"
-                                                             placeholder="Nombre des oeufs " title="Quantité de réception" class="form-control"
-                                                             requiredMessage="Vous devez indique la quantité des oeufs à la réception" >
-                                                    <p:ajax event="change" update=":forme2" listener="#{trieOeufController.setRestReception(trieOeufController.reception)}"/>
-                                                </p:inputText>
-                                            </div>
-                                            <div class="col-md-3 ml-auto" style="margin-top: 5px;">
-                                                <p:commandLink update="forme1 :forme2 :growl" actionListener="#{trieOeufController.setForme2(true)}"
-                                                               id="suivant" title="Passer à l'étape suivante" value="SUIVANT" class="btn btn-outline-danger btn-sm">
-                                                    <f:actionListener binding="#{trieOeufController.setForme1(false)}"/>
-                                                </p:commandLink>
+                                        <div class="container">
+                                            <div class="row" style="margin-top: 15px;">
+                                                <div class="col-1 mr-auto" style="margin-top: 10px;">
+                                                    <h:outputLabel for="reception" ><h:outputText value="RÉCEPTION"  /></h:outputLabel>
+                                                </div>
+                                                <div class="col-3 mr-auto">
+                                                    <p:inputText id="reception" value="#{trieOeufController.reception}" required="true" style="cursor: pointer;"
+                                                                 placeholder="Nombre des oeufs " title="Quantité de réception" class="form-control"
+                                                                 requiredMessage="Vous devez indique la quantité des oeufs à la réception" 
+                                                                 validator="#{trieOeufController.validateInputs}">
+                                                        <p:ajax event="change" update=":forme2" listener="#{trieOeufController.setRestReception(trieOeufController.reception)}"/>
+                                                    </p:inputText>
+                                                </div>
+                                                <div class="col-3"></div>
+                                                <div class="col-2" style="margin-top: 5px;">
+                                                    <h:commandLink  actionListener="#{trieOeufController.setForme2(true)}"
+                                                                    id="suivant" title="Passer à l'étape suivante" value="SUIVANT" class="btn btn-outline-danger btn-sm">
+                                                        <f:actionListener binding="#{trieOeufController.setForme1(false)}" />
+                                                        <p:ajax process="forme1" update="forme1 :forme2 :growl" />
+                                                    </h:commandLink>
+                                                </div>
                                             </div>
                                         </div>
                                     </h:panelGroup>
@@ -348,7 +351,7 @@
                                         </div>
                                         <p:spacer/>
 
-                                        <div class="col-md-4" style="margin-top: 5px;">
+                                        <div class="col-6 mr-auto" style="margin-top: 5px;">
                                             <h:commandLink rendered="#{trieOeufController.items.size()==0}" actionListener="#{trieOeufController.setForme1(true)}"
                                                            id="retour" title="Retour à l'étape précedente" value="RETOUR" class="btn btn-outline-danger btn-sm">
                                                 <f:actionListener binding="#{trieOeufController.setForme2(false)}" />
@@ -359,38 +362,40 @@
                                             </h:commandLink>
                                         </div>
                                         <p:spacer/>
-                                        <div class="row">
-                                            <div class="col-md-2" style="margin-top: 10px;margin-left: 5%;">
-                                                <p:outputLabel title="le reste à la réception"><label>LE REST </label></p:outputLabel>
-                                            </div>
-                                            <div class="col-md-2 form-control" >
-                                                <h:outputText value="#{trieOeufController.restReception}" title="le reste à la réception" />
-                                            </div>
-                                            <p:spacer/>
+                                        <div class="container">
+                                            <div class="row">
+                                                <div class="col-2" style="margin-top: 10px;">
+                                                    <p:outputLabel title="le reste à la réception"><label>LE REST </label></p:outputLabel>
+                                                </div>
+                                                <div class="col-2 form-control" >
+                                                    <h:outputText value="#{trieOeufController.restReception}" title="le reste à la réception" />
+                                                </div>
+                                                <p:spacer/>
 
-                                            <div class="col-md-3" style="margin-left: 5%;margin-top: 10px;">
-                                                <p:outputLabel for="oeuf"><label class="note">CATÉGORIE DES OEUFS</label></p:outputLabel>
-                                            </div>
-                                            <div class="col-md-3" style="margin-top: 10px;">
-                                                <h:selectOneMenu disabled="#{trieOeufController.categorieOeufSelected.id!=null}" style="width: 100%;" required="true" id="oeuf" 
-                                                                 value="#{trieOeufController.categorieOeufSelected}" >
-                                                    <f:selectItem itemLabel="-- Choisir une catégorie --" itemValue="" noSelectionOption="true" />
-                                                    <f:selectItems  value="#{categorieOeufController.getItemsAvailableSelectMany()}"
-                                                                    var="oeuf" itemValue="#{oeuf}"/>
-                                                    <p:ajax listener="#{trieOeufController.setForme3(true)}" update=":forme3 forme2" />
-                                                    <p:ajax listener="#{trieOeufController.setSIToTheSelected()}"/>
-                                                </h:selectOneMenu>
+                                                <div class="col-3 ml-auto mr-auto" style="margin-top: 10px;">
+                                                    <p:outputLabel for="oeuf"><label class="note">CATÉGORIE DES OEUFS</label></p:outputLabel>
+                                                </div>
+                                                <div class="col-3" style="margin-top: 10px;">
+                                                    <h:selectOneMenu disabled="#{trieOeufController.categorieOeufSelected.id!=null}" style="width: 100%;" required="true" id="oeuf" 
+                                                                     value="#{trieOeufController.categorieOeufSelected}" >
+                                                        <f:selectItem itemLabel="-- Choisir une catégorie --" itemValue="" noSelectionOption="true" />
+                                                        <f:selectItems  value="#{categorieOeufController.getItemsAvailableSelectMany()}"
+                                                                        var="oeuf" itemValue="#{oeuf}"/>
+                                                        <p:ajax listener="#{trieOeufController.setForme3(true)}" update=":forme3 forme2" />
+                                                        <p:ajax listener="#{trieOeufController.setSIToTheSelected()}"/>
+                                                    </h:selectOneMenu>
+                                                </div>
                                             </div>
                                         </div>
                                         <p:spacer/>
                                         <div class="row">
-                                            <div class="col-md-4" style="margin-left: 25%;margin-top: 10px;">
+                                            <div class="col-4" style="margin-left: 25%;margin-top: 10px;">
                                                 <p:outputLabel rendered="#{trieOeufController.forme3}">
                                                     <label  class="note">SITUATION INITIALE</label>
                                                 </p:outputLabel>
                                             </div>
                                             <h:panelGroup rendered="#{trieOeufController.forme3}">
-                                                <div class="col-md-3 form-control">
+                                                <div class="col-2 form-control">
                                                     <h:outputText value="#{trieOeufController.selected.situationInitiale}" title="Situation Initiale de cette catégorie" />
                                                 </div>
                                             </h:panelGroup>
@@ -403,84 +408,93 @@
                                 <h:form id="forme3">
                                     <h:panelGroup rendered="#{trieOeufController.forme3}">
                                         <div class="row">
-                                            <div class="col-md-2" style="margin-left: 5%;margin-top: 10px;">
+                                            <div class="col" style="margin-left: 5%;margin-top: 10px;">
                                                 <p:outputLabel for="entre">
                                                     <label title="nombre des oeufs en entrée"  class="note"> ENTREE</label>
                                                 </p:outputLabel>
                                             </div>
-                                            <div class="col-sm-3">
+                                            <div class="col">
                                                 <div class="input-group ">
                                                     <span class="input-group-addon">
                                                         <i class="nc-icon nc-atom" aria-hidden="true"></i>
                                                     </span>
-                                                    <p:inputText  id="entre" 
+                                                    <p:inputText  id="entre" requiredMessage="Donner le nombre des oeufs en entrée"
                                                                   value="#{trieOeufController.selected.entree}" required="true"
-                                                                  class="form-control" title="nombre des oeufs en entrée" />
+                                                                  class="form-control" title="nombre des oeufs en ENTREE"
+                                                                  validator="#{trieOeufController.validateInputs}" />
                                                 </div>
                                             </div>
-                                            <div class="col-md-2" style="margin-left: 5%;margin-top: 10px;">
+                                            <div class="col" style="margin-left: 5%;margin-top: 10px;">
                                                 <p:outputLabel for="don">
                                                     <label title="Les oeufs de don" class="note"> DON</label>
                                                 </p:outputLabel>
                                             </div>
-                                            <div class="col-sm-3">
+                                            <div class="col">
                                                 <div class="input-group ">
                                                     <span class="input-group-addon">
                                                         <i class="nc-icon nc-atom" aria-hidden="true"></i>
                                                     </span>
                                                     <p:inputText id="don" value="#{trieOeufController.selected.don}" required="true"
-                                                                 class="form-control " title="nombre des oeufs de don" />
+                                                                 class="form-control " title="nombre des oeufs de don"
+                                                                 requiredMessage="Donner le nombre des oeufs de DON"
+                                                                 validator="#{trieOeufController.validateInputs}" />
                                                 </div>
                                             </div>
                                         </div>
                                         <p:spacer/>
                                         <p:spacer/>
                                         <div class="row">
-                                            <div class="col-md-2" style="margin-left: 5%;margin-top: 10px;">
+                                            <div class="col" style="margin-left: 5%;margin-top: 10px;">
                                                 <p:outputLabel for="vente">
                                                     <label title="nombre des oeufs ventés"  class="note"> VENTES</label>
                                                 </p:outputLabel>
                                             </div>
-                                            <div class="col-sm-3">
+                                            <div class="col">
                                                 <div class="input-group ">
                                                     <span class="input-group-addon">
                                                         <i class="nc-icon nc-atom" aria-hidden="true"></i>
                                                     </span>
                                                     <p:inputText id="vente" value="#{trieOeufController.selected.vente}" required="true"
-                                                                 class="form-control " title="nombre des oeufs ventés" />
+                                                                 class="form-control " title="nombre des oeufs ventés" 
+                                                                 requiredMessage="Donner le nombre des oeufs Ventés" 
+                                                                 validator="#{trieOeufController.validateInputs}" />
                                                 </div>
                                             </div>
-                                            <div class="col-sm-2" style="margin-left: 5%;margin-top: 10px;">
+                                            <div class="col" style="margin-left: 5%;margin-top: 10px;">
                                                 <p:outputLabel for="perte">
                                                     <label   class="note"> PERTES</label>
                                                 </p:outputLabel>
                                             </div>
-                                            <div class="col-sm-3">
+                                            <div class="col">
                                                 <div class="input-group" >
                                                     <span class="input-group-addon">
                                                         <i class="nc-icon nc-atom" aria-hidden="true"></i>
                                                     </span>
                                                     <p:inputText id="perte" value="#{trieOeufController.selected.perte}" required="true"
-                                                                 class="form-control " title="Nombre des oeufs en perte" />
+                                                                 class="form-control " title="Nombre des oeufs en perte" 
+                                                                 requiredMessage="Donner le nombre d'oeufs perdus"
+                                                                 validator="#{trieOeufController.validateInputs}" />
                                                 </div>
                                             </div>
                                         </div>
                                         <p:spacer/>
                                         <p:spacer/>
                                         <div class="row">
-                                            <h:panelGroup rendered="#{trieOeufController.categorieOeufSelected.designation == 'OAC' || trieOeufController.selected.categorieOeuf.designation =='oac'}">
-                                                <div class="col-md-2" style="margin-left: 25%;margin-top: 10px;">
+                                            <h:panelGroup rendered="#{trieOeufController.categorieOeufSelected.designation == 'OAC'}">
+                                                <div class="col-6 text-center" style="margin-top: 10px;">
                                                     <p:outputLabel for="incubation">
-                                                        <label title="Les oeufs mis en incubation"  class="note"> INCUBATION</label>
+                                                        <h:outputText title="Les oeufs mis en incubation"  value="INCUBATION" /> 
                                                     </p:outputLabel>
                                                 </div>
-                                                <div class="col-sm-3" style="">
+                                                <div class="col-3 mr-auto">
                                                     <div class="input-group" >
                                                         <span class="input-group-addon">
                                                             <i class="nc-icon nc-atom" aria-hidden="true"></i>
                                                         </span>
                                                         <p:inputText id="incubation" value="#{trieOeufController.selected.misEnIncubation}" required="true"
-                                                                     class="form-control " title="Nombre des oeufs mis en incubation" />
+                                                                     class="form-control " title="Nombre des oeufs mis en incubation" 
+                                                                     requiredMessage="Donner le nombre des oeufs incubés" 
+                                                                     validator="#{trieOeufController.validateInputs}" />
                                                     </div>
                                                 </div>
                                                 <p:spacer/>
@@ -488,27 +502,154 @@
                                             </h:panelGroup>
                                         </div>
                                         <p:spacer/>
-                                        <div class="row">
-
-                                            <div class="col-md-3 ml-auto" >
+                                        <div class="row" style="margin-top: 25px;">
+                                            <div class="col-6 text-center" >
                                                 <h:commandLink actionListener="#{trieOeufController.setForme3(false)}"
                                                                id="annuler"  value="ANNULER" class="btn btn-default btn-sm">
                                                     <p:ajax listener="#{trieOeufController.cancelModify()}" resetValues="true" 
                                                             update=":forme2 :growl :datalist forme3"/>
                                                 </h:commandLink>
                                             </div>
-                                            <p:spacer style="margin-top: 10px;"/>
-                                            <div class="col-md-4 ml-auto">
-                                                <p:commandLink  id="valider" title="Valider ces donnés" update=":forme2 forme3 :datalist :growl"
+                                            <div class="col-6 text-center">
+                                                <h:commandLink  id="valider" title="Valider ces donnés"
                                                                 value="VALIDER" actionListener="#{trieOeufController.addOrModifyAndTestRestReception()}"
                                                                 class="btn btn-default btn-sm">
+                                                    <p:ajax update=":forme2 forme3 :datalist :growl" process=":forme3" />
+                                                </h:commandLink>
+                                            </div>
+                                        </div>
+                                        <hr/>
+                                    </h:panelGroup>
+                                </h:form>
+                                <p:spacer/>
+                                <br />
+                                <h:form id="datalist">
+                                    <h:panelGroup rendered="#{trieOeufController.items.size()>0}">
+                                        <div class="row">
+                                            <p:spacer/>
+                                            <h6 style="color: black;" class="mr-auto ml-auto">Les catégories ajoutés </h6>
+                                            <p:spacer/>
+
+                                            <h:dataTable style="margin-top: 10px;" styleClass="table table-sm table-striped table-hover table-bordered"
+                                                         value="#{trieOeufController.items}" var="item">
+
+                                                <h:column>
+                                                    <f:facet name="header">
+                                                        <h:outputText class="heart" value="Date de Trie"/>
+                                                    </f:facet>
+                                                    <h:outputText value="#{item.dateTrie}">
+                                                        <f:convertDateTime pattern="dd/MM/yyyy" />
+                                                    </h:outputText>
+                                                </h:column>
+                                                <h:column>
+                                                    <f:facet name="header">
+                                                        <h:outputText value="Semaine"/>
+                                                    </f:facet>
+                                                    <h:outputText value="#{item.numSemaine}"/>
+                                                </h:column>
+                                                <h:column>
+                                                    <f:facet name="header">
+                                                        <h:outputText value="Catégorie"/>
+                                                    </f:facet>
+                                                    <h:outputText value="#{item.categorieOeuf.designation}"/>
+                                                </h:column>
+                                                <h:column>
+                                                    <f:facet name="header">
+                                                        <h:outputText value="Recéption"/>
+                                                    </f:facet>
+                                                    <h:outputText value="#{item.reception}"/>
+
+                                                </h:column>
+
+                                                <h:column>
+                                                    <f:facet name="header">
+                                                        <h:outputText value="S.I"/>
+                                                    </f:facet>
+                                                    <h:outputText value="#{item.situationInitiale}"/>
+                                                    <f:facet name="footer">
+                                                        <h:outputText style="font-size: 16px;color: black;" value="Total" title="Total des entrés "/>
+                                                    </f:facet>
+                                                </h:column>
+
+                                                <h:column>
+                                                    <f:facet name="header">
+                                                        <h:outputText value="Entrée"/>
+                                                    </f:facet>
+                                                    <h:outputText value="#{item.entree}"/>
+                                                    <f:facet name="footer">
+                                                        <h:outputText value="#{trieOeufController.totalEntres}"/>
+                                                    </f:facet>
+                                                </h:column>
+                                                <h:column>
+                                                    <f:facet name="header">
+                                                        <h:outputText value="Incubés"/>
+                                                    </f:facet>
+                                                    <h:outputText value="#{item.misEnIncubation}"/>
+                                                </h:column>
+
+                                                <h:column>
+                                                    <f:facet name="header">
+                                                        <h:outputText value="Vente"/>
+                                                    </f:facet>
+                                                    <h:outputText value="#{item.vente}"/>
+                                                </h:column>
+                                                <h:column>
+                                                    <f:facet name="header">
+                                                        <h:outputText value="Don"/>
+                                                    </f:facet>
+                                                    <h:outputText value="#{item.don}"/>
+                                                </h:column>
+                                                <h:column>
+                                                    <f:facet name="header">
+                                                        <h:outputText value="Perte"/>
+                                                    </f:facet>
+                                                    <h:outputText value="#{item.perte}"/>
+                                                </h:column>
+                                                <h:column>
+                                                    <f:facet name="header">
+                                                        <h:outputText value="S.F"/>
+                                                    </f:facet>
+                                                    <h:outputText value="#{item.situationFinale}"/>
+                                                </h:column>
+
+                                                <h:column >
+                                                    <p:commandButton update=":forme3 :forme2:oeuf :forme2 :datalist"
+                                                                     actionListener="#{trieOeufController.setForme3(true)}" 
+                                                                     icon="ui-icon-pencil" title="Modifier">
+                                                        <f:setPropertyActionListener value="#{item}" target="#{trieOeufController.selected}" />
+                                                        <f:actionListener binding="#{trieOeufController.restoreRestReception()}"/>
+                                                    </p:commandButton>
+                                                </h:column>
+                                                <h:column >
+                                                    <p:commandButton update=":forme3 :forme2 :forme2:oeuf  :datalist" icon="ui-icon-trash" 
+                                                                     actionListener="#{trieOeufController.setForme3(false)}" title="Supprimer">
+                                                        <f:setPropertyActionListener  value="#{item}" target="#{trieOeufController.selected}" />
+                                                        <f:actionListener binding="#{trieOeufController.removeFromList()}"/>
+                                                    </p:commandButton>
+                                                </h:column>
+
+                                            </h:dataTable>
+                                        </div>
+                                        <p:spacer/>
+                                        <div class="row" >
+                                            <div class="col-3 ml-auto" style="">
+                                                <p:commandLink actionListener="#{trieOeufController.cancelSavingInDb()}" id="exit" 
+                                                               update=":forme2:oeuf :forme2 :forme3 datalist :forme1 "
+                                                               value="ANNULER" class="btn btn-outline-danger btn-sm"
+                                                               title="Annuler tous vos modifications">
+                                                    <f:actionListener binding="#{trieOeufController.setSelected(null)}"/>
+                                                </p:commandLink>
+                                            </div>
+                                            <div class="col-3 text-center" >
+                                                <p:commandLink  update=":forme2 :forme2:oeuf  :forme3 datalist :forme4 :intro" actionListener="#{trieOeufController.saveItemsInDB()}"
+                                                                id="save" value="ENREGISTRER" class="btn btn-outline-default btn-sm"
+                                                                title="Valider ces modifications">
                                                 </p:commandLink>
                                             </div>
                                         </div>
                                     </h:panelGroup>
                                 </h:form>
-                                <p:spacer/>
-                                <br />
+                                <p:spacer />
                                 <h:form id="forme4">
                                     <h:panelGroup rendered="#{trieOeufController.forme4}">
                                         <div class="row">
@@ -530,7 +671,7 @@
                                                         <f:actionListener binding="#{trieOeufController.setForme1(true)}"/>
                                                     </p:commandLink>
                                                     <p:commandLink style="margin-left: 15%;" class="btn btn-outline-success btn-sm"
-                                                                   actionListener="#{trieOeufController.imprimer()}"
+                                                                   actionListener="#{trieOeufController.saveItemsInDB()}"
                                                                    value="IMPRIMER" title="Imprimer le document " update=":forme1 :forme4">
                                                         <f:actionListener binding="#{trieOeufController.setForme1(true)}"/>
                                                     </p:commandLink>
@@ -539,99 +680,9 @@
                                         </div>
                                     </h:panelGroup>
                                 </h:form>
+                                <p:spacer/>
+
                             </div>
-                            <p:spacer/>
-                            <p:spacer/>
-
-                            <div class="row" style="margin-top: 10px;">
-                                <h:form id="datalist">
-                                    <h:panelGroup rendered="#{trieOeufController.items.size()>0}">
-                                        <p:spacer/>
-                                        <h6 style="color: black;" class="mr-auto ml-auto">Les catégories ajoutés </h6>
-                                        <p:spacer/>
-                                        <p:dataTable style="width: 100%;" value="#{trieOeufController.items}" var="item"
-                                                     styleClass="table table-sm table-bordered"
-                                                     >
-                                            <p:column headerText="DATE">
-                                                <h:outputText value="#{trieOeufController.formatDateToString(item.dateTrie)}"/>
-                                            </p:column>
-                                            <p:column headerText="SEMAINE">
-                                                <h:outputText value="#{item.numSemaine}"/>
-                                            </p:column>
-                                            <p:column headerText="RECEPTION">
-                                                <h:outputText value="#{item.reception}"/>
-                                            </p:column>
-                                            <p:column headerText="CATEGORIE">
-                                                <h:outputText value="#{item.categorieOeuf.designation}"/>
-                                                <f:facet name="footer">
-                                                    <h:outputText value="Total" title="Total des entrés "/>
-                                                </f:facet>
-                                            </p:column>
-                                            <p:column headerText="ENTREE">
-                                                <h:outputText value="#{item.entree}"/>
-                                                <f:facet name="footer">
-                                                    <h:outputText value="#{trieOeufController.totalEntres}"/>
-                                                </f:facet>
-                                            </p:column>
-                                            <p:column headerText="S.I">
-                                                <h:outputText value="#{item.situationInitiale}"/>
-                                            </p:column>
-
-                                            <p:column headerText="DON">
-                                                <h:outputText value="#{item.don}"/>
-                                            </p:column>
-                                            <p:column headerText="VENTES">
-                                                <h:outputText value="#{item.vente}"/>
-                                            </p:column>
-                                            <p:column headerText="PERTES">
-                                                <h:outputText value="#{item.perte}"/>
-                                            </p:column>
-                                            <p:column headerText="INCUBATION">
-                                                <h:outputText value="#{item.misEnIncubation}"/>
-                                            </p:column>
-                                            <p:column headerText="S.F">
-                                                <h:outputText value="#{item.situationFinale}"/>
-                                            </p:column>
-
-                                            <p:column style="width:50px;text-align: center">
-                                                <p:commandButton update=":forme3 :forme2:oeuf :forme2 :datalist"
-                                                                 actionListener="#{trieOeufController.setForme3(true)}" 
-                                                                 icon="ui-icon-pencil" title="Modifier">
-                                                    <f:setPropertyActionListener value="#{item}" target="#{trieOeufController.selected}" />
-                                                    <f:actionListener binding="#{trieOeufController.restoreRestReception()}"/>
-                                                </p:commandButton>
-                                            </p:column>
-                                            <p:column style="width:50px;text-align: center">
-                                                <p:commandButton update=":forme3 :forme2 :forme2:oeuf  :datalist" icon="ui-icon-trash" 
-                                                                 actionListener="#{trieOeufController.setForme3(false)}" title="Supprimer">
-                                                    <f:setPropertyActionListener  value="#{item}" target="#{trieOeufController.selected}" />
-                                                    <f:actionListener binding="#{trieOeufController.removeFromList()}"/>
-                                                </p:commandButton>
-                                            </p:column>
-
-                                        </p:dataTable>
-                                        <p:spacer/>
-                                        <div class="row" style="margin-left: 350px;" >
-                                            <div class="col-3 " >
-                                                <p:commandLink  update=":forme2 :forme2:oeuf  :forme3 datalist :forme4 :intro" actionListener="#{trieOeufController.saveItemsInDB()}"
-                                                                id="save" value="ENREGISTRER" class="btn btn-outline-default btn-sm"
-                                                                title="Valider ces modifications">
-                                                </p:commandLink>
-                                            </div>
-                                            <div class="col-3" style="margin-left: 100px;">
-                                                <p:commandLink actionListener="#{trieOeufController.cancelSavingInDb()}" id="exit" 
-                                                               update=":forme2:oeuf :forme2 :forme3 datalist :forme1 "
-                                                               value="ANNULER" class="btn btn-outline-danger btn-sm"
-                                                               title="Annuler tous vos modifications">
-                                                    <f:actionListener binding="#{trieOeufController.setSelected(null)}"/>
-                                                </p:commandLink>
-                                            </div>
-                                        </div>
-                                    </h:panelGroup>
-                                </h:form>
-                            </div>
-                            <p:spacer/>
-                            <hr/>
                         </div>
                         <br/>
                     </div>

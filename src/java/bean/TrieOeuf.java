@@ -45,8 +45,8 @@ public class TrieOeuf implements Serializable {
     private Ferme ferme;
     @OneToOne
     private CategorieOeuf categorieOeuf;
-    @OneToMany(mappedBy = "trieOeuf")
-    private List<Incubation> incubations;
+    @OneToOne(mappedBy = "trieOeuf")
+    private Incubation incubation;
     @OneToOne
     private Utilisateur responsable;
 
@@ -117,15 +117,15 @@ public class TrieOeuf implements Serializable {
         this.id = id;
     }
 
-    public List<Incubation> getIncubations() {
-        if (incubations == null) {
-            incubations = new ArrayList();
+    public Incubation getIncubation() {
+        if (incubation == null) {
+            incubation = new Incubation();
         }
-        return incubations;
+        return incubation;
     }
 
-    public void setIncubations(List<Incubation> incubations) {
-        this.incubations = incubations;
+    public void setIncubation(Incubation incubation) {
+        this.incubation = incubation;
     }
 
     public Date getDateTrie() {

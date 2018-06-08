@@ -32,7 +32,7 @@ public class Incubation implements Serializable {
     private int numeroSemaine;
     private int annee;
     private BigDecimal qteIncube;
-    @ManyToOne
+    @OneToOne
     private TrieOeuf trieOeuf;
     @ManyToOne
     private Couvoir couvoir;

@@ -7,9 +7,11 @@ package document;
 
 import bean.CategorieOeuf;
 import bean.TrieOeuf;
+import java.io.File;
 import java.io.IOException;
 import java.util.Date;
 import java.util.List;
+import jxl.format.Alignment;
 import jxl.format.Colour;
 import jxl.format.UnderlineStyle;
 import jxl.write.WritableCellFormat;
@@ -40,9 +42,9 @@ public class TrieOeufsExcel {
         this.categorieOeufs = categorieOeufs;
     }
 
-    public void write() throws IOException, WriteException {
+    public File write() throws IOException, WriteException {
         int startRowAt = 5;
-        String path = "/home/lotfi/test.xlsx";
+        String path = "/home/lotfi/glassfish-4.1.1/ExcelDocs/trie.xlsx";
         WritableWorkbook workbook = ExcelUtil.createWorkBook(path);
         WritableSheet sheet = ExcelUtil.createSheet(workbook, "Trie Oeufs", 0);
 
@@ -51,6 +53,7 @@ public class TrieOeufsExcel {
         fillContent(sheet);
 
         ExcelUtil.writeAndCloseWorkbook(workbook);
+        return new File(path);
     }
 
     private WritableCellFormat stylingTotalPerteCell() throws WriteException {
@@ -109,6 +112,7 @@ public class TrieOeufsExcel {
     public void fillDatesInSheet(WritableSheet sheet, Date date, int column, int row) throws WriteException {
         System.out.println("cc from fillDatesInSheet ha date : " + date + " ha row " + row + " o ha colomne = > " + column);
         WritableCellFormat cellFormat = new WritableCellFormat(new jxl.write.DateFormat("dd/MM/yyyy"));
+        cellFormat.setAlignment(Alignment.CENTRE);
         cellFormat.setBackground(Colour.YELLOW);
         cellFormat.setFont(fontHeader(Colour.BLACK));
         ExcelUtil.addDate(sheet, column, row, date, cellFormat);
@@ -154,14 +158,18 @@ public class TrieOeufsExcel {
     }
 
     private void fillContentsInAttributs(List<TrieOeuf> trieOeufsInSameDateAndReception, WritableSheet sheet, int startColumn) throws WriteException {
+        System.out.println("in fillContentsInAttributs ha size de sheet before: " + sheet.getRows());
         TrieOeuf trieOeuf = trieOeufsInSameDateAndReception.get(0);
         fillReception(sheet, startColumn, 3, trieOeuf.getReception().intValue());
         fillDatesInSheet(sheet, trieOeuf.getDateTrie(), startColumn, 1);
-        insertTrieValues(trieOeufsInSameDateAndReception, sheet, startColumn);
         fillTotalPert(sheet, startColumn, sheet.getRows(), trieOeufs);
+        insertTrieValues(trieOeufsInSameDateAndReception, sheet, startColumn);
+        System.out.println("in fillContentsInAttributs ha size de sheet after: " + sheet.getRows());
+
     }
 
     private void fillTotalPert(WritableSheet sheet, int col, int row, List<TrieOeuf> trieOeufs) throws WriteException {
+        System.out.println("is fillTotalPert with u ha size d sheet =>" + sheet.getRows() + " : ha col " + col + " o ha row " + row);
         ExcelUtil.addNumber(sheet, col, row, trieOeufFacade.calculTotalPerte(trieOeufs).intValue(), stylingTotalPerteCell());
     }
 

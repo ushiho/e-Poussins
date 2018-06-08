@@ -81,47 +81,14 @@
                             </div>
                         </li>
                         <li class="nav-item">
-                            <p:commandLink action="#{utilisateurController.deconnecter()}"  class="nav-link">
-                                <i class="nc-icon nc-lock-circle-open"></i>Déconnexion
-                            </p:commandLink>
+                            <h:form>
+                                <h:commandLink action="#{utilisateurController.deconnecter()}"  class="nav-link">
+                                    <i class="nc-icon nc-lock-circle-open"></i>Déconnexion
+                                </h:commandLink>
+                            </h:form>
                         </li>
-
                     </ul>
                 </div>
-
-                <p:dialog id="exporteDlg" widgetVar="exporteDialog" 
-                          header="Format de fichier à exporter" modal="true"
-                          styleClass="ui">
-                    <h:form id="exporteForm">
-                        <h:panelGroup id="display">
-                            <div class="row">
-                                <div class="col-lg-3">
-                                    <div class="tim-title">
-                                        <h3>Radio Buttons</h3>
-                                    </div>
-                                </div>
-                                <div class="col-auto">
-                                    <div class="form-check-radio">
-                                        <label class="form-check-label">
-                                            <input class="form-check-input" type="radio" name="exampleRadios" id="exampleRadios1" value="option1" />
-
-                                            Format pdf
-                                            <span class="form-check-sign"></span>
-                                        </label>
-                                    </div>
-                                    <div class="form-check-radio">
-                                        <label class="form-check-label">
-                                            <input class="form-check-input" type="radio" name="exampleRadios" id="exampleRadios2" value="option2" />
-                                            Format xlsx (Excel)
-                                            <span class="form-check-sign"></span>
-                                        </label>
-                                    </div>
-                                </div>
-                            </div>
-                        </h:panelGroup>
-                    </h:form>
-
-                </p:dialog>
             </div>
         </nav>
 
@@ -148,21 +115,20 @@
                         <div class="row tim-row">
                             <div class="col-lg-2 col-md-6">
                                 <div class="fixed-section">
+                                    <h:form>
+                                        <div id="accordion" role="tablist" aria-multiselectable="true">
+                                            <div >
+                                                <a data-toggle="collapse" data-parent="#accordion" href="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+                                                    <div class="card-header" role="tab" id="headingOne" >
+                                                        <h6 >
 
-                                    <div id="accordion" role="tablist" aria-multiselectable="true">
-                                        <div >
-                                            <a data-toggle="collapse" data-parent="#accordion" href="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
-                                                <div class="card-header" role="tab" id="headingOne" >
-                                                    <h6 >
+                                                            OEUFS
 
-                                                        OEUFS
-
-                                                    </h6>
-                                                </div>
-                                            </a>
-                                            <div id="collapseOne" class="collapse in" role="tabpanel" aria-labelledby="headingOne">
-                                                <div class="card-header">
-                                                    <h:form id="trie">
+                                                        </h6>
+                                                    </div>
+                                                </a>
+                                                <div id="collapseOne" class="collapse in" role="tabpanel" aria-labelledby="headingOne">
+                                                    <div class="card-header">
                                                         <ul>
                                                             <li>
                                                                 <h:commandLink action="trieOeufs.xhtml" >
@@ -174,41 +140,59 @@
                                                             <li><a href="#"><h6><span class="note">VENTES</span></h6></a></li>
                                                             <li><a href="#"><h6><span class="note">TRANSFERT</span></h6></a></li>
                                                         </ul>
-                                                    </h:form>
+                                                    </div>
                                                 </div>
                                             </div>
-                                        </div>
-                                        <div>
-                                            <a data-toggle="collapse" data-parent="#accordion" href="#collapseFive" aria-expanded="true" aria-controls="collapseFive">
-                                                <div class="card-header" role="tab" id="headingFive" >
-                                                    <h6 >
-                                                        SUIVIS OEUFS
-                                                    </h6>
-                                                </div>
-                                            </a>
-                                            <div id="collapseFive" class="collapse in" role="tabpanel" aria-labelledby="headingFive">
-                                                <div class="card-header">
-                                                    <ul>
-                                                        <li><a href="suivisOeufsJournalier.xhtml"><h6><span class="note">JOURNALIER</span></h6></a></li>
-                                                        <li><a href="suivisOeufsHebdo.xhtml"><h6><span class="note">HEBDOMADAIRE</span></h6></a></li>
-                                                        <li><a href="#"><h6><span class="note">MENSUEL</span></h6></a></li>
-                                                    </ul>
+                                            <div>
+                                                <a data-toggle="collapse" data-parent="#accordion" href="#collapseFive" aria-expanded="true" aria-controls="collapseFive">
+                                                    <div class="card-header" role="tab" id="headingFive" >
+                                                        <h6 >
+                                                            SUIVIS OEUFS
+                                                        </h6>
+                                                    </div>
+                                                </a>
+                                                <div id="collapseFive" class="collapse in" role="tabpanel" aria-labelledby="headingFive">
+                                                    <div class="card-header">
+                                                        <ul>
+                                                            <li>
+                                                                <h:commandLink action="suivisOeufsJournalier.xhtml">
+                                                                    <f:actionListener binding="#{trieOeufController.initParamsUsedInSuivis()}" />
+                                                                    <h6>JOURNALIER</h6>
+                                                                </h:commandLink>
+                                                            </li>
+                                                            <li>
+                                                                <h:commandLink action="suivisOeufsHebdo.xhtml">
+                                                                    <f:actionListener binding="#{trieOeufController.initParamsUsedInSuivis()}" />
+                                                                    <h6>HEBDOMADAIRE</h6>
+                                                                </h:commandLink>
+                                                            </li>
+                                                            <li>
+                                                                <h:commandLink action="suivisOeufsMensuel.xhtml">
+                                                                    <h6>MENSUEL</h6>
+                                                                </h:commandLink>
+                                                            </li>
+                                                        </ul>
+
+
+                                                        <ul>
+                                                            <li><a href="suivisOeufsHebdo.xhtml"><h6><span class="note">HEBDOMADAIRE</span></h6></a></li>
+                                                            <li><a href="#"><h6><span class="note">MENSUEL</span></h6></a></li>
+                                                        </ul>
+                                                    </div>
                                                 </div>
                                             </div>
-                                        </div>
-                                        <div >
-                                            <a class="collapsed" data-toggle="collapse" data-parent="#accordion" href="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
-                                                <div class="card-header" role="tab" id="headingTwo" data-toggle="collapse" data-parent="#accordion">
-                                                    <h6 >
+                                            <div >
+                                                <a class="collapsed" data-toggle="collapse" data-parent="#accordion" href="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
+                                                    <div class="card-header" role="tab" id="headingTwo" data-toggle="collapse" data-parent="#accordion">
+                                                        <h6 >
 
-                                                        INCUBATION
+                                                            INCUBATION
 
-                                                    </h6>
-                                                </div>
-                                            </a>
-                                            <div id="collapseTwo" class="collapse" role="tabpanel" aria-labelledby="headingTwo">
-                                                <div class="card-header">
-                                                    <h:form id="incubation">
+                                                        </h6>
+                                                    </div>
+                                                </a>
+                                                <div id="collapseTwo" class="collapse" role="tabpanel" aria-labelledby="headingTwo">
+                                                    <div class="card-header">
                                                         <ul>
                                                             <li>
                                                                 <h:commandLink action="incubation.xhtml">
@@ -217,71 +201,71 @@
                                                             </li>
                                                             <li><a href="#inputs-row"><h6><span class="note">CONSULTATION</span></h6></a></li>
                                                         </ul>
-                                                    </h:form>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div >
+                                                <a class="collapsed" data-toggle="collapse" data-parent="#accordion" href="#collapseTree" aria-expanded="false" aria-controls="collapseTree">
+                                                    <div class="card-header" role="tab" id="headingTree" data-toggle="collapse" data-parent="#accordion">
+                                                        <h6 >
+
+                                                            ECLOSION
+
+                                                        </h6>
+                                                    </div>
+                                                </a>
+                                                <div id="collapseTree" class="collapse" role="tabpanel" aria-labelledby="headingTree">
+                                                    <div class="card-header">
+                                                        <ul>
+                                                            <li><a href="historiqueIs.xhtml"><h6><span class="note">AJOUTE</span></h6></a></li>
+                                                            <li><a href="#pagination-row"><h6><span class="note">CONSULTATION</span></h6></a></li>
+                                                            <li><a href="#pagination-row"><h6><span class="note">COMMERCIALISATION</span></h6></a></li>
+                                                        </ul>
+                                                    </div>
+
+                                                </div>
+                                            </div>
+                                            <div>
+                                                <a data-toggle="collapse" data-parent="#accordion" href="#collapseSexe" aria-expanded="true" aria-controls="collapseSexe">
+                                                    <div class="card-header" role="tab" id="headingSexe" >
+                                                        <h6 >
+                                                            SUIVIS ECLOSION
+                                                        </h6>
+                                                    </div>
+                                                </a>
+                                                <div id="collapseSexe" class="collapse in" role="tabpanel" aria-labelledby="headingSexe">
+                                                    <div class="card-header">
+                                                        <ul>
+                                                            <li><a href="#"><h6><span class="note">JOURNALIER</span></h6></a></li>
+                                                            <li><a href="#"><h6><span class="note">HEBDOMADAIRE</span></h6></a></li>
+                                                            <li><a href="#"><h6><span class="note">MENSUEL</span></h6></a></li>
+                                                            <li><a href="#"><h6><span class="note">ANNUEL</span></h6></a></li>
+                                                        </ul>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div >
+                                                <a class="collapsed" data-toggle="collapse" data-parent="#accordion" href="#collapsefore" aria-expanded="false" aria-controls="collapsefore">
+                                                    <div class="card-header" role="tab" id="headingfore" data-toggle="collapse" data-parent="#accordion">
+                                                        <h6 >
+
+                                                            COUVOIR
+
+                                                        </h6>
+                                                    </div>
+                                                </a>
+                                                <div id="collapsefore" class="collapse" role="tabpanel" aria-labelledby="headingfore">
+                                                    <div class="card-header">
+                                                        <ul>
+                                                            <li><a href="#navbar-row"><h6><span class="note">AJOUTER</span></h6></a></li>
+                                                            <li><a href="#pagination-row"><h6><span class="note">CONSULTER</span></h6></a></li>
+                                                        </ul>
+                                                    </div>
+
                                                 </div>
                                             </div>
                                         </div>
-                                        <div >
-                                            <a class="collapsed" data-toggle="collapse" data-parent="#accordion" href="#collapseTree" aria-expanded="false" aria-controls="collapseTree">
-                                                <div class="card-header" role="tab" id="headingTree" data-toggle="collapse" data-parent="#accordion">
-                                                    <h6 >
-
-                                                        ECLOSION
-
-                                                    </h6>
-                                                </div>
-                                            </a>
-                                            <div id="collapseTree" class="collapse" role="tabpanel" aria-labelledby="headingTree">
-                                                <div class="card-header">
-                                                    <ul>
-                                                        <li><a href="historiqueIs.xhtml"><h6><span class="note">AJOUTE</span></h6></a></li>
-                                                        <li><a href="#pagination-row"><h6><span class="note">CONSULTATION</span></h6></a></li>
-                                                        <li><a href="#pagination-row"><h6><span class="note">COMMERCIALISATION</span></h6></a></li>
-                                                    </ul>
-                                                </div>
-
-                                            </div>
-                                        </div>
-                                        <div>
-                                            <a data-toggle="collapse" data-parent="#accordion" href="#collapseSexe" aria-expanded="true" aria-controls="collapseSexe">
-                                                <div class="card-header" role="tab" id="headingSexe" >
-                                                    <h6 >
-                                                        SUIVIS ECLOSION
-                                                    </h6>
-                                                </div>
-                                            </a>
-                                            <div id="collapseSexe" class="collapse in" role="tabpanel" aria-labelledby="headingSexe">
-                                                <div class="card-header">
-                                                    <ul>
-                                                        <li><a href="#"><h6><span class="note">JOURNALIER</span></h6></a></li>
-                                                        <li><a href="#"><h6><span class="note">HEBDOMADAIRE</span></h6></a></li>
-                                                        <li><a href="#"><h6><span class="note">MENSUEL</span></h6></a></li>
-                                                        <li><a href="#"><h6><span class="note">ANNUEL</span></h6></a></li>
-                                                    </ul>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div >
-                                            <a class="collapsed" data-toggle="collapse" data-parent="#accordion" href="#collapsefore" aria-expanded="false" aria-controls="collapsefore">
-                                                <div class="card-header" role="tab" id="headingfore" data-toggle="collapse" data-parent="#accordion">
-                                                    <h6 >
-
-                                                        COUVOIR
-
-                                                    </h6>
-                                                </div>
-                                            </a>
-                                            <div id="collapsefore" class="collapse" role="tabpanel" aria-labelledby="headingfore">
-                                                <div class="card-header">
-                                                    <ul>
-                                                        <li><a href="#navbar-row"><h6><span class="note">AJOUTER</span></h6></a></li>
-                                                        <li><a href="#pagination-row"><h6><span class="note">CONSULTER</span></h6></a></li>
-                                                    </ul>
-                                                </div>
-
-                                            </div>
-                                        </div>
-                                    </div>
+                                    </h:form>
                                 </div>
                             </div>
                             <div class="col-lg-10 col-md-12">
@@ -303,10 +287,12 @@
                                 <p:spacer/>
                                 <h:form id="forme1">
                                     <div class="row" >
-                                        <div class="col-sm-2 " style="margin-left: 2%;">
-                                            <p:outputLabel for="annee"><label class="note" >ANNEE </label></p:outputLabel>
+                                        <div class="col " >
+                                            <h:outputLabel for="annee">
+                                                <h:outputText value="ANNEE" /> 
+                                            </h:outputLabel>
                                         </div>
-                                        <div class="col-sm-3 " style="margin-left: 5%;margin-bottom: 10px;">
+                                        <div class="col " style="margin-bottom: 10px;">
                                             <h:selectOneMenu style="width: 100%;" required="true" requiredMessage="Vous devez indiquer une année c'est obligatoire !"
                                                              id="annee" value="#{trieOeufController.year}" >
                                                 <f:selectItem itemLabel="-- Année --" itemValue="" noSelectionOption="true" />
@@ -315,33 +301,49 @@
                                             </h:selectOneMenu>
                                         </div>
                                         <p:spacer/>
-
+                                        <div class="col" >
+                                            <h:outputLabel for="oeuf">
+                                                <h:outputText value="CATÉGORIE DES OEUFS" />    
+                                            </h:outputLabel>
+                                        </div>
+                                        <div class="col" >
+                                            <h:selectOneMenu style="width: 100%;" id="oeuf"
+                                                             value="#{trieOeufController.categorieOeufSelected}" >
+                                                <f:selectItem itemLabel="-- Choisir une catégorie --" itemValue="" noSelectionOption="true" />
+                                                <f:selectItems  value="#{categorieOeufController.getItemsAvailableSelectMany()}"
+                                                                var="oeuf" itemValue="#{oeuf}"/>
+                                            </h:selectOneMenu>
+                                        </div>
                                     </div>
                                     <div class="row" style="margin-top: 20px;">
-                                        <div class="col-sm-2 " style="margin-left: 2%;margin-top: 10px;">
-                                            <p:outputLabel for="semaineMin"><label class="note" >MOIS MIN </label></p:outputLabel>
+                                        <div class="col " style="margin-top: 10px;">
+                                            <h:outputLabel for="Min">
+                                                <h:outputText value="MOIS MIN" /> 
+                                            </h:outputLabel>
                                         </div>
-                                        <div class="col-sm-3 " style="margin-left: 5%;">
+                                        <div class="col">
                                             <div class="input-group" >
                                                 <span class="input-group-addon">
                                                     <i class="nc-icon nc-calendar-60" aria-hidden="true"></i>
                                                 </span>
-                                                <h:inputText id="semaineMin" value="#{trieOeufController.inputMin}" required="false" a:type="num"
+                                                <h:inputText id="Min" value="#{trieOeufController.inputMin}" required="false" a:type="num"
                                                              class="form-control " title="Mois de trie" >
                                                     <f:validateLength minimum="1" maximum="#{trieOeufController.maxDayInSelectedMonth()}"/>
                                                 </h:inputText>
                                             </div>
                                         </div>
-                                        <div class="col-sm-2" style="margin-left: 2%;margin-top: 10px;" >
-                                            <p:outputLabel for="semaineMax"><label class="note">MOIS MAX </label></p:outputLabel>
+                                        <div class="col" style="margin-top: 10px;" >
+                                            <h:outputLabel for="Max">
+                                                <h:outputText value="MOIS MAX " />
+                                            </h:outputLabel>
                                         </div>
                                         <p:spacer/>
-                                        <div class="col-sm-3 " style="margin-left: 5%;" >
+                                        <div class="col" >
                                             <div class="input-group " >
                                                 <span class="input-group-addon">
                                                     <i class="nc-icon nc-calendar-60" aria-hidden="true"></i>
                                                 </span>
-                                                <h:inputText id="semaineMax" value="#{trieOeufController.inputMax}" required="false" a:type="num"
+                                                <h:inputText id="Max" value="#{trieOeufController.inputMax}" required="false" a:type="num"
                                                              class="form-control " title="Mois de trie" >
                                                     <f:validateLength minimum="1" maximum="#{trieOeufController.maxDayInSelectedMonth()}" />
                                                 </h:inputText>
@@ -351,26 +353,17 @@
 
                                     </div>
                                     <p:spacer/>
-                                    <div class="row" style="margin-top: 20px;">
-                                        <div class="col-md-4" style="margin-left: 2%">
-                                            <p:outputLabel for="oeuf"><label class="note">CATÉGORIE DES OEUFS</label></p:outputLabel>
-                                        </div>
-                                        <div class="col-sm-4" style="margin-left: 5%;">
-                                            <h:selectOneMenu style="width: 100%;" id="oeuf" 
-                                                             value="#{trieOeufController.categorieOeufSelected}" >
-                                                <f:selectItem itemLabel="-- Choisir une catégorie --" itemValue="" noSelectionOption="true" />
-                                                <f:selectItems  value="#{categorieOeufController.getItemsAvailableSelectMany()}"
-                                                                var="oeuf" itemValue="#{oeuf}"/>
-                                            </h:selectOneMenu>
-                                        </div>
+                                    <div class="row">
                                         <p:spacer/>
-                                        <div class="col-sm-2" style="margin-left: 6%;margin-top: 25px;">
-                                            <p:commandLink  class="btn btn-outline-success btn-sm" 
-                                                            actionListener="#{trieOeufController.searchHebdo()}" title="Chercher les tries "
-                                                            update="forme1 :datalist ">
-                                                <h:outputText value="CHERCHER" />
-                                                <i  class="nc-icon nc-zoom-split" aria-hidden="true"></i>
-                                            </p:commandLink>
+                                        <div class="col-8" style="margin-top: 15px;">
+                                            <div  class="col-md-4 ml-auto">
+                                                <h:commandLink  class="btn btn-outline-success btn-sm" 
+                                                                actionListener="#{trieOeufController.searchHebdo()}" title="Chercher les tries " >
+                                                    <h:outputText value="CHERCHER" />
+                                                    <i  class="nc-icon nc-zoom-split" aria-hidden="true"></i>
+                                                    <p:ajax update="forme1 :datalist " process="forme1"/>
+                                                </h:commandLink>
+                                            </div>
                                         </div>
                                     </div>
                                     <p:spacer/>
@@ -380,57 +373,88 @@
 
                                 <h:form id="datalist">
                                     <h:panelGroup rendered="#{trieOeufController.items.size()>0}">
-                                        <p:dataTable style="width: 100%;" styleClass="table table-sm table-bordered" value="#{trieOeufController.items}" var="item">
-                                            <p:column>
+                                        <h:dataTable style="margin-top: 10px;" styleClass="table table-sm table-striped table-hover table-bordered"
+                                                     value="#{trieOeufController.items}" var="item">
+
+                                            <h:column>
                                                 <f:facet name="header">
-                                                    <h:outputText value="Date" title="Date de trie"/>
+                                                    <h:outputText class="heart" value="Date de Trie"/>
                                                 </f:facet>
-                                                <h:outputText value="#{trieOeufController.formatDateToString(item.dateTrie)}"/>
-                                            </p:column>
-                                            <p:column>
+                                                <h:outputText value="#{item.dateTrie}">
+                                                    <f:convertDateTime pattern="dd/MM/yyyy" />
+                                                </h:outputText>
+                                            </h:column>
+                                            <h:column>
                                                 <f:facet name="header">
                                                     <h:outputText value="Semaine"/>
                                                 </f:facet>
                                                 <h:outputText value="#{item.numSemaine}"/>
-                                            </p:column>
-                                            <p:column>
+                                            </h:column>
+                                            <h:column>
                                                 <f:facet name="header">
-                                                    <h:outputText value="Reception"/>
+                                                    <h:outputText value="Catégorie"/>
+                                                </f:facet>
+                                                <h:outputText value="#{item.categorieOeuf.designation}"/>
+                                            </h:column>
+                                            <h:column>
+                                                <f:facet name="header">
+                                                    <h:outputText value="Recéption"/>
                                                 </f:facet>
                                                 <h:outputText value="#{item.reception}"/>
-                                            </p:column>
-                                            <p:column>
+
+                                            </h:column>
+
+                                            <h:column>
                                                 <f:facet name="header">
-                                                    <h:outputText value="S.I" title="Situation Initiale"/>
+                                                    <h:outputText value="S.I"/>
                                                 </f:facet>
                                                 <h:outputText value="#{item.situationInitiale}"/>
-                                            </p:column>
-                                            <p:column>
+                                            </h:column>
+
+                                            <h:column>
                                                 <f:facet name="header">
-                                                    <h:outputText value="Entree"/>
+                                                    <h:outputText value="Entrée"/>
                                                 </f:facet>
                                                 <h:outputText value="#{item.entree}"/>
-                                            </p:column>
-                                            <p:column>
+                                            </h:column>
+                                            <h:column>
                                                 <f:facet name="header">
-                                                    <h:outputText value="Incubation" title="Nombre des oeufs incubés"/>
+                                                    <h:outputText value="Incubés"/>
                                                 </f:facet>
                                                 <h:outputText value="#{item.misEnIncubation}"/>
-                                            </p:column>
-                                            <p:column>
+                                            </h:column>
+
+                                            <h:column>
                                                 <f:facet name="header">
-                                                    <h:outputText value="S.F" title="Situation Finale"/>
+                                                    <h:outputText value="Vente"/>
+                                                </f:facet>
+                                                <h:outputText value="#{item.vente}"/>
+                                            </h:column>
+                                            <h:column>
+                                                <f:facet name="header">
+                                                    <h:outputText value="Don"/>
+                                                </f:facet>
+                                                <h:outputText value="#{item.don}"/>
+                                            </h:column>
+                                            <h:column>
+                                                <f:facet name="header">
+                                                    <h:outputText value="Perte"/>
+                                                </f:facet>
+                                                <h:outputText value="#{item.perte}"/>
+                                            </h:column>
+                                            <h:column>
+                                                <f:facet name="header">
+                                                    <h:outputText value="S.F"/>
                                                 </f:facet>
                                                 <h:outputText value="#{item.situationFinale}"/>
-                                            </p:column>
-                                        </p:dataTable>
+                                            </h:column>
+
+                                        </h:dataTable>
                                         <div class="row">
                                             <div class="col-md-auto">
                                                 <p:commandLink class="btn btn-dark btn-sm"
                                                                actionListener="#{trieOeufController.imprimer()}"
-                                                               value="EXPORTER" title="Imprimer le document " update=":forme1 :exporteForm"
-                                                               oncomplete="PF('exporteDialog').show()">
-                                                </p:commandLink>
+                                                               value="EXPORTER" title="Imprimer le document " update=":forme1" />
                                             </div>
                                         </div>
                                     </h:panelGroup>

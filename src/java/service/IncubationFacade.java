@@ -6,8 +6,10 @@
 package service;
 
 import bean.Couvoir;
+import bean.Eclosion;
 import bean.Incubation;
 import java.math.BigDecimal;
+import java.util.Date;
 import java.util.List;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
@@ -45,4 +47,13 @@ public class IncubationFacade extends AbstractFacade<Incubation> {
         }
         return calculSumBigDecimal("Incubation", "i", "qteIncube", " WHERE i.couvoir.id = '" + couvoir.getId() + "' ");
     }
+
+    public int save(Incubation incubation) {
+        if (incubation == null) {
+            return -1;
+        }
+        create(incubation);
+        return 1;
+    }
+
 }

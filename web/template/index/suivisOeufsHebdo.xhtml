@@ -81,46 +81,15 @@
                             </div>
                         </li>
                         <li class="nav-item">
-                            <p:commandLink action="#{utilisateurController.deconnecter()}"  class="nav-link">
-                                <i class="nc-icon nc-lock-circle-open"></i>Déconnexion
-                            </p:commandLink>
+                            <h:form>
+                                <h:commandLink action="#{utilisateurController.deconnecter()}"  class="nav-link">
+                                    <i class="nc-icon nc-lock-circle-open"></i>Déconnexion
+                                </h:commandLink>
+                            </h:form>
                         </li>
 
                     </ul>
                 </div>
-                <p:dialog id="exporteDlg" widgetVar="exporteDialog" 
-                          header="Format de fichier à exporter" modal="true"
-                          styleClass="ui-growl">
-                    <h:form id="exporteForm">
-                        <h:panelGroup id="display">
-                            <div class="row">
-                                <div class="col-lg-3">
-                                    <div class="tim-title">
-                                        <h3>Radio Buttons</h3>
-                                    </div>
-                                </div>
-                                <div class="col-auto">
-                                    <div class="form-check-radio">
-                                        <label class="form-check-label">
-                                            <input class="form-check-input" type="radio" name="exampleRadios" id="exampleRadios1" value="option1" />
-
-                                            Format pdf
-                                            <span class="form-check-sign"></span>
-                                        </label>
-                                    </div>
-                                    <div class="form-check-radio">
-                                        <label class="form-check-label">
-                                            <input class="form-check-input" type="radio" name="exampleRadios" id="exampleRadios2" value="option2" />
-                                            Format xlsx (Excel)
-                                            <span class="form-check-sign"></span>
-                                        </label>
-                                    </div>
-                                </div>
-                            </div>
-                        </h:panelGroup>
-                    </h:form>
-
-                </p:dialog>
             </div>
         </nav>
 
@@ -147,7 +116,6 @@
                         <div class="row tim-row">
                             <div class="col-lg-2 col-md-6">
                                 <div class="fixed-section">
-
                                     <div id="accordion" role="tablist" aria-multiselectable="true">
                                         <div >
                                             <a data-toggle="collapse" data-parent="#accordion" href="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
@@ -187,7 +155,7 @@
                                             </a>
                                             <div id="collapseFive" class="collapse in" role="tabpanel" aria-labelledby="headingFive">
                                                 <div class="card-header">
-                                                    <h:form id="suivis">
+                                                    <h:form id="suivisTrie">
                                                         <ul>
                                                             <li>
                                                                 <h:commandLink action="suivisOeufsJournalier.xhtml">
@@ -201,7 +169,7 @@
                                                                 </h:commandLink>
                                                             </li>
                                                             <li>
-                                                                <h:commandLink action="suivisOeufsMensuel.xhtml">
+                                                                <h:commandLink action="suivisOeufsMensue.xhtml">
                                                                     <f:actionListener binding="#{trieOeufController.initParamsUsedInSuivis()}" />
                                                                     <h6>MENSUEL</h6>
                                                                 </h:commandLink>
@@ -248,11 +216,13 @@
                                             </a>
                                             <div id="collapseTree" class="collapse" role="tabpanel" aria-labelledby="headingTree">
                                                 <div class="card-header">
-                                                    <ul>
-                                                        <li><a href="historiqueIs.xhtml"><h6><span class="note">AJOUTE</span></h6></a></li>
-                                                        <li><a href="#pagination-row"><h6><span class="note">CONSULTATION</span></h6></a></li>
-                                                        <li><a href="#pagination-row"><h6><span class="note">COMMERCIALISATION</span></h6></a></li>
-                                                    </ul>
+                                                    <h:form id="eclosion">
+                                                        <ul>
+                                                            <li><a href="historiqueIs.xhtml"><h6><span class="note">AJOUTE</span></h6></a></li>
+                                                            <li><a href="#pagination-row"><h6><span class="note">CONSULTATION</span></h6></a></li>
+                                                            <li><a href="#pagination-row"><h6><span class="note">COMMERCIALISATION</span></h6></a></li>
+                                                        </ul>
+                                                    </h:form>
                                                 </div>
 
                                             </div>
@@ -267,11 +237,13 @@
                                             </a>
                                             <div id="collapseSexe" class="collapse in" role="tabpanel" aria-labelledby="headingSexe">
                                                 <div class="card-header">
-                                                    <ul>
-                                                        <li><a href="suivisOeufsJournalier.xhtml"><h6><span class="note">JOURNALIER</span></h6></a></li>
-                                                        <li><a href="#"><h6><span class="note">HEBDOMADAIRE</span></h6></a></li>
-                                                        <li><a href="suivisOeufsMensuel.xhtml"><h6><span class="note">MENSUEL</span></h6></a></li>
-                                                    </ul>
+                                                    <h:form id="suivisEclosion">
+                                                        <ul>
+                                                            <li><a href="suivisOeufsJournalier.xhtml"><h6><span class="note">JOURNALIER</span></h6></a></li>
+                                                            <li><a href="#"><h6><span class="note">HEBDOMADAIRE</span></h6></a></li>
+                                                            <li><a href="suivisOeufsMensuel.xhtml"><h6><span class="note">MENSUEL</span></h6></a></li>
+                                                        </ul>
+                                                    </h:form>
                                                 </div>
                                             </div>
                                         </div>
@@ -287,10 +259,12 @@
                                             </a>
                                             <div id="collapsefore" class="collapse" role="tabpanel" aria-labelledby="headingfore">
                                                 <div class="card-header">
-                                                    <ul>
-                                                        <li><a href="#navbar-row"><h6><span class="note">AJOUTER</span></h6></a></li>
-                                                        <li><a href="#pagination-row"><h6><span class="note">CONSULTER</span></h6></a></li>
-                                                    </ul>
+                                                    <h:form id="couvoir">
+                                                        <ul>
+                                                            <li><a href="#navbar-row"><h6><span class="note">AJOUTER</span></h6></a></li>
+                                                            <li><a href="#pagination-row"><h6><span class="note">CONSULTER</span></h6></a></li>
+                                                        </ul>
+                                                    </h:form>
                                                 </div>
 
                                             </div>
@@ -317,10 +291,10 @@
                                 <p:spacer/>
                                 <h:form id="forme1">
                                     <div class="row" >
-                                        <div class="col-sm-2 " style="margin-left: 2%;">
+                                        <div class="col">
                                             <p:outputLabel for="annee"><label class="note" >ANNEE </label></p:outputLabel>
                                         </div>
-                                        <div class="col-sm-3 " style="margin-left: 5%;margin-bottom: 10px;">
+                                        <div class="col" style="margin-bottom: 10px;">
                                             <h:selectOneMenu style="width: 100%;" required="true" requiredMessage="Vous devez indiquer une année c'est obligatoire !"
                                                              id="annee" value="#{trieOeufController.year}" >
                                                 <f:selectItem itemLabel="-- Année --" itemValue="" noSelectionOption="true" />
@@ -329,47 +303,10 @@
                                             </h:selectOneMenu>
                                         </div>
                                         <p:spacer/>
-
-                                    </div>
-                                    <div class="row" style="margin-top: 20px;">
-                                        <div class="col-sm-2 " style="margin-left: 2%;margin-top: 10px;">
-                                            <p:outputLabel for="semaineMin"><label class="note" >SEAMINE MIN </label></p:outputLabel>
-                                        </div>
-                                        <div class="col-sm-3 " style="margin-left: 5%;">
-                                            <div class="input-group" >
-                                                <span class="input-group-addon">
-                                                    <i class="nc-icon nc-calendar-60" aria-hidden="true"></i>
-                                                </span>
-                                                <h:inputText id="semaineMin" value="#{trieOeufController.inputMin}" required="false" a:type="num"
-                                                             class="form-control " title="Numero de semaine" >
-                                                    <f:validateLength minimum="1" maximum="#{trieOeufController.maxDayInSelectedMonth()}"/>
-                                                </h:inputText>
-                                            </div>
-                                        </div>
-                                        <div class="col-sm-2" style="margin-left: 2%;margin-top: 10px;" >
-                                            <p:outputLabel for="semaineMax"><label class="note">SEMAINE MAX </label></p:outputLabel>
-                                        </div>
-                                        <p:spacer/>
-                                        <div class="col-sm-3 " style="margin-left: 5%;" >
-                                            <div class="input-group " >
-                                                <span class="input-group-addon">
-                                                    <i class="nc-icon nc-calendar-60" aria-hidden="true"></i>
-                                                </span>
-                                                <h:inputText id="semaineMax" value="#{trieOeufController.inputMax}" required="false" a:type="num"
-                                                             class="form-control " title="Numero de semaine" >
-                                                    <f:validateLength minimum="1" maximum="#{trieOeufController.maxDayInSelectedMonth()}" />
-                                                </h:inputText>
-                                            </div>
-                                        </div>
-                                        <p:spacer/>
-
-                                    </div>
-                                    <p:spacer/>
-                                    <div class="row" style="margin-top: 20px;">
-                                        <div class="col-md-4" style="margin-left: 2%">
+                                        <div class="col" >
                                             <p:outputLabel for="oeuf"><label class="note">CATÉGORIE DES OEUFS</label></p:outputLabel>
                                         </div>
-                                        <div class="col-sm-4" style="margin-left: 5%;">
+                                        <div class="col">
                                             <h:selectOneMenu style="width: 100%;" id="oeuf" 
                                                              value="#{trieOeufController.categorieOeufSelected}" >
                                                 <f:selectItem itemLabel="-- Choisir une catégorie --" itemValue="" noSelectionOption="true" />
@@ -377,14 +314,52 @@
                                                                 var="oeuf" itemValue="#{oeuf}"/>
                                             </h:selectOneMenu>
                                         </div>
+                                    </div>
+                                    <p:spacer/>
+                                    <div class="row" style="margin-top: 20px;">
+                                        <div class="col" style="margin-top: 10px;">
+                                            <p:outputLabel for="semaineMin"><label class="note" >SEAMINE MIN </label></p:outputLabel>
+                                        </div>
+                                        <div class="col">
+                                            <div class="input-group" >
+                                                <span class="input-group-addon">
+                                                    <i class="nc-icon nc-calendar-60" aria-hidden="true"></i>
+                                                </span>
+                                                <h:inputText id="semaineMin" value="#{trieOeufController.inputMin}" required="false" a:type="num"
+                                                             class="form-control " title="Numero de semaine" validator="#{trieOeufController.validateWeeks}">
+                                                </h:inputText>
+                                            </div>
+                                        </div>
+                                        <div class="col" style="margin-top: 10px;" >
+                                            <p:outputLabel for="semaineMax"><label class="note">SEMAINE MAX </label></p:outputLabel>
+                                        </div>
                                         <p:spacer/>
-                                        <div class="col-sm-2" style="margin-left: 6%;margin-top: 25px;">
-                                            <p:commandLink  class="btn btn-outline-success btn-sm" 
-                                                            actionListener="#{trieOeufController.searchHebdo()}" title="Chercher les tries "
-                                                            update="forme1 :datalist :growl">
-                                                <h:outputText value="CHERCHER" />
-                                                <i  class="nc-icon nc-zoom-split" aria-hidden="true"></i>
-                                            </p:commandLink>
+                                        <div class="col" >
+                                            <div class="input-group " >
+                                                <span class="input-group-addon">
+                                                    <i class="nc-icon nc-calendar-60" aria-hidden="true"></i>
+                                                </span>
+                                                <h:inputText id="semaineMax" value="#{trieOeufController.inputMax}" required="false" a:type="num"
+                                                             class="form-control " title="Numero de semaine" validator="#{trieOeufController.validateWeeks}" >
+                                                </h:inputText>
+                                            </div>
+                                        </div>
+                                        <p:spacer/>
+
+                                    </div>
+                                    <p:spacer/>
+                                    <div class="row">
+
+                                        <p:spacer/>
+                                        <div class="col-10 ">
+                                            <div class="col-md-1 ml-auto" style="margin-top: 15px;">
+                                                <h:commandLink  class="btn btn-outline-success btn-sm" 
+                                                                actionListener="#{trieOeufController.searchHebdo()}" title="Chercher les tries ">
+                                                    <h:outputText value="CHERCHER" />
+                                                    <i  class="nc-icon nc-zoom-split" aria-hidden="true"></i>
+                                                    <p:ajax update="forme1 :datalist :growl" process="forme1" />
+                                                </h:commandLink>
+                                            </div>
                                         </div>
                                     </div>
                                     <p:spacer/>
@@ -471,8 +446,7 @@
                                             <div class="col-md-auto">
                                                 <p:commandLink class="btn btn-dark btn-sm"
                                                                actionListener="#{trieOeufController.imprimer()}"
-                                                               value="EXPORTER" title="Imprimer le document " update=":forme1 :exporteForm"
-                                                               oncomplete="PF('exporteDialog').show()">
+                                                               value="EXPORTER" title="Imprimer le document " update=":forme1">
                                                 </p:commandLink>
                                             </div>
                                         </div>

@@ -20,16 +20,19 @@ import javax.ejb.EJB;
 import javax.ejb.EJBException;
 import javax.inject.Named;
 import javax.enterprise.context.SessionScoped;
+import javax.faces.application.FacesMessage;
 import javax.faces.component.UIComponent;
 import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
 import javax.faces.convert.Converter;
 import javax.faces.convert.FacesConverter;
+import javax.faces.validator.ValidatorException;
 import javax.servlet.http.HttpServletRequest;
 import jxl.write.WriteException;
 import service.CategorieOeufFacade;
 import service.UtilisateurFacade;
 import util.DateUtil;
+import util.DownloadUtil;
 import util.MessageUtil;
 
 @Named("trieOeufController")
@@ -505,6 +508,7 @@ public class TrieOeufController implements Serializable {
             setTotalEntres(null);
             initParamsUsedInTrie();
             setForme4(true);
+            setForme3(false);
             return;
         }
         MessageUtil.addMessage("Il vous reste " + getRestReception() + " oeufs ,Choisie une catégorie"
@@ -566,11 +570,11 @@ public class TrieOeufController implements Serializable {
             ejbFacade.arrangeTrieByDate(items);
             trieOeufsExcel.setTrieOeufs(items);
             trieOeufsExcel.setCategorieOeufs(categorieOeufFacade.findAll());
-            trieOeufsExcel.write();
+            DownloadUtil.download(trieOeufsExcel.write(), "trieOeufs/xlsx", "trieOeufs.xlsx");
             MessageUtil.info("Fichier Excel crée avec succes");
             return;
         }
-        MessageUtil.fatal("Erreur !!");
+        MessageUtil.fatal("Pas de fichier à télécharger !!");
     }
 
     // methods for suivis Templates
@@ -609,6 +613,36 @@ public class TrieOeufController implements Serializable {
     public void searchHebdo() {
         setItems(ejbFacade.findByNumSemaineOrCategorie(year, inputMax, inputMin, categorieOeufSelected));
         testListAndShowMsg();
+    }
+
+    public void validateJour(FacesContext context, UIComponent component, Object value) {
+        Integer input = (Integer) value;
+        if (input != null) {
+            if (input < 0) {
+                throw new ValidatorException(new FacesMessage(FacesMessage.SEVERITY_FATAL, "le nombre des jours est positif !", "Pas de détail"));
+            } else if (input > 31) {
+                throw new ValidatorException(new FacesMessage(FacesMessage.SEVERITY_FATAL, "le jour max est 31 !", "Pas de détail"));
+
+            }
+        }
+    }
+
+    public void validateDays(FacesContext context, UIComponent component, Object value) {
+        BigDecimal input = (BigDecimal) value;
+        if (input != null) {
+            if (input.intValue() < 0) {
+                throw new ValidatorException(new FacesMessage(FacesMessage.SEVERITY_FATAL, "le nombre des oeufs est positif !", "Pas de détail"));
+            }
+        }
+    }
+
+    public void validateWeeks(FacesContext context, UIComponent component, Object value) {
+        Integer input = (Integer) value;
+        if (input != null) {
+            if (input < 0) {
+                throw new ValidatorException(new FacesMessage(FacesMessage.SEVERITY_FATAL, "le nombre des semains est positif !", "Pas de détail"));
+            }
+        }
     }
 
 }

@@ -57,6 +57,10 @@ public class Eclosion implements Serializable {
         this.commercialise = commercialise;
     }
 
+    public Eclosion(Date dateEclosion) {
+        this.dateEclosion = dateEclosion;
+    }
+
     public Long getId() {
         return id;
     }

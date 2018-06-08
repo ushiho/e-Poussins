@@ -180,11 +180,9 @@ public class CouvoirController implements Serializable {
     }
 
     public BigDecimal showRestCapaciteOfCouvoir(Couvoir selected) {
+        System.out.println("hi is showRestCapaciteOfCouvoir ha selected : " + selected);
         BigDecimal rest = ejbFacade.calcRestOfCapacite(selected);
         System.out.println("cc is showRestCapaciteOfCouvoir ha rest : " + rest);
-        if (rest == null) {
-            rest = getSelected().getCapacite();
-        }
         return rest;
     }
 
@@ -204,4 +202,5 @@ public class CouvoirController implements Serializable {
         BigDecimal totalEclos = eclosionFacade.calcTotalEclosByCouvoir(selected);
         return initNullvalue(totalEclos);
     }
+
 }

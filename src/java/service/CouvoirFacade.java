@@ -35,14 +35,15 @@ public class CouvoirFacade extends AbstractFacade<Couvoir> {
     }
 
     public BigDecimal calcRestOfCapacite(Couvoir couvoir) {
-        if (couvoir == null) {
-            return null;
+        if (couvoir != null) {
+            BigDecimal qteIncubes = incubationFacade.sumOfQteIncubeByCouvoir(couvoir);
+            System.out.println("hi from calcRestOfCapacite ha couvoir=> " + couvoir);
+            if (qteIncubes == null) {
+                return couvoir.getCapacite();
+            }
+            return couvoir.getCapacite().subtract(qteIncubes);
         }
-        BigDecimal qteIncubes = incubationFacade.sumOfQteIncubeByCouvoir(couvoir);
-        if (qteIncubes == null) {
-            return null;
-        }
-        return couvoir.getCapacite().subtract(qteIncubes);
+        return null;
     }
 
 }

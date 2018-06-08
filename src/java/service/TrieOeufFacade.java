@@ -50,7 +50,7 @@ public class TrieOeufFacade extends AbstractFacade<TrieOeuf> {
                 trieOeuf.getDon(), trieOeuf.getPerte(), trieOeuf.getSituationFinale(), trieOeuf.getSituationInitiale());
         clone.setCategorieOeuf(trieOeuf.getCategorieOeuf());
         clone.setFerme(trieOeuf.getFerme());
-        clone.setIncubations(trieOeuf.getIncubations());
+        clone.setIncubation(trieOeuf.getIncubation());
         return clone;
     }
 
@@ -133,7 +133,7 @@ public class TrieOeufFacade extends AbstractFacade<TrieOeuf> {
         System.out.println("hi from saveListToDB ha liste : " + items);
         if (!testItems(items)) {
             for (TrieOeuf item : items) {
-                item.setIncubations(null);
+                item.setIncubation(null);
 //                item.setFerme(utilisateurFacade.getConnectedUser("user").getFerme());
 //                item.setResponsable(utilisateurFacade.getConnectedUser("user"));
                 item.setResponsable(null);
