@@ -297,12 +297,12 @@
                                                 </script>
                                             </div>
                                             <div class="col-md-3 ml-auto" style="margin-top: 2.5px;">
-                                                <p:commandLink  class="btn btn-outline-info btn-sm" 
-                                                                actionListener="#{incubationController.searchForTrieOeufOACByDate()}" 
-                                                                update=":datalist forme1 ">
+                                                <h:commandLink  class="btn btn-outline-info btn-sm" 
+                                                                actionListener="#{incubationController.searchForTrieOeufOACByDate()}" >
                                                     <h:outputText value="CHERCHER" />
                                                     <i  class="nc-icon nc-zoom-split" aria-hidden="true"></i>
-                                                </p:commandLink>
+                                                    <p:ajax update=":datalist forme1" process="forme1" />
+                                                </h:commandLink>
                                             </div>
                                             <div class="col-md-6 mr-auto ml-auto">
                                                 <p:messages id="messages" autoUpdate="true" showDetail="false" closable="true" />
@@ -311,7 +311,7 @@
                                     </h:panelGroup>
                                 </h:form>
                                 <h:form id="datalist">
-                                    <h:panelGroup rendered="#{incubationController.trieOeufOAC ==null}">
+                                    <h:panelGroup rendered="#{incubationController.trieOeufOAC !=null}">
                                         <p:spacer/>
                                         <h:dataTable style="margin-top: 10px;" styleClass="table table-striped table-hover table-bordered"
                                                      value="#{incubationController.trieOeufOAC}" var="item">

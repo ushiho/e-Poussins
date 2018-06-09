@@ -360,12 +360,12 @@
                                         </div>
                                         <p:spacer/>
                                         <div class="col-sm-2" style="margin-left: 5%;margin-top: 25px;">
-                                            <p:commandLink  class="btn btn-outline-success btn-sm" 
-                                                            actionListener="#{trieOeufController.searchJournalier()}" title="Chercher les tries "
-                                                            update="forme1 :datalist :growl">
+                                            <h:commandLink  class="btn btn-outline-success btn-sm" 
+                                                            actionListener="#{trieOeufController.searchJournalier()}" title="Chercher les tries ">
                                                 <h:outputText value="CHERCHER" />
                                                 <i  class="nc-icon nc-zoom-split" aria-hidden="true"></i>
-                                            </p:commandLink>
+                                                <p:ajax  update="forme1 :datalist :growl" />
+                                            </h:commandLink>
                                         </div>
                                     </div>
                                     <p:spacer/>

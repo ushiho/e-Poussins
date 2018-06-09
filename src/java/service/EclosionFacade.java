@@ -8,7 +8,10 @@ package service;
 import bean.Couvoir;
 import bean.Eclosion;
 import bean.Incubation;
+import bean.TrieOeuf;
 import java.math.BigDecimal;
+import java.util.Date;
+import javax.ejb.EJB;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
@@ -22,6 +25,9 @@ public class EclosionFacade extends AbstractFacade<Eclosion> {
 
     @PersistenceContext(unitName = "e-PoussinsPU")
     private EntityManager em;
+
+    @EJB
+    private TrieOeufFacade trieOeufFacade;
 
     @Override
     protected EntityManager getEntityManager() {
@@ -51,5 +57,48 @@ public class EclosionFacade extends AbstractFacade<Eclosion> {
             return null;
         }
         return calculSumBigDecimal("Eclosion", "eclo", "qteEclos", " WHERE eclo.incubation.couvoir.id = '" + couvoir.getId() + "' ");
+    }
+
+    public TrieOeuf findTrieOeufByCriteria(Date dateCriteria, int typeDate) {
+        String req = "SELECT tr FROM TrieOeuf tr WHERE ";
+        if (dateCriteria != null) {
+            return trieOeufFacade.getUniqueResult(req + completeQuery(typeDate, "tr"));
+        }
+        return null;
+    }
+
+    private String completeQuery(int typeDate, String beanAbrev) {
+        switch (typeDate) {
+            case 1:
+                return beanAbrev + ".dateTrie ";
+            case 2:
+                return beanAbrev + ".incubation.dateIncubation ";
+            case 3:
+                return beanAbrev + ".incubation.eclosion.dateEclosion ";
+            default:
+                return " 1!=1";
+        }
+    }
+
+    public int save(Eclosion eclosion) {
+        if (eclosion == null || eclosion.getId() == null) {
+            return -1;
+        }
+        edit(eclosion);
+        return 1;
+    }
+
+    public BigDecimal ecartTrie(Eclosion eclosion) {
+        if (eclosion == null || eclosion.getQteEclos() == null) {
+            return null;
+        }
+        return eclosion.getQteEclos().subtract(eclosion.getCommercialise());
+    }
+
+    public BigDecimal ecartEclos(Eclosion eclosion) {
+        if (eclosion == null || eclosion.getIncubation().getQteIncube() == null) {
+            return null;
+        }
+        return eclosion.getIncubation().getQteIncube().subtract(eclosion.getQteEclos());
     }
 }

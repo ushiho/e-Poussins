@@ -2,7 +2,8 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:h="http://xmlns.jcp.org/jsf/html"
-      xmlns:p="http://primefaces.org/ui">
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
     <h:head>
         <meta charset="utf-8" />
         <link rel="icon" type="image/png" href="../images/oeufs.ico"></link>
@@ -117,133 +118,138 @@
                         <div class="row tim-row">
                             <div class="col-lg-2 col-md-4 ml-auto">
                                 <div class="fixed-section">
+                                    <h:form>
+                                        <div id="accordion" role="tablist" aria-multiselectable="true">
+                                            <div >
+                                                <a data-toggle="collapse" data-parent="#accordion" href="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+                                                    <div class="card-header" role="tab" id="headingOne" >
+                                                        <h6 >
 
-                                    <div id="accordion" role="tablist" aria-multiselectable="true">
-                                        <div >
-                                            <a data-toggle="collapse" data-parent="#accordion" href="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
-                                                <div class="card-header" role="tab" id="headingOne" >
-                                                    <h6 >
+                                                            OEUFS
 
-                                                        OEUFS
-
-                                                    </h6>
-                                                </div>
-                                            </a>
-                                            <div id="collapseOne" class="collapse in" role="tabpanel" aria-labelledby="headingOne">
-                                                <div class="card-header">
-                                                    <h:form id="trie">
-                                                        <ul>
-                                                            <li>
-                                                                <h:commandLink action="trieOeufs.xhtml">
-                                                                    <h6>TRIE OEUFS </h6>
-                                                                </h:commandLink>
-                                                            </li>
-                                                            <li><a href="#"><h6><span class="note">CONSULTATION</span></h6></a></li>
-                                                            <li><a href="#"><h6><span class="note">VENTES</span></h6></a></li>
-                                                            <li><a href="#"><h6><span class="note">TRANSFERT</span></h6></a></li>
-                                                        </ul>
-                                                    </h:form>
+                                                        </h6>
+                                                    </div>
+                                                </a>
+                                                <div id="collapseOne" class="collapse in" role="tabpanel" aria-labelledby="headingOne">
+                                                    <div class="card-header">
+                                                        <h:form id="trie">
+                                                            <ul>
+                                                                <li>
+                                                                    <h:commandLink action="trieOeufs.xhtml">
+                                                                        <f:actionListener binding="#{trieOeufController.initParamsUsedInTrie()}" />
+                                                                        <h6>TRIE OEUFS </h6>
+                                                                    </h:commandLink>
+                                                                </li>
+                                                                <li><a href="#"><h6><span class="note">CONSULTATION</span></h6></a></li>
+                                                                <li><a href="#"><h6><span class="note">VENTES</span></h6></a></li>
+                                                                <li><a href="#"><h6><span class="note">TRANSFERT</span></h6></a></li>
+                                                            </ul>
+                                                        </h:form>
+                                                    </div>
                                                 </div>
                                             </div>
-                                        </div>
-                                        <div>
-                                            <a data-toggle="collapse" data-parent="#accordion" href="#collapseFive" aria-expanded="true" aria-controls="collapseFive">
-                                                <div class="card-header" role="tab" id="headingFive" >
-                                                    <h6 >
-                                                        SUIVIS OEUFS
-                                                    </h6>
-                                                </div>
-                                            </a>
-                                            <div id="collapseFive" class="collapse in" role="tabpanel" aria-labelledby="headingFive">
-                                                <div class="card-header">
-                                                    <h:form id="suivis">
+                                            <div>
+                                                <a data-toggle="collapse" data-parent="#accordion" href="#collapseFive" aria-expanded="true" aria-controls="collapseFive">
+                                                    <div class="card-header" role="tab" id="headingFive" >
+                                                        <h6 >
+                                                            SUIVIS OEUFS
+                                                        </h6>
+                                                    </div>
+                                                </a>
+                                                <div id="collapseFive" class="collapse in" role="tabpanel" aria-labelledby="headingFive">
+                                                    <div class="card-header">
                                                         <ul>
                                                             <li>
                                                                 <h:commandLink action="suivisOeufsJournalier.xhtml">
+                                                                    <f:actionListener binding="#{trieOeufController.initParamsUsedInSuivis()}" />
                                                                     <h6>JOURNALIER</h6>
                                                                 </h:commandLink>
                                                             </li>
                                                             <li>
                                                                 <h:commandLink action="suivisOeufsHebdo.xhtml">
+                                                                    <f:actionListener binding="#{trieOeufController.initParamsUsedInSuivis()}" />
                                                                     <h6>HEBDOMADAIRE</h6>
                                                                 </h:commandLink>
                                                             </li>
                                                             <li>
                                                                 <h:commandLink action="suivisOeufsMensuel.xhtml">
+                                                                    <f:actionListener binding="#{trieOeufController.initParamsUsedInSuivis()}" />
                                                                     <h6>MENSUEL</h6>
                                                                 </h:commandLink>
                                                             </li>
                                                         </ul>
-                                                    </h:form>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div >
+                                                <a class="collapsed" data-toggle="collapse" data-parent="#accordion" href="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
+                                                    <div class="card-header" role="tab" id="headingTwo" data-toggle="collapse" data-parent="#accordion">
+                                                        <h6 >
+
+                                                            INCUBATION
+
+                                                        </h6>
+                                                    </div>
+                                                </a>
+                                                <div id="collapseTwo" class="collapse" role="tabpanel" aria-labelledby="headingTwo">
+                                                    <div class="card-header">
+                                                        <ul>
+                                                            <li>
+                                                                <h:commandLink action="#dropdown-row">
+                                                                    <h6>AJOUTE</h6>
+                                                                </h:commandLink>
+                                                            </li>
+                                                            <li><a href="#dropdown-row"><h6><span class="note">SUIVIS JOURNALIER</span></h6></a></li>
+                                                            <li><a href="#inputs-row"><h6><span class="note">CONSULTATION</span></h6></a></li>
+                                                        </ul>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div >
+                                                <a class="collapsed" data-toggle="collapse" data-parent="#accordion" href="#collapseTree" aria-expanded="false" aria-controls="collapseTree">
+                                                    <div class="card-header" role="tab" id="headingTree" data-toggle="collapse" data-parent="#accordion">
+                                                        <h6 >
+
+                                                            ECLOSION
+
+                                                        </h6>
+                                                    </div>
+                                                </a>
+                                                <div id="collapseTree" class="collapse" role="tabpanel" aria-labelledby="headingTree">
+                                                    <div class="card-header">
+                                                        <ul>
+                                                            <li><a href="historiqueIs.xhtml"><h6><span class="note">AJOUTE</span></h6></a></li>
+                                                            <li><a href="#pagination-row"><h6><span class="note">CONSULTATION</span></h6></a></li>
+                                                            <li><a href="#pagination-row"><h6><span class="note">COMMERCIALISATION</span></h6></a></li>
+                                                        </ul>
+                                                    </div>
+
+                                                </div>
+                                            </div>
+                                            <div >
+                                                <a class="collapsed" data-toggle="collapse" data-parent="#accordion" href="#collapsefore" aria-expanded="false" aria-controls="collapsefore">
+                                                    <div class="card-header" role="tab" id="headingfore" data-toggle="collapse" data-parent="#accordion">
+                                                        <h6 >
+
+                                                            COUVOIR
+
+                                                        </h6>
+                                                    </div>
+                                                </a>
+                                                <div id="collapsefore" class="collapse" role="tabpanel" aria-labelledby="headingfore">
+                                                    <div class="card-header">
+                                                        <ul>
+                                                            <li>
+                                                                <h:commandLink action="#"><h6>AJOUTER</h6></h:commandLink>
+                                                            </li>
+                                                            <li><a href="#pagination-row"><h6><span class="note">CONSULTER</span></h6></a></li>
+                                                        </ul>
+                                                    </div>
+
                                                 </div>
                                             </div>
                                         </div>
-                                        <div >
-                                            <a class="collapsed" data-toggle="collapse" data-parent="#accordion" href="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
-                                                <div class="card-header" role="tab" id="headingTwo" data-toggle="collapse" data-parent="#accordion">
-                                                    <h6 >
-
-                                                        INCUBATION
-
-                                                    </h6>
-                                                </div>
-                                            </a>
-                                            <div id="collapseTwo" class="collapse" role="tabpanel" aria-labelledby="headingTwo">
-                                                <div class="card-header">
-                                                    <ul>
-                                                        <li>
-                                                            <h:commandLink action="#dropdown-row">
-                                                                <h6>AJOUTE</h6>
-                                                            </h:commandLink>
-                                                        </li>
-                                                        <li><a href="#dropdown-row"><h6><span class="note">SUIVIS JOURNALIER</span></h6></a></li>
-                                                        <li><a href="#inputs-row"><h6><span class="note">CONSULTATION</span></h6></a></li>
-                                                    </ul>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div >
-                                            <a class="collapsed" data-toggle="collapse" data-parent="#accordion" href="#collapseTree" aria-expanded="false" aria-controls="collapseTree">
-                                                <div class="card-header" role="tab" id="headingTree" data-toggle="collapse" data-parent="#accordion">
-                                                    <h6 >
-
-                                                        ECLOSION
-
-                                                    </h6>
-                                                </div>
-                                            </a>
-                                            <div id="collapseTree" class="collapse" role="tabpanel" aria-labelledby="headingTree">
-                                                <div class="card-header">
-                                                    <ul>
-                                                        <li><a href="historiqueIs.xhtml"><h6><span class="note">AJOUTE</span></h6></a></li>
-                                                        <li><a href="#pagination-row"><h6><span class="note">CONSULTATION</span></h6></a></li>
-                                                        <li><a href="#pagination-row"><h6><span class="note">COMMERCIALISATION</span></h6></a></li>
-                                                    </ul>
-                                                </div>
-
-                                            </div>
-                                        </div>
-                                        <div >
-                                            <a class="collapsed" data-toggle="collapse" data-parent="#accordion" href="#collapsefore" aria-expanded="false" aria-controls="collapsefore">
-                                                <div class="card-header" role="tab" id="headingfore" data-toggle="collapse" data-parent="#accordion">
-                                                    <h6 >
-
-                                                        COUVOIR
-
-                                                    </h6>
-                                                </div>
-                                            </a>
-                                            <div id="collapsefore" class="collapse" role="tabpanel" aria-labelledby="headingfore">
-                                                <div class="card-header">
-                                                    <ul>
-                                                        <li><a href="#navbar-row"><h6><span class="note">AJOUTER</span></h6></a></li>
-                                                        <li><a href="#pagination-row"><h6><span class="note">CONSULTER</span></h6></a></li>
-                                                    </ul>
-                                                </div>
-
-                                            </div>
-                                        </div>
-                                    </div>
+                                    </h:form>
                                 </div>
                             </div>
                             <div class="col-lg-10 col-md-12">
@@ -251,21 +257,478 @@
                                     <p:growl showDetail="false" autoUpdate="true" class="ui-growl" life="2500" />
                                 </h:form>
                                 <div class="card-header col-md-12 ml-auto mr-auto" >
-                                    <p:outputLabel><h6 class="text-center note">INCUBATION
+                                    <p:outputLabel><h6 class="text-center note">ECLOSION
                                             <span style="color: #abd432;"> / AJOUTE</span>
                                         </h6></p:outputLabel>
                                 </div>
+                                <h:form id="forme1">
+                                    <h:panelGroup rendered="true" >
+                                        <div class="tim-title mr-auto">
+                                            <h6><h:outputText style="font-size: 10pt;color: black;border-bottom: 3px solid red;"
+                                                              value="Déterminer les oeufs incubables :" /></h6>
+                                            <p:spacer />
+                                            <p class="text-center">
+                                                Chercher les oeufs incubables par la date d'éclosion ou d'incubation ou bien la date de trie .
+                                            </p>
+                                            <p:spacer />
+                                            <div class="row" style="margin-top: 15px;">
+                                                <div class="col-4 ">
+                                                    <div class="col">
+                                                        <h:outputLabel for="dateTrie"><h:outputText value="DE TRIE" /></h:outputLabel>
+                                                    </div>
+                                                    <div class="col-9 ml-auto mr-auto">
+                                                        <div class="input-group date datetimepicker" >
+                                                            <span class="input-group-addon">
+                                                                <span class="glyphicon glyphicon-time"></span>
+                                                                <i class="nc-icon nc-calendar-60" aria-hidden="true"></i>
+                                                            </span>
+                                                            <p:inputText id="dateTrie" value="#{eclosionController.dateTrie}" style="cursor: pointer;"
+                                                                         class="form-control " placeholder="05/08/2017" title="Date de trie" />
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-4 ">
+                                                    <div class="col">
+                                                        <h:outputLabel for="dateIncub"><h:outputText value="D'INCUBATION" /></h:outputLabel>
+                                                    </div>
+                                                    <div class="col-9 ml-auto mr-auto">
+                                                        <div class="input-group date datetimepicker" >
+                                                            <span class="input-group-addon">
+                                                                <span class="glyphicon glyphicon-time"></span>
+                                                                <i class="nc-icon nc-calendar-60" aria-hidden="true"></i>
+                                                            </span>
+                                                            <p:inputText id="dateIncub" value="#{eclosionController.dateIncub}" style="cursor: pointer;"
+                                                                         class="form-control " placeholder="05/08/2017" title="Date de trie" />
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-4 ">
+                                                    <div class="col">
+                                                        <h:outputLabel for="dateEclos"><h:outputText value="D'ECLOSION" /></h:outputLabel>
+                                                    </div>
+                                                    <div class="col-9 ml-auto mr-auto">
+                                                        <div class="input-group date datetimepicker" >
+                                                            <span class="input-group-addon">
+                                                                <span class="glyphicon glyphicon-time"></span>
+                                                                <i class="nc-icon nc-calendar-60" aria-hidden="true"></i>
+                                                            </span>
+                                                            <p:inputText id="dateEclos" value="#{eclosionController.dateEclos}" style="cursor: pointer;"
+                                                                         class="form-control " placeholder="05/08/2017" title="Date de trie" />
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <script type="text/javascript">
+                                                    $(function () {
+                                                        $('.datetimepicker').datetimepicker({
+                                                            format: 'DD/MM/YYYY'
+                                                        });
+                                                    });
+                                                </script>
+                                            </div>
+                                            <p:spacer />
+                                            <div class="row" style="margin-top: 15px;">
+                                                <div class="col-12 text-center">
+                                                    <h:commandLink  class="btn btn-outline-info btn-sm" 
+                                                                    actionListener="#{eclosionController.findTrieByCriteria()}" >
+                                                        <h:outputText value="CHERCHER" />
+                                                        <i  class="nc-icon nc-zoom-split" aria-hidden="true"></i>
+                                                        <p:ajax process="forme1" update=":result" />
+                                                    </h:commandLink>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </h:panelGroup>
+                                </h:form>
+                                <p:spacer/>
+                                <hr/>
+                                <!--<p:separator rendered="#{eclosionController.trieOeuf.id != null}" />-->
+                                <h:form id="result">
+                                    <h:panelGroup rendered="#{eclosionController.trieOeuf.incubation.id != null and eclosionController.forme1}" >
+                                        <h6>Résultat :</h6>
 
+                                        <div class="row " style="margin-top: 15px;">
+                                            <div class="col-md-6" style="margin-top: 15px;">
+                                                <div class="col" style="margin-left: 5%;">
+                                                    <h:outputLabel><h:outputText value="Date d'incubation" /></h:outputLabel>
+                                                </div>
+                                                <div class="col-6 ml-auto mr-auto" >
+                                                    <div class="input-group" >
+                                                        <span class="input-group-addon">
+                                                            <span class="glyphicon glyphicon-time"></span>
+                                                            <i class="nc-icon nc-calendar-60" aria-hidden="true"></i>
+                                                        </span>
+                                                        <h:outputText class="form-control"  id="dateIncub" value="#{eclosionController.trieOeuf.incubation.dateIncubation}" />
+                                                    </div>
+                                                </div>
+                                                <p:spacer/>
+                                                <div class="col" style="margin-left: 5%;">
+                                                    <h:outputLabel><h:outputText value="Date d'eclosion" /></h:outputLabel>
+                                                </div>
+                                                <div class="col-6 ml-auto mr-auto">
+                                                    <div class="input-group" >
+                                                        <span class="input-group-addon">
+                                                            <span class="glyphicon glyphicon-time"></span>
+                                                            <i class="nc-icon nc-calendar-60" aria-hidden="true"></i>
+                                                        </span>
+                                                        <h:outputText class="form-control"  id="dateEclos" value="#{eclosionController.trieOeuf.incubation.eclosion.dateEclosion}" />
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-6" style="margin-top: 15px;">
+                                                <div class="col" style="margin-left: 5%;">
+                                                    <h:outputLabel ><h:outputText value="Qte incubés" /></h:outputLabel>
+                                                </div>
+                                                <div class="col-6 ml-auto mr-auto">
+                                                    <div class="input-group" >
+                                                        <span class="input-group-addon">
+                                                            <span class="glyphicon glyphicon-time"></span>
+                                                            <i class="nc nc-icon nc-bulb-63" ></i>
+                                                        </span>
+                                                        <h:outputText class="form-control"  id="qteIncube" value="#{eclosionController.trieOeuf.incubation.qteIncube}" />
+                                                    </div>
+                                                </div>
+                                                <p:spacer/>
+                                                <div class="col" style="margin-left: 5%;">
+                                                    <h:outputLabel ><h:outputText value="Couvoir" /></h:outputLabel>
+                                                </div>
+                                                <div class="col-6 ml-auto mr-auto">
+                                                    <div class="input-group" >
+                                                        <span class="input-group-addon">
+                                                            <span class="glyphicon glyphicon-time"></span>
+                                                            <i class="nc nc-icon nc-bulb-63" ></i>
+                                                        </span>
+                                                        <h:outputText class="form-control"  id="couvoir" value="#{eclosionController.trieOeuf.incubation.qteIncube}" />
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <p:spacer />
+                                        <div class="row" style="margin-top: 15px;">
+                                            <div class="col-8 ml-auto">
+                                                <h:commandLink class="btn btn-link btn-dark"  onclick="$('#myModal').modal('show');"  >
+                                                    <h6 style="font-size: 9pt;border-bottom: 3px solid greenyellow;border-top: 3px solid greenyellow;" >Plus d'infos</h6>
+                                                    <f:ajax execute="@this" />
+                                                </h:commandLink>
+                                            </div>
+                                            <div class="col-3 ml-auto mr-auto">
+                                                <h:commandLink value="SUIVANT" class="btn btn-sm btn-default" action="#{eclosionController.from1To2()}" >
+                                                    <p:ajax update=":forme1 result" />
+                                                </h:commandLink>
+                                            </div>
+                                        </div>
+                                    </h:panelGroup>
+                                </h:form>
+                                <h:form id="forme2">
+                                    <h:panelGroup rendered="#{eclosionController.forme2}">
+                                        <h6><h:outputText style="font-size: 10pt;color: black;border-bottom: 3px solid red;"
+                                                          value="Compléter les donnés d'ecolsion :" /></h6>
+                                        <p:spacer />
+                                        <p class="text-center">
+                                            Pour compléter votre opération il faut fourni les informations nécissaires .
+                                        </p>
+                                        <p:spacer />
+                                        <div class="row" style="margin-top: 15px;">
+                                            <div class="col-2" style="margin-top: 10px;">
+                                                <p:outputLabel for="eclos"><h:outputText value="Quantité Eclos" /></p:outputLabel>
+                                            </div>
+                                            <div class="col-3">
+                                                <div class="input-group" >
+                                                    <span class="input-group-addon">
+                                                        <span class="glyphicon glyphicon-time"></span>
+                                                        <i class="nc nc-icon nc-ruler-pencil"></i>
+                                                    </span>
+                                                    <h:inputText class="form-control"  id="eclos" required="true" value="#{eclosionController.selected.qteEclos}"
+                                                                 requiredMessage="Donner la quatinté d'eclos c'est obligatoire"  />
+                                                </div>
+                                            </div>
+                                            <div class="col-3" style="margin-top: 10px;">
+                                                <p:outputLabel for="commer"><h:outputText value="Quantité Commercialisés" /></p:outputLabel>
+                                            </div>
+                                            <div class="col-3">
+                                                <div class="input-group" >
+                                                    <span class="input-group-addon">
+                                                        <span class="glyphicon glyphicon-time"></span>
+                                                        <i class="nc nc-icon nc-ruler-pencil"></i>
+                                                    </span>
+                                                    <h:inputText class="form-control"  id="commer" required="true" value="#{eclosionController.selected.commercialise}"
+                                                                 requiredMessage="Donner la quatinté commercialisés c'est obligatoire"  />
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <p:spacer />
+                                        <div class="row" style="margin-top: 15px;">
+                                            <div class="col-8 ml-auto mr-auto">
+                                                <h:commandLink class="btn btn-sm btn-default" action="#{eclosionController.setForme1(true)}" >
+                                                    <h:outputText value="RETOUR" />
+                                                    <i class="nc nc-icon nc-minimal-left" ></i>
+                                                    <p:ajax listener="#{eclosionController.setForme2(false)}" update="forme2 :forme1"/>
+                                                </h:commandLink>
+                                            </div>
+                                            <div class="col-3 ml-auto mr-auto">
+                                                <h:commandLink  class="btn btn-sm btn-outline-default" action="#{eclosionController.setForme2(false)}" >
+                                                    <p:ajax listener="#{eclosionController.setForme3(true)}" update=":forme3 forme2 " />
+                                                    <h:outputText value="OK" />
+                                                    <i  class="nc-icon nc-check-2" aria-hidden="true"></i>
+                                                </h:commandLink>
+                                            </div>
+                                        </div>
+                                    </h:panelGroup>
+                                </h:form>
 
-
-
-
-
+                                <h:form id="forme3">
+                                    <h:panelGroup rendered="#{eclosionController.forme3}">
+                                        <h6><h:outputText value="Vérification des donnés" style="font-size: 10pt;color: #155724;border-bottom: 3px solid #0069d9;" /></h6>
+                                        <div class="row" style="margin-top: 15px;">
+                                            <div class="col">
+                                                <h:outputLabel><h:outputText value="Date d'incubation" /></h:outputLabel>
+                                            </div>
+                                            <div class="col ml-auto mr-auto" >
+                                                <div class="input-group" >
+                                                    <span class="input-group-addon">
+                                                        <span class="glyphicon glyphicon-time"></span>
+                                                        <i class="nc-icon nc-calendar-60" aria-hidden="true"></i>
+                                                    </span>
+                                                    <h:outputText class="form-control" value="#{eclosionController.trieOeuf.incubation.dateIncubation}" />
+                                                </div>
+                                            </div>
+                                            <p:spacer/>
+                                            <div class="col">
+                                                <h:outputLabel><h:outputText value="Date d'eclosion" /></h:outputLabel>
+                                            </div>
+                                            <div class="col ml-auto mr-auto">
+                                                <div class="input-group" >
+                                                    <span class="input-group-addon">
+                                                        <span class="glyphicon glyphicon-time"></span>
+                                                        <i class="nc-icon nc-calendar-60" aria-hidden="true"></i>
+                                                    </span>
+                                                    <h:outputText class="form-control" value="#{eclosionController.trieOeuf.incubation.eclosion.dateEclosion}" />
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <p:spacer />
+                                        <div class="row" style="margin-top: 15px;">
+                                            <div class="col">
+                                                <h:outputLabel ><h:outputText value="Incubés" /></h:outputLabel>
+                                            </div>
+                                            <div class="col">
+                                                <div class="input-group" >
+                                                    <span class="input-group-addon">
+                                                        <span class="glyphicon glyphicon-time"></span>
+                                                        <i class="nc nc-icon nc-bulb-63" ></i>
+                                                    </span>
+                                                    <h:outputText class="form-control" value="#{eclosionController.selected.incubation.qteIncube}" />
+                                                </div>
+                                            </div>
+                                            <div class="col">
+                                                <h:outputLabel ><h:outputText value="Eclos" /></h:outputLabel>
+                                            </div>
+                                            <div class="col">
+                                                <div class="input-group" >
+                                                    <span class="input-group-addon">
+                                                        <span class="glyphicon glyphicon-time"></span>
+                                                        <i class="nc nc-icon nc-bulb-63" ></i>
+                                                    </span>
+                                                    <h:outputText class="form-control" value="#{eclosionController.selected.qteEclos}" />
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <p:spacer />
+                                        <div class="row">
+                                            <div class="col">
+                                                <h:outputLabel ><h:outputText value="Ecart Trie" /></h:outputLabel>
+                                            </div>
+                                            <div class="col">
+                                                <div class="input-group" >
+                                                    <span class="input-group-addon">
+                                                        <span class="glyphicon glyphicon-time"></span>
+                                                        <i class="nc nc-icon nc-bulb-63" ></i>
+                                                    </span>
+                                                    <h:outputText class="form-control" value="#{eclosionController.selected.ecartTrie}" />
+                                                </div>
+                                            </div>
+                                            <div class="col">
+                                                <h:outputLabel ><h:outputText value="Ecart Eclosion" /></h:outputLabel>
+                                            </div>
+                                            <div class="col">
+                                                <div class="input-group" >
+                                                    <span class="input-group-addon">
+                                                        <span class="glyphicon glyphicon-time"></span>
+                                                        <i class="nc nc-icon nc-bulb-63" ></i>
+                                                    </span>
+                                                    <h:outputText class="form-control" value="#{eclosionController.selected.ecartEclosion}" />
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <p:spacer/>
+                                        <div class="row">
+                                            <div class="col">
+                                                <h:outputLabel ><h:outputText value="Commercialisé" /></h:outputLabel>
+                                            </div>
+                                            <div class="col">
+                                                <div class="input-group" >
+                                                    <span class="input-group-addon">
+                                                        <span class="glyphicon glyphicon-time"></span>
+                                                        <i class="nc nc-icon nc-bulb-63" ></i>
+                                                    </span>
+                                                    <h:outputText class="form-control"  id="qteIncube" value="#{eclosionController.selected.commercialise}" />
+                                                </div>
+                                            </div>
+                                            <div class="col">
+                                                <h:commandLink  class="btn btn-sm btn-hover" action="#{eclosionController.setForme3(false)}" >
+                                                    <p:ajax listener="#{eclosionController.setForme2(true)}" update=":forme2 forme3 " />
+                                                    <h:outputText value="RETOUR" />
+                                                    <i  class="nc-icon nc-alert-circle-i" aria-hidden="true"></i>
+                                                </h:commandLink>
+                                            </div>
+                                            <div class="col">
+                                                <h:commandLink  class="btn btn-sm btn-outline-warning" action="#{eclosionController.save()}" >
+                                                    <p:ajax update=":forme1 :forme3 :forme2 :result modal" />
+                                                    <h:outputText value="VALIDER" />
+                                                    <i  class="nc-icon nc-check-2" aria-hidden="true"></i>
+                                                </h:commandLink>
+                                            </div>
+                                        </div>
+                                    </h:panelGroup>
+                                </h:form>
                             </div>
                         </div>
                     </div>
                 </div>
+                <h:form id="modal">
+                    <h:panelGroup rendered="#{eclosionController.trieOeuf.id != null}">
+                        <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                            <div class="modal-dialog " role="document">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h6 class="modal-title text-center" id="exampleModalLabel">
+                                            <h:outputText value="infos sur la Trie fait #{eclosionController.trieOeuf.dateTrie}" >
+                                                <f:convertDateTime pattern="dd/MM/yyyy" />
+                                            </h:outputText>
+                                        </h6>
+                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                            <span aria-hidden="true">&times;</span>
+                                        </button>
+                                    </div>
+                                    <div class="modal-body">
+                                        <div class="container-fluid">
+                                            <div class="row">
+                                                <div class="col-sm-6">
+                                                    <div class="row">
+                                                        <div class="col-6 col-sm-3 mr-auto" style="margin-top: 10px;margin-left: -15%;">
+                                                            <h:outputText value="Ferme" />
+                                                        </div>
+                                                        <div class="col-6 col-sm-9 ml-auto">
+                                                            <div class="input-group" >
+                                                                <span class="input-group-addon">
+                                                                    <span class="glyphicon glyphicon-time"></span>
+                                                                </span>
+                                                                <h:outputText class="form-control" value="#{eclosionController.trieOeuf.ferme}" />
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-sm-6">
+                                                    <div class="row">
+                                                        <div class="col-4 col-sm-4 mr-auto" style="margin-top: 10px;">
+                                                            <h:outputText value="Catégorie" />
+                                                        </div>
+                                                        <div class="col-6 col-sm-8 ml-auto" style="margin-left: 10%;">
+                                                            <div class="input-group" >
+                                                                <span class="input-group-addon">
+                                                                    <span class="glyphicon glyphicon-time"></span>
+                                                                </span>
+                                                                <h:outputText class="form-control" value="#{eclosionController.trieOeuf.categorieOeuf.designation}" />
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <p:spacer/>
+                                            <div class="row">
+                                                <div class="col-sm-6">
+                                                    <div class="row">
+                                                        <div class="col-6 col-sm-3 mr-auto" style="margin-top: 10px;margin-left: -15%;">
+                                                            <h:outputText value="Réception" />
+                                                        </div>
+                                                        <div class="col-6 col-sm-9 ml-auto">
+                                                            <div class="input-group" >
+                                                                <span class="input-group-addon">
+                                                                    <span class="glyphicon glyphicon-time"></span>
+                                                                </span>
+                                                                <h:outputText class="form-control" value="#{eclosionController.trieOeuf.reception}" />
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-sm-6">
+                                                    <div class="row">
+                                                        <div class="col-6 col-sm-3 mr-auto" style="margin-top: 10px;">
+                                                            <h:outputText value="Entree" />
+                                                        </div>
+                                                        <div class="col-6 col-sm-9 ml-auto" style="margin-left: 10%;">
+                                                            <div class="input-group" >
+                                                                <span class="input-group-addon">
+                                                                    <span class="glyphicon glyphicon-time"></span>
+                                                                </span>
+                                                                <h:outputText class="form-control" value="#{eclosionController.trieOeuf.entree}" />
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <p:spacer/>
 
+                                            <div class="row">
+                                                <div class="col-sm-6">
+                                                    <div class="row">
+                                                        <div class="col-6 col-sm-3 mr-auto" style="margin-top: 10px;margin-left: -15%;">
+                                                            <h:outputText value="S.I" title="Situation Initiale"/>
+                                                        </div>
+                                                        <div class="col-6 col-sm-9 ml-auto">
+                                                            <div class="input-group" >
+                                                                <span class="input-group-addon">
+                                                                    <span class="glyphicon glyphicon-time"></span>
+                                                                </span>
+                                                                <h:outputText title="Situation Initiale" class="form-control" value="#{eclosionController.trieOeuf.situationInitiale}" />
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-sm-6">
+                                                    <div class="row">
+                                                        <div class="col-6 col-sm-3 mr-auto" style="margin-top: 10px;">
+                                                            <h:outputText value="S.F" title="Situation Finale" />
+                                                        </div>
+                                                        <div class="col-6 col-sm-9 ml-auto" style="margin-left: 10%;">
+                                                            <div class="input-group" >
+                                                                <span class="input-group-addon">
+                                                                    <span class="glyphicon glyphicon-time"></span>
+                                                                </span>
+                                                                <h:outputText class="form-control" title="Situation Finale" 
+                                                                              value="#{eclosionController.trieOeuf.situationFinale}" />
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+
+                                        </div>
+                                    </div>
+                                    <div class="modal-footer">
+                                        <div class="left-side">
+                                            <button type="button" class="btn btn-default btn-link" data-dismiss="modal">Fermer</button>
+                                        </div>
+                                        <div class="divider"></div>
+                                        <div class="right-side">
+                                            <!--<button type="button" class="btn btn-danger btn-link"></button>-->
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </h:panelGroup>
+                </h:form>
             </div>
         </div>
 
@@ -288,6 +751,18 @@
                 </div>
             </div>
         </footer>
+        <script>
+            function myFunction() {
+                var x = document.getElementById("snackbar");
+                x.className = "show";
+                setTimeout(function () {
+                    x.className = x.className.replace("show", "");
+                }, 10000);
+                setPos(function () {
+                    x.className = x.className.replace("show", "");
+                }, left);
+            }
+        </script>
     </h:body>
 
     <script src="../assets/js/popper.js" type="text/javascript"></script>

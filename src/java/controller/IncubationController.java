@@ -325,13 +325,13 @@ public class IncubationController implements Serializable {
     }
 
     public void save() {
+        getSelected().getEclosion().setDateEclosion(DateUtil.getSqlDateToSaveInDB(dateEclos));
         int res = ejbFacade.save(selected);
         if (res < 0) {
             MessageUtil.error("Pas d'incubation à enregistrer");
             return;
         }
         MessageUtil.info("L'incubation est enregistrée");
-        getSelected().getEclosion().setDateEclosion(DateUtil.getSqlDateToSaveInDB(dateEclos));
         initParams();
     }
 

@@ -250,4 +250,10 @@ public class TrieOeufFacade extends AbstractFacade<TrieOeuf> {
         }
         return total;
     }
+
+    public TrieOeuf findOACByDateInubsOrEclosOrDateTrie(Date dateTrie, Date dateIncub, Date dateEclos) {
+        String req = "SELECT tr FROM TrieOeuf tr WHERE tr.categorieOeuf.designation = 'OAC' " + SearchUtil.addConstraint("tr", "dateTrie", "=", dateTrie)
+                + SearchUtil.addConstraint("tr", "incubation.dateIncubation", "=", dateIncub) + SearchUtil.addConstraint("tr", "incubation.eclosion.dateEclosion", "=", dateEclos);
+        return getUniqueResult(req);
+    }
 }

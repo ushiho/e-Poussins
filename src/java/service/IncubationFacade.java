@@ -6,11 +6,10 @@
 package service;
 
 import bean.Couvoir;
-import bean.Eclosion;
 import bean.Incubation;
 import java.math.BigDecimal;
-import java.util.Date;
 import java.util.List;
+import javax.ejb.EJB;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
@@ -24,6 +23,9 @@ public class IncubationFacade extends AbstractFacade<Incubation> {
 
     @PersistenceContext(unitName = "e-PoussinsPU")
     private EntityManager em;
+
+    @EJB
+    private EclosionFacade eclosionFacade;
 
     @Override
     protected EntityManager getEntityManager() {
@@ -52,6 +54,7 @@ public class IncubationFacade extends AbstractFacade<Incubation> {
         if (incubation == null) {
             return -1;
         }
+        eclosionFacade.create(incubation.getEclosion());
         create(incubation);
         return 1;
     }
