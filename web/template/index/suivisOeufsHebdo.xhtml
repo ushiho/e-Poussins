@@ -116,24 +116,23 @@
                         <div class="row tim-row">
                             <div class="col-lg-2 col-md-6">
                                 <div class="fixed-section">
-                                    <div id="accordion" role="tablist" aria-multiselectable="true">
-                                        <div >
-                                            <a data-toggle="collapse" data-parent="#accordion" href="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
-                                                <div class="card-header" role="tab" id="headingOne" >
-                                                    <h6 >
+                                    <h:form>
+                                        <div id="accordion" role="tablist" aria-multiselectable="true">
+                                            <div >
+                                                <a data-toggle="collapse" data-parent="#accordion" href="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+                                                    <div class="card-header" role="tab" id="headingOne" >
+                                                        <h6 >
 
-                                                        OEUFS
+                                                            OEUFS
 
-                                                    </h6>
-                                                </div>
-                                            </a>
-                                            <div id="collapseOne" class="collapse in" role="tabpanel" aria-labelledby="headingOne">
-                                                <div class="card-header">
-                                                    <h:form id="trie">
+                                                        </h6>
+                                                    </div>
+                                                </a>
+                                                <div id="collapseOne" class="collapse in" role="tabpanel" aria-labelledby="headingOne">
+                                                    <div class="card-header">
                                                         <ul>
                                                             <li>
-                                                                <h:commandLink action="trieOeufs.xhtml" >
-                                                                    <f:actionListener binding="#{trieOeufController.initParamsUsedInSuivis()}" />
+                                                                <h:commandLink action="#{trieOeufController.moveFromTrie('trieOeufs.xhtml')}" >
                                                                     <h6>TRIE OEUFS</h6>
                                                                 </h:commandLink>
                                                             </li>
@@ -141,25 +140,22 @@
                                                             <li><a href="#"><h6><span class="note">VENTES</span></h6></a></li>
                                                             <li><a href="#"><h6><span class="note">TRANSFERT</span></h6></a></li>
                                                         </ul>
-                                                    </h:form>
+                                                    </div>
                                                 </div>
                                             </div>
-                                        </div>
-                                        <div>
-                                            <a data-toggle="collapse" data-parent="#accordion" href="#collapseFive" aria-expanded="true" aria-controls="collapseFive">
-                                                <div class="card-header" role="tab" id="headingFive" >
-                                                    <h6 >
-                                                        SUIVIS OEUFS
-                                                    </h6>
-                                                </div>
-                                            </a>
-                                            <div id="collapseFive" class="collapse in" role="tabpanel" aria-labelledby="headingFive">
-                                                <div class="card-header">
-                                                    <h:form id="suivisTrie">
+                                            <div>
+                                                <a data-toggle="collapse" data-parent="#accordion" href="#collapseFive" aria-expanded="true" aria-controls="collapseFive">
+                                                    <div class="card-header" role="tab" id="headingFive" >
+                                                        <h6 >
+                                                            SUIVIS OEUFS
+                                                        </h6>
+                                                    </div>
+                                                </a>
+                                                <div id="collapseFive" class="collapse in" role="tabpanel" aria-labelledby="headingFive">
+                                                    <div class="card-header">
                                                         <ul>
                                                             <li>
-                                                                <h:commandLink action="suivisOeufsJournalier.xhtml">
-                                                                    <f:actionListener binding="#{trieOeufController.initParamsUsedInSuivis()}" />
+                                                                <h:commandLink action="#{trieOeufController.moveFromSuivis('suivisOeufsJournalier.xhtml')}">
                                                                     <h6>JOURNALIER</h6>
                                                                 </h:commandLink>
                                                             </li>
@@ -169,107 +165,84 @@
                                                                 </h:commandLink>
                                                             </li>
                                                             <li>
-                                                                <h:commandLink action="suivisOeufsMensue.xhtml">
-                                                                    <f:actionListener binding="#{trieOeufController.initParamsUsedInSuivis()}" />
+                                                                <h:commandLink action="#{trieOeufController.moveFromSuivis('suivisOeufsMensue.xhtml')}">
                                                                     <h6>MENSUEL</h6>
                                                                 </h:commandLink>
                                                             </li>
                                                         </ul>
-                                                    </h:form>
+                                                    </div>
                                                 </div>
                                             </div>
-                                        </div>
-                                        <div >
-                                            <a class="collapsed" data-toggle="collapse" data-parent="#accordion" href="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
-                                                <div class="card-header" role="tab" id="headingTwo" data-toggle="collapse" data-parent="#accordion">
-                                                    <h6 >
+                                            <div >
+                                                <a class="collapsed" data-toggle="collapse" data-parent="#accordion" href="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
+                                                    <div class="card-header" role="tab" id="headingTwo" data-toggle="collapse" data-parent="#accordion">
+                                                        <h6 >
 
-                                                        INCUBATION
+                                                            INCUBATION
 
-                                                    </h6>
-                                                </div>
-                                            </a>
-                                            <div id="collapseTwo" class="collapse" role="tabpanel" aria-labelledby="headingTwo">
-                                                <div class="card-header">
-                                                    <h:form id="incubation">
+                                                        </h6>
+                                                    </div>
+                                                </a>
+                                                <div id="collapseTwo" class="collapse" role="tabpanel" aria-labelledby="headingTwo">
+                                                    <div class="card-header">
                                                         <ul>
                                                             <li>
-                                                                <h:commandLink action="incubation.xhtml">
+                                                                <h:commandLink action="#{incubationController.moveToIncubation('incubation.xhtml')}">
                                                                     <h6>AJOUTE</h6>
                                                                 </h:commandLink>
                                                             </li>
                                                             <li><a href="#inputs-row"><h6><span class="note">CONSULTATION</span></h6></a></li>
                                                         </ul>
-                                                    </h:form>
+                                                    </div>
                                                 </div>
                                             </div>
-                                        </div>
-                                        <div >
-                                            <a class="collapsed" data-toggle="collapse" data-parent="#accordion" href="#collapseTree" aria-expanded="false" aria-controls="collapseTree">
-                                                <div class="card-header" role="tab" id="headingTree" data-toggle="collapse" data-parent="#accordion">
-                                                    <h6 >
+                                            <div >
+                                                <a class="collapsed" data-toggle="collapse" data-parent="#accordion" href="#collapseTree" aria-expanded="false" aria-controls="collapseTree">
+                                                    <div class="card-header" role="tab" id="headingTree" data-toggle="collapse" data-parent="#accordion">
+                                                        <h6 >
 
-                                                        ECLOSION
+                                                            ECLOSION
 
-                                                    </h6>
-                                                </div>
-                                            </a>
-                                            <div id="collapseTree" class="collapse" role="tabpanel" aria-labelledby="headingTree">
-                                                <div class="card-header">
-                                                    <h:form id="eclosion">
+                                                        </h6>
+                                                    </div>
+                                                </a>
+                                                <div id="collapseTree" class="collapse" role="tabpanel" aria-labelledby="headingTree">
+                                                    <div class="card-header">
                                                         <ul>
-                                                            <li><a href="historiqueIs.xhtml"><h6><span class="note">AJOUTE</span></h6></a></li>
+                                                            <li>
+                                                                <h:commandLink value="#{eclosionController.moveToEclosion('eclosion.xhtml')}">
+                                                                    <h6>AJOUTE</h6>
+                                                                </h:commandLink>
+                                                            </li>
                                                             <li><a href="#pagination-row"><h6><span class="note">CONSULTATION</span></h6></a></li>
-                                                            <li><a href="#pagination-row"><h6><span class="note">COMMERCIALISATION</span></h6></a></li>
+                                                            <li><a href="#pagination-row"><h6><span class="note">SUIVIS</span></h6></a></li>
                                                         </ul>
-                                                    </h:form>
-                                                </div>
+                                                    </div>
 
-                                            </div>
-                                        </div>
-                                        <div>
-                                            <a data-toggle="collapse" data-parent="#accordion" href="#collapseSexe" aria-expanded="true" aria-controls="collapseSexe">
-                                                <div class="card-header" role="tab" id="headingSexe" >
-                                                    <h6 >
-                                                        SUIVIS ECLOSION
-                                                    </h6>
-                                                </div>
-                                            </a>
-                                            <div id="collapseSexe" class="collapse in" role="tabpanel" aria-labelledby="headingSexe">
-                                                <div class="card-header">
-                                                    <h:form id="suivisEclosion">
-                                                        <ul>
-                                                            <li><a href="suivisOeufsJournalier.xhtml"><h6><span class="note">JOURNALIER</span></h6></a></li>
-                                                            <li><a href="#"><h6><span class="note">HEBDOMADAIRE</span></h6></a></li>
-                                                            <li><a href="suivisOeufsMensuel.xhtml"><h6><span class="note">MENSUEL</span></h6></a></li>
-                                                        </ul>
-                                                    </h:form>
                                                 </div>
                                             </div>
-                                        </div>
-                                        <div >
-                                            <a class="collapsed" data-toggle="collapse" data-parent="#accordion" href="#collapsefore" aria-expanded="false" aria-controls="collapsefore">
-                                                <div class="card-header" role="tab" id="headingfore" data-toggle="collapse" data-parent="#accordion">
-                                                    <h6 >
+                                            <div >
+                                                <a class="collapsed" data-toggle="collapse" data-parent="#accordion" href="#collapsefore" aria-expanded="false" aria-controls="collapsefore">
+                                                    <div class="card-header" role="tab" id="headingfore" data-toggle="collapse" data-parent="#accordion">
+                                                        <h6 >
 
-                                                        COUVOIR
+                                                            COUVOIR
 
-                                                    </h6>
-                                                </div>
-                                            </a>
-                                            <div id="collapsefore" class="collapse" role="tabpanel" aria-labelledby="headingfore">
-                                                <div class="card-header">
-                                                    <h:form id="couvoir">
+                                                        </h6>
+                                                    </div>
+                                                </a>
+                                                <div id="collapsefore" class="collapse" role="tabpanel" aria-labelledby="headingfore">
+                                                    <div class="card-header">
                                                         <ul>
                                                             <li><a href="#navbar-row"><h6><span class="note">AJOUTER</span></h6></a></li>
                                                             <li><a href="#pagination-row"><h6><span class="note">CONSULTER</span></h6></a></li>
                                                         </ul>
-                                                    </h:form>
-                                                </div>
+                                                    </div>
 
+                                                </div>
                                             </div>
                                         </div>
-                                    </div>
+                                    </h:form>
                                 </div>
                             </div>
                             <div class="col-lg-10 col-md-12">

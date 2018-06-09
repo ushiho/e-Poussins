@@ -124,9 +124,8 @@
                         <div class="row tim-row">
                             <div class="col-lg-2 col-md-6">
                                 <div class="fixed-section">
-
-                                    <div id="accordion" role="tablist" aria-multiselectable="true">
-                                        <h:form>
+                                    <h:form>
+                                        <div id="accordion" role="tablist" aria-multiselectable="true">
                                             <div >
                                                 <a data-toggle="collapse" data-parent="#accordion" href="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
                                                     <div class="card-header" role="tab" id="headingOne" >
@@ -160,20 +159,17 @@
                                                     <div class="card-header">
                                                         <ul>
                                                             <li>
-                                                                <h:commandLink action="suivisOeufsJournalier.xhtml">
-                                                                    <f:actionListener binding="#{trieOeufController.initParamsUsedInTrie()}" />
+                                                                <h:commandLink action="#{trieOeufController.moveFromTrie('suivisOeufsJournalier.xhtml')}">
                                                                     <h6>JOURNALIER</h6>
                                                                 </h:commandLink>
                                                             </li>
                                                             <li>
-                                                                <h:commandLink action="suivisOeufsHebdo.xhtml">
-                                                                    <f:actionListener binding="#{trieOeufController.initParamsUsedInTrie()}" />
+                                                                <h:commandLink action="#{trieOeufController.moveFromTrie('suivisOeufsHebdo.xhtml')}">
                                                                     <h6>HEBDOMADAIRE</h6>
                                                                 </h:commandLink>
                                                             </li>
                                                             <li>
-                                                                <h:commandLink action="suivisOeufsMensuel.xhtml">
-                                                                    <f:actionListener binding="#{trieOeufController.initParamsUsedInTrie()}" />
+                                                                <h:commandLink action="#{trieOeufController.moveFromTrie('suivisOeufsMensuel.xhtml')}">
                                                                     <h6>MENSUEL</h6>
                                                                 </h:commandLink>
                                                             </li>
@@ -195,7 +191,7 @@
                                                     <div class="card-header">
                                                         <ul>
                                                             <li>
-                                                                <h:commandLink action="incubation.xhtml">
+                                                                <h:commandLink action="#{trieOeufController.moveFromTrie('incubation.xhtml')}">
                                                                     <h6>AJOUTE</h6>
                                                                 </h:commandLink>
                                                             </li>
@@ -217,9 +213,13 @@
                                                 <div id="collapseTree" class="collapse" role="tabpanel" aria-labelledby="headingTree">
                                                     <div class="card-header">
                                                         <ul>
-                                                            <li><a href="historiqueIs.xhtml"><h6><span class="note">AJOUTE</span></h6></a></li>
+                                                            <li>
+                                                                <h:commandLink action="#{trieOeufController.moveFromTrie('eclosion')}">
+                                                                    <h6>AJOUTE</h6>
+                                                                </h:commandLink>
+                                                            </li>
                                                             <li><a href="#pagination-row"><h6><span class="note">CONSULTATION</span></h6></a></li>
-                                                            <li><a href="#pagination-row"><h6><span class="note">COMMERCIALISATION</span></h6></a></li>
+                                                            <li><a href="#pagination-row"><h6><span class="note">SUIVIS</span></h6></a></li>
                                                         </ul>
                                                     </div>
 
@@ -245,8 +245,8 @@
 
                                                 </div>
                                             </div>
-                                        </h:form>
-                                    </div>
+                                        </div>
+                                    </h:form>
                                 </div>
                             </div>
 

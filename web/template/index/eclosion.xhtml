@@ -135,8 +135,7 @@
                                                         <h:form id="trie">
                                                             <ul>
                                                                 <li>
-                                                                    <h:commandLink action="trieOeufs.xhtml">
-                                                                        <f:actionListener binding="#{trieOeufController.initParamsUsedInTrie()}" />
+                                                                    <h:commandLink action="#{trieOeufController.moveFromTrie('trieOeufs.xhtml')}">
                                                                         <h6>TRIE OEUFS </h6>
                                                                     </h:commandLink>
                                                                 </li>
@@ -160,20 +159,17 @@
                                                     <div class="card-header">
                                                         <ul>
                                                             <li>
-                                                                <h:commandLink action="suivisOeufsJournalier.xhtml">
-                                                                    <f:actionListener binding="#{trieOeufController.initParamsUsedInSuivis()}" />
+                                                                <h:commandLink action="#{trieOeufController.moveFromSuivis('suivisOeufsJournalier.xhtml')}">
                                                                     <h6>JOURNALIER</h6>
                                                                 </h:commandLink>
                                                             </li>
                                                             <li>
-                                                                <h:commandLink action="suivisOeufsHebdo.xhtml">
-                                                                    <f:actionListener binding="#{trieOeufController.initParamsUsedInSuivis()}" />
+                                                                <h:commandLink action="#{trieOeufController.moveFromSuivis('suivisOeufsHebdo.xhtml')}">
                                                                     <h6>HEBDOMADAIRE</h6>
                                                                 </h:commandLink>
                                                             </li>
                                                             <li>
-                                                                <h:commandLink action="suivisOeufsMensuel.xhtml">
-                                                                    <f:actionListener binding="#{trieOeufController.initParamsUsedInSuivis()}" />
+                                                                <h:commandLink action="#{trieOeufController.moveFromSuivis('suivisOeufsMensuel.xhtml')}">
                                                                     <h6>MENSUEL</h6>
                                                                 </h:commandLink>
                                                             </li>
@@ -184,7 +180,7 @@
                                             <div >
                                                 <a class="collapsed" data-toggle="collapse" data-parent="#accordion" href="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
                                                     <div class="card-header" role="tab" id="headingTwo" data-toggle="collapse" data-parent="#accordion">
-                                                        <h6 >
+                                                        <h6>
 
                                                             INCUBATION
 
@@ -195,11 +191,10 @@
                                                     <div class="card-header">
                                                         <ul>
                                                             <li>
-                                                                <h:commandLink action="#dropdown-row">
+                                                                <h:commandLink action="#{incubationController.moveToIncubation('incubation.xhtml')}">
                                                                     <h6>AJOUTE</h6>
                                                                 </h:commandLink>
                                                             </li>
-                                                            <li><a href="#dropdown-row"><h6><span class="note">SUIVIS JOURNALIER</span></h6></a></li>
                                                             <li><a href="#inputs-row"><h6><span class="note">CONSULTATION</span></h6></a></li>
                                                         </ul>
                                                     </div>
@@ -218,9 +213,13 @@
                                                 <div id="collapseTree" class="collapse" role="tabpanel" aria-labelledby="headingTree">
                                                     <div class="card-header">
                                                         <ul>
-                                                            <li><a href="historiqueIs.xhtml"><h6><span class="note">AJOUTE</span></h6></a></li>
+                                                            <li>
+                                                                <h:commandLink action="#">
+                                                                    <h6>AJOUTE</h6>
+                                                                </h:commandLink>
+                                                            </li>
                                                             <li><a href="#pagination-row"><h6><span class="note">CONSULTATION</span></h6></a></li>
-                                                            <li><a href="#pagination-row"><h6><span class="note">COMMERCIALISATION</span></h6></a></li>
+                                                            <li><a href="#pagination-row"><h6><span class="note">SUIVS</span></h6></a></li>
                                                         </ul>
                                                     </div>
 
@@ -790,4 +789,5 @@
     <script src="../assets/js/bootstrap-datetimepicker.min.js"></script>
     <script src="../assets/js/snackbar.min.js"></script>
 </html>
+
 

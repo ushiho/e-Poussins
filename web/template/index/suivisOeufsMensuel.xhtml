@@ -131,8 +131,7 @@
                                                     <div class="card-header">
                                                         <ul>
                                                             <li>
-                                                                <h:commandLink action="trieOeufs.xhtml" >
-                                                                    <f:actionListener binding="#{trieOeufController.initParamsUsedInSuivis()}" />
+                                                                <h:commandLink action="#{trieOeufController.moveFromTrie('trieOeufs.xhtml')}" >
                                                                     <h6>TRIE OEUFS</h6>
                                                                 </h:commandLink>
                                                             </li>
@@ -155,28 +154,20 @@
                                                     <div class="card-header">
                                                         <ul>
                                                             <li>
-                                                                <h:commandLink action="suivisOeufsJournalier.xhtml">
-                                                                    <f:actionListener binding="#{trieOeufController.initParamsUsedInSuivis()}" />
+                                                                <h:commandLink action="#{trieOeufController.moveFromSuivis('suivisOeufsJournalier.xhtml')}">
                                                                     <h6>JOURNALIER</h6>
                                                                 </h:commandLink>
                                                             </li>
                                                             <li>
-                                                                <h:commandLink action="suivisOeufsHebdo.xhtml">
-                                                                    <f:actionListener binding="#{trieOeufController.initParamsUsedInSuivis()}" />
+                                                                <h:commandLink action="#{trieOeufController.moveFromSuivis('suivisOeufsHebdo.xhtml')}">
                                                                     <h6>HEBDOMADAIRE</h6>
                                                                 </h:commandLink>
                                                             </li>
                                                             <li>
-                                                                <h:commandLink action="suivisOeufsMensuel.xhtml">
+                                                                <h:commandLink action="#{trieOeufController.moveFromSuivis('suivisOeufsMensuel.xhtml')}">
                                                                     <h6>MENSUEL</h6>
                                                                 </h:commandLink>
                                                             </li>
-                                                        </ul>
-
-
-                                                        <ul>
-                                                            <li><a href="suivisOeufsHebdo.xhtml"><h6><span class="note">HEBDOMADAIRE</span></h6></a></li>
-                                                            <li><a href="#"><h6><span class="note">MENSUEL</span></h6></a></li>
                                                         </ul>
                                                     </div>
                                                 </div>
@@ -195,7 +186,7 @@
                                                     <div class="card-header">
                                                         <ul>
                                                             <li>
-                                                                <h:commandLink action="incubation.xhtml">
+                                                                <h:commandLink action="#{incubationController.moveToIncubation('incubation.xhtml')}">
                                                                     <h6>AJOUTE</h6>
                                                                 </h:commandLink>
                                                             </li>
@@ -217,31 +208,16 @@
                                                 <div id="collapseTree" class="collapse" role="tabpanel" aria-labelledby="headingTree">
                                                     <div class="card-header">
                                                         <ul>
-                                                            <li><a href="historiqueIs.xhtml"><h6><span class="note">AJOUTE</span></h6></a></li>
+                                                            <li>
+                                                                <h:commandLink value="#{eclosionController.moveToEclosion('eclosion.xhtml')}" >
+                                                                    <h6>AJOUTE</h6>
+                                                                </h:commandLink>
+                                                            </li>
                                                             <li><a href="#pagination-row"><h6><span class="note">CONSULTATION</span></h6></a></li>
-                                                            <li><a href="#pagination-row"><h6><span class="note">COMMERCIALISATION</span></h6></a></li>
+                                                            <li><a href="#pagination-row"><h6><span class="note">SUIVIS</span></h6></a></li>
                                                         </ul>
                                                     </div>
 
-                                                </div>
-                                            </div>
-                                            <div>
-                                                <a data-toggle="collapse" data-parent="#accordion" href="#collapseSexe" aria-expanded="true" aria-controls="collapseSexe">
-                                                    <div class="card-header" role="tab" id="headingSexe" >
-                                                        <h6 >
-                                                            SUIVIS ECLOSION
-                                                        </h6>
-                                                    </div>
-                                                </a>
-                                                <div id="collapseSexe" class="collapse in" role="tabpanel" aria-labelledby="headingSexe">
-                                                    <div class="card-header">
-                                                        <ul>
-                                                            <li><a href="#"><h6><span class="note">JOURNALIER</span></h6></a></li>
-                                                            <li><a href="#"><h6><span class="note">HEBDOMADAIRE</span></h6></a></li>
-                                                            <li><a href="#"><h6><span class="note">MENSUEL</span></h6></a></li>
-                                                            <li><a href="#"><h6><span class="note">ANNUEL</span></h6></a></li>
-                                                        </ul>
-                                                    </div>
                                                 </div>
                                             </div>
                                             <div >

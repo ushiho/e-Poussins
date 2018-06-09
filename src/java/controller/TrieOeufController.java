@@ -34,6 +34,7 @@ import service.UtilisateurFacade;
 import util.DateUtil;
 import util.DownloadUtil;
 import util.MessageUtil;
+import util.SessionUtil;
 
 @Named("trieOeufController")
 @SessionScoped
@@ -66,8 +67,123 @@ public class TrieOeufController implements Serializable {
     private Integer mois;//to construct a date
     private Integer year;//to construct a date
 
-    public TrieOeufsExcel getTrieOeufsExcel() {
+    protected void setEmbeddableKeys() {
+    }
 
+    protected void initializeEmbeddableKey() {
+    }
+
+    private TrieOeufFacade getFacade() {
+        return ejbFacade;
+    }
+
+    public TrieOeuf prepareCreate() {
+        selected = new TrieOeuf();
+        initializeEmbeddableKey();
+        return selected;
+    }
+
+    public void create() {
+        persist(PersistAction.CREATE, ResourceBundle.getBundle("/Bundle").getString("TrieOeufCreated"));
+        if (!JsfUtil.isValidationFailed()) {
+            items = null;    // Invalidate list of items to trigger re-query.
+        }
+    }
+
+    public void update() {
+        persist(PersistAction.UPDATE, ResourceBundle.getBundle("/Bundle").getString("TrieOeufUpdated"));
+    }
+
+    public void destroy() {
+        persist(PersistAction.DELETE, ResourceBundle.getBundle("/Bundle").getString("TrieOeufDeleted"));
+        if (!JsfUtil.isValidationFailed()) {
+            selected = null; // Remove selection
+            items = null;    // Invalidate list of items to trigger re-query.
+        }
+    }
+
+    private void persist(PersistAction persistAction, String successMessage) {
+        if (selected != null) {
+            setEmbeddableKeys();
+            try {
+                if (persistAction != PersistAction.DELETE) {
+                    getFacade().edit(selected);
+                } else {
+                    getFacade().remove(selected);
+                }
+                JsfUtil.addSuccessMessage(successMessage);
+            } catch (EJBException ex) {
+                String msg = "";
+                Throwable cause = ex.getCause();
+                if (cause != null) {
+                    msg = cause.getLocalizedMessage();
+                }
+                if (msg.length() > 0) {
+                    JsfUtil.addErrorMessage(msg);
+                } else {
+                    JsfUtil.addErrorMessage(ex, ResourceBundle.getBundle("/Bundle").getString("PersistenceErrorOccured"));
+                }
+            } catch (Exception ex) {
+                Logger.getLogger(this.getClass().getName()).log(Level.SEVERE, null, ex);
+                JsfUtil.addErrorMessage(ex, ResourceBundle.getBundle("/Bundle").getString("PersistenceErrorOccured"));
+            }
+        }
+    }
+
+    public TrieOeuf getTrieOeuf(java.lang.Long id) {
+        return getFacade().find(id);
+    }
+
+    public List<TrieOeuf> getItemsAvailableSelectMany() {
+        return getFacade().findAll();
+    }
+
+    public List<TrieOeuf> getItemsAvailableSelectOne() {
+        return getFacade().findAll();
+    }
+
+    @FacesConverter(forClass = TrieOeuf.class)
+    public static class TrieOeufControllerConverter implements Converter {
+
+        @Override
+        public Object getAsObject(FacesContext facesContext, UIComponent component, String value) {
+            if (value == null || value.length() == 0) {
+                return null;
+            }
+            TrieOeufController controller = (TrieOeufController) facesContext.getApplication().getELResolver().
+                    getValue(facesContext.getELContext(), null, "trieOeufController");
+            return controller.getTrieOeuf(getKey(value));
+        }
+
+        java.lang.Long getKey(String value) {
+            java.lang.Long key;
+            key = Long.valueOf(value);
+            return key;
+        }
+
+        String getStringKey(java.lang.Long value) {
+            StringBuilder sb = new StringBuilder();
+            sb.append(value);
+            return sb.toString();
+        }
+
+        @Override
+        public String getAsString(FacesContext facesContext, UIComponent component, Object object) {
+            if (object == null) {
+                return null;
+            }
+            if (object instanceof TrieOeuf) {
+                TrieOeuf o = (TrieOeuf) object;
+                return getStringKey(o.getId());
+            } else {
+                Logger.getLogger(this.getClass().getName()).log(Level.SEVERE, "object {0} is of type {1}; expected type: {2}", new Object[]{object, object.getClass().getName(), TrieOeuf.class.getName()});
+                return null;
+            }
+        }
+
+    }
+
+    public TrieOeufsExcel getTrieOeufsExcel() {
         return trieOeufsExcel;
     }
 
@@ -262,122 +378,6 @@ public class TrieOeufController implements Serializable {
         this.forme3 = forme3;
     }
 
-    protected void setEmbeddableKeys() {
-    }
-
-    protected void initializeEmbeddableKey() {
-    }
-
-    private TrieOeufFacade getFacade() {
-        return ejbFacade;
-    }
-
-    public TrieOeuf prepareCreate() {
-        selected = new TrieOeuf();
-        initializeEmbeddableKey();
-        return selected;
-    }
-
-    public void create() {
-        persist(PersistAction.CREATE, ResourceBundle.getBundle("/Bundle").getString("TrieOeufCreated"));
-        if (!JsfUtil.isValidationFailed()) {
-            items = null;    // Invalidate list of items to trigger re-query.
-        }
-    }
-
-    public void update() {
-        persist(PersistAction.UPDATE, ResourceBundle.getBundle("/Bundle").getString("TrieOeufUpdated"));
-    }
-
-    public void destroy() {
-        persist(PersistAction.DELETE, ResourceBundle.getBundle("/Bundle").getString("TrieOeufDeleted"));
-        if (!JsfUtil.isValidationFailed()) {
-            selected = null; // Remove selection
-            items = null;    // Invalidate list of items to trigger re-query.
-        }
-    }
-
-    private void persist(PersistAction persistAction, String successMessage) {
-        if (selected != null) {
-            setEmbeddableKeys();
-            try {
-                if (persistAction != PersistAction.DELETE) {
-                    getFacade().edit(selected);
-                } else {
-                    getFacade().remove(selected);
-                }
-                JsfUtil.addSuccessMessage(successMessage);
-            } catch (EJBException ex) {
-                String msg = "";
-                Throwable cause = ex.getCause();
-                if (cause != null) {
-                    msg = cause.getLocalizedMessage();
-                }
-                if (msg.length() > 0) {
-                    JsfUtil.addErrorMessage(msg);
-                } else {
-                    JsfUtil.addErrorMessage(ex, ResourceBundle.getBundle("/Bundle").getString("PersistenceErrorOccured"));
-                }
-            } catch (Exception ex) {
-                Logger.getLogger(this.getClass().getName()).log(Level.SEVERE, null, ex);
-                JsfUtil.addErrorMessage(ex, ResourceBundle.getBundle("/Bundle").getString("PersistenceErrorOccured"));
-            }
-        }
-    }
-
-    public TrieOeuf getTrieOeuf(java.lang.Long id) {
-        return getFacade().find(id);
-    }
-
-    public List<TrieOeuf> getItemsAvailableSelectMany() {
-        return getFacade().findAll();
-    }
-
-    public List<TrieOeuf> getItemsAvailableSelectOne() {
-        return getFacade().findAll();
-    }
-
-    @FacesConverter(forClass = TrieOeuf.class)
-    public static class TrieOeufControllerConverter implements Converter {
-
-        @Override
-        public Object getAsObject(FacesContext facesContext, UIComponent component, String value) {
-            if (value == null || value.length() == 0) {
-                return null;
-            }
-            TrieOeufController controller = (TrieOeufController) facesContext.getApplication().getELResolver().
-                    getValue(facesContext.getELContext(), null, "trieOeufController");
-            return controller.getTrieOeuf(getKey(value));
-        }
-
-        java.lang.Long getKey(String value) {
-            java.lang.Long key;
-            key = Long.valueOf(value);
-            return key;
-        }
-
-        String getStringKey(java.lang.Long value) {
-            StringBuilder sb = new StringBuilder();
-            sb.append(value);
-            return sb.toString();
-        }
-
-        @Override
-        public String getAsString(FacesContext facesContext, UIComponent component, Object object) {
-            if (object == null) {
-                return null;
-            }
-            if (object instanceof TrieOeuf) {
-                TrieOeuf o = (TrieOeuf) object;
-                return getStringKey(o.getId());
-            } else {
-                Logger.getLogger(this.getClass().getName()).log(Level.SEVERE, "object {0} is of type {1}; expected type: {2}", new Object[]{object, object.getClass().getName(), TrieOeuf.class.getName()});
-                return null;
-            }
-        }
-
-    }
-
     public void addToList() {
         remplirSelected();
         if (categorieOeufFacade.categorieOeufsExiste(getCategorieOeufsAdded(), getCategorieOeufSelected())) {
@@ -521,6 +521,7 @@ public class TrieOeufController implements Serializable {
     }
 
     public void initParamsUsedInTrie() {
+        System.out.println("cc is initTrie");
         setSelectedToModify(null);
         setReception(null);
         setRestReception(null);
@@ -645,4 +646,14 @@ public class TrieOeufController implements Serializable {
         }
     }
 
+    public void moveFromTrie(String path) {
+        initParamsUsedInTrie();
+        SessionUtil.redirectToPage(path);
+    }
+
+    public void moveFromSuivis(String path) {
+        System.out.println("hi is moveFromSuivis");
+        initParamsUsedInSuivis();
+        SessionUtil.redirectToPage(path);
+    }
 }

@@ -12,6 +12,7 @@ import javax.enterprise.context.SessionScoped;
 import service.TrieOeufFacade;
 import util.DateUtil;
 import util.MessageUtil;
+import util.SessionUtil;
 
 @Named("eclosionController")
 @SessionScoped
@@ -21,7 +22,7 @@ public class EclosionController implements Serializable {
     private service.EclosionFacade ejbFacade;
     @EJB
     private TrieOeufFacade trieOeufFacade;
-    private List<Eclosion> items = null;
+    private List<Eclosion> items;
     private Eclosion selected;
     private boolean forme1 = true;
     private boolean forme2;
@@ -30,6 +31,23 @@ public class EclosionController implements Serializable {
     private String dateTrie;
     private String dateEclos;
     private TrieOeuf trieOeuf;
+
+    public void initParams() {
+        setForme1(true);
+        setForme2(false);
+        setForme3(false);
+        setDateEclos("");
+        setDateIncub("");
+        setDateTrie("");
+        setTrieOeuf(null);
+        setSelected(null);
+        setItems(null);
+    }
+
+    public void moveToEclosion(String path) {
+        initParams();
+        SessionUtil.redirectToPage(path);
+    }
 
     public boolean isForme3() {
         return forme3;

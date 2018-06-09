@@ -118,9 +118,9 @@
                         <div class="row tim-row">
                             <div class="col-lg-2 col-md-4 ml-auto">
                                 <div class="fixed-section">
+                                    <h:form>
+                                        <div id="accordion" role="tablist" aria-multiselectable="true">
 
-                                    <div id="accordion" role="tablist" aria-multiselectable="true">
-                                        <h:form>
                                             <div >
                                                 <a data-toggle="collapse" data-parent="#accordion" href="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
                                                     <div class="card-header" role="tab" id="headingOne" >
@@ -194,7 +194,6 @@
                                                                     <h6>AJOUTE</h6>
                                                                 </h:commandLink>
                                                             </li>
-                                                            <li><a href="#dropdown-row"><h6><span class="note">SUIVIS JOURNALIER</span></h6></a></li>
                                                             <li><a href="#inputs-row"><h6><span class="note">CONSULTATION</span></h6></a></li>
                                                         </ul>
                                                     </div>
@@ -213,12 +212,12 @@
                                                 <div id="collapseTree" class="collapse" role="tabpanel" aria-labelledby="headingTree">
                                                     <div class="card-header">
                                                         <ul>
-                                                            <li><h:commandLink action="#">
+                                                            <li><h:commandLink action="#{eclosionController.moveToEclosion('eclosion.xhtml')}">
                                                                     <h6>AJOUTE</h6>
                                                                 </h:commandLink>
                                                             </li>
                                                             <li><a href="#pagination-row"><h6><span class="note">CONSULTATION</span></h6></a></li>
-                                                            <li><a href="#pagination-row"><h6><span class="note">COMMERCIALISATION</span></h6></a></li>
+                                                            <li><a href="#pagination-row"><h6><span class="note">SUIVIS</span></h6></a></li>
                                                         </ul>
                                                     </div>
 
@@ -244,8 +243,8 @@
 
                                                 </div>
                                             </div>
-                                        </h:form>
-                                    </div>
+                                        </div>
+                                    </h:form>
                                 </div>
                             </div>
                             <div class="col-lg-10 col-md-12">

@@ -154,7 +154,11 @@ public class TrieOeufFacade extends AbstractFacade<TrieOeuf> {
                 break;
         }
         req += "(tr.dateTrie) FROM TrieOeuf tr";
-        return (Date) em.createQuery(req).getResultList().get(0);
+        List<Date> dates = em.createQuery(req).getResultList();
+        if (dates != null && !dates.isEmpty()) {
+            return dates.get(0);
+        }
+        return null;
     }
 
     public List<Integer> yearsBetweenTwoDate(Date dateMin, Date dateMax) {

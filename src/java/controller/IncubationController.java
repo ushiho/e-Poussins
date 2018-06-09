@@ -30,6 +30,7 @@ import service.CouvoirFacade;
 import service.TrieOeufFacade;
 import util.DateUtil;
 import util.MessageUtil;
+import util.SessionUtil;
 
 @Named("incubationController")
 @SessionScoped
@@ -345,6 +346,11 @@ public class IncubationController implements Serializable {
         setDateTrie(null);
         setNextToForme2(false);
         setTrieOeufOAC(null);
+    }
+
+    public void moveToIncubation(String path) {
+        initParams();
+        SessionUtil.redirectToPage(path);
     }
 
     public void fromForm2ToForm3() {
