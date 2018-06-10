@@ -5,13 +5,15 @@
  */
 package util;
 
+import java.io.BufferedInputStream;
+import java.io.BufferedOutputStream;
+import java.io.Closeable;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.io.OutputStream;
-import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
+import javax.servlet.http.HttpServletResponse;
 
 /**
  *
@@ -19,25 +21,34 @@ import javax.faces.context.FacesContext;
  */
 public class DownloadUtil {
 
-    public static void download(File file, String fileName, String contentType) throws FileNotFoundException, IOException {
+    private static final int DEFAULT_BUFFER_SIZE = 10240; // 10KB.
+    private static final String CONTENT_TYPE = "application/vnd.ms-excel";
 
-        System.out.println("hi from download");
-        FacesContext context = FacesContext.getCurrentInstance();
-        ExternalContext externalContext = context.getExternalContext();
+    public static void downloadFile(File fileToDownload) throws FileNotFoundException, IOException {
 
-        externalContext.responseReset();
-        externalContext.setResponseContentType(contentType);
-        externalContext.setResponseHeader("Content-Disposition", "attachement;filename=\"" + fileName + "\" ");
+        FacesContext facesContext = FacesContext.getCurrentInstance();
+        HttpServletResponse response = (HttpServletResponse) facesContext.getExternalContext().getResponse();
 
-        try (FileInputStream inputStream = new FileInputStream(file)) {
-            OutputStream outputStream = externalContext.getResponseOutputStream();
+        response.reset();
+        response.setBufferSize(DEFAULT_BUFFER_SIZE);
+        response.setContentType(CONTENT_TYPE);
+        response.setHeader("Content-Length", String.valueOf(fileToDownload.length()));
+        response.setHeader("Content-Disposition", "attachment; filename=\"" + fileToDownload.getName() + "\"");
 
-            byte[] buffer = new byte[1024];
-            int length;
-            while ((length = inputStream.read(buffer)) > 0) {
-                outputStream.write(buffer, 0, length);
-            }
+        // Open streams.
+        BufferedInputStream input = new BufferedInputStream(new FileInputStream(fileToDownload), DEFAULT_BUFFER_SIZE);
+        BufferedOutputStream output = new BufferedOutputStream(response.getOutputStream(), DEFAULT_BUFFER_SIZE);
+
+        // Write file contents to response.
+        byte[] buffer = new byte[DEFAULT_BUFFER_SIZE];
+        int length;
+        while ((length = input.read(buffer)) > 0) {
+            output.write(buffer, 0, length);
         }
-        context.responseComplete();
+        // Gently close streams.
+        output.flush();
+        output.close();
+        input.close();
     }
+
 }

@@ -33,6 +33,7 @@ public class TrieOeufsExcel {
     private final CategorieOeufFacade categorieOeufFacade = new CategorieOeufFacade();
     private List<TrieOeuf> trieOeufs;
     private List<CategorieOeuf> categorieOeufs;
+    private int rowCounter;
 
     public void setTrieOeufs(List<TrieOeuf> trieOeufs) {
         this.trieOeufs = trieOeufs;
@@ -42,9 +43,9 @@ public class TrieOeufsExcel {
         this.categorieOeufs = categorieOeufs;
     }
 
-    public File write() throws IOException, WriteException {
+    public File write(String fileName) throws IOException, WriteException {
         int startRowAt = 5;
-        String path = "/home/lotfi/glassfish-4.1.1/ExcelDocs/trie.xlsx";
+        String path = "/home/lotfi/glassfish-4.1.1/ExcelDocs/" + fileName;
         WritableWorkbook workbook = ExcelUtil.createWorkBook(path);
         WritableSheet sheet = ExcelUtil.createSheet(workbook, "Trie Oeufs", 0);
 
@@ -77,7 +78,8 @@ public class TrieOeufsExcel {
             ExcelUtil.addLabel(sheet, 0, startRowAt, categorieOeuf.getDesignation(), stylingCategorieCell());
             startRowAt = addNamesOfAttributs(categorieOeuf, sheet, startRowAt + 1, new WritableCellFormat(fontAttributs));
         }
-        ExcelUtil.addLabel(sheet, 0, sheet.getRows(), "Total des pertes", stylingTotalPerteCell());
+        rowCounter = sheet.getRows();
+        ExcelUtil.addLabel(sheet, 0, rowCounter, "Total des pertes", stylingTotalPerteCell());
     }
 
     public int addNamesOfAttributs(CategorieOeuf categorieOeuf, WritableSheet sheet, int startRowAt, WritableCellFormat cellFormat) throws WriteException {
@@ -170,7 +172,8 @@ public class TrieOeufsExcel {
 
     private void fillTotalPert(WritableSheet sheet, int col, int row, List<TrieOeuf> trieOeufs) throws WriteException {
         System.out.println("is fillTotalPert with u ha size d sheet =>" + sheet.getRows() + " : ha col " + col + " o ha row " + row);
-        ExcelUtil.addNumber(sheet, col, row, trieOeufFacade.calculTotalPerte(trieOeufs).intValue(), stylingTotalPerteCell());
+        System.out.println("ha row counter ======>>>>>" + rowCounter);
+        ExcelUtil.addNumber(sheet, col, rowCounter, trieOeufFacade.calculTotalPerte(trieOeufs).intValue(), stylingTotalPerteCell());
     }
 
     private void insertTrieValues(List<TrieOeuf> trieOeufsInSameDateAndReception, WritableSheet sheet, int startColumn) throws WriteException {

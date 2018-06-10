@@ -30,6 +30,8 @@ public class TrieOeufFacade extends AbstractFacade<TrieOeuf> {
     private EntityManager em;
 
     @EJB
+    private UtilisateurFacade utilisateurFacade;
+    @EJB
     private CategorieOeufFacade categorieOeufFacade;
 
     @Override
@@ -134,10 +136,8 @@ public class TrieOeufFacade extends AbstractFacade<TrieOeuf> {
         if (!testItems(items)) {
             for (TrieOeuf item : items) {
                 item.setIncubation(null);
-//                item.setFerme(utilisateurFacade.getConnectedUser("user").getFerme());
-//                item.setResponsable(utilisateurFacade.getConnectedUser("user"));
-                item.setResponsable(null);
-                item.setFerme(null);
+                item.setFerme(utilisateurFacade.getConnectedUser("user").getFerme());
+                item.setResponsable(utilisateurFacade.getConnectedUser("user"));
                 create(item);
             }
         }
@@ -259,5 +259,12 @@ public class TrieOeufFacade extends AbstractFacade<TrieOeuf> {
         String req = "SELECT tr FROM TrieOeuf tr WHERE tr.categorieOeuf.designation = 'OAC' " + SearchUtil.addConstraint("tr", "dateTrie", "=", dateTrie)
                 + SearchUtil.addConstraint("tr", "incubation.dateIncubation", "=", dateIncub) + SearchUtil.addConstraint("tr", "incubation.eclosion.dateEclosion", "=", dateEclos);
         return getUniqueResult(req);
+    }
+
+    public TrieOeuf findByDate(Date date) {
+        if (date != null) {
+            return getUniqueResult("SELECT tr FROM TrieOeuf tr WHERE tr.dateTrie = '" + date + "'");
+        }
+        return null;
     }
 }

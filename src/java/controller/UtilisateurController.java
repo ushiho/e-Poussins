@@ -202,7 +202,7 @@ public class UtilisateurController implements Serializable {
     }
 
     public void seConnecter() throws IOException {
-        int res = ejbFacade.seConnecter(selected);
+        int res = ejbFacade.seConnecter(getSelected());
         boolean recaptcha = VerifyRecaptchaUtil.getRecaptcha();
         System.out.println(res + "ha recaptcha : " + recaptcha);
         if (res > 0 ) {

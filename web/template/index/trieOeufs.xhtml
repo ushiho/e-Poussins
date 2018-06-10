@@ -260,11 +260,13 @@
                                         </h6></p:outputLabel>
                                 </div>
                                 <p:spacer/>
-                                <h:panelGroup rendered="#{!trieOeufController.forme4}" id="intro">
-                                    <p class="card-just-text text-center">Avec ce formulaire vous pouvez enregistrer la trie des oeufs
-                                        que vous avez faitte dans cette journée .</p>
-                                    <p:spacer/><br/>
-                                </h:panelGroup>
+                                <h:form id="intro">
+                                    <h:panelGroup rendered="#{!trieOeufController.forme4}" >
+                                        <p class="card-just-text text-center">Avec ce formulaire vous pouvez enregistrer la trie des oeufs
+                                            que vous avez faitte dans cette journée .</p>
+                                        <p:spacer/><br/>
+                                    </h:panelGroup>
+                                </h:form>
                                 <h:form id="forme1">
                                     <h:panelGroup rendered="#{trieOeufController.forme1}">
                                         <div class="text-center card-title">
@@ -323,24 +325,33 @@
                                                 <div class="col-1 mr-auto" style="margin-top: 10px;">
                                                     <h:outputLabel for="reception" ><h:outputText value="RÉCEPTION"  /></h:outputLabel>
                                                 </div>
-                                                <div class="col-3 mr-auto">
-                                                    <p:inputText id="reception" value="#{trieOeufController.reception}" required="true" style="cursor: pointer;"
-                                                                 placeholder="Nombre des oeufs " title="Quantité de réception" class="form-control"
-                                                                 requiredMessage="Vous devez indique la quantité des oeufs à la réception" 
-                                                                 validator="#{trieOeufController.validateInputs}">
-                                                        <p:ajax event="change" update=":forme2" listener="#{trieOeufController.setRestReception(trieOeufController.reception)}"/>
-                                                    </p:inputText>
+                                                <div class="col-3 ">
+                                                    <div class="input-group">
+                                                        <span class="input-group-addon">
+                                                            <i class="icon nc-icon nc-ruler-pencil"></i>
+                                                        </span>
+                                                        <p:inputText id="reception" value="#{trieOeufController.reception}" required="true" style="cursor: pointer;"
+                                                                     placeholder="Nombre des oeufs " title="Quantité de réception" class="form-control"
+                                                                     requiredMessage="Vous devez indique la quantité des oeufs à la réception" 
+                                                                     validator="#{trieOeufController.validateInputs}">
+
+                                                            <p:ajax event="change" update=":forme2" listener="#{trieOeufController.setRestReception(trieOeufController.reception)}"/>
+                                                        </p:inputText>
+                                                    </div>
                                                 </div>
-                                                <div class="col-3"></div>
-                                                <div class="col-2" style="margin-top: 5px;">
-                                                    <h:commandLink  actionListener="#{trieOeufController.setForme2(true)}"
-                                                                    id="suivant" title="Passer à l'étape suivante" value="SUIVANT" class="btn btn-outline-danger btn-sm">
-                                                        <f:actionListener binding="#{trieOeufController.setForme1(false)}" />
+                                                <div class="col-2"></div>
+                                                <div class="col-3 mr-auto" style="margin-top: 5px;">
+                                                    <h:commandLink  actionListener="#{trieOeufController.testIfTrieExistAndPassToForm2()}"
+                                                                    id="suivant" title="Passer à l'étape suivante" class="btn btn-outline-danger btn-sm">
+                                                        <h:outputText value="SUIVANT" />
+                                                        <i class="icon nc-icon nc-minimal-right"></i>
                                                         <p:ajax process="forme1" update="forme1 :forme2 :growl" />
                                                     </h:commandLink>
                                                 </div>
                                             </div>
                                         </div>
+
+
                                     </h:panelGroup>
                                 </h:form>
                                 <h:form id="forme2">
@@ -353,11 +364,13 @@
 
                                         <div class="col-6 mr-auto" style="margin-top: 5px;">
                                             <h:commandLink rendered="#{trieOeufController.items.size()==0}" actionListener="#{trieOeufController.setForme1(true)}"
-                                                           id="retour" title="Retour à l'étape précedente" value="RETOUR" class="btn btn-outline-danger btn-sm">
+                                                           id="retour" title="Retour à l'étape précedente" class="btn btn-outline-danger btn-sm">
                                                 <f:actionListener binding="#{trieOeufController.setForme2(false)}" />
                                                 <f:actionListener binding="#{trieOeufController.setSelected(null)}"/>
                                                 <f:actionListener binding="#{trieOeufController.setCategorieOeufSelected(null)}"/>
                                                 <f:actionListener binding="#{trieOeufController.setForme3(false)}"/>
+                                                <h:outputText value="RETOUR" />
+                                                <i class="icon nc-icon nc-minimal-left"></i>
                                                 <p:ajax update="forme2 forme2:oeuf :forme1 :forme3"/>
                                             </h:commandLink>
                                         </div>
@@ -367,8 +380,13 @@
                                                 <div class="col-2" style="margin-top: 10px;">
                                                     <p:outputLabel title="le reste à la réception"><label>LE REST </label></p:outputLabel>
                                                 </div>
-                                                <div class="col-2 form-control" >
-                                                    <h:outputText value="#{trieOeufController.restReception}" title="le reste à la réception" />
+                                                <div class="col-2" >
+                                                    <div class="input-group">
+                                                        <span class="input-group-addon">
+                                                            <i class="nc-icon nc-sun-fog-29" aria-hidden="true"></i>
+                                                        </span>
+                                                        <h:outputText value="#{trieOeufController.restReception}" class="form-control" title="le reste à la réception" />
+                                                    </div>
                                                 </div>
                                                 <p:spacer/>
 
@@ -395,8 +413,13 @@
                                                 </p:outputLabel>
                                             </div>
                                             <h:panelGroup rendered="#{trieOeufController.forme3}">
-                                                <div class="col-2 form-control">
-                                                    <h:outputText value="#{trieOeufController.selected.situationInitiale}" title="Situation Initiale de cette catégorie" />
+                                                <div class="col-2">
+                                                    <div class="input-group">
+                                                        <span class="input-group-addon">
+                                                            <i class="icon nc-icon nc-alert-circle-i"></i>
+                                                        </span>
+                                                        <h:outputText class="form-control" value="#{trieOeufController.selected.situationInitiale}" title="Situation Initiale de cette catégorie" />
+                                                    </div>
                                                 </div>
                                             </h:panelGroup>
                                         </div>
@@ -641,7 +664,7 @@
                                                 </p:commandLink>
                                             </div>
                                             <div class="col-3 text-center" >
-                                                <p:commandLink  update=":forme2 :forme2:oeuf  :forme3 datalist :forme4 :intro" actionListener="#{trieOeufController.saveItemsInDB()}"
+                                                <p:commandLink  update=":forme2 :forme3 datalist :forme4 :intro" actionListener="#{trieOeufController.saveItemsInDB()}"
                                                                 id="save" value="ENREGISTRER" class="btn btn-outline-default btn-sm"
                                                                 title="Valider ces modifications">
                                                 </p:commandLink>
@@ -649,33 +672,37 @@
                                         </div>
                                     </h:panelGroup>
                                 </h:form>
-                                <p:spacer />
                                 <h:form id="forme4">
                                     <h:panelGroup rendered="#{trieOeufController.forme4}">
-                                        <div class="row">
-                                            <div class="col-md-4">
-                                                <h6 class="description">Données sauvergardés</h6>
-                                            </div>
+                                        <div class="col-md-4">
+                                            <h6 class="description">Données sauvergardés</h6>
                                         </div>
                                         <p:spacer/>
+                                        <div class="text-center">
+                                            <p > Les donnés que vous avez validés sont bien enregistrés . Vous pouvez imprimer 
+                                                ces donnés en cliquant sur <span class="text-success">IMPRIMER</span> ,Ou bien cliquer sur 
+                                                <span class="text-warning">AJOUTER</span> pour ajouter un autre trie . 
+                                            </p>
+                                        </div>
+                                        <p:spacer />
                                         <div class="row">
-                                            <div class="col-md-12">
-                                                <p > Les donnés que vous avez validés sont bien enregistrés . Vous pouvez imprimer 
-                                                    ces donnés en cliquant sur <span class="text-success">IMPRIMER</span> ,Ou bien cliquer sur 
-                                                    <span class="text-warning">RETOUR</span> pour revenir . 
-                                                </p>
-                                                <br/>
-                                                <div class="col-sm-12" style="margin-left: 35%;">
-                                                    <p:commandLink class="btn btn-outline-warning btn-sm " actionListener="#{trieOeufController.setForme4(false)}"
-                                                                   value="RETOUR" title="Revenir vers le formulaire" update=":forme1 :forme4">
-                                                        <f:actionListener binding="#{trieOeufController.setForme1(true)}"/>
-                                                    </p:commandLink>
-                                                    <p:commandLink style="margin-left: 15%;" class="btn btn-outline-success btn-sm"
-                                                                   actionListener="#{trieOeufController.saveItemsInDB()}"
-                                                                   value="IMPRIMER" title="Imprimer le document " update=":forme1 :forme4">
-                                                        <f:actionListener binding="#{trieOeufController.setForme1(true)}"/>
-                                                    </p:commandLink>
-                                                </div>
+                                            <br/>
+                                            <div class="col text-center">
+                                                <p:commandLink class="btn btn-outline-warning btn-sm " actionListener="#{trieOeufController.setForme4(false)}"
+                                                               title="Ajouter un autre trie" update=":forme1 :forme4">
+                                                    <f:actionListener binding="#{trieOeufController.initParamsUsedInTrie()}"/>
+                                                    <i class="icon nc-icon nc-simple-add"></i>
+                                                    <h:outputText value="AJOUTER" />
+                                                </p:commandLink>
+                                            </div>
+
+                                            <div class="col text-center">
+                                                <p:commandLink class="btn btn-outline-success btn-sm"
+                                                               actionListener="#{trieOeufController.imprimerTrieAdded()}"
+                                                               title="Imprimer le document " update=":forme1 :forme4">
+                                                    <h:outputText value="IMPRIMER" />
+                                                    <i class="icon nc-icon nc-cloud-download-93" ></i>
+                                                </p:commandLink>
                                             </div>
                                         </div>
                                     </h:panelGroup>

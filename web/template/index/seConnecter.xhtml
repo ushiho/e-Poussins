@@ -107,7 +107,7 @@
                                         </h:outputLabel>
                                     </div>
                                 </div>
-                                <div class="row">
+                                <div class="row" style="margin-bottom: 25px;">
                                     <div class="col-md-4 mr-auto">
                                         <a id="annuler" class="btn btn-link btn-warning" href="resetPassword.xhtml" >
                                             MOT DE PASSE OUBLIÉE ?
@@ -121,12 +121,15 @@
                                     </div>
                                 </div>
                             </h:form>
+                            <h:form>
+                                <h:commandButton value="test" action="#{trieOeufController.doDataExport()}" />
+                            </h:form>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
-        <footer class="footer section-dark-blue">
+        <footer class="footer footer-transparent">
             <div class="container">
                 <div class="row">
                     <nav class="footer-nav">

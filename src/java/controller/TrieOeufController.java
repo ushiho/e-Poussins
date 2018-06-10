@@ -46,7 +46,7 @@ public class TrieOeufController implements Serializable {
     private CategorieOeufFacade categorieOeufFacade;
     @EJB
     private UtilisateurFacade utilisateurFacade;
-    private final TrieOeufsExcel trieOeufsExcel = new TrieOeufsExcel();
+    private TrieOeufsExcel trieOeufsExcel = new TrieOeufsExcel();
     private List<TrieOeuf> items;
     private TrieOeuf selected;
     private boolean forme1 = true;
@@ -66,6 +66,30 @@ public class TrieOeufController implements Serializable {
     private Integer inputMax;
     private Integer mois;//to construct a date
     private Integer year;//to construct a date
+    private TrieOeuf trieOeufToModify;
+    private List<TrieOeuf> trieOeufsToDownload;
+
+    public List<TrieOeuf> getTrieOeufsToDownload() {
+        return trieOeufsToDownload;
+    }
+
+    public void setTrieOeufsToDownload(List<TrieOeuf> trieOeufsToDownload) {
+        System.out.println("ha trie to insert in download =W>> " + items);
+        this.trieOeufsToDownload = trieOeufsToDownload;
+        System.out.println("after from download " + trieOeufsToDownload);
+    }
+
+    public TrieOeuf getTrieOeufToModify() {
+        System.out.println("cc is get modiy = " + trieOeufToModify);
+        if (trieOeufToModify == null) {
+            trieOeufToModify = new TrieOeuf();
+        }
+        return trieOeufToModify;
+    }
+
+    public void setTrieOeufToModify(TrieOeuf trieOeufToModify) {
+        this.trieOeufToModify = trieOeufToModify;
+    }
 
     protected void setEmbeddableKeys() {
     }
@@ -261,6 +285,9 @@ public class TrieOeufController implements Serializable {
     }
 
     public BigDecimal getTotalEntres() {
+        if (totalEntres == null) {
+            return new BigDecimal(0);
+        }
         return totalEntres;
     }
 
@@ -385,10 +412,10 @@ public class TrieOeufController implements Serializable {
             initSelectdAndCategorie();
             return;
         }
-        getItems().add(ejbFacade.clone(selected));
+        getItems().add(ejbFacade.clone(getSelected()));
         getCategorieOeufsAdded().add(categorieOeufFacade.clone(categorieOeufSelected));
-        setRestReception(getRestReception().subtract(selected.getEntree()));
-        setTotalEntres(getTotalEntres().add(selected.getEntree()));
+        setRestReception(getRestReception().subtract(getSelected().getEntree()));
+        setTotalEntres(getTotalEntres().add(getSelected().getEntree()));
         MessageUtil.info("La Catégorie '" + selected.getCategorieOeuf().getDesignation() + "' est ajoutée");
         initSelectdAndCategorie();
         setForme3(false);
@@ -458,9 +485,9 @@ public class TrieOeufController implements Serializable {
     }
 
     private void calculRestReceptionAndEntree() {
-        setRestReception(getRestReception().subtract(selected.getEntree()));
-        setTotalEntres(getTotalEntres().subtract(selectedToModify.getEntree()));
-        setTotalEntres(getTotalEntres().add(selected.getEntree()));
+        setRestReception(getRestReception().subtract(getSelected().getEntree()));
+        setTotalEntres(getTotalEntres().subtract(getSelectedToModify().getEntree()));
+        setTotalEntres(getTotalEntres().add(getSelected().getEntree()));
     }
 
     public void reloadAllThePage() throws IOException {
@@ -470,12 +497,14 @@ public class TrieOeufController implements Serializable {
 
     public void removeFromList() {
         if (selected != null) {
+            System.out.println("before ha liset : " + items);
             getItems().remove(ejbFacade.indexOfSelected(items, selected));
             setRestReception(getRestReception().add(selected.getEntree()));
             setTotalEntres(getTotalEntres().subtract(selected.getEntree()));
             MessageUtil.info("La catégorie '" + getSelected().getCategorieOeuf().getDesignation() + "' est supprimée");
-            setCategorieOeufSelected(null);
-            setSelected(null);
+            getCategorieOeufsAdded().remove(getSelected().getCategorieOeuf());
+            initSelectdAndCategorie();
+            System.out.println("after ha liste =< " + getItems());
         }
     }
 
@@ -502,13 +531,18 @@ public class TrieOeufController implements Serializable {
     }
 
     public void saveItemsInDB() {
-        if (getRestReception().compareTo(new BigDecimal(0)) == 0) {
-            ejbFacade.saveListToDB(items);
+        if (getRestReception().compareTo(new BigDecimal(0)) == 0 && !getItems().isEmpty()) {
+            System.out.println("from save in db before ha items => " + items);
+            System.out.println("from save in db before download => " + trieOeufsToDownload);
+            setTrieOeufsToDownload(ejbFacade.cloneList(getItems()));
+            ejbFacade.saveListToDB(trieOeufsToDownload);
             MessageUtil.info("Vos donnés sont bien enregistrés ");
-            setTotalEntres(null);
-            initParamsUsedInTrie();
             setForme4(true);
             setForme3(false);
+            setForme2(false);
+            getItems().clear();
+            System.out.println("after ha trieTo download==> " + trieOeufsToDownload);
+            System.out.println("after o ha items ==> " + items);
             return;
         }
         MessageUtil.addMessage("Il vous reste " + getRestReception() + " oeufs ,Choisie une catégorie"
@@ -530,6 +564,7 @@ public class TrieOeufController implements Serializable {
         setForme2(false);
         setForme3(false);
         setForme1(true);
+        setForme4(false);
         initSelectdAndCategorie();
         setCategorieOeufsAdded(null);
         setItems(null);
@@ -566,12 +601,12 @@ public class TrieOeufController implements Serializable {
         initSelectdAndCategorie();
     }
 
-    public void imprimer() throws IOException, WriteException {
-        if (items != null && !items.isEmpty()) {
-            ejbFacade.arrangeTrieByDate(items);
-            trieOeufsExcel.setTrieOeufs(items);
+    public void imprimer(List<TrieOeuf> trieOeufs) throws IOException, WriteException {
+        if (trieOeufs != null && !trieOeufs.isEmpty()) {
+            ejbFacade.arrangeTrieByDate(trieOeufs);
+            trieOeufsExcel.setTrieOeufs(trieOeufs);
             trieOeufsExcel.setCategorieOeufs(categorieOeufFacade.findAll());
-            DownloadUtil.download(trieOeufsExcel.write(), "trieOeufs/xlsx", "trieOeufs.xlsx");
+            DownloadUtil.downloadFile(trieOeufsExcel.write("trieOeufs.xlsx"));
             MessageUtil.info("Fichier Excel crée avec succes");
             return;
         }
@@ -656,4 +691,29 @@ public class TrieOeufController implements Serializable {
         initParamsUsedInSuivis();
         SessionUtil.redirectToPage(path);
     }
+
+    public void validateInputs(FacesContext context, UIComponent component, Object value) {
+        BigDecimal input = (BigDecimal) value;
+        if (input != null) {
+            if (input.intValue() < 0) {
+                throw new ValidatorException(new FacesMessage(FacesMessage.SEVERITY_FATAL, "Le nombre des oeufs doit etre positive !", "Pas de détail"));
+            }
+        }
+    }
+
+    public void testIfTrieExistAndPassToForm2() {
+        setTrieOeufToModify(ejbFacade.findByDate(DateUtil.getSqlDateToSaveInDB(dateTrie)));
+        if (getTrieOeufToModify().getId() == null) {
+            setForme1(false);
+            setForme2(true);
+            return;
+        }
+        MessageUtil.error("Les tries pour cet date sont déja enregistré");
+    }
+
+    public void imprimerTrieAdded() throws IOException, WriteException {
+        imprimer(trieOeufsToDownload);
+        initParamsUsedInTrie();
+    }
+
 }
