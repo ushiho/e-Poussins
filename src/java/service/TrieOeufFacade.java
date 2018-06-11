@@ -267,4 +267,9 @@ public class TrieOeufFacade extends AbstractFacade<TrieOeuf> {
         }
         return null;
     }
+
+    public BigDecimal restOfReception(TrieOeuf trieOeuf) {
+        initBigDecimalsBy0(trieOeuf);
+        return trieOeuf != null ? trieOeuf.getReception().subtract(trieOeuf.getEntree()) : null;
+    }
 }

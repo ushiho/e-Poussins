@@ -196,7 +196,7 @@
                                                                     <h6>AJOUTE</h6>
                                                                 </h:commandLink>
                                                             </li>
-                                                            <li><a href="#inputs-row"><h6><span class="note">CONSULTATION</span></h6></a></li>
+                                                            <li><a href="#ici"><h6><span class="note">CONSULTATION</span></h6></a></li>
                                                         </ul>
                                                     </div>
                                                 </div>
@@ -215,7 +215,7 @@
                                                     <div class="card-header">
                                                         <ul>
                                                             <li>
-                                                                <h:commandLink action="#">
+                                                                <h:commandLink action="#{eclosionController.moveToEclosion('eclosion.xhtml')}">
                                                                     <h6>AJOUTE</h6>
                                                                 </h:commandLink>
                                                             </li>
@@ -278,7 +278,8 @@
                                                         <span class="glyphicon glyphicon-time"></span>
                                                         <i class="nc-icon nc-calendar-60" aria-hidden="true"></i>
                                                     </span>
-                                                    <p:inputText id="dateIncub" value="#{eclosionController.dateTrie}" style="cursor: pointer;" required="true" requiredMessage="Indiquer la date d'incubation"
+                                                    <p:inputText id="dateIncub" value="#{incubationController.dateIncubes}" style="cursor: pointer;" 
+                                                                 required="true" requiredMessage="Indiquer la date d'incubation"
                                                                  class="form-control " placeholder="05/08/2017" title="Date de trie" />
                                                 </div>
                                                 <script type="text/javascript">
@@ -290,72 +291,75 @@
                                                 </script>
                                             </div>
                                             <div class="col text-center">
-                                                <h:commandLink  class="btn btn-outline-danger btn-sm" 
-                                                                actionListener="#{incubationController.searchForTrieOeufOACByDate()}" >
+                                                <h:commandLink  class="btn btn-outline-danger btn-sm" actionListener="#{incubationController.searchByDate()}" >
                                                     <h:outputText value="CONSULTER" />
                                                     <i  class="nc-icon nc-chat-33" aria-hidden="true"></i>
-                                                    <p:ajax update="forme1" process="forme1" />
+                                                    <p:ajax update="forme1 :result :options" process="forme1" />
                                                 </h:commandLink>
                                             </div>
                                         </div>
                                     </div>
                                 </h:form>
                                 <p:spacer/>
+                                <h:form id="result" >
+                                    <h:panelGroup rendered="#{incubationController.selected.id != null}">
+                                        <div style="margin-top: 20px;">
+                                            <h6 class="decorated"><span> Incubation </span></h6>
+                                        </div>
+                                        <p:spacer />
+                                        <div class="row" style="margin-bottom: 25px;">
+                                            <div class="col " style="margin-top: 10px;">
+                                                <h:outputLabel ><h:outputText value="Date d'incubation" /></h:outputLabel>
+                                            </div>
+                                            <div class="col-2">
+                                                <div class="input-group">
+                                                    <span class="input-group-addon">
+                                                        <i class="icon nc-icon nc-alert-circle-i"></i>
+                                                    </span>
+                                                    <h:outputText class="form-control" value="#{incubationController.dateIncubes}" title="Date d'incubation" />
+                                                </div>
+                                            </div>
+                                            <div class="col " style="margin-top: 10px;">
+                                                <h:outputLabel ><h:outputText value="Date d'eclosion" /></h:outputLabel>
+                                            </div>
+                                            <div class="col-2">
+                                                <div class="input-group">
+                                                    <span class="input-group-addon">
+                                                        <i class="icon nc-icon nc-alert-circle-i"></i>
+                                                    </span>
+                                                    <h:outputText class="form-control" value="#{incubationController.dateEclos}" title="Date d'eclosion" />
+                                                </div>
+                                            </div>
+                                            <div class="col" style="margin-top: 10px;">
+                                                <h:outputLabel ><h:outputText value="Jours restants" /></h:outputLabel>
+                                            </div>
+                                            <div class="col-2">
+                                                <div class="input-group">
+                                                    <span class="input-group-addon">
+                                                        <i class="icon nc-icon nc-bulb-63"></i>
+                                                    </span>
+                                                    <h:outputText class="form-control" value="#{incubationController.joursRestant()==null ? ' ' : incubationController.joursRestant() }" title="Jours restants pour l'eclosion" />
+                                                </div>
+                                            </div>
+                                        </div>
 
-                                <div style="margin-top: 20px;">
-                                    <h6 class="decorated"><span> Incubation </span></h6>
-                                </div>
-                                <p:spacer />
-                                <div class="row" style="margin-bottom: 25px;">
-                                    <div class="col " style="margin-top: 10px;">
-                                        <h:outputLabel ><h:outputText value="Date d'incubation" /></h:outputLabel>
-                                    </div>
-                                    <div class="col-2">
-                                        <div class="input-group">
-                                            <span class="input-group-addon">
-                                                <i class="icon nc-icon nc-alert-circle-i"></i>
-                                            </span>
-                                            <h:outputText class="form-control" value="#{trieOeufController.selected.situationInitiale}" title="Date d'incubation" />
+                                        <p:spacer />
+                                        <div class="col-2 ml-auto">
+                                            <h:commandLink class="btn btn-link btn-warning" value="#{incubationController.forme2 == false ? 'PLUS D\'INFO ' : 'MOINS D\'INFO'}"
+                                                           title="#{incubationController.forme2 == false ? 'plus d\'infos' : 'moins d\'infos'}">
+                                                <c:if  test="#{incubationController.forme2}" >
+                                                    <f:actionListener binding="#{incubationController.setForme2(false)}" />
+                                                </c:if>
+                                                <c:if  test="#{!incubationController.forme2}" >
+                                                    <f:actionListener binding="#{incubationController.setForme2(true)}" />
+                                                </c:if>
+                                                <p:ajax update=":forme2 result" />
+                                            </h:commandLink>
                                         </div>
-                                    </div>
-                                    <div class="col " style="margin-top: 10px;">
-                                        <h:outputLabel ><h:outputText value="Date d'eclosion" /></h:outputLabel>
-                                    </div>
-                                    <div class="col-2">
-                                        <div class="input-group">
-                                            <span class="input-group-addon">
-                                                <i class="icon nc-icon nc-alert-circle-i"></i>
-                                            </span>
-                                            <h:outputText class="form-control" value="#{trieOeufController.selected.situationInitiale}" title="Date d'eclosion" />
-                                        </div>
-                                    </div>
-                                    <div class="col" style="margin-top: 10px;">
-                                        <h:outputLabel ><h:outputText value="Jours restants" /></h:outputLabel>
-                                    </div>
-                                    <div class="col-2">
-                                        <div class="input-group">
-                                            <span class="input-group-addon">
-                                                <i class="icon nc-icon nc-bulb-63"></i>
-                                            </span>
-                                            <h:outputText class="form-control" value="#{trieOeufController.selected.situationInitiale}" title="Jours restants pour l'eclosion" />
-                                        </div>
-                                    </div>
-                                </div>
+                                    </h:panelGroup>
+                                </h:form>
                                 <h:form id="forme2">
-                                    <p:spacer />
-                                    <div class="col-2 ml-auto">
-                                        <h:commandLink class="btn btn-link btn-warning" value="#{incubationController.forme2 == false ? 'PLUS D\'INFO ' : 'MOINS D\'INFO'}"
-                                                       title="#{incubationController.forme2 == false ? 'plus d\'infos' : 'moins d\'infos'}">
-                                            <c:if  test="#{incubationController.forme2}" >
-                                                <f:actionListener binding="#{incubationController.setForme2(false)}" />
-                                            </c:if>
-                                            <c:if  test="#{!incubationController.forme2}" >
-                                                <f:actionListener binding="#{incubationController.setForme2(true)}" />
-                                            </c:if>
-                                            <p:ajax update="forme2" />
-                                        </h:commandLink>
-                                    </div>
-                                    <h:panelGroup rendered="#{incubationController.forme2}">
+                                    <h:panelGroup rendered="#{incubationController.forme2 and incubationController.selected.id != null}">
                                         <div >
                                             <h6 class="decorated"><span> Trie Correspondant</span></h6>
                                         </div>
@@ -368,7 +372,7 @@
                                                     <span class="input-group-addon">
                                                         <i class="icon nc-icon nc-alert-circle-i"></i>
                                                     </span>
-                                                    <h:outputText class="form-control" value="#{trieOeufController.selected.situationInitiale}" title="Date de trie" />
+                                                    <h:outputText class="form-control" value="#{incubationController.formatDateToString(incubationController.trieOeufOAC.dateTrie)}" title="Date de trie" />
                                                 </div>
                                             </div>
                                             <div class="col" style="margin-top: 10px;">
@@ -379,23 +383,35 @@
                                                     <span class="input-group-addon">
                                                         <i class="icon nc-icon nc-bulb-63"></i>
                                                     </span>
-                                                    <h:outputText class="form-control" value="#{trieOeufController.selected.situationInitiale}" title="Numéro de semaine" />
+                                                    <h:outputText class="form-control" value="#{incubationController.trieOeufOAC.numSemaine}" title="Numéro de semaine" />
                                                 </div>
                                             </div>
                                             <div class="col" style="margin-top: 10px;">
-                                                <h:outputLabel><h:outputText value="Réception" /></h:outputLabel>
+                                                <h:outputLabel><h:outputText value="Catégorie" /></h:outputLabel>
                                             </div>
                                             <div class="col-2">
                                                 <div class="input-group">
                                                     <span class="input-group-addon">
                                                         <i class="icon nc-icon nc-bulb-63"></i>
                                                     </span>
-                                                    <h:outputText class="form-control" value="#{trieOeufController.selected.situationInitiale}" title="Nombre des oeufs à la recéption" />
+                                                    <h:outputText class="form-control" value="#{incubationController.trieOeufOAC.categorieOeuf.designation}" title="Catégorie des oeufs" />
                                                 </div>
                                             </div>
                                         </div>
+                                        <hr />
                                         <p:spacer/>
-                                        <div class="row" style="margin-top: 20px;">
+                                        <div class="row" style="margin-top: 35px;">
+                                            <div class="col " style="margin-top: 10px;">
+                                                <h:outputLabel ><h:outputText value="Situation initiale" /></h:outputLabel>
+                                            </div>
+                                            <div class="col-2">
+                                                <div class="input-group">
+                                                    <span class="input-group-addon">
+                                                        <i class="icon nc-icon nc-alert-circle-i"></i>
+                                                    </span>
+                                                    <h:outputText class="form-control" value="#{incubationController.trieOeufOAC.situationInitiale}" title="Situation initiale de la catégorie" />
+                                                </div>
+                                            </div>
                                             <div class="col" style="margin-top: 10px;">
                                                 <h:outputLabel ><h:outputText value="Entrée" /></h:outputLabel>
                                             </div>
@@ -404,7 +420,33 @@
                                                     <span class="input-group-addon">
                                                         <i class="icon nc-icon nc-bulb-63"></i>
                                                     </span>
-                                                    <h:outputText class="form-control" value="#{trieOeufController.selected.situationInitiale}" title="Nombre des oeufs en entrée" />
+                                                    <h:outputText class="form-control" value="#{incubationController.trieOeufOAC.entree}" title="Nombre des oeufs en entrée" />
+                                                </div>
+                                            </div>
+                                            <div class="col" style="margin-top: 10px;">
+                                                <h:outputLabel><h:outputText value="Situation Finale" /></h:outputLabel>
+                                            </div>
+                                            <div class="col-2">
+                                                <div class="input-group">
+                                                    <span class="input-group-addon">
+                                                        <i class="icon nc-icon nc-bulb-63"></i>
+                                                    </span>
+                                                    <h:outputText class="form-control" value="#{incubationController.trieOeufOAC.situationFinale}" title="Situation initiale de la catégorie" />
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <hr />
+                                        <p:spacer/>
+                                        <div class="row" style="margin-top: 20px;">
+                                            <div class="col" style="margin-top: 10px;">
+                                                <h:outputLabel><h:outputText value="Réception" /></h:outputLabel>
+                                            </div>
+                                            <div class="col-2">
+                                                <div class="input-group">
+                                                    <span class="input-group-addon">
+                                                        <i class="icon nc-icon nc-bulb-63"></i>
+                                                    </span>
+                                                    <h:outputText class="form-control" value="#{incubationController.trieOeufOAC.reception}" title="Nombre des oeufs à la recéption" />
                                                 </div>
                                             </div>
                                             <div class="col" style="margin-top: 10px;">
@@ -415,7 +457,7 @@
                                                     <span class="input-group-addon">
                                                         <i class="icon nc-icon nc-bulb-63"></i>
                                                     </span>
-                                                    <h:outputText class="form-control" value="#{trieOeufController.selected.situationInitiale}" title="La quantité incubés" />
+                                                    <h:outputText class="form-control" value="#{incubationController.selected.qteIncube}" title="La quantité incubés" />
                                                 </div>
                                             </div>
                                             <div class="col" style="margin-top: 10px;">
@@ -426,30 +468,32 @@
                                                     <span class="input-group-addon">
                                                         <i class="icon nc-icon nc-bulb-63"></i>
                                                     </span>
-                                                    <h:outputText class="form-control" value="#{trieOeufController.selected.situationInitiale}" title="Le rest de la réception" />
+                                                    <h:outputText class="form-control" value="#{incubationController.restOfReception}" title="Le rest de la réception" />
                                                 </div>
                                             </div>
                                         </div>
-                                        <br />
                                         <hr/>
                                     </h:panelGroup>
                                 </h:form>
                                 <p:spacer/>
-                                <h:form>
-                                    <div class="row">
-                                        <div class="col-4 ml-auto">
-                                            <h:commandLink class="btn btn-sm btn-outline-default" title="Modifier cette incubation" >
-                                                <h:outputText value="MODIFIER" />
-                                                <i class="icon nc-icon "></i>
-                                            </h:commandLink>
+                                <h:form id="options">
+                                    <h:panelGroup rendered="#{incubationController.selected.id !=null}">
+                                        <div class="row">
+                                            <div class="col-4 ml-auto">
+                                                <h:commandLink class="btn btn-sm btn-outline-default" action="#{incubationController.initParams()}" title="Actualier la recherche" >
+                                                    <h:outputText value="FERMER" />
+                                                    <p:ajax update=":forme1 :forme2 :result options" />
+                                                    <i class="icon nc-icon nc-simple-remove"></i>
+                                                </h:commandLink>
+                                            </div>
+                                            <div class="col-3 ml-auto">
+                                                <h:commandLink class="btn btn-sm btn-outline-default" action="#{incubationController.moveToIncubation('incubation.xhtml')}" title="Ajouter une autre incubation" >
+                                                    <h:outputText value="AJOUTER INCUBTION" />
+                                                    <i class="icon nc-icon nc-simple-add"></i>
+                                                </h:commandLink>
+                                            </div>
                                         </div>
-                                        <div class="col-3 ml-auto">
-                                            <h:commandLink class="btn btn-sm btn-outline-default" title="Ajouter une autre incubation" >
-                                                <h:outputText value="AJOUTER" />
-                                                <i class="icon nc-icon "></i>
-                                            </h:commandLink>
-                                        </div>
-                                    </div>
+                                    </h:panelGroup>
                                 </h:form>
                             </div>
                         </div>

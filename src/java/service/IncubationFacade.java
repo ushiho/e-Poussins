@@ -8,6 +8,7 @@ package service;
 import bean.Couvoir;
 import bean.Incubation;
 import java.math.BigDecimal;
+import java.util.Date;
 import java.util.List;
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
@@ -26,6 +27,8 @@ public class IncubationFacade extends AbstractFacade<Incubation> {
 
     @EJB
     private EclosionFacade eclosionFacade;
+    @EJB
+    private TrieOeufFacade trieOeufFacade;
 
     @Override
     protected EntityManager getEntityManager() {
@@ -54,9 +57,23 @@ public class IncubationFacade extends AbstractFacade<Incubation> {
         if (incubation == null) {
             return -1;
         }
-        eclosionFacade.create(incubation.getEclosion());
         create(incubation);
+        eclosionFacade.create(incubation.getEclosion());
         return 1;
     }
 
+    public Incubation findByDate(Date date) {
+        return date != null ? getUniqueResult("SELECT i FROM Incubation i WHERE i.dateIncubation = '" + date + "' ") : null;
+    }
+
+    public Incubation clone(Incubation incubation) {
+        if (incubation == null) {
+            return null;
+        }
+        Incubation clone = new Incubation(incubation.getId(), incubation.getDateIncubation(), incubation.getNumeroSemaine(), incubation.getAnnee(), incubation.getQteIncube());
+        clone.setCouvoir(incubation.getCouvoir());
+        clone.setEclosion(incubation.getEclosion());
+        clone.setTrieOeuf(incubation.getTrieOeuf());
+        return clone;
+    }
 }

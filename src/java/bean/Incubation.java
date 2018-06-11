@@ -36,7 +36,7 @@ public class Incubation implements Serializable {
     private TrieOeuf trieOeuf;
     @ManyToOne
     private Couvoir couvoir;
-    @OneToOne(mappedBy = "incubation")
+    @OneToOne
     private Eclosion eclosion;
 
     public Incubation() {

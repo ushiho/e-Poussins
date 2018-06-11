@@ -3,27 +3,20 @@ package controller;
 import bean.Couvoir;
 import bean.Incubation;
 import bean.TrieOeuf;
-import controller.util.JsfUtil;
-import controller.util.JsfUtil.PersistAction;
 import service.IncubationFacade;
 
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
-import java.util.ResourceBundle;
 import java.util.concurrent.TimeUnit;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.ejb.EJB;
-import javax.ejb.EJBException;
 import javax.inject.Named;
 import javax.enterprise.context.SessionScoped;
 import javax.faces.application.FacesMessage;
 import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
-import javax.faces.convert.Converter;
-import javax.faces.convert.FacesConverter;
 import javax.faces.validator.ValidatorException;
 import service.CategorieOeufFacade;
 import service.CouvoirFacade;
@@ -46,6 +39,7 @@ public class IncubationController implements Serializable {
     private CouvoirFacade couvoirFacade;
     private List<Incubation> items;
     private Incubation selected;
+    private Incubation selectedToModify;
     private boolean forme1 = true;
     private boolean forme2;
     private boolean forme3;
@@ -55,6 +49,26 @@ public class IncubationController implements Serializable {
     private String dateEclos;
     private String dateIncubes;
     private boolean nextToForme2;
+    private BigDecimal restOfReception;
+
+    public Incubation getSelectedToModify() {
+        if (selectedToModify == null) {
+            selectedToModify = new Incubation();
+        }
+        return selectedToModify;
+    }
+
+    public void setSelectedToModify(Incubation selectedToModify) {
+        this.selectedToModify = selectedToModify;
+    }
+
+    public BigDecimal getRestOfReception() {
+        return restOfReception;
+    }
+
+    public void setRestOfReception(BigDecimal restOfReception) {
+        this.restOfReception = restOfReception;
+    }
 
     public String getDateEclos() {
         return dateEclos;
@@ -164,122 +178,6 @@ public class IncubationController implements Serializable {
         this.forme3 = forme3;
     }
 
-    protected void setEmbeddableKeys() {
-    }
-
-    protected void initializeEmbeddableKey() {
-    }
-
-    private IncubationFacade getFacade() {
-        return ejbFacade;
-    }
-
-    public Incubation prepareCreate() {
-        selected = new Incubation();
-        initializeEmbeddableKey();
-        return selected;
-    }
-
-    public void create() {
-        persist(PersistAction.CREATE, ResourceBundle.getBundle("/Bundle").getString("IncubationCreated"));
-        if (!JsfUtil.isValidationFailed()) {
-            items = null;    // Invalidate list of items to trigger re-query.
-        }
-    }
-
-    public void update() {
-        persist(PersistAction.UPDATE, ResourceBundle.getBundle("/Bundle").getString("IncubationUpdated"));
-    }
-
-    public void destroy() {
-        persist(PersistAction.DELETE, ResourceBundle.getBundle("/Bundle").getString("IncubationDeleted"));
-        if (!JsfUtil.isValidationFailed()) {
-            selected = null; // Remove selection
-            items = null;    // Invalidate list of items to trigger re-query.
-        }
-    }
-
-    private void persist(PersistAction persistAction, String successMessage) {
-        if (selected != null) {
-            setEmbeddableKeys();
-            try {
-                if (persistAction != PersistAction.DELETE) {
-                    getFacade().edit(selected);
-                } else {
-                    getFacade().remove(selected);
-                }
-                JsfUtil.addSuccessMessage(successMessage);
-            } catch (EJBException ex) {
-                String msg = "";
-                Throwable cause = ex.getCause();
-                if (cause != null) {
-                    msg = cause.getLocalizedMessage();
-                }
-                if (msg.length() > 0) {
-                    JsfUtil.addErrorMessage(msg);
-                } else {
-                    JsfUtil.addErrorMessage(ex, ResourceBundle.getBundle("/Bundle").getString("PersistenceErrorOccured"));
-                }
-            } catch (Exception ex) {
-                Logger.getLogger(this.getClass().getName()).log(Level.SEVERE, null, ex);
-                JsfUtil.addErrorMessage(ex, ResourceBundle.getBundle("/Bundle").getString("PersistenceErrorOccured"));
-            }
-        }
-    }
-
-    public Incubation getIncubation(java.lang.Long id) {
-        return getFacade().find(id);
-    }
-
-    public List<Incubation> getItemsAvailableSelectMany() {
-        return getFacade().findAll();
-    }
-
-    public List<Incubation> getItemsAvailableSelectOne() {
-        return getFacade().findAll();
-    }
-
-    @FacesConverter(forClass = Incubation.class)
-    public static class IncubationControllerConverter implements Converter {
-
-        @Override
-        public Object getAsObject(FacesContext facesContext, UIComponent component, String value) {
-            if (value == null || value.length() == 0) {
-                return null;
-            }
-            IncubationController controller = (IncubationController) facesContext.getApplication().getELResolver().
-                    getValue(facesContext.getELContext(), null, "incubationController");
-            return controller.getIncubation(getKey(value));
-        }
-
-        java.lang.Long getKey(String value) {
-            java.lang.Long key;
-            key = Long.valueOf(value);
-            return key;
-        }
-
-        String getStringKey(java.lang.Long value) {
-            StringBuilder sb = new StringBuilder();
-            sb.append(value);
-            return sb.toString();
-        }
-
-        @Override
-        public String getAsString(FacesContext facesContext, UIComponent component, Object object) {
-            if (object == null) {
-                return null;
-            }
-            if (object instanceof Incubation) {
-                Incubation o = (Incubation) object;
-                return getStringKey(o.getId());
-            } else {
-                Logger.getLogger(this.getClass().getName()).log(Level.SEVERE, "object {0} is of type {1}; expected type: {2}", new Object[]{object, object.getClass().getName(), Incubation.class.getName()});
-                return null;
-            }
-        }
-
-    }
-
     public void searchForTrieOeufOACByDate() {
         System.out.println("ha date : " + dateTrie);
         setTrieOeufOAC(trieOeufFacade.findOACByDate(DateUtil.getSqlDateToSaveInDB(dateTrie)));
@@ -320,9 +218,13 @@ public class IncubationController implements Serializable {
         }
     }
 
-    public long joursRestant() {
-        long diff = DateUtil.getSqlDateToSaveInDB(dateEclos).getTime() - selected.getDateIncubation().getTime();
-        return TimeUnit.DAYS.convert(diff, TimeUnit.MILLISECONDS);
+    public Long joursRestant() {
+        if (dateEclos.equals("") || dateEclos == null || getSelected().getDateIncubation() == null) {
+            return null;
+        }
+        long jrs = TimeUnit.DAYS.convert(DateUtil.getSqlDateToSaveInDB(dateEclos).getTime()
+                - (new Date()).getTime(), TimeUnit.MILLISECONDS);
+        return jrs < 0 ? 0 : jrs;
     }
 
     public void save() {
@@ -336,7 +238,7 @@ public class IncubationController implements Serializable {
         initParams();
     }
 
-    private void initParams() {
+    public void initParams() {
         setForme1(true);
         setForme2(false);
         setForme3(false);
@@ -346,6 +248,8 @@ public class IncubationController implements Serializable {
         setDateTrie(null);
         setNextToForme2(false);
         setTrieOeufOAC(null);
+        setRestOfReception(null);
+        setSelected(null);
     }
 
     public void moveToIncubation(String path) {
@@ -363,4 +267,23 @@ public class IncubationController implements Serializable {
         MessageUtil.fatal("La date d'eclosion doit etre supérieur au cel d'incubation ");
     }
 
+    public void searchByDate() {
+        setSelected(ejbFacade.findByDate(DateUtil.getSqlDateToSaveInDB(dateIncubes)));
+        if (getSelected().getId() != null) {
+            setDateEclos(formatDateToString(getSelected().getEclosion().getDateEclosion()));
+            setTrieOeufOAC(getSelected().getTrieOeuf());
+            setRestOfReception(trieOeufFacade.restOfReception(getTrieOeufOAC()));
+            return;
+        }
+        MessageUtil.info("Aucun incubation trouvé pour la date : " + dateIncubes);
+    }
+
+    public void goToModify() {
+        setSelectedToModify(ejbFacade.clone(selected));
+        SessionUtil.redirectToPage("incubation.xhtml");
+    }
+
+    public String formatDateToString(Date date) {
+        return DateUtil.formateDate("dd/MM/yyyy", date);
+    }
 }

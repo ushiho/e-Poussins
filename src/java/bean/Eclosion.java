@@ -35,9 +35,9 @@ public class Eclosion implements Serializable {
     private BigDecimal ecartEclosion;
     private BigDecimal commercialise;
     @OneToOne
-    private Incubation incubation;
-    @OneToOne
     private ProductionPoussin productionPoussin;
+    @OneToOne(mappedBy = "eclosion")
+    private Incubation incubation;
 
     public Eclosion() {
     }
