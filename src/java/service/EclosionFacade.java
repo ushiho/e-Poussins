@@ -89,14 +89,14 @@ public class EclosionFacade extends AbstractFacade<Eclosion> {
     }
 
     public BigDecimal ecartTrie(Eclosion eclosion) {
-        if (eclosion == null || eclosion.getQteEclos() == null) {
+        if (eclosion == null || eclosion.getQteEclos() == null || eclosion.getCommercialise() == null) {
             return null;
         }
         return eclosion.getQteEclos().subtract(eclosion.getCommercialise());
     }
 
     public BigDecimal ecartEclos(Eclosion eclosion) {
-        if (eclosion == null || eclosion.getIncubation().getQteIncube() == null) {
+        if (eclosion == null || eclosion.getIncubation().getQteIncube() == null || eclosion.getQteEclos() == null) {
             return null;
         }
         return eclosion.getIncubation().getQteIncube().subtract(eclosion.getQteEclos());

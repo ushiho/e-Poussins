@@ -193,11 +193,18 @@ public class IncubationController implements Serializable {
     }
 
     public void fromeForm1ToForm2() {
-        setForme1(false);
-        setForme2(true);
-        setNextToForme2(false);
-        getSelected().setTrieOeuf(trieOeufOAC);
-        getSelected().setQteIncube(trieOeufOAC.getMisEnIncubation());
+        if (trieOeufOAC.getId() != null) {
+            if (trieOeufOAC.getIncubation().getId() == null) {
+                System.out.println("ha incuation d trie chosii :: " + trieOeufOAC.getIncubation());
+                setForme1(false);
+                setForme2(true);
+                setNextToForme2(false);
+                getSelected().setTrieOeuf(trieOeufOAC);
+                getSelected().setQteIncube(trieOeufOAC.getMisEnIncubation());
+                return;
+            }
+            MessageUtil.info("Le trie a déja un incubation enregistré");
+        }
     }
 
     public void fromeForm2ToForm1() {
@@ -285,5 +292,15 @@ public class IncubationController implements Serializable {
 
     public String formatDateToString(Date date) {
         return DateUtil.formateDate("dd/MM/yyyy", date);
+    }
+
+    public void weekOfSelectedDate() {
+        System.out.println("cc from weekOfSelectedDate ");
+        if (!dateIncubes.equals("")) {
+            getSelected().setNumeroSemaine(DateUtil.weekNumberFromDate(DateUtil.getSqlDateToSaveInDB(dateIncubes)));
+        }
+        if (!dateEclos.equals("")) {
+            getSelected().getEclosion().setNumeroSemaine(DateUtil.weekNumberFromDate(DateUtil.getSqlDateToSaveInDB(dateEclos)));
+        }
     }
 }

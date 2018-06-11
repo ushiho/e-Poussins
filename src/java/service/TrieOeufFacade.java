@@ -258,6 +258,7 @@ public class TrieOeufFacade extends AbstractFacade<TrieOeuf> {
     public TrieOeuf findOACByDateInubsOrEclosOrDateTrie(Date dateTrie, Date dateIncub, Date dateEclos) {
         String req = "SELECT tr FROM TrieOeuf tr WHERE tr.categorieOeuf.designation = 'OAC' " + SearchUtil.addConstraint("tr", "dateTrie", "=", dateTrie)
                 + SearchUtil.addConstraint("tr", "incubation.dateIncubation", "=", dateIncub) + SearchUtil.addConstraint("tr", "incubation.eclosion.dateEclosion", "=", dateEclos);
+        System.out.println("ha lprb ==> " + getUniqueResult(req));
         return getUniqueResult(req);
     }
 

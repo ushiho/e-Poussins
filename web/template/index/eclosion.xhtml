@@ -265,7 +265,7 @@
                                         </h6></p:outputLabel>
                                 </div>
                                 <h:form id="forme1">
-                                    <h:panelGroup rendered="true" >
+                                    <h:panelGroup rendered="#{eclosionController.forme1}" >
                                         <div class="tim-title mr-auto">
                                             <h6><h:outputText style="font-size: 10pt;color: black;border-bottom: 3px solid red;"
                                                               value="Déterminer les oeufs incubables :" /></h6>
@@ -343,10 +343,9 @@
                                     </h:panelGroup>
                                 </h:form>
                                 <p:spacer/>
-                                <hr/>
-                                <!--<p:separator rendered="#{eclosionController.trieOeuf.id != null}" />-->
                                 <h:form id="result">
-                                    <h:panelGroup rendered="#{eclosionController.trieOeuf.incubation.id != null and eclosionController.forme1}" >
+                                    <h:panelGroup rendered="#{eclosionController.result}" >
+                                        <hr/>
                                         <h6>Résultat :</h6>
 
                                         <div class="row " style="margin-top: 15px;">
@@ -360,7 +359,7 @@
                                                             <span class="glyphicon glyphicon-time"></span>
                                                             <i class="nc-icon nc-calendar-60" aria-hidden="true"></i>
                                                         </span>
-                                                        <h:outputText class="form-control"  id="dateIncub" value="#{eclosionController.trieOeuf.incubation.dateIncubation}" />
+                                                        <h:outputText class="form-control"  id="dateIncub" value="#{eclosionController.formatDate(eclosionController.trieOeuf.incubation.dateIncubation)}" />
                                                     </div>
                                                 </div>
                                                 <p:spacer/>
@@ -373,7 +372,7 @@
                                                             <span class="glyphicon glyphicon-time"></span>
                                                             <i class="nc-icon nc-calendar-60" aria-hidden="true"></i>
                                                         </span>
-                                                        <h:outputText class="form-control"  id="dateEclos" value="#{eclosionController.trieOeuf.incubation.eclosion.dateEclosion}" />
+                                                        <h:outputText class="form-control"  id="dateEclos" value="#{eclosionController.formatDate(eclosionController.trieOeuf.incubation.eclosion.dateEclosion)}" />
                                                     </div>
                                                 </div>
                                             </div>
@@ -400,7 +399,7 @@
                                                             <span class="glyphicon glyphicon-time"></span>
                                                             <i class="nc nc-icon nc-bulb-63" ></i>
                                                         </span>
-                                                        <h:outputText class="form-control"  id="couvoir" value="#{eclosionController.trieOeuf.incubation.qteIncube}" />
+                                                        <h:outputText class="form-control"  id="couvoir" value="#{eclosionController.trieOeuf.incubation.couvoir.nom}" />
                                                     </div>
                                                 </div>
                                             </div>
@@ -408,14 +407,14 @@
                                         <p:spacer />
                                         <div class="row" style="margin-top: 15px;">
                                             <div class="col-8 ml-auto">
-                                                <h:commandLink class="btn btn-link btn-dark"  onclick="$('#myModal').modal('show');"  >
+                                                <h:commandLink class="btn btn-link btn-dark"  onclick="$('#myModal').modal('show');" immediate="true" >
                                                     <h6 style="font-size: 9pt;border-bottom: 3px solid greenyellow;border-top: 3px solid greenyellow;" >Plus d'infos</h6>
-                                                    <f:ajax execute="@this" />
+                                                    <f:ajax execute="@this"  />
                                                 </h:commandLink>
                                             </div>
                                             <div class="col-3 ml-auto mr-auto">
                                                 <h:commandLink value="SUIVANT" class="btn btn-sm btn-default" action="#{eclosionController.from1To2()}" >
-                                                    <p:ajax update=":forme1 result" />
+                                                    <p:ajax update=":forme1 result :forme2" />
                                                 </h:commandLink>
                                             </div>
                                         </div>
@@ -440,7 +439,7 @@
                                                         <span class="glyphicon glyphicon-time"></span>
                                                         <i class="nc nc-icon nc-ruler-pencil"></i>
                                                     </span>
-                                                    <h:inputText class="form-control"  id="eclos" required="true" value="#{eclosionController.selected.qteEclos}"
+                                                    <h:inputText class="form-control"  id="eclos" required="true" value="#{eclosionController.selected.qteEclos}" validator="#{eclosionController.validateInputs}"
                                                                  requiredMessage="Donner la quatinté d'eclos c'est obligatoire"  />
                                                 </div>
                                             </div>
@@ -454,7 +453,7 @@
                                                         <i class="nc nc-icon nc-ruler-pencil"></i>
                                                     </span>
                                                     <h:inputText class="form-control"  id="commer" required="true" value="#{eclosionController.selected.commercialise}"
-                                                                 requiredMessage="Donner la quatinté commercialisés c'est obligatoire"  />
+                                                                 requiredMessage="Donner la quatinté commercialisés c'est obligatoire" validator="#{eclosionController.validateInputs}" />
                                                 </div>
                                             </div>
                                         </div>
@@ -468,8 +467,8 @@
                                                 </h:commandLink>
                                             </div>
                                             <div class="col-3 ml-auto mr-auto">
-                                                <h:commandLink  class="btn btn-sm btn-outline-default" action="#{eclosionController.setForme2(false)}" >
-                                                    <p:ajax listener="#{eclosionController.setForme3(true)}" update=":forme3 forme2 " />
+                                                <h:commandLink  class="btn btn-sm btn-outline-default" action="#{eclosionController.fillEcarts()}" >
+                                                    <p:ajax process="forme2" update=":forme3 forme2 " />
                                                     <h:outputText value="OK" />
                                                     <i  class="nc-icon nc-check-2" aria-hidden="true"></i>
                                                 </h:commandLink>
@@ -479,10 +478,10 @@
                                 </h:form>
 
                                 <h:form id="forme3">
-                                    <h:panelGroup rendered="#{eclosionController.forme3}">
+                                    <h:panelGroup rendered="#{eclosionController.forme3 and (eclosionController.selected.id != null)}">
                                         <h6><h:outputText value="Vérification des donnés" style="font-size: 10pt;color: #155724;border-bottom: 3px solid #0069d9;" /></h6>
                                         <div class="row" style="margin-top: 15px;">
-                                            <div class="col">
+                                            <div class="col" style="margin-top: 10px;">
                                                 <h:outputLabel><h:outputText value="Date d'incubation" /></h:outputLabel>
                                             </div>
                                             <div class="col ml-auto mr-auto" >
@@ -491,11 +490,11 @@
                                                         <span class="glyphicon glyphicon-time"></span>
                                                         <i class="nc-icon nc-calendar-60" aria-hidden="true"></i>
                                                     </span>
-                                                    <h:outputText class="form-control" value="#{eclosionController.trieOeuf.incubation.dateIncubation}" />
+                                                    <h:outputText class="form-control" value="#{eclosionController.formatDate(eclosionController.trieOeuf.incubation.dateIncubation)}" />
                                                 </div>
                                             </div>
                                             <p:spacer/>
-                                            <div class="col">
+                                            <div class="col" style="margin-top: 10px;">
                                                 <h:outputLabel><h:outputText value="Date d'eclosion" /></h:outputLabel>
                                             </div>
                                             <div class="col ml-auto mr-auto">
@@ -504,13 +503,13 @@
                                                         <span class="glyphicon glyphicon-time"></span>
                                                         <i class="nc-icon nc-calendar-60" aria-hidden="true"></i>
                                                     </span>
-                                                    <h:outputText class="form-control" value="#{eclosionController.trieOeuf.incubation.eclosion.dateEclosion}" />
+                                                    <h:outputText class="form-control" value="#{eclosionController.formatDate(eclosionController.trieOeuf.incubation.eclosion.dateEclosion)}" />
                                                 </div>
                                             </div>
                                         </div>
                                         <p:spacer />
                                         <div class="row" style="margin-top: 15px;">
-                                            <div class="col">
+                                            <div class="col" style="margin-top: 10px;">
                                                 <h:outputLabel ><h:outputText value="Incubés" /></h:outputLabel>
                                             </div>
                                             <div class="col">
@@ -522,7 +521,7 @@
                                                     <h:outputText class="form-control" value="#{eclosionController.selected.incubation.qteIncube}" />
                                                 </div>
                                             </div>
-                                            <div class="col">
+                                            <div class="col" style="margin-top: 10px;">
                                                 <h:outputLabel ><h:outputText value="Eclos" /></h:outputLabel>
                                             </div>
                                             <div class="col">
@@ -537,7 +536,7 @@
                                         </div>
                                         <p:spacer />
                                         <div class="row">
-                                            <div class="col">
+                                            <div class="col" style="margin-top: 10px;">
                                                 <h:outputLabel ><h:outputText value="Ecart Trie" /></h:outputLabel>
                                             </div>
                                             <div class="col">
@@ -549,7 +548,7 @@
                                                     <h:outputText class="form-control" value="#{eclosionController.selected.ecartTrie}" />
                                                 </div>
                                             </div>
-                                            <div class="col">
+                                            <div class="col" style="margin-top: 10px;">
                                                 <h:outputLabel ><h:outputText value="Ecart Eclosion" /></h:outputLabel>
                                             </div>
                                             <div class="col">
@@ -564,7 +563,7 @@
                                         </div>
                                         <p:spacer/>
                                         <div class="row">
-                                            <div class="col">
+                                            <div class="col" style="margin-top: 10px;">
                                                 <h:outputLabel ><h:outputText value="Commercialisé" /></h:outputLabel>
                                             </div>
                                             <div class="col">
@@ -576,16 +575,16 @@
                                                     <h:outputText class="form-control"  id="qteIncube" value="#{eclosionController.selected.commercialise}" />
                                                 </div>
                                             </div>
-                                            <div class="col">
+                                            <div class="col" style="margin-top: 5px;">
                                                 <h:commandLink  class="btn btn-sm btn-hover" action="#{eclosionController.setForme3(false)}" >
                                                     <p:ajax listener="#{eclosionController.setForme2(true)}" update=":forme2 forme3 " />
                                                     <h:outputText value="RETOUR" />
-                                                    <i  class="nc-icon nc-alert-circle-i" aria-hidden="true"></i>
+                                                    <i  class="nc-icon nc-minimal-left" aria-hidden="true"></i>
                                                 </h:commandLink>
                                             </div>
-                                            <div class="col">
-                                                <h:commandLink  class="btn btn-sm btn-outline-warning" action="#{eclosionController.save()}" >
-                                                    <p:ajax update=":forme1 :forme3 :forme2 :result modal" />
+                                            <div class="col" style="margin-top: 5px;">
+                                                <h:commandLink  class="btn btn-sm btn-warning" action="#{eclosionController.save()}" >
+                                                    <p:ajax update=":forme1 :forme3 :forme2 :result :modal" />
                                                     <h:outputText value="VALIDER" />
                                                     <i  class="nc-icon nc-check-2" aria-hidden="true"></i>
                                                 </h:commandLink>
@@ -604,7 +603,7 @@
                                 <div class="modal-content">
                                     <div class="modal-header">
                                         <h6 class="modal-title text-center" id="exampleModalLabel">
-                                            <h:outputText value="infos sur la Trie fait #{eclosionController.trieOeuf.dateTrie}" >
+                                            <h:outputText value="infos sur la Trie fait #{eclosionController.formatDate(eclosionController.trieOeuf.dateTrie)}" >
                                                 <f:convertDateTime pattern="dd/MM/yyyy" />
                                             </h:outputText>
                                         </h6>
@@ -625,7 +624,7 @@
                                                                 <span class="input-group-addon">
                                                                     <span class="glyphicon glyphicon-time"></span>
                                                                 </span>
-                                                                <h:outputText class="form-control" value="#{eclosionController.trieOeuf.ferme}" />
+                                                                <h:outputText class="form-control" value="#{eclosionController.trieOeuf.ferme.nom}" />
                                                             </div>
                                                         </div>
                                                     </div>
