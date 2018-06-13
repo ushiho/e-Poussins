@@ -250,7 +250,7 @@ public class TrieOeufFacade extends AbstractFacade<TrieOeuf> {
             return total;
         }
         for (TrieOeuf trieOeuf : trieOeufs) {
-            total.add(trieOeuf.getPerte());
+            total = total.add(trieOeuf.getPerte());
         }
         return total;
     }
@@ -272,5 +272,18 @@ public class TrieOeufFacade extends AbstractFacade<TrieOeuf> {
     public BigDecimal restOfReception(TrieOeuf trieOeuf) {
         initBigDecimalsBy0(trieOeuf);
         return trieOeuf != null ? trieOeuf.getReception().subtract(trieOeuf.getEntree()) : null;
+    }
+
+    public int countNumberOfColoneInList(List<TrieOeuf> trieOeufs, int semaine) {
+        int i = 0;
+        if (trieOeufs == null || trieOeufs.isEmpty()) {
+            return i;
+        }
+        for (TrieOeuf trieOeuf : trieOeufs) {
+            if (trieOeuf.getNumSemaine() == semaine) {
+                i += i;
+            }
+        }
+        return i;
     }
 }

@@ -34,6 +34,7 @@ public class TrieOeufsExcel {
     private List<TrieOeuf> trieOeufs;
     private List<CategorieOeuf> categorieOeufs;
     private int rowCounter;
+    private final int START_ROW_AT = 5;
 
     public void setTrieOeufs(List<TrieOeuf> trieOeufs) {
         this.trieOeufs = trieOeufs;
@@ -44,12 +45,12 @@ public class TrieOeufsExcel {
     }
 
     public File write(String fileName) throws IOException, WriteException {
-        int startRowAt = 5;
+
         String path = "/home/lotfi/glassfish-4.1.1/ExcelDocs/" + fileName;
         WritableWorkbook workbook = ExcelUtil.createWorkBook(path);
         WritableSheet sheet = ExcelUtil.createSheet(workbook, "Trie Oeufs", 0);
 
-        writeLeftTitles(sheet, startRowAt, fontAttributs(Colour.BLACK));
+        writeLeftTitles(sheet, START_ROW_AT, fontAttributs(Colour.BLACK));
 
         fillContent(sheet);
 
@@ -70,8 +71,9 @@ public class TrieOeufsExcel {
     }
 
     public void writeLeftTitles(WritableSheet sheet, int startRowAt, WritableFont fontAttributs) throws WriteException {
-        ExcelUtil.addLabel(sheet, 0, 0, "Jour", ExcelUtil.centerContentInCell(new WritableCellFormat(fontHeader(Colour.BLUE_GREY))));
-        ExcelUtil.mergeRows(sheet, 0, 0, 2, 20);
+        ExcelUtil.addLabel(sheet, 0, 0, "Semaine", ExcelUtil.centerContentInCell(new WritableCellFormat(fontHeader(Colour.BLUE_GREY))));
+        ExcelUtil.addLabel(sheet, 0, 1, "Jour", ExcelUtil.centerContentInCell(new WritableCellFormat(fontHeader(Colour.BLUE_GREY))));
+        ExcelUtil.mergeRows(sheet, 0, 1, 2, 20);
         ExcelUtil.addLabel(sheet, 0, 3, "Réception", ExcelUtil.centerContentInCell(new WritableCellFormat(fontHeader(Colour.BLUE_GREY))));
         ExcelUtil.mergeRows(sheet, 0, 3, 4, 20);
         for (CategorieOeuf categorieOeuf : this.categorieOeufs) {
@@ -120,12 +122,14 @@ public class TrieOeufsExcel {
         ExcelUtil.addDate(sheet, column, row, date, cellFormat);
     }
 
-    public void fillSemaineInSheet(WritableSheet sheet, int semaine, int column) throws WriteException {
+    public void fillSemaineInSheet(WritableSheet sheet, int semaine, int columnStart, int columnEnd) throws WriteException {
         WritableCellFormat semaineCell = ExcelUtil.centerContentInCell(new WritableCellFormat(fontHeader(Colour.BLUE_GREY)));
         semaineCell.setBackground(Colour.IVORY);
-        ExcelUtil.addNumber(sheet, column, 0, semaine, semaineCell);
-        ExcelUtil.mergeColumns(sheet, 0, column, trieOeufFacade.countElementExistInWeek(this.trieOeufs, semaine), 10);
-//        ExcelUtil.mergeColumns(sheet, 0, 1, column, trieOeufFacade.containsElementExistInWeek(trieOeufs, semaine));
+        ExcelUtil.addNumber(sheet, columnStart, 0, semaine, semaineCell);
+//        ExcelUtil.mergeColumns(sheet, 0, columnStart, columnEnd, 10);
+        System.out.println("from fillSemaine in Shett ha colone start : " + columnStart + " o ha colone end : " + columnEnd);
+        System.out.println("ha num d semaine ==> " + semaine);
+//        ExcelUtil.mergeColumns(sheet, 0, 1, column, trieOeufFacade.countElementExistInWeek(trieOeufs, semaine));
     }
 
     public void fillReception(WritableSheet sheet, int column, int row, Integer integer) throws WriteException {
@@ -146,33 +150,24 @@ public class TrieOeufsExcel {
     public void fillContent(WritableSheet sheet) throws WriteException {
         List<TrieOeuf> trieOeufsInSameDateAndReception;
         int startColumn = 1;
-        int startRow;
         while (!this.trieOeufs.isEmpty()) {
-            System.out.println("ha size d list f had colone :" + startColumn + " ha size : " + trieOeufs.size());
             TrieOeuf trieOeuf = trieOeufs.get(0);
-            System.out.println("ha trie 1 : !!! " + trieOeuf);
             trieOeufsInSameDateAndReception = trieOeufFacade.triesInSameDateAndReception(trieOeufs, trieOeuf.getDateTrie(), trieOeuf.getReception());
-            System.out.println("ha khooto : " + trieOeufsInSameDateAndReception + "ha size de lit : " + trieOeufsInSameDateAndReception.size());
             fillContentsInAttributs(trieOeufsInSameDateAndReception, sheet, startColumn);
-
             startColumn++;
         }
     }
 
     private void fillContentsInAttributs(List<TrieOeuf> trieOeufsInSameDateAndReception, WritableSheet sheet, int startColumn) throws WriteException {
-        System.out.println("in fillContentsInAttributs ha size de sheet before: " + sheet.getRows());
         TrieOeuf trieOeuf = trieOeufsInSameDateAndReception.get(0);
         fillReception(sheet, startColumn, 3, trieOeuf.getReception().intValue());
         fillDatesInSheet(sheet, trieOeuf.getDateTrie(), startColumn, 1);
-        fillTotalPert(sheet, startColumn, sheet.getRows(), trieOeufs);
+        fillTotalPert(sheet, startColumn, sheet.getRows(), trieOeufsInSameDateAndReception);
+        fillSemaineInSheet(sheet, trieOeuf.getNumSemaine(), startColumn, trieOeufFacade.countNumberOfColoneInList(trieOeufsInSameDateAndReception, trieOeuf.getNumSemaine()));
         insertTrieValues(trieOeufsInSameDateAndReception, sheet, startColumn);
-        System.out.println("in fillContentsInAttributs ha size de sheet after: " + sheet.getRows());
-
     }
 
     private void fillTotalPert(WritableSheet sheet, int col, int row, List<TrieOeuf> trieOeufs) throws WriteException {
-        System.out.println("is fillTotalPert with u ha size d sheet =>" + sheet.getRows() + " : ha col " + col + " o ha row " + row);
-        System.out.println("ha row counter ======>>>>>" + rowCounter);
         ExcelUtil.addNumber(sheet, col, rowCounter, trieOeufFacade.calculTotalPerte(trieOeufs).intValue(), stylingTotalPerteCell());
     }
 

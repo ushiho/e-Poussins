@@ -347,12 +347,14 @@
                                 <h:form id="datalist">
                                     <h:panelGroup rendered="#{trieOeufController.items.size()>0}">
                                         <div class="row">
-                                            <h:commandLink  class="btn btn-outline-default btn-sm"
-                                                            actionListener="#{trieOeufController.imprimer(trieOeufController.items)}"  >
-                                                <h:outputText value="IMPRIMER" title="Imprimer le document " />
-                                                <i class="icon nc-icon nc-cloud-download-93" ></i>
-                                            </h:commandLink>
-                                            <h:dataTable style="width: 100%;" styleClass="table table-sm table-bordered" value="#{trieOeufController.items}" var="item">
+                                            <div class="ml-auto" style="margin-bottom: 20px;">
+                                                <h:commandLink  class="btn btn-outline-default btn-sm"
+                                                                actionListener="#{trieOeufController.imprimer(trieOeufController.items)}"  >
+                                                    <h:outputText value="IMPRIMER" title="Imprimer le document " />
+                                                    <i class="icon nc-icon nc-cloud-download-93" ></i>
+                                                </h:commandLink>
+                                            </div>
+                                            <h:dataTable style="width: 100%;" styleClass="table table-sm table-inverse table-striped table-bordered" value="#{trieOeufController.items}" var="item">
                                                 <h:column>
                                                     <f:facet name="header">
                                                         <h:outputText value="Date de Trie"/>
@@ -435,7 +437,7 @@
                 </div>
             </div>
         </div>
-        <footer class="footer section-dark">
+        <footer class="footer footer-black">
             <div class="container">
                 <div class="row">
                     <nav class="footer-nav">
