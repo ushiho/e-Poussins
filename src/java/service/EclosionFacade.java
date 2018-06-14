@@ -101,4 +101,11 @@ public class EclosionFacade extends AbstractFacade<Eclosion> {
         }
         return eclosion.getIncubation().getQteIncube().subtract(eclosion.getQteEclos());
     }
+
+    public Eclosion findByDate(Date date) {
+        if (date == null) {
+            return null;
+        }
+        return getUniqueResult("SELECT e FROM Eclosion e WHERE e.dateEclosion = '" + date + "'");
+    }
 }

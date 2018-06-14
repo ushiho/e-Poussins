@@ -69,8 +69,6 @@ public class SessionUtil {
         return (HttpSession) FacesContext.getCurrentInstance().getExternalContext().getSession(false);
     }
 
-    // Ajoute des methodes par hamza lotfi \\
-    ///////*|*\\\\\\\\
     public static HttpServletRequest getRequest() {
         return (HttpServletRequest) FacesContext.
                 getCurrentInstance().

@@ -132,6 +132,7 @@ public class IncubationController implements Serializable {
     }
 
     public void setSelected(Incubation selected) {
+        System.out.println("hi is setSelected from incubationCpntroller == >" + selected);
         this.selected = selected;
     }
 
@@ -226,7 +227,7 @@ public class IncubationController implements Serializable {
     }
 
     public Long joursRestant() {
-        if (dateEclos.equals("") || dateEclos == null || getSelected().getDateIncubation() == null) {
+        if (dateEclos == null || dateEclos.equals("") || getSelected().getDateIncubation() == null) {
             return null;
         }
         long jrs = TimeUnit.DAYS.convert(DateUtil.getSqlDateToSaveInDB(dateEclos).getTime()
@@ -275,6 +276,7 @@ public class IncubationController implements Serializable {
     }
 
     public void searchByDate() {
+        System.out.println("ha selected ==> " + selected);
         setSelected(ejbFacade.findByDate(DateUtil.getSqlDateToSaveInDB(dateIncubes)));
         if (getSelected().getId() != null) {
             setDateEclos(formatDateToString(getSelected().getEclosion().getDateEclosion()));

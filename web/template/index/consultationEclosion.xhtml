@@ -1,0 +1,505 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:c="http://xmlns.jcp.org/jsp/jstl/core">
+    <h:head>
+        <meta charset="utf-8" />
+        <link rel="icon" type="image/png" href="../images/oeufs.ico"></link>
+        <link rel="apple-touch-icon" sizes="76x76" href="../images/oeufs.png"></link>
+        <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+
+        <title>e-Poussins</title>
+
+        <meta content='width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0' name='viewport' />
+        <meta name="viewport" content="width=device-width" />
+
+        <!-- Bootstrap core CSS     -->
+        <link href="../assets/css/bootstrap.min.css" rel="stylesheet" />
+        <link href="../assets/css/paper-kit.css?v=2.1.0" rel="stylesheet"/>
+
+        <!--  CSS for Demo Purpose, don't include it in your project     -->
+        <link href="../assets/css/demo.css" rel="stylesheet" />                                                                         
+        <link href="../assets/css/monCss.css" rel="stylesheet" />                                                                         
+
+        <!--     Fonts and icons     -->
+        <link href='http://fonts.googleapis.com/css?family=Montserrat:400,300,700' rel='stylesheet' type='text/css'></link>
+        <link href="http://maxcdn.bootstrapcdn.com/font-awesome/latest/css/font-awesome.min.css" rel="stylesheet"></link>
+        <link href="../assets/css/nucleo-icons.css" rel="stylesheet"></link>
+        <link ref="stylesheet" type="text/css" href="../assets/css/snackbar.min.css" />
+    </h:head>
+    <h:body>
+        <nav class="navbar bar navbar-expand-lg fixed-top navbar-transparent" color-on-scroll="80" >
+            <div class="container" style="min-height: 60px;height: 60px;">
+                <div class="navbar-translate">
+                    <button class="navbar-toggler navbar-toggler-right navbar-burger" type="button" data-toggle="collapse" data-target="#navbarToggler" aria-controls="navbarTogglerDemo02" aria-expanded="false" aria-label="Toggle navigation">
+                        <span class="navbar-toggler-bar"></span>
+                        <span class="navbar-toggler-bar"></span>
+                        <span class="navbar-toggler-bar"></span>
+                    </button>
+                    <div style="float: left;">
+                        <a class="navbar-brand " href="">
+                            <img class="navbar-brand-ful img-circle" src="../images/oeufsTitle.png" />
+                            <span class="images-title" >E-Poussins</span></a>
+                    </div>
+                </div>
+                <div class="collapse navbar-collapse" id="navbarToggler">
+                    <ul class="navbar-nav ml-auto">
+                        <li class="nav-item">
+                            <a href="profile.xhtml" class="nav-link"><i class="nc-icon nc-single-02"></i>Profile</a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="../index.html" class="nav-link"><i class="nc-icon nc-settings-gear-65"></i>Paramètres</a>
+                        </li>
+                        <li class="nav-item nav-link" id="noti_Container">
+                            <span id="notification_count">3</span>
+                            <a class="nav-link" id="notificationLink"><i class="nc-icon nc-bell-55 "></i></a>
+
+                            <!--                                <span class="badge badge-light num" style="font-size: x-small;">+9</span>-->
+                            <div id="notificationContainer">
+                                <div id="notificationTitle">Notifications</div>
+                                <div id="notificationsBody" >
+                                    <div class="nav-box">
+                                        <div class="inner-box">
+                                            <div class="tabs"><p style="margin-left: 10px;">Navbar content Start <span style="margin-left: 150px">date</span></p></div>
+                                            <div class="tabs"><p>Navbar content</p></div>
+                                            <div class="tabs"><p>Navbar content</p></div>
+                                            <div class="tabs"><p>Navbar content</p></div>
+                                            <div class="tabs"><p>Navbar content</p></div>
+                                            <div class="tabs"><p>Navbar content</p></div>
+                                            <div class="tabs"><p>Navbar content</p></div>
+                                            <div class="tabs"><p>Navbar content</p></div>
+                                            <div class="tabs"><p>Navbar content</p></div>
+                                            <div class="tabs"><p>Navbar content</p></div>
+                                            <div class="tabs"><p>Navbar content</p></div>
+                                            <div class="tabs"><p>Navbar content End</p></div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div id="notificationFooter" style="z-index: 9999;"><a href="#">Tout voir</a></div>
+                            </div>
+                        </li>
+                        <li class="nav-item">
+                            <h:form>
+                                <h:commandLink class="nav-link" action="#{utilisateurController.deconnecter()}" >
+                                    <i class="nc-icon nc-key-25"></i>Déconnexion
+                                </h:commandLink>
+                            </h:form>
+                        </li>
+
+                    </ul>
+                </div>
+            </div>
+        </nav>
+
+        <div class="wrapper">
+
+            <div class="documentation page-header  page-header-xs" data-parallax="true"
+
+                 style="background-image: url('../assets/img/lamp.jpg');">
+                <div class="filter"></div>
+            </div>
+            <div class="main">
+                <!--<div style="text-align:center;padding:1em 0;">--> 
+                <!--<h4><a style="text-decoration:none;" href="https://www.zeitverschiebung.net/fr/city/2553604"><span style="color:gray;">Heure actuelle</span><br />Casablanca, Maroc</a></h4> <iframe src="https://www.zeitverschiebung.net/clock-widget-iframe-v2?language=fr&size=small&timezone=Africa%2FCasablanca" width="100%" height="90" frameborder="0" seamless></iframe> </div>-->
+                <div class="section profile-content">
+                    <div class="container">
+                        <div class="owner">
+                            <div class="avatar">
+                                <img src="../images/respoSmall.jpg" alt="respo img" class="img-circle img-no-padding img-responsive" />
+                            </div>
+                            <div class="name">
+                                <h6 class="title">
+                                    <h:outputText value="#{utilisateurController.connectedUser().nom} #{utilisateurController.connectedUser().prenom}" />
+                                </h6>
+                            </div>
+                        </div>
+                        <div class="row tim-row">
+                            <div class="col-lg-2 col-md-4 ml-auto">
+                                <div class="fixed-section">
+                                    <h:form>
+                                        <div id="accordion" role="tablist" aria-multiselectable="true">
+                                            <div >
+                                                <a data-toggle="collapse" data-parent="#accordion" href="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+                                                    <div class="card-header" role="tab" id="headingOne" >
+                                                        <h6 >
+
+                                                            OEUFS
+
+                                                        </h6>
+                                                    </div>
+                                                </a>
+                                                <div id="collapseOne" class="collapse in" role="tabpanel" aria-labelledby="headingOne">
+                                                    <div class="card-header">
+                                                        <h:form id="trie">
+                                                            <ul>
+                                                                <li>
+                                                                    <h:commandLink action="#{trieOeufController.moveFromTrie('trieOeufs.xhtml')}">
+                                                                        <h6>TRIE OEUFS </h6>
+                                                                    </h:commandLink>
+                                                                </li>
+                                                                <li><a href="#"><h6><span class="note">CONSULTATION</span></h6></a></li>
+                                                                <li><a href="#"><h6><span class="note">VENTES</span></h6></a></li>
+                                                                <li><a href="#"><h6><span class="note">TRANSFERT</span></h6></a></li>
+                                                            </ul>
+                                                        </h:form>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div>
+                                                <a data-toggle="collapse" data-parent="#accordion" href="#collapseFive" aria-expanded="true" aria-controls="collapseFive">
+                                                    <div class="card-header" role="tab" id="headingFive" >
+                                                        <h6 >
+                                                            SUIVIS OEUFS
+                                                        </h6>
+                                                    </div>
+                                                </a>
+                                                <div id="collapseFive" class="collapse in" role="tabpanel" aria-labelledby="headingFive">
+                                                    <div class="card-header">
+                                                        <ul>
+                                                            <li>
+                                                                <p:commandLink action="#{trieOeufController.moveFromSuivis('suivisOeufsJournalier.xhtml')}">
+                                                                    <h6>JOURNALIER</h6>
+                                                                </p:commandLink>
+                                                            </li>
+                                                            <li>
+                                                                <h:commandLink action="#{trieOeufController.moveFromSuivis('suivisOeufsHebdo.xhtml')}">
+                                                                    <h6>HEBDOMADAIRE</h6>
+                                                                </h:commandLink>
+                                                            </li>
+                                                            <li>
+                                                                <h:commandLink action="#{trieOeufController.moveFromSuivis('suivisOeufsMensuel.xhtml')}">
+                                                                    <h6>MENSUEL</h6>
+                                                                </h:commandLink>
+                                                            </li>
+                                                        </ul>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div >
+                                                <a class="collapsed" data-toggle="collapse" data-parent="#accordion" href="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
+                                                    <div class="card-header" role="tab" id="headingTwo" data-toggle="collapse" data-parent="#accordion">
+                                                        <h6>
+
+                                                            INCUBATION
+
+                                                        </h6>
+                                                    </div>
+                                                </a>
+                                                <div id="collapseTwo" class="collapse" role="tabpanel" aria-labelledby="headingTwo">
+                                                    <div class="card-header">
+                                                        <ul>
+                                                            <li>
+                                                                <h:commandLink action="#{incubationController.moveToIncubation('incubation.xhtml')}">
+                                                                    <h6>AJOUTE</h6>
+                                                                </h:commandLink>
+                                                            </li>
+                                                            <li>
+                                                                <h:commandLink action="#{incubationController.moveToIncubation('consultaionIncubation')}" >
+                                                                    <h6>CONSULTATION</h6>
+                                                                </h:commandLink>
+                                                            </li>
+                                                        </ul>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div >
+                                                <a class="collapsed" data-toggle="collapse" data-parent="#accordion" href="#collapseTree" aria-expanded="false" aria-controls="collapseTree">
+                                                    <div class="card-header" role="tab" id="headingTree" data-toggle="collapse" data-parent="#accordion">
+                                                        <h6 >
+
+                                                            ECLOSION
+
+                                                        </h6>
+                                                    </div>
+                                                </a>
+                                                <div id="collapseTree" class="collapse" role="tabpanel" aria-labelledby="headingTree">
+                                                    <div class="card-header">
+                                                        <ul>
+                                                            <li>
+                                                                <h:commandLink action="#{eclosionController.moveToEclosion('eclosion')}">
+                                                                    <h6>AJOUTE</h6>
+                                                                </h:commandLink>
+                                                            </li>
+                                                            <li>
+                                                                <h:commandLink action="#" >
+                                                                    <h6>CONSULTATION</h6>
+                                                                </h:commandLink>
+                                                            </li>
+                                                            <li><a href="#pagination-row"><h6><span class="note">SUIVIS</span></h6></a></li>
+                                                        </ul>
+                                                    </div>
+
+                                                </div>
+                                            </div>
+                                            <div >
+                                                <a class="collapsed" data-toggle="collapse" data-parent="#accordion" href="#collapsefore" aria-expanded="false" aria-controls="collapsefore">
+                                                    <div class="card-header" role="tab" id="headingfore" data-toggle="collapse" data-parent="#accordion">
+                                                        <h6 >
+
+                                                            COUVOIR
+
+                                                        </h6>
+                                                    </div>
+                                                </a>
+                                                <div id="collapsefore" class="collapse" role="tabpanel" aria-labelledby="headingfore">
+                                                    <div class="card-header">
+                                                        <ul>
+                                                            <li>
+                                                                <h:commandLink action="#"><h6>AJOUTER</h6></h:commandLink>
+                                                            </li>
+                                                            <li><a href="#pagination-row"><h6><span class="note">CONSULTER</span></h6></a></li>
+                                                        </ul>
+                                                    </div>
+
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </h:form>
+                                </div>
+                            </div>
+                            <div class="col-lg-10 col-md-12">
+                                <h:form id="growl">
+                                    <p:growl showDetail="false" autoUpdate="true" class="ui-growl" life="2500" />
+                                </h:form>
+                                <div class="card-header col-md-12 ml-auto mr-auto" >
+                                    <p:outputLabel><h6 class="text-center note">ECLOSION
+                                            <span style="color: #abd432;"> / CONSULTATION</span>
+                                        </h6></p:outputLabel>
+                                </div>
+                                <p:spacer/><br/>
+                                <h:form id="forme1">
+                                    <h:panelGroup rendered="#{eclosionController.forme1}">
+                                        <div class="container">
+                                            <p class="text-center">Consulter l'état de vos éclosion, Vous devez indiquer la date d'éclosion pour 
+                                                continuer .</p>
+                                            <p:spacer/><br/>
+                                            <div class="row" style="margin-top: 15px;">
+                                                <div class="col-3 mr-auto" style="margin-top: 10px;">
+                                                    <h:outputLabel for="dateIncub"> <h:outputText value="Date d'éclosion" /> </h:outputLabel>
+                                                </div>
+                                                <div class="col-3">
+                                                    <div class="input-group date datetimepicker" >
+                                                        <span class="input-group-addon">
+                                                            <span class="glyphicon glyphicon-time"></span>
+                                                            <i class="nc-icon nc-calendar-60" aria-hidden="true"></i>
+                                                        </span>
+                                                        <p:inputText id="dateIncub" value="#{eclosionController.dateEclos}" style="cursor: pointer;" 
+                                                                     required="true" requiredMessage="Donner la date d'éclosion"
+                                                                     class="form-control " placeholder="05/08/2017" title="Date de trie" />
+                                                    </div>
+                                                    <script type="text/javascript">
+                                                        $(function () {
+                                                            $('.datetimepicker').datetimepicker({
+                                                                format: 'DD/MM/YYYY'
+                                                            });
+                                                        });
+                                                    </script>
+                                                </div>
+                                                <div class="col text-center">
+                                                    <h:commandLink  class="btn btn-outline-danger btn-sm" actionListener="#{eclosionController.searchByDate()}" >
+                                                        <h:outputText value="CONSULTER" />
+                                                        <i  class="nc-icon nc-chat-33" aria-hidden="true"></i>
+                                                        <p:ajax update="forme1 :forme2 :options" process="forme1" />
+                                                    </h:commandLink>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </h:panelGroup>
+                                </h:form>
+                                <p:spacer/>
+                                <h:form id="forme2">
+                                    <h:panelGroup rendered="#{eclosionController.selected.id != null}">
+                                        <div style="margin-top: 20px;">
+                                            <h6 class="decorated"><span> Eclosion </span></h6>
+                                        </div>
+                                        <p:spacer />
+                                        <div class="row" style="margin-top: 15px;">
+                                            <div class="col" style="margin-top: 10px;">
+                                                <h:outputLabel><h:outputText value="Date d'incubation" /></h:outputLabel>
+                                            </div>
+                                            <div class="col ml-auto mr-auto" >
+                                                <div class="input-group" >
+                                                    <span class="input-group-addon">
+                                                        <span class="glyphicon glyphicon-time"></span>
+                                                        <i class="nc-icon nc-calendar-60" aria-hidden="true"></i>
+                                                    </span>
+                                                    <h:outputText class="form-control" value="#{eclosionController.formatDate(eclosionController.selected.incubation.dateIncubation)}" />
+                                                </div>
+                                            </div>
+                                            <p:spacer/>
+                                            <div class="col" style="margin-top: 10px;">
+                                                <h:outputLabel><h:outputText value="Date d'eclosion" /></h:outputLabel>
+                                            </div>
+                                            <div class="col ml-auto mr-auto">
+                                                <div class="input-group" >
+                                                    <span class="input-group-addon">
+                                                        <span class="glyphicon glyphicon-time"></span>
+                                                        <i class="nc-icon nc-calendar-60" aria-hidden="true"></i>
+                                                    </span>
+                                                    <h:outputText class="form-control" value="#{eclosionController.formatDate(eclosionController.selected.incubation.eclosion.dateEclosion)}" />
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <p:spacer />
+                                        <div class="row" style="margin-top: 15px;">
+                                            <div class="col" style="margin-top: 10px;">
+                                                <h:outputLabel ><h:outputText value="Incubés" /></h:outputLabel>
+                                            </div>
+                                            <div class="col">
+                                                <div class="input-group" >
+                                                    <span class="input-group-addon">
+                                                        <span class="glyphicon glyphicon-time"></span>
+                                                        <i class="nc nc-icon nc-bulb-63" ></i>
+                                                    </span>
+                                                    <h:outputText class="form-control" value="#{eclosionController.selected.incubation.qteIncube}" />
+                                                </div>
+                                            </div>
+                                            <div class="col" style="margin-top: 10px;">
+                                                <h:outputLabel ><h:outputText value="Eclos" /></h:outputLabel>
+                                            </div>
+                                            <div class="col">
+                                                <div class="input-group" >
+                                                    <span class="input-group-addon">
+                                                        <span class="glyphicon glyphicon-time"></span>
+                                                        <i class="nc nc-icon nc-bulb-63" ></i>
+                                                    </span>
+                                                    <h:outputText class="form-control" value="#{eclosionController.selected.qteEclos}" />
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <p:spacer />
+                                        <div class="row">
+                                            <div class="col" style="margin-top: 10px;">
+                                                <h:outputLabel ><h:outputText value="Ecart Trie" /></h:outputLabel>
+                                            </div>
+                                            <div class="col">
+                                                <div class="input-group" >
+                                                    <span class="input-group-addon">
+                                                        <span class="glyphicon glyphicon-time"></span>
+                                                        <i class="nc nc-icon nc-bulb-63" ></i>
+                                                    </span>
+                                                    <h:outputText class="form-control" value="#{eclosionController.selected.ecartTrie}" />
+                                                </div>
+                                            </div>
+                                            <div class="col" style="margin-top: 10px;">
+                                                <h:outputLabel ><h:outputText value="Ecart Eclosion" /></h:outputLabel>
+                                            </div>
+                                            <div class="col">
+                                                <div class="input-group" >
+                                                    <span class="input-group-addon">
+                                                        <span class="glyphicon glyphicon-time"></span>
+                                                        <i class="nc nc-icon nc-bulb-63" ></i>
+                                                    </span>
+                                                    <h:outputText class="form-control" value="#{eclosionController.selected.ecartEclosion}" />
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <p:spacer/>
+                                        <div class="row">
+                                            <div class="col-6 text-center"  style="margin-top: 10px;">
+                                                <h:outputLabel ><h:outputText value="Commercialisé" /></h:outputLabel>
+                                            </div>
+                                            <div class="col-3 text-center">
+                                                <div class="input-group" >
+                                                    <span class="input-group-addon">
+                                                        <span class="glyphicon glyphicon-time"></span>
+                                                        <i class="nc nc-icon nc-bulb-63" ></i>
+                                                    </span>
+                                                    <h:outputText class="form-control"  id="qteIncube" value="#{eclosionController.selected.commercialise}" />
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </h:panelGroup>
+                                </h:form>
+                                <hr/>
+                                <p:spacer/>
+                                <h:form id="options">
+                                    <h:panelGroup rendered="#{eclosionController.selected.id != null}">
+                                        <div class="row">
+                                            <div class="col mr-auto">
+                                                <h:commandLink title="Voir l'incubation associée à cet éclosion" action="#{eclosionController.goToPage('consultaionIncubation')}" value="Voir l'incubation associée" class="btn btn-link btn-default" >
+                                                    <f:actionListener binding="#{incubationController.setSelected(eclosionController.selected.incubation)}" />
+                                                    <f:actionListener binding="#{incubationController.setDateIncubes(eclosionController.formatDate(eclosionController.selected.incubation.dateIncubation))}" />
+                                                    <f:actionListener binding="#{incubationController.setDateEclos(eclosionController.formatDate(eclosionController.selected.dateEclosion))}" />
+                                                    <f:actionListener binding="#{incubationController.setTrieOeufOAC(eclosionController.selected.incubation.trieOeuf)}" />
+                                                </h:commandLink>
+                                            </div>
+                                            <div class="col-3 text-center">
+                                                <h:commandLink class="btn btn-sm btn-outline-warning" action="#modifier">
+                                                    <h:outputText value="MODIFIER" />
+                                                    <i class="icon nc-icon nc-settings" aria-hidden="true"></i>
+                                                </h:commandLink>
+                                            </div>
+                                            <div class="col-3 ml-auto">
+                                                <h:commandLink class="btn btn-sm btn-default" actionListener="#{eclosionController.setSelected(null)}">
+                                                    <h:outputText value="FERMER" />
+                                                    <i class="icon nc-icon nc-simple-remove" aria-hidden="true"></i>
+                                                    <p:ajax listener="#{incubationController.setDateEclos(null)}" update="options :forme1 :forme2" />
+
+                                                </h:commandLink>
+                                            </div>
+
+                                        </div>
+                                    </h:panelGroup>
+                                </h:form>
+
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+
+        <footer class="footer footer-black">
+            <div class="container">
+                <div class="row">
+                    <nav class="footer-nav">
+                        <ul>
+                            <li><a >Creative </a></li>
+                            <li><a >Blog</a></li>
+                            <li><a >Licenses</a></li>
+                        </ul>
+                    </nav>
+                    <div class="credits ml-auto">
+                        <span class="copyright">
+                            © <script>document.write(new Date().getFullYear());</script>, made with <i class="fa fa-heart heart"></i> by LOTFI
+                        </span>
+                    </div>
+                </div>
+            </div>
+        </footer>
+
+
+    </h:body>
+
+    <!--<script src="../assets/js/popper.js" type="text/javascript"></script>-->
+    <script src="../assets/js/bootstrap.min.js" type="text/javascript"></script>
+    <!-- <script src="../assets/js/tether.min.js" type="text/javascript"></script> -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.11.0/umd/popper.min.js" integrity="sha384-b/U6ypiBEHpOf/4+1nzFpr53nxSS+GLCkfwBdFNTxtclqqenISfwAzpKaMNFNmj4" crossorigin="anonymous"></script>
+    <script src="../assets/js/bootstrap.min.js" type="text/javascript"></script>
+
+
+    <!--  Paper Kit Initialization snd functons -->
+    <script src="../assets/js/paper-kit.js?v=2.1.0"></script>
+
+    <!-- Plugin for Share buttons -->
+    <!--<script src="../assets/js/jquery.sharrre.js"></script>-->
+
+    <!-- Plugin for Switches -->
+    <script src="../assets/js/bootstrap-switch.min.js"></script>
+
+    <!--  Plugins for Slider -->
+    <script src="../assets/js/nouislider.js"></script>
+
+    <script src="../assets/js/mon_JS.js"></script>
+    <!--  Plugins for DateTimePicker -->
+    <script src="../assets/js/moment.min.js"></script>
+    <script src="../assets/js/bootstrap-datetimepicker.min.js"></script>
+    <script src="../assets/js/snackbar.min.js"></script>
+</html>

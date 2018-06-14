@@ -15,6 +15,7 @@ import javax.faces.application.FacesMessage;
 import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
 import javax.faces.validator.ValidatorException;
+import service.IncubationFacade;
 import service.TrieOeufFacade;
 import util.DateUtil;
 import util.MessageUtil;
@@ -28,6 +29,8 @@ public class EclosionController implements Serializable {
     private service.EclosionFacade ejbFacade;
     @EJB
     private TrieOeufFacade trieOeufFacade;
+    @EJB
+    private IncubationFacade incubationFacade;
     private List<Eclosion> items;
     private Eclosion selected;
     private boolean forme1 = true;
@@ -38,6 +41,7 @@ public class EclosionController implements Serializable {
     private String dateTrie;
     private String dateEclos;
     private TrieOeuf trieOeuf;
+    private final IncubationController incubationController = new IncubationController();
 
     public boolean isResult() {
         return result;
@@ -178,18 +182,18 @@ public class EclosionController implements Serializable {
             return;
         }
         ejbFacade.save(selected);
-        MessageUtil.info("L'eclosion pour la date "+selected.getDateEclosion()+" est enregistré");
+        MessageUtil.info("L'eclosion pour la date " + selected.getDateEclosion() + " est enregistré");
         initParams();
     }
 
     public void from1To2() {
         if (trieOeuf != null) {
             setSelected(trieOeuf.getIncubation().getEclosion());
-            if(getSelected().getQteEclos()!=null){
-            setForme1(false);
-            setForme2(true);
-            setResult(false);
-            return;
+            if (getSelected().getQteEclos() == null) {
+                setForme1(false);
+                setForme2(true);
+                setResult(false);
+                return;
             }
             MessageUtil.info("Le trie cherché a déja un eclosion enregistré ");
             System.out.println("ha selected ::" + selected);
@@ -227,4 +231,16 @@ public class EclosionController implements Serializable {
             }
         }
     }
+
+    public void searchByDate() {
+        setSelected(ejbFacade.findByDate(DateUtil.getSqlDateToSaveInDB(dateEclos)));
+        if (selected == null) {
+            MessageUtil.info("Pas d'éclosion pour la date " + dateEclos);
+        }
+    }
+
+    public void goToPage(String page) {
+        SessionUtil.redirectToPage(page);
+    }
+
 }
