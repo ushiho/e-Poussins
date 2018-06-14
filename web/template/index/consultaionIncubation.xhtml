@@ -219,7 +219,11 @@
                                                                     <h6>AJOUTE</h6>
                                                                 </h:commandLink>
                                                             </li>
-                                                            <li><a href="#pagination-row"><h6><span class="note">CONSULTATION</span></h6></a></li>
+                                                            <li>
+                                                                <h:commandLink action="#{eclosionController.moveToEclosion('consultationEclosion')}">
+                                                                    <h6>CONSULTATION</h6>
+                                                                </h:commandLink>
+                                                            </li>
                                                             <li><a href="#pagination-row"><h6><span class="note">SUIVS</span></h6></a></li>
                                                         </ul>
                                                     </div>

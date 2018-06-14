@@ -420,7 +420,10 @@
                                     <h:panelGroup rendered="#{eclosionController.selected.id != null}">
                                         <div class="row">
                                             <div class="col mr-auto">
-                                                <h:commandLink title="Voir l'incubation associée à cet éclosion" action="#{eclosionController.goToPage('consultaionIncubation')}" value="Voir l'incubation associée" class="btn btn-link btn-default" >
+                                                <h:commandLink action="#{eclosionController.goToPage('consultaionIncubation')}" value="Voir l'incubation associée"
+                                                               class="btn btn-link btn-default" style="font-size: 9pt;color: black;border-bottom: 3px solid red;" >
+                                                    <h:outputText title="Voir l'incubation associée à cet éclosion" />
+                                                    <i class="nc-icon nc-tag-content" aria-hidden="true"></i>
                                                     <f:actionListener binding="#{incubationController.setSelected(eclosionController.selected.incubation)}" />
                                                     <f:actionListener binding="#{incubationController.setDateIncubes(eclosionController.formatDate(eclosionController.selected.incubation.dateIncubation))}" />
                                                     <f:actionListener binding="#{incubationController.setDateEclos(eclosionController.formatDate(eclosionController.selected.dateEclosion))}" />
