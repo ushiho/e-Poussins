@@ -18,6 +18,11 @@ import javax.faces.application.FacesMessage;
 import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
 import javax.faces.validator.ValidatorException;
+import org.primefaces.model.chart.Axis;
+import org.primefaces.model.chart.AxisType;
+import org.primefaces.model.chart.ChartSeries;
+import org.primefaces.model.chart.DateAxis;
+import org.primefaces.model.chart.LineChartModel;
 import service.CategorieOeufFacade;
 import service.CouvoirFacade;
 import service.TrieOeufFacade;
@@ -50,12 +55,37 @@ public class IncubationController implements Serializable {
     private String dateIncubes;
     private boolean nextToForme2;
     private BigDecimal restOfReception;
+    // attr for statics
+    private String dateMax;
+    private String dateMin;
+    private LineChartModel lineChartModel;
 
-    public Incubation getSelectedToModify() {
-        if (selectedToModify == null) {
-            selectedToModify = new Incubation();
-        }
-        return selectedToModify;
+    public String getDateMax() {
+        return dateMax;
+    }
+
+    public void setDateMax(String dateMax) {
+        this.dateMax = dateMax;
+    }
+
+    public String getDateMin() {
+        return dateMin;
+    }
+
+    public void setDateMin(String dateMin) {
+        this.dateMin = dateMin;
+    }
+
+    public LineChartModel getBarChartModel() {
+        return lineChartModel;
+    }
+
+    public LineChartModel getLineChartModel() {
+        return lineChartModel;
+    }
+
+    public void setLineChartModel(LineChartModel lineChartModel) {
+        this.lineChartModel = lineChartModel;
     }
 
     public void setSelectedToModify(Incubation selectedToModify) {
@@ -298,11 +328,48 @@ public class IncubationController implements Serializable {
 
     public void weekOfSelectedDate() {
         System.out.println("cc from weekOfSelectedDate ");
-        if (!dateIncubes.equals("")) {
+        if (dateIncubes != null && !dateIncubes.equals("")) {
             getSelected().setNumeroSemaine(DateUtil.weekNumberFromDate(DateUtil.getSqlDateToSaveInDB(dateIncubes)));
         }
-        if (!dateEclos.equals("")) {
+        if (dateEclos != null && !dateEclos.equals("")) {
             getSelected().getEclosion().setNumeroSemaine(DateUtil.weekNumberFromDate(DateUtil.getSqlDateToSaveInDB(dateEclos)));
         }
+    }
+
+    public void chart() {
+        setLineChartModel(new LineChartModel());
+        LineChartModel bar = new LineChartModel();
+        setItems(ejbFacade.findByDateMinAndMax(DateUtil.getSqlDateToSaveInDB(dateMax), DateUtil.getSqlDateToSaveInDB(dateMin)));
+        System.out.println("ha liste trouvé = " + items);
+        if (getItems().isEmpty()) {
+            MessageUtil.fatal("Pas d'incubation trouvées ");
+            return;
+        }
+        ChartSeries series = new ChartSeries("OAC");
+        for (int i = 0; i < items.size(); i++) {
+            Incubation item = items.get(i);
+            series.set(DateUtil.formateDate("yyyy-MM-dd", item.getDateIncubation()), item.getQteIncube());
+            System.out.println("incubation added ==" + item);
+        }
+        bar.addSeries(series);
+        setUpChart(bar);
+        setLineChartModel(bar);
+    }
+
+    private void setUpChart(LineChartModel chart) {
+        chart.setTitle("Incubation des oeufs OAC");
+        chart.setZoom(true);
+        chart.setAnimate(true);
+        chart.setLegendPosition("ne");
+        Axis yAxis = chart.getAxis(AxisType.Y);
+        yAxis.setMin(0);
+        yAxis.setLabel("Quantité");
+        DateAxis axis = new DateAxis("Jours");
+        axis.setMin(DateUtil.formateDate("yyyy-MM-dd", DateUtil.getSqlDateToSaveInDB(dateMin)));
+        axis.setMax(DateUtil.formateDate("yyyy-MM-dd", DateUtil.getSqlDateToSaveInDB(dateMax)));
+        axis.setTickAngle(-50);
+        axis.setTickFormat("%#d/%#m/%Y");
+        chart.getAxes().put(AxisType.X, axis);
+
     }
 }

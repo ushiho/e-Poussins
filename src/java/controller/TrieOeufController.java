@@ -29,6 +29,11 @@ import javax.faces.convert.FacesConverter;
 import javax.faces.validator.ValidatorException;
 import javax.servlet.http.HttpServletRequest;
 import jxl.write.WriteException;
+import org.primefaces.model.chart.Axis;
+import org.primefaces.model.chart.AxisType;
+import org.primefaces.model.chart.DateAxis;
+import org.primefaces.model.chart.LineChartModel;
+import org.primefaces.model.chart.LineChartSeries;
 import service.CategorieOeufFacade;
 import service.UtilisateurFacade;
 import util.DateUtil;
@@ -46,7 +51,7 @@ public class TrieOeufController implements Serializable {
     private CategorieOeufFacade categorieOeufFacade;
     @EJB
     private UtilisateurFacade utilisateurFacade;
-    private TrieOeufsExcel trieOeufsExcel = new TrieOeufsExcel();
+    private final TrieOeufsExcel trieOeufsExcel = new TrieOeufsExcel();
     private List<TrieOeuf> items;
     private TrieOeuf selected;
     private boolean forme1 = true;
@@ -68,6 +73,38 @@ public class TrieOeufController implements Serializable {
     private Integer year;//to construct a date
     private TrieOeuf trieOeufToModify;
     private List<TrieOeuf> trieOeufsToDownload;
+    //attr for statics
+    private String dateMin;
+    private String dateMax;
+    private LineChartModel chartModel;
+
+    public LineChartModel getChartModel() {
+        System.out.println("hi is get chart");
+        if (chartModel == null) {
+            System.out.println("b1 mmmm");
+        }
+        return chartModel;
+    }
+
+    public void setChartModel(LineChartModel chartModel) {
+        this.chartModel = chartModel;
+    }
+
+    public String getDateMin() {
+        return dateMin;
+    }
+
+    public void setDateMin(String dateMin) {
+        this.dateMin = dateMin;
+    }
+
+    public String getDateMax() {
+        return dateMax;
+    }
+
+    public void setDateMax(String dateMax) {
+        this.dateMax = dateMax;
+    }
 
     public List<TrieOeuf> getTrieOeufsToDownload() {
         return trieOeufsToDownload;
@@ -714,6 +751,53 @@ public class TrieOeufController implements Serializable {
     public void imprimerTrieAdded() throws IOException, WriteException {
         imprimer(trieOeufsToDownload);
         initParamsUsedInTrie();
+    }
+
+    private void setUpChart(LineChartModel chart) {
+        chart.setTitle("Production journalier des oeufs");
+        chart.setZoom(true);
+        chart.setAnimate(true);
+        chart.setLegendPosition("ne");
+        Axis yAxis = chart.getAxis(AxisType.Y);
+        yAxis.setMin(0);
+        yAxis.setLabel("Quantité");
+        DateAxis axis = new DateAxis("Jours");
+        axis.setMin(DateUtil.formateDate("yyyy-MM-dd", DateUtil.getSqlDateToSaveInDB(dateMin)));
+        axis.setMax(DateUtil.formateDate("yyyy-MM-dd", DateUtil.getSqlDateToSaveInDB(dateMax)));
+        axis.setTickFormat("%#d/%#m/%Y");
+        chart.getAxes().put(AxisType.X, axis);
+    }
+
+    public void chart() {
+        setChartModel(new LineChartModel());
+        LineChartModel chart;
+        chart = new LineChartModel();
+        setItems(ejbFacade.findByDateMinOrMaxOrCategorie(DateUtil.getSqlDateToSaveInDB(dateMin), DateUtil.getSqlDateToSaveInDB(dateMax), categorieOeufSelected));
+        if (items == null || items.isEmpty()) {
+            MessageUtil.fatal("Pas de tries trouvés !");
+            return;
+        }
+        fillTheChart(chart);
+        setUpChart(chart);
+        setChartModel(chart);
+    }
+
+    private void fillTheChart(LineChartModel chart) {
+        for (int i = 0; i < items.size(); i++) {
+            TrieOeuf trieOeuf = items.get(i);
+            CategorieOeuf categorieOeuf = trieOeuf.getCategorieOeuf();
+            LineChartSeries series = new LineChartSeries();
+            series.setLabel(categorieOeuf.getDesignation());
+            for (int j = 0; j < items.size(); j++) {
+                TrieOeuf itemToInsertInSeries = items.get(j);
+                if (itemToInsertInSeries.getCategorieOeuf().getId() == categorieOeuf.getId()) {
+                    series.set(DateUtil.formateDate("yyyy-MM-dd", itemToInsertInSeries.getDateTrie()), itemToInsertInSeries.getSituationFinale());
+                    items.remove(itemToInsertInSeries);
+                    i = 0;
+                }
+            }
+            chart.addSeries(series);
+        }
     }
 
 }

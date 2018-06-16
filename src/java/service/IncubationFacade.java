@@ -14,6 +14,7 @@ import javax.ejb.EJB;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import util.SearchUtil;
 
 /**
  *
@@ -75,5 +76,9 @@ public class IncubationFacade extends AbstractFacade<Incubation> {
         clone.setEclosion(incubation.getEclosion());
         clone.setTrieOeuf(incubation.getTrieOeuf());
         return clone;
+    }
+
+    public List<Incubation> findByDateMinAndMax(Date dateMax, Date dateMin) {
+        return getMultipleResult("SELECT i FROM Incubation i WHERE 1=1 " + SearchUtil.addConstraintMinMax("i", "dateIncubation", dateMin, dateMax));
     }
 }

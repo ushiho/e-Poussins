@@ -12,6 +12,7 @@ import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.Date;
 import java.util.List;
+import java.util.Objects;
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
@@ -258,7 +259,7 @@ public class TrieOeufFacade extends AbstractFacade<TrieOeuf> {
     public TrieOeuf findOACByDateInubsOrEclosOrDateTrie(Date dateTrie, Date dateIncub, Date dateEclos) {
         String req = "SELECT tr FROM TrieOeuf tr WHERE tr.categorieOeuf.designation = 'OAC' " + SearchUtil.addConstraint("tr", "dateTrie", "=", dateTrie)
                 + SearchUtil.addConstraint("tr", "incubation.dateIncubation", "=", dateIncub) + SearchUtil.addConstraint("tr", "incubation.eclosion.dateEclosion", "=", dateEclos);
-        System.out.println("ha lprb ==> " + getUniqueResult(req));
+        System.out.println("from service  ==> " + getUniqueResult(req));
         return getUniqueResult(req);
     }
 
@@ -285,5 +286,17 @@ public class TrieOeufFacade extends AbstractFacade<TrieOeuf> {
             }
         }
         return i;
+    }
+
+    public TrieOeuf findSFfromListByDateAndCategorie(List<TrieOeuf> trieOeufs, Date date, CategorieOeuf categorieOeuf) {
+        TrieOeuf trieOeuf = new TrieOeuf();
+        for (TrieOeuf item : trieOeufs) {
+            if (item.getDateTrie() == date && Objects.equals(item.getCategorieOeuf().getId(), categorieOeuf.getId())) {
+                trieOeuf = item;
+                return trieOeuf;
+            }
+        }
+        initBigDecimalsBy0(trieOeuf);
+        return trieOeuf;
     }
 }

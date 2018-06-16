@@ -11,10 +11,12 @@ import bean.Incubation;
 import bean.TrieOeuf;
 import java.math.BigDecimal;
 import java.util.Date;
+import java.util.List;
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import util.SearchUtil;
 
 /**
  *
@@ -107,5 +109,10 @@ public class EclosionFacade extends AbstractFacade<Eclosion> {
             return null;
         }
         return getUniqueResult("SELECT e FROM Eclosion e WHERE e.dateEclosion = '" + date + "'");
+    }
+
+    public List<Eclosion> findByDateMinAndMax(Date dateMax, Date dateMin) {
+        System.out.println("ha requete : " + "SELECT e FROM Eclosion e WHERE 1=1 " + SearchUtil.addConstraintMinMax("e", "dateEclosion", dateMin, dateMax));
+        return getMultipleResult("SELECT e FROM Eclosion e WHERE 1=1 " + SearchUtil.addConstraintMinMax("e", "dateEclosion", dateMin, dateMax));
     }
 }

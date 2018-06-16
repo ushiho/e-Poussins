@@ -1,5 +1,6 @@
 package controller;
 
+import bean.CategorieOeuf;
 import bean.Eclosion;
 import bean.TrieOeuf;
 
@@ -15,6 +16,11 @@ import javax.faces.application.FacesMessage;
 import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
 import javax.faces.validator.ValidatorException;
+import org.primefaces.model.chart.Axis;
+import org.primefaces.model.chart.AxisType;
+import org.primefaces.model.chart.DateAxis;
+import org.primefaces.model.chart.LineChartModel;
+import org.primefaces.model.chart.LineChartSeries;
 import service.IncubationFacade;
 import service.TrieOeufFacade;
 import util.DateUtil;
@@ -42,6 +48,33 @@ public class EclosionController implements Serializable {
     private String dateEclos;
     private TrieOeuf trieOeuf;
     private final IncubationController incubationController = new IncubationController();
+    private String dateMax;
+    private String dateMin;
+    private LineChartModel lineChartModel;
+
+    public LineChartModel getLineChartModel() {
+        return lineChartModel;
+    }
+
+    public void setLineChartModel(LineChartModel lineChartModel) {
+        this.lineChartModel = lineChartModel;
+    }
+
+    public String getDateMax() {
+        return dateMax;
+    }
+
+    public void setDateMax(String dateMax) {
+        this.dateMax = dateMax;
+    }
+
+    public String getDateMin() {
+        return dateMin;
+    }
+
+    public void setDateMin(String dateMin) {
+        this.dateMin = dateMin;
+    }
 
     public boolean isResult() {
         return result;
@@ -160,8 +193,9 @@ public class EclosionController implements Serializable {
             setResult(false);
             return;
         }
-        trieOeuf = trieOeufFacade.findOACByDateInubsOrEclosOrDateTrie(DateUtil.getSqlDateToSaveInDB(dateTrie),
-                DateUtil.getSqlDateToSaveInDB(dateIncub), DateUtil.getSqlDateToSaveInDB(dateEclos));
+        setTrieOeuf(trieOeufFacade.findOACByDateInubsOrEclosOrDateTrie(DateUtil.getSqlDateToSaveInDB(dateTrie),
+                DateUtil.getSqlDateToSaveInDB(dateIncub), DateUtil.getSqlDateToSaveInDB(dateEclos)));
+        System.out.println("hi from findTrieByCriteria ha item " + trieOeuf);
         if (getTrieOeuf().getId() == null) {
             MessageUtil.info("Le trie que vous cherché n'existe pas");
             setResult(false);
@@ -171,6 +205,7 @@ public class EclosionController implements Serializable {
             setTrieOeuf(null);
         } else {
             setResult(true);
+            System.out.println("ha trie in setResussusu " + getTrieOeuf());
         }
         System.out.println("ha trie => " + getTrieOeuf());
 
@@ -182,7 +217,7 @@ public class EclosionController implements Serializable {
             return;
         }
         ejbFacade.save(selected);
-        MessageUtil.info("L'eclosion pour la date " + selected.getDateEclosion() + " est enregistré");
+        MessageUtil.info("L'eclosion pour la date " + formatDate(selected.getDateEclosion()) + " est enregistré");
         initParams();
     }
 
@@ -241,6 +276,54 @@ public class EclosionController implements Serializable {
 
     public void goToPage(String page) {
         SessionUtil.redirectToPage(page);
+    }
+
+    private void setUpChart(LineChartModel chart) {
+        chart.setTitle("Production journalier des oeufs");
+        chart.setZoom(true);
+        chart.setAnimate(true);
+        chart.setLegendPosition("ne");
+        Axis yAxis = chart.getAxis(AxisType.Y);
+        yAxis.setMin(0);
+        yAxis.setLabel("Quantité");
+        DateAxis axis = new DateAxis("Jours");
+        axis.setMin(DateUtil.formateDate("yyyy-MM-dd", DateUtil.getSqlDateToSaveInDB(dateMin)));
+        axis.setMax(DateUtil.formateDate("yyyy-MM-dd", DateUtil.getSqlDateToSaveInDB(dateMax)));
+        axis.setTickFormat("%#d/%#m/%Y");
+        chart.getAxes().put(AxisType.X, axis);
+    }
+
+    public void chart() {
+        LineChartModel chart;
+        chart = new LineChartModel();
+        setItems(ejbFacade.findByDateMinAndMax(DateUtil.getSqlDateToSaveInDB(dateMax), DateUtil.getSqlDateToSaveInDB(dateMin)));
+        if (items == null || items.isEmpty()) {
+            MessageUtil.fatal("Pas de tries trouvés !");
+            return;
+        }
+        System.out.println("ha items ==> " + items);
+        fillTheChart(chart);
+        setUpChart(chart);
+        setLineChartModel(chart);
+    }
+
+    private void fillTheChart(LineChartModel chart) {
+        LineChartSeries series1 = new LineChartSeries("Eclos");
+        LineChartSeries series2 = new LineChartSeries("Ecart trie");
+        LineChartSeries series3 = new LineChartSeries("Ecart eclosion");
+        LineChartSeries series4 = new LineChartSeries("Commercialisés");
+        for (int j = 0; j < items.size(); j++) {
+            Eclosion itemToInsertInSeries = items.get(j);
+            System.out.println("ha item =" + itemToInsertInSeries);
+            series1.set(DateUtil.formateDate("yyyy-MM-dd", itemToInsertInSeries.getDateEclosion()), itemToInsertInSeries.getQteEclos());
+            series2.set(DateUtil.formateDate("yyyy-MM-dd", itemToInsertInSeries.getDateEclosion()), itemToInsertInSeries.getEcartTrie());
+            series3.set(DateUtil.formateDate("yyyy-MM-dd", itemToInsertInSeries.getDateEclosion()), itemToInsertInSeries.getEcartEclosion());
+            series4.set(DateUtil.formateDate("yyyy-MM-dd", itemToInsertInSeries.getDateEclosion()), itemToInsertInSeries.getCommercialise());
+        }
+        chart.addSeries(series1);
+        chart.addSeries(series2);
+        chart.addSeries(series3);
+        chart.addSeries(series4);
     }
 
 }
