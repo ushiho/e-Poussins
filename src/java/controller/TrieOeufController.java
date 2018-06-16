@@ -606,6 +606,9 @@ public class TrieOeufController implements Serializable {
         setCategorieOeufsAdded(null);
         setItems(null);
         setSemaine(null);
+        setDateMax("");
+        setDateMin("");
+        setChartModel(null);
     }
 
     public boolean testFields(int cas) {

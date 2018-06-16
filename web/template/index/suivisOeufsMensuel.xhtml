@@ -228,12 +228,12 @@
 
                                                 </div>
                                             </div>
-                                            <div >
+                                            <div>
                                                 <a class="collapsed" data-toggle="collapse" data-parent="#accordion" href="#collapsefore" aria-expanded="false" aria-controls="collapsefore">
                                                     <div class="card-header" role="tab" id="headingfore" data-toggle="collapse" data-parent="#accordion">
                                                         <h6 >
 
-                                                            COUVOIR
+                                                            STATISTIQUES
 
                                                         </h6>
                                                     </div>
@@ -241,8 +241,21 @@
                                                 <div id="collapsefore" class="collapse" role="tabpanel" aria-labelledby="headingfore">
                                                     <div class="card-header">
                                                         <ul>
-                                                            <li><a href="#navbar-row"><h6><span class="note">AJOUTER</span></h6></a></li>
-                                                            <li><a href="#pagination-row"><h6><span class="note">CONSULTER</span></h6></a></li>
+                                                            <li>
+                                                                <h:commandLink action="#{trieOeufController.moveFromTrie('statistiqueDeTrie')}">
+                                                                    <h6><span class="note">TRIE</span></h6>
+                                                                </h:commandLink>
+                                                            </li>
+                                                            <li>
+                                                                <h:commandLink action="#{incubationController.moveToIncubation('statistiqueIncubation')}" >
+                                                                    <h6><span class="note">INCUBATION</span></h6>
+                                                                </h:commandLink>
+                                                            </li>
+                                                            <li>
+                                                                <h:commandLink action="#{eclosionController.moveToEclosion('statistiqueEclosion')}">
+                                                                    <h6><span class="note">ECLOSION</span></h6>
+                                                                </h:commandLink>
+                                                            </li>
                                                         </ul>
                                                     </div>
 

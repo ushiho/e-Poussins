@@ -94,6 +94,9 @@ public class EclosionController implements Serializable {
         setTrieOeuf(null);
         setSelected(null);
         setItems(null);
+        setDateMax("");
+        setDateMin("");
+        setLineChartModel(null);
     }
 
     public void moveToEclosion(String path) {

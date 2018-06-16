@@ -288,6 +288,9 @@ public class IncubationController implements Serializable {
         setTrieOeufOAC(null);
         setRestOfReception(null);
         setSelected(null);
+        setDateMax("");
+        setDateMin("");
+        setLineChartModel(null);
     }
 
     public void moveToIncubation(String path) {
@@ -337,7 +340,6 @@ public class IncubationController implements Serializable {
     }
 
     public void chart() {
-        setLineChartModel(new LineChartModel());
         LineChartModel bar = new LineChartModel();
         setItems(ejbFacade.findByDateMinAndMax(DateUtil.getSqlDateToSaveInDB(dateMax), DateUtil.getSqlDateToSaveInDB(dateMin)));
         System.out.println("ha liste trouvé = " + items);
