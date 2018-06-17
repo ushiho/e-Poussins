@@ -270,6 +270,21 @@ public class TrieOeufFacade extends AbstractFacade<TrieOeuf> {
         return null;
     }
 
+    public List<TrieOeuf> findAllByDate(Date date) {
+        if (date != null) {
+            return getMultipleResult("SELECT tr FROM TrieOeuf tr WHERE tr.dateTrie = '" + date + "'");
+        }
+        return null;
+    }
+
+    public TrieOeuf findByDateAndCategorie(Date date, CategorieOeuf categorieOeuf) {
+        if (date != null && categorieOeuf != null) {
+            return getUniqueResult("SELECT tr FROM TrieOeuf tr WHERE tr.dateTrie = '" + date + "'"
+                    + " AND tr.categorieOeuf.id = '" + categorieOeuf.getId() + "' ");
+        }
+        return null;
+    }
+
     public BigDecimal restOfReception(TrieOeuf trieOeuf) {
         initBigDecimalsBy0(trieOeuf);
         return trieOeuf != null ? trieOeuf.getReception().subtract(trieOeuf.getEntree()) : null;

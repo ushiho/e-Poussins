@@ -158,9 +158,9 @@
                                                     <div class="card-header">
                                                         <ul>
                                                             <li>
-                                                                <p:commandLink action="#{trieOeufController.moveFromSuivis('suivisOeufsJournalier.xhtml')}">
+                                                                <h:commandLink action="#{trieOeufController.moveFromSuivis('suivisOeufsJournalier.xhtml')}">
                                                                     <h6>JOURNALIER</h6>
-                                                                </p:commandLink>
+                                                                </h:commandLink>
                                                             </li>
                                                             <li>
                                                                 <h:commandLink action="#{trieOeufController.moveFromSuivis('suivisOeufsHebdo.xhtml')}">
@@ -425,20 +425,13 @@
                                 </h:form>
                                 <hr/>
                                 <h:form id="statics">
-
                                     <h:panelGrid columns="2" columnClasses="left,right" style="width:100%" rendered="#{eclosionController.selected.id!= null }">
-                                        <p:panel >
-                                            <c:if id="chart1" test="#{eclosionController.pieChart1!=null}">
-                                                <p:chart widgetVar="chart1"  type="pie" model="#{eclosionController.pieChart1}" style="width:400px;height:300px" />
-                                                <p:commandButton type="button" value="Export" icon="ui-icon-extlink" onclick="exportChart()"/>
-                                            </c:if>
-                                        </p:panel>
-                                        <p:panel >
-                                            <c:if id="chart2" test="#{eclosionController.pieChart2!=null}">
-                                                <p:chart widgetVar="chart2" type="pie" model="#{eclosionController.pieChart2}" style="width:400px;height:300px" />
-                                                <p:commandButton type="button" value="Export" icon="ui-icon-extlink" onclick="exportChart()"/>
-                                            </c:if>
-                                        </p:panel>
+                                        <c:if id="chart1" test="#{eclosionController.pieChart1!=null}">
+                                            <p:chart widgetVar="chart1"  type="pie" model="#{eclosionController.pieChart1}" style="width:400px;height:300px" />
+                                        </c:if>
+                                        <c:if id="chart2" test="#{eclosionController.pieChart2!=null}">
+                                            <p:chart widgetVar="chart2" type="pie" model="#{eclosionController.pieChart2}" style="width:400px;height:300px" />
+                                        </c:if>
                                     </h:panelGrid>
                                 </h:form>
                                 <p:spacer/>

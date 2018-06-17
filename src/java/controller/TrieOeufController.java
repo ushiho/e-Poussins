@@ -2,8 +2,6 @@ package controller;
 
 import bean.CategorieOeuf;
 import bean.TrieOeuf;
-import controller.util.JsfUtil;
-import controller.util.JsfUtil.PersistAction;
 import document.TrieOeufsExcel;
 import java.io.IOException;
 import service.TrieOeufFacade;
@@ -13,24 +11,20 @@ import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-import java.util.ResourceBundle;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.ejb.EJB;
-import javax.ejb.EJBException;
 import javax.inject.Named;
 import javax.enterprise.context.SessionScoped;
 import javax.faces.application.FacesMessage;
 import javax.faces.component.UIComponent;
 import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
-import javax.faces.convert.Converter;
-import javax.faces.convert.FacesConverter;
 import javax.faces.validator.ValidatorException;
 import javax.servlet.http.HttpServletRequest;
 import jxl.write.WriteException;
 import org.primefaces.model.chart.Axis;
 import org.primefaces.model.chart.AxisType;
+import org.primefaces.model.chart.BarChartModel;
+import org.primefaces.model.chart.ChartSeries;
 import org.primefaces.model.chart.DateAxis;
 import org.primefaces.model.chart.LineChartModel;
 import org.primefaces.model.chart.LineChartSeries;
@@ -77,8 +71,17 @@ public class TrieOeufController implements Serializable {
     //attr for statics
     private String dateMin;
     private String dateMax;
-    private LineChartModel chartModel;
+    private LineChartModel LineChartModel;
     private PieChartModel pieChartModel;
+    private BarChartModel barChartModel;
+
+    public BarChartModel getBarChartModel() {
+        return barChartModel;
+    }
+
+    public void setBarChartModel(BarChartModel barChartModel) {
+        this.barChartModel = barChartModel;
+    }
 
     public PieChartModel getPieChartModel() {
         return pieChartModel;
@@ -88,16 +91,12 @@ public class TrieOeufController implements Serializable {
         this.pieChartModel = pieChartModel;
     }
 
-    public LineChartModel getChartModel() {
-        System.out.println("hi is get chart");
-        if (chartModel == null) {
-            System.out.println("b1 mmmm");
-        }
-        return chartModel;
+    public LineChartModel getLineChartModel() {
+        return LineChartModel;
     }
 
-    public void setChartModel(LineChartModel chartModel) {
-        this.chartModel = chartModel;
+    public void setLineChartModel(LineChartModel LineChartModel) {
+        this.LineChartModel = LineChartModel;
     }
 
     public String getDateMin() {
@@ -502,7 +501,7 @@ public class TrieOeufController implements Serializable {
         setSemaine(null);
         setDateMax("");
         setDateMin("");
-        setChartModel(null);
+        setLineChartModel(null);
     }
 
     public boolean testFields(int cas) {
@@ -650,7 +649,7 @@ public class TrieOeufController implements Serializable {
         initParamsUsedInTrie();
     }
 
-    private void setUpChart(LineChartModel chart) {
+    private void setUpLineChart(LineChartModel chart) {
         chart.setTitle("Production journalier des oeufs");
         chart.setZoom(true);
         chart.setAnimate(true);
@@ -665,8 +664,8 @@ public class TrieOeufController implements Serializable {
         chart.getAxes().put(AxisType.X, axis);
     }
 
-    public void chart() {
-        setChartModel(new LineChartModel());
+    public void lineChart() {
+        setLineChartModel(new LineChartModel());
         LineChartModel chart;
         chart = new LineChartModel();
         setItems(ejbFacade.findByDateMinOrMaxOrCategorie(DateUtil.getSqlDateToSaveInDB(dateMin), DateUtil.getSqlDateToSaveInDB(dateMax), categorieOeufSelected));
@@ -674,12 +673,12 @@ public class TrieOeufController implements Serializable {
             MessageUtil.fatal("Pas de tries trouvés !");
             return;
         }
-        fillTheChart(chart);
-        setUpChart(chart);
-        setChartModel(chart);
+        fillTheLineChart(chart);
+        setUpLineChart(chart);
+        setLineChartModel(chart);
     }
 
-    private void fillTheChart(LineChartModel chart) {
+    private void fillTheLineChart(LineChartModel chart) {
         for (int i = 0; i < items.size(); i++) {
             TrieOeuf trieOeuf = items.get(i);
             CategorieOeuf categorieOeuf = trieOeuf.getCategorieOeuf();
@@ -699,12 +698,13 @@ public class TrieOeufController implements Serializable {
 
     public void searchByDate() {
         System.out.println("cc is search by date");
-        setSelected(ejbFacade.findByDate(DateUtil.getSqlDateToSaveInDB(dateTrie)));
+        setSelected(ejbFacade.findByDateAndCategorie(DateUtil.getSqlDateToSaveInDB(dateTrie), categorieOeufSelected));
         if (getSelected().getId() == null) {
             MessageUtil.fatal("Pas de trie pour la date " + dateTrie);
             return;
         }
         createPieModel();
+        initBarModel();
         setRestReception(ejbFacade.restOfReception(getSelected()));
     }
 
@@ -723,11 +723,42 @@ public class TrieOeufController implements Serializable {
         pieModel2.set("Pertes", getSelected().getPerte());
         pieModel2.set("Don", getSelected().getDon());
 
-        pieModel2.setTitle("Les oeufs triés(" + getSelected().getCategorieOeuf().getDesignation() + ") pour " + DateUtil.formateDate("dd/MM/yyyy", getSelected().getIncubation().getDateIncubation()));
+        pieModel2.setTitle("Les oeufs triés(" + getSelected().getCategorieOeuf().getDesignation() + ") pour la date : " + dateTrie);
         pieModel2.setLegendPosition("e");
         pieModel2.setFill(false);
         pieModel2.setShowDataLabels(true);
         pieModel2.setDiameter(150);
         setPieChartModel(pieModel2);
+    }
+
+    private void initBarModel() {
+        System.out.println("hi is initBar");
+        BarChartModel model = new BarChartModel();
+        int i = 0;
+        for (TrieOeuf item : ejbFacade.findAllByDate(DateUtil.getSqlDateToSaveInDB(dateTrie))) {
+            System.out.println("series " + i + "' est crees");
+            ChartSeries series = new ChartSeries(item.getCategorieOeuf().getDesignation());
+            series.set(DateUtil.formateDate("yyyy-MM-dd", item.getDateTrie()), item.getEntree());
+            model.addSeries(series);
+            System.out.println("ha series" + i + " ==> " + series);
+            i++;
+        }
+        setBarChartModel(model);
+        setUpBarChart(getBarChartModel());
+    }
+
+    private void setUpBarChart(BarChartModel chart) {
+        chart.setTitle("Les entrés des différents catégorie pour la date : " + dateTrie);
+        chart.setZoom(true);
+        chart.setAnimate(true);
+        chart.setLegendPosition("ne");
+        Axis yAxis = chart.getAxis(AxisType.Y);
+        yAxis.setMin(0);
+        yAxis.setLabel("Quantité");
+//        DateAxis axis = new DateAxis("Jours");
+//        axis.setTickFormat("%#d/%#m/%Y");
+        Axis xAxis = chart.getAxis(AxisType.X);
+        xAxis.setLabel("Jours");
+        xAxis.setTickFormat("%#d/%#m/%Y");
     }
 }

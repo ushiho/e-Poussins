@@ -347,7 +347,7 @@
                                             </h:selectOneMenu>
                                         </div>
                                         <div class="col-3 ml-auto">
-                                            <h:commandLink id="tracer" class="btn btn-sm btn-outline-default" action="#{trieOeufController.chart()}">
+                                            <h:commandLink id="tracer" class="btn btn-sm btn-outline-default" action="#{trieOeufController.lineChart()}">
                                                 <h:outputText value="TRACER "/>
                                                 <i class="icon nc-icon nc-chart-bar-32" ></i>
                                                 <p:ajax process="forme1" update="@this :statics" />
@@ -357,11 +357,11 @@
                                 </h:form>
                                 <p:spacer/>
                                 <h:form id="statics">
-                                    <h:panelGroup rendered="#{trieOeufController.items != null and trieOeufController.chartModel!=null}">
+                                    <h:panelGroup rendered="#{trieOeufController.items != null and trieOeufController.lineChartModel!=null}">
                                         <div class="row">
                                             <div class="col-12">
-                                                <c:if id="chart" test="#{trieOeufController.chartModel!=null}">
-                                                    <p:chart widgetVar="chart" style="height:400px;width: 100%;" type="line" model="#{trieOeufController.chartModel}" />
+                                                <c:if id="chart" test="#{trieOeufController.lineChartModel!=null}">
+                                                    <p:chart widgetVar="chart" style="height:400px;width: 100%;" type="line" model="#{trieOeufController.lineChartModel}" />
                                                     <p:commandButton type="button" value="Export" icon="ui-icon-extlink" onclick="exportChart()"/>
                                                 </c:if>
                                             </div>

@@ -125,7 +125,7 @@
                                                     <div class="card-header" role="tab" id="headingOne" >
                                                         <h6 >
 
-                                                            OEUFS
+                                                            TRIE OEUFS
 
                                                         </h6>
                                                     </div>
@@ -136,7 +136,7 @@
                                                             <ul>
                                                                 <li>
                                                                     <h:commandLink action="#{trieOeufController.moveFromTrie('trieOeufs.xhtml')}">
-                                                                        <h6>TRIE OEUFS </h6>
+                                                                        <h6>AJOUTE </h6>
                                                                     </h:commandLink>
                                                                 </li>
                                                                 <li>
@@ -285,8 +285,8 @@
                                 <h:form id="forme1">
                                     <div class="container">
                                         <div class="row" style="margin-top: 15px;">
-                                            <div class="col-3 mr-auto" style="margin-top: 10px;">
-                                                <h:outputLabel for="dateTrie"> <h:outputText value="Date de trie" /> </h:outputLabel>
+                                            <div class="col-2" style="margin-top: 10px;">
+                                                <p:outputLabel for="dateTrie"> <h:outputText value="Date de trie" /> </p:outputLabel>
                                             </div>
                                             <div class="col-3">
                                                 <div class="input-group date datetimepicker" >
@@ -306,7 +306,17 @@
                                                     });
                                                 </script>
                                             </div>
-                                            <div class="col text-center">
+                                            <div class="col-2 " style="margin-top: 10px;">
+                                                <p:outputLabel for="oeuf"><label class="note">CATÉGORIE </label></p:outputLabel>
+                                            </div>
+                                            <div class="col-3" style="margin-top: 10px;">
+                                                <h:selectOneMenu style="width: 100%;" required="true" id="oeuf" value="#{trieOeufController.categorieOeufSelected}" requiredMessage="Déterminer une catégorie " >
+                                                    <f:selectItem itemLabel="-- Choisir une catégorie --" itemValue="" noSelectionOption="true" />
+                                                    <f:selectItems  value="#{categorieOeufController.getItemsAvailableSelectOne()}"
+                                                                    var="oeuf" itemValue="#{oeuf}"/>
+                                                </h:selectOneMenu>
+                                            </div>
+                                            <div class="col-2 ml-auto" style="margin-top: 5px;">
                                                 <h:commandLink  class="btn btn-outline-danger btn-sm" actionListener="#{trieOeufController.searchByDate()}" >
                                                     <h:outputText value="CONSULTER" />
                                                     <i  class="nc-icon nc-chat-33" aria-hidden="true"></i>
@@ -421,6 +431,9 @@
                                                     </div>
                                                 </div>
                                             </h:panelGroup>
+                                            <c:if test="#{trieOeufController.selected.categorieOeuf.designation!= 'OAC'}">
+                                                <div class="col-4"></div>
+                                            </c:if>
                                             <div class="col" style="margin-top: 10px;">
                                                 <h:outputLabel ><h:outputText value="Rest" /></h:outputLabel>
                                             </div>
@@ -436,18 +449,20 @@
                                         <hr/>
                                     </h:panelGroup>
                                 </h:form>
+                                <p:spacer/>
                                 <h:form id="charts">
-                                    <h:panelGroup rendered="#{trieOeufController.selected.id!=null}">
-                                        <p:spacer/>
-                                        <div class="row">
-                                            <div class="col-6">
-                                                <c:if id="chart1" test="#{trieOeufController.pieChartModel!=null}">
-                                                    <p:chart widgetVar="chart1"  type="pie" model="#{trieOeufController.pieChartModel}" style="width:400px;height:300px" />
-                                                    <p:commandButton type="button" value="Export" icon="ui-icon-extlink" onclick="exportChart()"/>
-                                                </c:if>
-                                            </div>
+                                    <div class="row">
+                                        <div class="col">    
+                                            <c:if id="pie" test="#{trieOeufController.pieChartModel!=null}">
+                                                <p:chart type="pie" model="#{trieOeufController.pieChartModel}" style="width:350px;height:300px" />
+                                            </c:if>
                                         </div>
-                                    </h:panelGroup>
+                                        <div class="col">
+                                            <c:if id="bar" test="#{trieOeufController.barChartModel !=null}">
+                                                <p:chart type="bar" model="#{trieOeufController.barChartModel}" style="width:450px;height:350px" />
+                                            </c:if>
+                                        </div>
+                                    </div>
                                 </h:form>
                                 <p:spacer/>
                                 <h:form id="options">
