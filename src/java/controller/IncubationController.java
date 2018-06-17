@@ -76,10 +76,6 @@ public class IncubationController implements Serializable {
         this.dateMin = dateMin;
     }
 
-    public LineChartModel getBarChartModel() {
-        return lineChartModel;
-    }
-
     public LineChartModel getLineChartModel() {
         return lineChartModel;
     }
@@ -340,9 +336,8 @@ public class IncubationController implements Serializable {
     }
 
     public void chart() {
-        LineChartModel bar = new LineChartModel();
+        LineChartModel line = new LineChartModel();
         setItems(ejbFacade.findByDateMinAndMax(DateUtil.getSqlDateToSaveInDB(dateMax), DateUtil.getSqlDateToSaveInDB(dateMin)));
-        System.out.println("ha liste trouvé = " + items);
         if (getItems().isEmpty()) {
             MessageUtil.fatal("Pas d'incubation trouvées ");
             return;
@@ -353,9 +348,9 @@ public class IncubationController implements Serializable {
             series.set(DateUtil.formateDate("yyyy-MM-dd", item.getDateIncubation()), item.getQteIncube());
             System.out.println("incubation added ==" + item);
         }
-        bar.addSeries(series);
-        setUpChart(bar);
-        setLineChartModel(bar);
+        line.addSeries(series);
+        setUpChart(line);
+        setLineChartModel(line);
     }
 
     private void setUpChart(LineChartModel chart) {

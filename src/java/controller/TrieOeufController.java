@@ -573,6 +573,7 @@ public class TrieOeufController implements Serializable {
     }
 
     public void initParamsUsedInSuivis() {
+        initSelectdAndCategorie();
         setYear(null);
         setMois(null);
         setInputMax(null);
@@ -664,6 +665,7 @@ public class TrieOeufController implements Serializable {
         axis.setMin(DateUtil.formateDate("yyyy-MM-dd", DateUtil.getSqlDateToSaveInDB(dateMin)));
         axis.setMax(DateUtil.formateDate("yyyy-MM-dd", DateUtil.getSqlDateToSaveInDB(dateMax)));
         axis.setTickFormat("%#d/%#m/%Y");
+        axis.setTickAngle(-50);
         chart.getAxes().put(AxisType.X, axis);
     }
 

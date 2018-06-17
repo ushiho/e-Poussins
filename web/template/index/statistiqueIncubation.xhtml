@@ -244,7 +244,7 @@
                                                         <ul>
                                                             <li>
                                                                 <h:commandLink action="#{trieOeufController.moveFromTrie('statistiqueDeTrie')}">
-                                                                    <h6><span class="note">TRIE</span></h6>
+                                                                    <h6><span class="note">TRIE OEUFS</span></h6>
                                                                 </h:commandLink>
                                                             </li>
                                                             <li>
@@ -352,8 +352,8 @@
                                     <h:panelGroup rendered="#{incubationController.items != null }">
                                         <div class="row">
                                             <div class="col-12">
-                                                <c:if id="chart" test="#{incubationController.barChartModel!=null}">
-                                                    <p:chart widgetVar="chart" style="height:400px;width: 100%;" type="line" model="#{incubationController.barChartModel}" />
+                                                <c:if id="chart" test="#{incubationController.lineChartModel!=null}">
+                                                    <p:chart widgetVar="chart" style="height:400px;width: 100%;" type="line" model="#{incubationController.lineChartModel}" />
                                                     <p:commandButton type="button" value="Export" icon="ui-icon-extlink" onclick="exportChart()"/>
 
                                                 </c:if>
