@@ -34,6 +34,7 @@ import org.primefaces.model.chart.AxisType;
 import org.primefaces.model.chart.DateAxis;
 import org.primefaces.model.chart.LineChartModel;
 import org.primefaces.model.chart.LineChartSeries;
+import org.primefaces.model.chart.PieChartModel;
 import service.CategorieOeufFacade;
 import service.UtilisateurFacade;
 import util.DateUtil;
@@ -77,6 +78,15 @@ public class TrieOeufController implements Serializable {
     private String dateMin;
     private String dateMax;
     private LineChartModel chartModel;
+    private PieChartModel pieChartModel;
+
+    public PieChartModel getPieChartModel() {
+        return pieChartModel;
+    }
+
+    public void setPieChartModel(PieChartModel pieChartModel) {
+        this.pieChartModel = pieChartModel;
+    }
 
     public LineChartModel getChartModel() {
         System.out.println("hi is get chart");
@@ -126,122 +136,6 @@ public class TrieOeufController implements Serializable {
 
     public void setTrieOeufToModify(TrieOeuf trieOeufToModify) {
         this.trieOeufToModify = trieOeufToModify;
-    }
-
-    protected void setEmbeddableKeys() {
-    }
-
-    protected void initializeEmbeddableKey() {
-    }
-
-    private TrieOeufFacade getFacade() {
-        return ejbFacade;
-    }
-
-    public TrieOeuf prepareCreate() {
-        selected = new TrieOeuf();
-        initializeEmbeddableKey();
-        return selected;
-    }
-
-    public void create() {
-        persist(PersistAction.CREATE, ResourceBundle.getBundle("/Bundle").getString("TrieOeufCreated"));
-        if (!JsfUtil.isValidationFailed()) {
-            items = null;    // Invalidate list of items to trigger re-query.
-        }
-    }
-
-    public void update() {
-        persist(PersistAction.UPDATE, ResourceBundle.getBundle("/Bundle").getString("TrieOeufUpdated"));
-    }
-
-    public void destroy() {
-        persist(PersistAction.DELETE, ResourceBundle.getBundle("/Bundle").getString("TrieOeufDeleted"));
-        if (!JsfUtil.isValidationFailed()) {
-            selected = null; // Remove selection
-            items = null;    // Invalidate list of items to trigger re-query.
-        }
-    }
-
-    private void persist(PersistAction persistAction, String successMessage) {
-        if (selected != null) {
-            setEmbeddableKeys();
-            try {
-                if (persistAction != PersistAction.DELETE) {
-                    getFacade().edit(selected);
-                } else {
-                    getFacade().remove(selected);
-                }
-                JsfUtil.addSuccessMessage(successMessage);
-            } catch (EJBException ex) {
-                String msg = "";
-                Throwable cause = ex.getCause();
-                if (cause != null) {
-                    msg = cause.getLocalizedMessage();
-                }
-                if (msg.length() > 0) {
-                    JsfUtil.addErrorMessage(msg);
-                } else {
-                    JsfUtil.addErrorMessage(ex, ResourceBundle.getBundle("/Bundle").getString("PersistenceErrorOccured"));
-                }
-            } catch (Exception ex) {
-                Logger.getLogger(this.getClass().getName()).log(Level.SEVERE, null, ex);
-                JsfUtil.addErrorMessage(ex, ResourceBundle.getBundle("/Bundle").getString("PersistenceErrorOccured"));
-            }
-        }
-    }
-
-    public TrieOeuf getTrieOeuf(java.lang.Long id) {
-        return getFacade().find(id);
-    }
-
-    public List<TrieOeuf> getItemsAvailableSelectMany() {
-        return getFacade().findAll();
-    }
-
-    public List<TrieOeuf> getItemsAvailableSelectOne() {
-        return getFacade().findAll();
-    }
-
-    @FacesConverter(forClass = TrieOeuf.class)
-    public static class TrieOeufControllerConverter implements Converter {
-
-        @Override
-        public Object getAsObject(FacesContext facesContext, UIComponent component, String value) {
-            if (value == null || value.length() == 0) {
-                return null;
-            }
-            TrieOeufController controller = (TrieOeufController) facesContext.getApplication().getELResolver().
-                    getValue(facesContext.getELContext(), null, "trieOeufController");
-            return controller.getTrieOeuf(getKey(value));
-        }
-
-        java.lang.Long getKey(String value) {
-            java.lang.Long key;
-            key = Long.valueOf(value);
-            return key;
-        }
-
-        String getStringKey(java.lang.Long value) {
-            StringBuilder sb = new StringBuilder();
-            sb.append(value);
-            return sb.toString();
-        }
-
-        @Override
-        public String getAsString(FacesContext facesContext, UIComponent component, Object object) {
-            if (object == null) {
-                return null;
-            }
-            if (object instanceof TrieOeuf) {
-                TrieOeuf o = (TrieOeuf) object;
-                return getStringKey(o.getId());
-            } else {
-                Logger.getLogger(this.getClass().getName()).log(Level.SEVERE, "object {0} is of type {1}; expected type: {2}", new Object[]{object, object.getClass().getName(), TrieOeuf.class.getName()});
-                return null;
-            }
-        }
-
     }
 
     public TrieOeufsExcel getTrieOeufsExcel() {
@@ -803,4 +697,37 @@ public class TrieOeufController implements Serializable {
         }
     }
 
+    public void searchByDate() {
+        System.out.println("cc is search by date");
+        setSelected(ejbFacade.findByDate(DateUtil.getSqlDateToSaveInDB(dateTrie)));
+        if (getSelected().getId() == null) {
+            MessageUtil.fatal("Pas de trie pour la date " + dateTrie);
+            return;
+        }
+        createPieModel();
+        setRestReception(ejbFacade.restOfReception(getSelected()));
+    }
+
+    public void createPieModel() {
+        if (selected == null) {
+            MessageUtil.fatal("Pas d'éclosion pour faire les statistiques, Consulter un ");
+            return;
+        }
+        PieChartModel pieModel2 = new PieChartModel();
+
+        pieModel2.set("S.I + Entrée", getSelected().getSituationInitiale().add(getSelected().getEntree()));
+        if (getSelected().getCategorieOeuf().getDesignation().equals("OAC")) {
+            pieModel2.set("Incubés", getSelected().getMisEnIncubation());
+        }
+        pieModel2.set("Ventes", getSelected().getVente());
+        pieModel2.set("Pertes", getSelected().getPerte());
+        pieModel2.set("Don", getSelected().getDon());
+
+        pieModel2.setTitle("Les oeufs triés(" + getSelected().getCategorieOeuf().getDesignation() + ") pour " + DateUtil.formateDate("dd/MM/yyyy", getSelected().getIncubation().getDateIncubation()));
+        pieModel2.setLegendPosition("e");
+        pieModel2.setFill(false);
+        pieModel2.setShowDataLabels(true);
+        pieModel2.setDiameter(150);
+        setPieChartModel(pieModel2);
+    }
 }

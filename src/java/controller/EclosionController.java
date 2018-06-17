@@ -9,6 +9,7 @@ import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import javafx.scene.chart.PieChart;
 import javax.ejb.EJB;
 import javax.inject.Named;
 import javax.enterprise.context.SessionScoped;
@@ -21,6 +22,7 @@ import org.primefaces.model.chart.AxisType;
 import org.primefaces.model.chart.DateAxis;
 import org.primefaces.model.chart.LineChartModel;
 import org.primefaces.model.chart.LineChartSeries;
+import org.primefaces.model.chart.PieChartModel;
 import service.IncubationFacade;
 import service.TrieOeufFacade;
 import util.DateUtil;
@@ -51,6 +53,27 @@ public class EclosionController implements Serializable {
     private String dateMax;
     private String dateMin;
     private LineChartModel lineChartModel;
+    private PieChartModel pieChart1;
+    private PieChartModel pieChart2;
+
+    public PieChartModel getPieChart2() {
+        return pieChart2;
+    }
+
+    public void setPieChart2(PieChartModel pieChart2) {
+        this.pieChart2 = pieChart2;
+    }
+
+    public PieChartModel getPieChart1() {
+        if (pieChart1 == null) {
+            pieChart1 = new PieChartModel();
+        }
+        return pieChart1;
+    }
+
+    public void setPieChart1(PieChartModel pieChart1) {
+        this.pieChart1 = pieChart1;
+    }
 
     public LineChartModel getLineChartModel() {
         return lineChartModel;
@@ -274,7 +297,10 @@ public class EclosionController implements Serializable {
         setSelected(ejbFacade.findByDate(DateUtil.getSqlDateToSaveInDB(dateEclos)));
         if (selected == null) {
             MessageUtil.info("Pas d'éclosion pour la date " + dateEclos);
+            return;
         }
+        createPieModel1();
+        createPieModel2();
     }
 
     public void goToPage(String page) {
@@ -327,6 +353,41 @@ public class EclosionController implements Serializable {
         chart.addSeries(series2);
         chart.addSeries(series3);
         chart.addSeries(series4);
+    }
+
+    public void createPieModel1() {
+        if (selected == null) {
+            MessageUtil.fatal("Pas d'éclosion pour faire les statistiques, Consulter un ");
+            return;
+        }
+        PieChartModel pieModel2 = new PieChartModel();
+
+        pieModel2.set("Eclos", getSelected().getQteEclos());
+        pieModel2.set("Ecart Eclos", getSelected().getEcartEclosion());
+
+        pieModel2.setTitle("La quantitée des oeufs incubés pour " + formatDate(getSelected().getIncubation().getDateIncubation()));
+        pieModel2.setLegendPosition("e");
+        pieModel2.setFill(false);
+        pieModel2.setShowDataLabels(true);
+        pieModel2.setDiameter(150);
+        setPieChart1(pieModel2);
+        System.out.println("b1 fait le graphe 1");
+    }
+
+    public void createPieModel2() {
+        if (selected == null) {
+            MessageUtil.fatal("Pas d'éclosion pour faire les statistiques, Consulter un ");
+            return;
+        }
+        PieChartModel pieModel1 = new PieChartModel();
+
+        pieModel1.set("Ecart de trie", getSelected().getEcartTrie());
+        pieModel1.set("Commercialisés", getSelected().getCommercialise());
+
+        pieModel1.setTitle("La quantité des oeufs éclos pour " + formatDate(selected.getDateEclosion()));
+        pieModel1.setLegendPosition("w");
+        pieModel1.setShowDataLabels(true);
+        setPieChart2(pieModel1);
     }
 
 }

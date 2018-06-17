@@ -311,7 +311,7 @@
                                                     <h:commandLink  class="btn btn-outline-danger btn-sm" actionListener="#{eclosionController.searchByDate()}" >
                                                         <h:outputText value="CONSULTER" />
                                                         <i  class="nc-icon nc-chat-33" aria-hidden="true"></i>
-                                                        <p:ajax update="forme1 :forme2 :options" process="forme1" />
+                                                        <p:ajax update="forme1 :forme2 :options :statics" process="forme1" />
                                                     </h:commandLink>
                                                 </div>
                                             </div>
@@ -424,6 +424,23 @@
                                     </h:panelGroup>
                                 </h:form>
                                 <hr/>
+                                <h:form id="statics">
+
+                                    <h:panelGrid columns="2" columnClasses="left,right" style="width:100%" rendered="#{eclosionController.selected.id!= null }">
+                                        <p:panel >
+                                            <c:if id="chart1" test="#{eclosionController.pieChart1!=null}">
+                                                <p:chart widgetVar="chart1"  type="pie" model="#{eclosionController.pieChart1}" style="width:400px;height:300px" />
+                                                <p:commandButton type="button" value="Export" icon="ui-icon-extlink" onclick="exportChart()"/>
+                                            </c:if>
+                                        </p:panel>
+                                        <p:panel >
+                                            <c:if id="chart2" test="#{eclosionController.pieChart2!=null}">
+                                                <p:chart widgetVar="chart2" type="pie" model="#{eclosionController.pieChart2}" style="width:400px;height:300px" />
+                                                <p:commandButton type="button" value="Export" icon="ui-icon-extlink" onclick="exportChart()"/>
+                                            </c:if>
+                                        </p:panel>
+                                    </h:panelGrid>
+                                </h:form>
                                 <p:spacer/>
                                 <h:form id="options">
                                     <h:panelGroup rendered="#{eclosionController.selected.id != null}">
@@ -443,13 +460,10 @@
                                                 <h:commandLink class="btn btn-sm btn-default" actionListener="#{eclosionController.setSelected(null)}">
                                                     <h:outputText value="FERMER" />
                                                     <i class="icon nc-icon nc-simple-remove" aria-hidden="true"></i>
-                                                    <p:ajax listener="#{incubationController.setDateEclos(null)}" update="options :forme1 :forme2" />
+                                                    <p:ajax listener="#{incubationController.setDateEclos(null)}" update="options :forme1 :forme2 :statics" />
 
                                                 </h:commandLink>
                                             </div>
-                                            <button class="btn btn-outline-default btn-round" data-toggle="modal" data-target="#myModal">
-                                                Launch demo modal
-                                            </button>
                                         </div>
                                     </h:panelGroup>
                                 </h:form>
@@ -459,53 +473,8 @@
                         </div>
                     </div>
                 </div>
-                <!-- Modal -->
-                <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-                    <div class="modal-dialog" role="document">
-                        <div class="modal-content">
-                            <div class="modal-header">
-                                <h5 class="modal-title text-center" id="exampleModalLabel">Modal title</h5>
-                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                    <span aria-hidden="true">&times;</span>
-                                </button>
-                            </div>
-                            <div class="modal-body"> Far far away, behind the word mountains, far from the countries Vokalia and Consonantia, there live the blind texts. Separated they live in Bookmarksgrove right at the coast of the Semantics, a large language ocean. A small river named Duden flows by their place and supplies it with the necessary regelialia. It is a paradisematic country, in which roasted parts of sentences fly into your mouth. Even the all-powerful Pointing has no control about the blind texts it is an almost unorthographic life One day however a small line of blind text by the name of Lorem Ipsum decided to leave for the far World of Grammar.
-                            </div>
-                            <div class="modal-footer">
-                                <div class="left-side">
-                                    <button type="button" class="btn btn-default btn-link" data-dismiss="modal">Never mind</button>
-                                </div>
-                                <div class="divider"></div>
-                                <div class="right-side">
-                                    <button type="button" class="btn btn-danger btn-link">Delete</button>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <!-- Modal -->
-                <div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
-                    <div class="modal-dialog modal-dialog-centered" role="document">
-                        <div class="modal-content">
-                            <div class="modal-header">
-                                <h5 class="modal-title" id="exampleModalLongTitle">Modal title</h5>
-                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                    <span aria-hidden="true">&times;</span>
-                                </button>
-                            </div>
-                            <div class="modal-body">
-                                ...
-                            </div>
-                            <div class="modal-footer">
-                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                                <button type="button" class="btn btn-primary">Save changes</button>
-                            </div>
-                        </div>
-                    </div>
-                </div>
             </div>
         </div>
-
 
 
         <footer class="footer footer-black">
