@@ -126,7 +126,7 @@
                                                     <div class="card-header" role="tab" id="headingOne" >
                                                         <h6 >
 
-                                                            OEUFS
+                                                            TRIE OEUFS
 
                                                         </h6>
                                                     </div>
@@ -136,12 +136,14 @@
                                                         <ul>
                                                             <li>
                                                                 <h:commandLink action="#{trieOeufController.moveFromTrie('trieOeufs.xhtml')}">
-                                                                    <h6>TRIE OEUFS </h6>
+                                                                    <h6>AJOUTE </h6>
                                                                 </h:commandLink>
                                                             </li>
-                                                            <li><a href="#"><h6><span class="note">CONSULTATION</span></h6></a></li>
-                                                            <li><a href="#"><h6><span class="note">VENTES</span></h6></a></li>
-                                                            <li><a href="#"><h6><span class="note">TRANSFERT</span></h6></a></li>
+                                                            <li>
+                                                                <h:commandLink action="#{trieOeufController.moveFromTrie('consultationTrie.xhtml')}">
+                                                                    <h6>CONSULTATION </h6>
+                                                                </h:commandLink>
+                                                            </li>
                                                         </ul>
                                                     </div>
                                                 </div>

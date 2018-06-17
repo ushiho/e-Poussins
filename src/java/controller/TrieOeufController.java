@@ -502,6 +502,8 @@ public class TrieOeufController implements Serializable {
         setDateMax("");
         setDateMin("");
         setLineChartModel(null);
+        setBarChartModel(null);
+        setPieChartModel(null);
     }
 
     public boolean testFields(int cas) {
@@ -615,6 +617,7 @@ public class TrieOeufController implements Serializable {
     }
 
     public void moveFromTrie(String path) {
+        System.out.println("go to " + path);
         initParamsUsedInTrie();
         SessionUtil.redirectToPage(path);
     }
